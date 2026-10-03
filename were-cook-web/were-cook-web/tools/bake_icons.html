@@ -1,0 +1,51 @@
+<!doctype html><html><head><meta charset="utf-8"><title>bake</title></head>
+<body style="margin:0;background:#888">
+<!-- Bakes the 3D icon sprite sheet used by the game (served from the project root: /tools/bake_icons.html).
+     Run: python3 tools/bake_icons.py   -> public/3d/icons.webp + icons.json -->
+<canvas id="c" style="width:256px;height:256px;display:block"></canvas>
+<script src="../public/shared/engine.js"></script>
+<script src="../public/3d/kit3d.js"></script>
+<script src="../public/3d/scene.js"></script>
+<script>
+(async () => {
+  const E = WCEngine, CELL = 128, COLS = 12;
+  const k = new Kit3D(document.getElementById('c'), { smap: 1024, preserve: true }); k.dpr = 1;
+  await k.load('../public/3d/'); const S = buildKitchen(k); const plate = S.plate;
+  const M4 = Kit3D.M4;
+  // everything we need an icon for
+  const jobs = [];
+  const COOKED = ['sauteed', 'deepfried', 'fries', 'baked', 'grilled'];
+  for (const ing of Object.keys(E.ING)) {
+    const states = new Set(['raw']); let grew = true;
+    while (grew) { grew = false; for (const t of E.COOK_TOOLS) for (const [key, nx] of Object.entries(E.TR[t])) { const [i, s] = key.split(':'); if (i === ing && states.has(s) && !states.has(nx)) { states.add(nx); grew = true } } }
+    for (const st of states) {
+      jobs.push({ key: ing + ':' + st, items: [{ ing, st, q: 100 }] });
+      if (COOKED.includes(st)) jobs.push({ key: ing + ':' + st + ':burnt', items: [{ ing, st, q: 20 }] });
+    }
+  }
+  for (const m of E.MENUS) jobs.push({ key: 'menu:' + m.id, menu: m.c.map(([ing, st, amt]) => ({ ing, st, amt, q: 100 })) });
+  for (const b of ['fish', 'oyster', 'salt', 'sugar', 'lime', 'chili']) jobs.push({ key: 'bottle:' + b, model: 'b_' + b });
+  jobs.push({ key: 'plate', model: 'plate' });
+  // render one job: put the objects in an empty scene, aim the camera so they fill the frame
+  const atlas = document.createElement('canvas'); const rows = Math.ceil(jobs.length / COLS);
+  atlas.width = COLS * CELL; atlas.height = rows * CELL; const ctx = atlas.getContext('2d'); ctx.imageSmoothingQuality = 'high';
+  const DIR = (() => { const d = [.42, .9, 1]; const l = Math.hypot(...d); return d.map(v => v / l) })();
+  const out = {}; const miss = [];
+  jobs.forEach((job, n) => {
+    k.clear();
+    if (job.menu) { k.inst.push(plate); S.setPlate(job.menu, 1.35) }
+    else if (job.model) { k.add(job.model, [0, 0, 0], 0, 1) }
+    else { const md = S.modelFor(job.items[0]); if (!md) { miss.push(job.key); return } k.add(md.name, [0, 0, 0], -20, 1, md.tint ? { tint: md.tint } : {}) }
+    let lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9];
+    for (const it of k.inst) { const { min, max } = it.m; for (const x of [min[0], max[0]]) for (const y of [min[1], max[1]]) for (const z of [min[2], max[2]]) { const w = M4.xf(it.mat, [x, y, z]); for (let a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], w[a]); hi[a] = Math.max(hi[a], w[a]) } } }
+    const c = lo.map((v, a) => (v + hi[a]) / 2), r = Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]) / 2;
+    const fov = 24, d = r / Math.sin(fov / 2 * Math.PI / 180) * (job.menu ? .82 : .95);
+    k.setCam({ eye: [c[0] + DIR[0] * d, c[1] + DIR[1] * d, c[2] + DIR[2] * d], target: c, fov });
+    k.render(performance.now());
+    ctx.drawImage(k.canvas, (n % COLS) * CELL, Math.floor(n / COLS) * CELL, CELL, CELL);
+    out[job.key] = n;
+  });
+  window.RESULT = { cell: CELL, cols: COLS, rows, icons: out, missing: miss, png: atlas.toDataURL('image/png') };
+  document.title = 'done';
+})().catch(e => { document.title = 'ERR ' + e.message; console.error(e) });
+</script></body></html>

@@ -650,7 +650,118 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none;-webkit
 .bot-tag{position:absolute;bottom:-4px;left:-4px;background:#3E8EDE;color:#fff;font-size:.68rem;padding:1px 7px;border-radius:999px}
 .kick{position:absolute;top:-4px;right:-4px;width:24px;height:24px;border-radius:50%;border:0;background:var(--tomato);color:#fff;font-size:.8rem;display:grid;place-items:center;box-shadow:0 2px 0 var(--tomato-d)}
 @media (max-width:520px){.conn{font-size:.75rem;padding:4px 10px}.seat .nm{font-size:.78rem}.seat .st{font-size:.7rem}}
+/* ---------- 3D kitchen ---------- */
+#c3d.bg3d{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+body.bg3d #bg{display:none}
+body.bg3d{background:linear-gradient(180deg,#7a6aa0 0%,#4a3560 45%,#2a1a2a 100%)}
+#c3d.vp3d{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+.conn.v3d{border:0;cursor:pointer;font-weight:600}
+.vport.k3d{background:linear-gradient(180deg,#8a78ad,#4a3560)}
+.vport.k3d .track{position:absolute;inset:0;width:100%;transform:none!important;display:block;z-index:1}
+.vport.k3d .view{position:absolute;inset:0;width:100%;padding:0;transition:opacity .35s}
+.vport.k3d .track:not(.p) #vP,.vport.k3d .track.p #vK{opacity:0;pointer-events:none}
+.vport.k3d .vlabel{z-index:3;background:rgba(30,12,28,.55);padding:3px 12px;border-radius:999px;opacity:1;top:8px}
+.vport.k3d .vedge{background:rgba(30,12,28,.45);z-index:3}
+.vport.k3d .stgrid{position:absolute;inset:0;display:block;padding:0}
+.vport.k3d .stblock{position:absolute;display:block;padding:0;margin:0;background:transparent;box-shadow:none;border-radius:18px;transform:none!important;animation:none;opacity:1;filter:none;min-height:0;height:auto}
+.vport.k3d .stblock .stico,.vport.k3d .stblock .acc,.vport.k3d .stblock small,.vport.k3d .stblock .num{display:none}
+.vport.k3d .stblock b{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);background:var(--c);color:#3a2233;font-size:.88rem;padding:2px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.28);transition:transform .15s}
+.vport.k3d .stblock:hover b{transform:translateX(-50%) scale(1.1)}
+.vport.k3d .stblock.can{box-shadow:none}
+.vport.k3d .stblock.can b{box-shadow:0 0 0 3px #6EE07A,0 0 18px #6EE07A;animation:labelpulse .9s ease-in-out infinite}
+@keyframes labelpulse{50%{transform:translateX(-50%) scale(1.1)}}
+.vport.k3d .stblock.no b{opacity:.6}
+.vport.k3d .stblock.locked b{background:#8A7884;color:#fff}
+.vport.k3d .stblock .lock{inset:auto;left:50%;top:38%;transform:translateX(-50%);white-space:nowrap;font-size:.75rem}
+.vport.k3d .stblock.over{outline:3px dashed #fff;outline-offset:2px}
+.vport.k3d .platev{display:block;position:absolute;inset:0;padding:0}
+.vport.k3d .sinkcol{display:contents}
+.vport.k3d .platedrop{position:absolute;aspect-ratio:auto;border-radius:50%;justify-self:auto;transition:none}
+.vport.k3d .platedrop>svg,.vport.k3d .platedrop .dish>svg{opacity:0}
+.vport.k3d .platedrop .dish{width:100%;height:100%;aspect-ratio:auto;position:absolute;inset:0}
+.vport.k3d .platedrop .dish>span{width:26%;opacity:0}
+.vport.k3d .platedrop .ph{color:#5a4050;padding:16%;font-size:.85rem;text-shadow:none}
+.vport.k3d .platedrop.can{box-shadow:0 0 0 5px #6EE07A,0 0 30px rgba(110,224,122,.6)}
+.vport.k3d .platedrop .seasoned{bottom:-16%}
+.vport.k3d .pside{position:absolute;right:12px;top:40px;width:210px;z-index:2}
+.vport.k3d.stopen .track{opacity:0;pointer-events:none}
+.vport.k3d .sview{background:linear-gradient(90deg,rgba(30,12,28,0) 0%,rgba(30,12,28,.15) 40%,rgba(30,12,28,.7) 100%);animation:none}
+.vport.k3d .sview .rib2{background:color-mix(in srgb,var(--c,#F2B447) 88%,transparent)}
+.vport.k3d .sview{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,48%);grid-template-rows:auto minmax(0,1fr) auto}
+.vport.k3d .sview .rib2{grid-column:1/-1}
+.vport.k3d .sview[hidden]{display:none}
+.vport.k3d .scenebox{grid-column:2;grid-row:2;padding:8px 14px 4px}
+.vport.k3d .sview .scene{box-shadow:var(--shadow)}
+.vport.k3d .sview .ctrl{grid-column:2;grid-row:3;margin:0 14px 12px auto;width:calc(100% - 14px)}
+@media (max-width:900px){
+  .vport.k3d .sview{display:flex}
+  .vport.k3d .scenebox{justify-content:center;padding:6px}
+  .vport.k3d .sview .ctrl{margin:0 auto 8px;width:calc(100% - 16px)}
+  .vport.k3d .sview{background:rgba(30,12,28,.55)}
+  .vport.k3d .pside{position:absolute;left:8px;right:8px;top:auto;bottom:8px;width:auto}
+  .vport.k3d .stblock b{font-size:.75rem;padding:1px 8px}
+}
+.ico3d{display:block;width:100%;height:100%;aspect-ratio:1;background-image:var(--icons);background-size:calc(var(--icols) * 100%) calc(var(--irows) * 100%);background-repeat:no-repeat;font-style:normal;pointer-events:none}
+.ia.i3{display:block}
+.dish.m3d>.ico3d{position:static;width:100%;height:100%;transform:none}
+.ticket .dish.m3d{width:60px;margin-top:-4px}
+.ding .ico3d{width:48px;height:48px;filter:drop-shadow(0 3px 2px rgba(0,0,0,.18))}
+.bottle .ico3d{transform:scale(1.45);transform-origin:50% 85%;filter:drop-shadow(0 8px 6px rgba(0,0,0,.4))}
+.step.seas .ico3d{width:28px;height:28px}
+.stagebanner p.ni .ico3d{width:34px;height:34px}
+.chop .ico3d,.mash .ico3d{position:static}
+.vport.k3d.cook3d .sview{background:linear-gradient(90deg,rgba(30,12,28,0) 0%,rgba(30,12,28,0) 48%,rgba(30,12,28,.55) 100%)}
+.vport.k3d.cook3d .scenebox{grid-column:1;grid-row:2/4;padding:0}
+.vport.k3d.cook3d .sview .scene{width:100%;height:100%;aspect-ratio:auto;background:transparent;box-shadow:none;border-radius:0}
+.vport.k3d.cook3d #scene>*:not(.spop):not(.spark):not(.prompts):not(.sidetag):not(.accepts):not(.idlehint){visibility:hidden}
+.vport.k3d.cook3d .sview .ctrl{grid-row:2/4;align-self:end}
+@media (max-width:900px){.vport.k3d.cook3d .sview{background:linear-gradient(180deg,rgba(30,12,28,0) 55%,rgba(30,12,28,.5))}.vport.k3d.cook3d .scenebox{flex:1}}
+.sndpanel{position:fixed;top:52px;right:14px;z-index:60;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);display:grid;gap:8px;min-width:230px;color:var(--ink)}
+.sndpanel label{display:grid;grid-template-columns:90px 1fr;align-items:center;gap:8px;font-size:.88rem;font-weight:600}
+.sndpanel input{accent-color:var(--tomato);width:100%}
+.ticket .req{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#FF5A4E;color:#fff;font-size:.62rem;font-weight:700;border-radius:999px;padding:1px 7px;white-space:nowrap;z-index:2;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+.ticket .crs{position:absolute;bottom:14px;left:4px;font-size:.58rem;border-radius:6px;padding:0 4px;font-weight:700;background:#E6F1FC;color:#24476b}
+.ticket .crs.dessert{background:#FFE0EC;color:#9b2c5a}.ticket .crs.side{background:#E8F4E4;color:#2f6a33}
+.setbox{flex:0 0 auto;display:grid;gap:3px;align-content:center;background:var(--cream);border-radius:14px;padding:6px 10px;font-size:.75rem}
+.setbox span{background:var(--cream2);border-radius:8px;padding:1px 8px;color:var(--muted)}.setbox span.got{background:var(--basil);color:#fff}
+.setbox small{color:var(--muted);font-size:.65rem}
+.wish{color:#D63B32}
+.ding.nobox{opacity:.25}.ding .dl i.nb{background:#8A7884}
+.rank-row .tag{font-weight:700;font-size:.85rem}.rank-row.keep .tag{color:var(--basil-d)}.rank-row.cut{opacity:.6}.rank-row.cut .tag{color:var(--tomato-d)}
+.tpath{display:grid;gap:6px}.tp{display:grid;grid-template-columns:60px 1fr;gap:8px;font-size:.9rem;background:var(--cream);border-radius:12px;padding:6px 10px}
+.champ{display:grid;justify-items:center;gap:4px;margin:10px 0 16px;animation:popin .6s cubic-bezier(.34,1.56,.64,1)}.champ svg{width:110px;height:110px;filter:drop-shadow(0 0 24px rgba(255,217,90,.8))}
+.champ b{font-size:1.8rem}.champ span{color:var(--muted)}
+.spect{max-width:720px;margin:0 auto;display:grid;gap:10px}.spect h2{text-align:center}.spect .ptimer{justify-self:center}
+.sboard{display:grid;gap:4px}.sboard .rank-row.keep{background:#E8F4E4}.sboard .rank-row.cut{opacity:.7}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* seasoning: plate on top, bottles in an even row underneath (labels never overlap) */
+.splate{left:50%!important;top:2%;width:auto!important;height:40%;aspect-ratio:1;transform:translateX(-50%)}
+.splate>*{width:100%;height:100%}
+.brow{position:absolute;left:2%;right:2%;bottom:3%;height:54%;display:flex;justify-content:space-around;align-items:flex-end;gap:1.5%}
+.brow .bottle{position:relative;left:auto;top:auto;flex:0 1 13%;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end}
+.brow .bottle .bimg{display:block;width:min(100%,24vh);aspect-ratio:1;flex:0 0 auto}
+.brow .bottle .bmeta{display:flex;gap:4px;align-items:center}
+.brow .bottle .bimg>*{width:100%;height:100%}
+.brow .bottle .bimg svg{height:100%}
+.brow .bottle .bamt,.brow .bottle kbd,.brow .bottle .bname{position:static;transform:none}
+.brow .bottle .bname{white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;font-size:clamp(.58rem,1.6vw,.78rem)}
+.brow .bottle.pour{transform:none}.brow .bottle.pour .bimg{transform:rotate(-38deg) translateY(-6%);transition:transform .2s}
+.brow .bottle.pour .bname{display:block;visibility:hidden}
+
+/* phones: compact top bar (icons stay, long words go) */
+.conn{white-space:nowrap}
+@media (max-width:560px){header.top{gap:5px}header.top .brand{font-size:1rem;gap:6px}header.top .brand .ic{width:24px;height:24px}
+  .conn{padding:5px 9px;font-size:.74rem;gap:5px}#connText{display:none}#conn{padding:9px}}
+@media (max-width:380px){header.top .brand{font-size:0;gap:0}}
+
+/* phones, 3D kitchen: taller view, short lock badges so they don't pile up */
+@media (max-width:600px){
+  .play{--vp:clamp(380px,calc(100svh - 300px),600px)}
+  .k3d #stgrid .stblock .lock{font-size:.66rem;padding:1px 6px}
+  .k3d #stgrid .stblock .lock .lkw{display:none}
+  .vport.k3d #stgrid .stblock b{font-size:.72rem;padding:1px 8px}
+}
 </style>
 </head>
 <body>
@@ -1076,12 +1187,18 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none;-webkit
   <header class="top">
     <div class="brand"><svg class="ic" viewBox="0 0 120 120"><use href="#a-egg"/></svg>We're CooK?</div>
     <div class="spacer"></div>
+    <button class="conn v3d" id="snd" title="ตั้งค่าเสียง" aria-expanded="false">🔊 เสียง</button>
+    <button class="conn v3d" id="gq" title="ภาพเบา: ลดความละเอียด/เงา ให้เครื่องช้าเล่นลื่นขึ้น" hidden>ภาพสวย</button>
+    <button class="conn v3d" id="v3d" title="สลับภาพ 3D / 2D">3D</button>
     <div class="conn" id="conn"><i></i><span id="connText">กำลังเชื่อมต่อ…</span></div>
   </header>
   <main id="app" aria-live="polite"></main>
 </div>
 
 <script src="shared/engine.js"></script>
+<script src="sound.js"></script>
+<script src="3d/kit3d.js"></script>
+<script src="3d/scene.js"></script>
 <script>
 /* ================= helpers ================= */
 const $=(s,e=document)=>e.querySelector(s);
@@ -1204,9 +1321,57 @@ let cleanup=[];const onLeave=f=>cleanup.push(f);
 function go(fn){cleanup.forEach(f=>{try{f()}catch(e){}});cleanup=[];document.body.classList.remove('in-game');fn()}
 document.addEventListener('pointermove',e=>{if(REDUCED)return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$('#bg').style.transform=`scale(1.06) translate(${-x*14}px,${-y*10}px)`});
 
+/* ================= 3D KITCHEN (KayKit Restaurant Bits by Kay Lousberg, CC0) =================
+   One WebGL canvas: behind the lobby it slowly sways around the kitchen; during a match it moves
+   into the play area, and HTML buttons are laid on top of the 3D stations (so clicks and drag & drop
+   keep working exactly like the 2D version). No WebGL2 / ปิด 3D → the 2D screens are used as before. */
+/* the mini-games report what happens; in 3D mode the 3D station shows it (scene.js cook.*) */
+/* ...and the same reports drive the cooking sounds (sound.js), in 3D and 2D */
+const FX3={on:false,tool:null,st:{},
+  start(tool,it){this.end();this.tool=tool;this.st={};
+    const L={pan:['sizzle',.4],grill:['crackle',.7],oven:['oven',.7],steamer:['steam',.8]}[tool];if(L)SFX.loop(...L);
+    if(!W3D.ready||!document.querySelector('.vport.k3d'))return;this.on=true;W3D.S.cook.start(tool,it)},
+  hit(k){SFX.play({chop:'chop',pound:'pound',mix:'mix',toss:'toss',flip:'flip',water:'water',open:this.tool==='oven'?'ding':'steam'}[k]);if(this.on)W3D.S.cook.hit(k)},
+  set(o){this.sound(o);if(this.on)W3D.S.cook.set(o)},
+  sound(o){const t=this.tool,st=this.st;
+    if(t==='pan'&&o.heat!=null)SFX.loop('sizzle',.25+o.heat*.75);
+    if(t==='fryer'&&o.down!=null&&o.down!==st.down){st.down=o.down;if(o.down)SFX.play('dip');SFX.loop('fry',o.down?1:0)}
+    if(t==='pot'&&o.level!=null)SFX.loop('boil',Math.min(1,o.level*1.1));
+    if(t==='grill'&&o.burn!=null)SFX.loop('sizzle',.3+Math.min(.7,o.burn));
+    if(t==='steamer'&&o.water!=null)SFX.loop('steam',o.water>.18?.8:.12);
+    if(o.burn>.05&&!st.burnt){st.burnt=true;SFX.play('burnt')}},
+  end(){SFX.stopLoops();this.tool=null;if(this.on){W3D.S.cook.end();this.on=false}}};
+const W3D={ready:false,k:null,S:null,cv:null,
+  off:()=>{try{return sessionStorage.getItem('wc_2d')==='1'||/[?&]2d\b/.test(location.search)}catch(e){return /[?&]2d\b/.test(location.search)}},
+  async init(){if(!window.Kit3D||!window.buildKitchen||this.off())return;this.loading=true;this.wait=new Promise(r=>this._done=r);
+    try{const cv=document.createElement('canvas');cv.id='c3d';cv.setAttribute('aria-hidden','true');this.cv=cv;
+      if(location.protocol==='file:')await loadScript('3d/kit-data.js',30000);   // opened straight from the folder
+      const k=new Kit3D(cv,{smap:innerWidth<900?1024:2048});await k.load('3d/');this.k=k;this.S=buildKitchen(k);this.ready=true;
+      document.addEventListener('visibilitychange',()=>{if(document.hidden)k.stop();else k.start()});
+      if(S.screen!=='match')this.toBg();this.setLow(store('wc_low')===true);k.start();this.watchFps();
+    }catch(e){console.warn('ปิดภาพ 3D:',e);this.ready=false;this.err=String(e&&e.message||e);const b=$('#v3d');if(b&&!this.off()){b.textContent='ภาพ 2D (3D เปิดไม่ได้)';b.title='3D เปิดไม่ได้: '+this.err}}},
+  // light graphics: chosen by the player (remembered on this device), or switched on once automatically on a slow machine
+  setLow(v){if(!this.k)return;this.k.setLow(v);const b=$('#gq');if(b){b.hidden=false;b.textContent=v?'ภาพเบา':'ภาพสวย';b.classList.toggle('on',!!v)}},
+  watchFps(){let n=0,f0=null,slow=0;const t=setInterval(()=>{if(!this.k||document.hidden){f0=null;return}if(this.k.low||store('wc_low')!==null){clearInterval(t);return}
+    const f=this.k.frames||0;if(f0!==null){n++;if(n>2&&f-f0<24)slow++}f0=f;if(n<8)return;clearInterval(t);if(slow>=4){this.setLow(true);toast('เครื่องนี้ภาพกระตุก เลยเปิด "ภาพเบา" ให้ (กดปุ่มบนขวาเพื่อเปลี่ยน)')}},1000)},
+  toBg(){if(!this.ready)return;const k=this.k;k.onFrame=null;this.cv.className='bg3d';document.body.insertBefore(this.cv,document.querySelector('.veil'));document.body.classList.add('bg3d');
+    k.tw=null;k.orbit={c:[6,1,-1.5],r:19,h:9.5,a:0,speed:.16,sway:.55};k.cam.fov=40},
+  toVport(vp){if(!this.ready)return false;const k=this.k;k.orbit=null;this.cv.className='vp3d';vp.prepend(this.cv);document.body.classList.remove('bg3d');k.setCam(this.S.shots.kitchen);return true},
+  shot(name,side,lift){if(!this.ready)return;const s=name.startsWith('st:')?this.S.shots.station(name.slice(3),side||0,lift||0):this.S.shots[name];if(s)this.k.flyTo(s,650)},
+  // keep each HTML hotspot glued to its 3D group, and mirror the hotspot's state (locked / can / over / hover) in 3D
+  bind(map){const k=this.k,G=this.S.groups,cache=new Map();
+    k.onFrame=vp=>{for(const [el,gid,only] of map()){if(!el)continue;const list=only?[only]:(G[gid]||[]);if(!list.length)continue;
+      let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;for(const it of list){const r=k.rectOf(it,vp);x0=Math.min(x0,r.x);y0=Math.min(y0,r.y);x1=Math.max(x1,r.x+r.w);y1=Math.max(y1,r.y+r.h)}
+      const css=`left:${x0|0}px;top:${y0|0}px;width:${(x1-x0)|0}px;height:${(y1-y0)|0}px`;if(cache.get(el)!==css){cache.set(el,css);el.style.cssText=el.style.cssText.replace(/(left|top|width|height):[^;]*;?/g,'')+';'+css}
+      const c=el.classList,lock=c.contains('locked'),glow=c.contains('over')?[.3,.3,.12]:c.contains('can')?[.1,.28,.04]:el.matches(':hover')?[.09,.07,.03]:[0,0,0];
+      for(const it of (G[gid]||[])){it.tint=lock?[.62,.58,.66,.9]:it.baseTint;it.glow=glow}}}},
+  unbind(){if(this.k)this.k.onFrame=null},
+};
+
 /* ================= LOBBY ================= */
 let joinDigits=[];
 function lobby(){
+  SFX.music('lobby');
   S.screen='lobby';NET.setLobby({nick:S.name,chef:S.chef,hosting:null});
   const logo="We're CooK?".split('').map((c,i)=>`<span style="animation-delay:${i*.05}s">${c===' '?'&nbsp;':esc(c)}</span>`).join('');
   app.innerHTML=`
@@ -1265,19 +1430,28 @@ function lobby(){
 }
 
 /* ================= WAITING ROOM ================= */
-async function enterRoom(digits,create=false){
-  const code=codeName(digits);S.joinedAt=Date.now();S.sayN=0;S.lastSay={};S.lastGen=null;S.tot=0;S.run=null;S.bots=[];
-  app.innerHTML=`<div class="card" style="text-align:center">กำลังเข้าห้อง…</div>`;
-  let room;try{room=await NET.join(code,{nick:S.name,chef:S.chef,ready:false,joinedAt:S.joinedAt,phase:'wait',creator:!!create})}
+/* remember which room we're in, so F5 / reload puts you straight back (same seat, host role, score) */
+const PID=(()=>{let v=store('wc_pid');if(typeof v!=='string'||!/^[a-z0-9]{6,32}$/i.test(v)){v=Math.random().toString(36).slice(2,10)+Date.now().toString(36);store('wc_pid',v)}return v})();
+const SAVED={get(){try{const v=JSON.parse(sessionStorage.getItem('wc_room')||'null');return v&&Date.now()-v.t<30*60*1000?v:null}catch(e){return null}},
+  set(v){try{v?sessionStorage.setItem('wc_room',JSON.stringify({...v,t:Date.now()})):sessionStorage.removeItem('wc_room')}catch(e){}},
+  touch(patch){const v=this.get();if(v)this.set({...v,...patch})}};
+async function enterRoom(digits,create=false,rejoin=null){
+  const code=codeName(digits);S.joinedAt=rejoin?rejoin.joinedAt:Date.now();S.sayN=0;S.lastSay={};S.lastGen=null;S.tot=rejoin?(+rejoin.tot||0):0;S.run=null;S.bots=rejoin&&Array.isArray(rejoin.bots)?rejoin.bots:[];S.rejoin=!!rejoin;
+  app.innerHTML=`<div class="card" style="text-align:center">${rejoin?'กำลังกลับเข้าห้องเดิม…':'กำลังเข้าห้อง…'}</div>`;
+  const me={nick:S.name,chef:S.chef,joinedAt:S.joinedAt,creator:!!create,pid:PID,...(create&&!rejoin?{size:S.size||4,dur:S.dur||180,mode:S.mode||'solo'}:{})};
+  SAVED.set({digits,creator:!!create,joinedAt:S.joinedAt,bots:S.bots,tot:S.tot});
+  let room;try{room=await NET.join(code,rejoin?me:{...me,ready:false,phase:'wait'})}
   catch(e){app.innerHTML=`<div class="card" style="text-align:center"><p>เข้าห้องไม่สำเร็จ ลองใหม่อีกครั้ง</p><button class="btn" id="bk" style="margin-top:12px">กลับล็อบบี้</button></div>`;$('#bk').onclick=()=>go(lobby);return}
   S.room=room;S.digits=digits;
   go(waitRoom);
 }
-function leaveRoom(){if(S.room){S.room.leave();S.room=null}NET.setLobby({hosting:null,count:null,playing:null});go(lobby)}
+function leaveRoom(){SAVED.set(null);if(S.room){S.room.leave();S.room=null}NET.setLobby({hosting:null,count:null,playing:null});go(lobby)}
 
 function waitRoom(){
+  SFX.music('lobby');
   S.screen='wait';const room=S.room,d=S.digits;
-  S.room.presence({phase:'wait',cx:null,cy:null});
+  // coming back after F5: keep the room's phase (a running game continues); otherwise mark 'waiting'
+  if(S.rejoin){S.rejoin=false;S.room.presence({cx:null,cy:null})}else S.room.presence({phase:'wait',cx:null,cy:null});
   app.innerHTML=`
     <div class="wait">
       <section class="card">
@@ -1306,10 +1480,11 @@ function waitRoom(){
   $('#leave').onclick=leaveRoom;
   $('#ready').onclick=()=>{myReady=!myReady;room.presence({ready:myReady});$('#ready').textContent=myReady?'ยกเลิกพร้อม':'พร้อมแล้ว!'};
   $('#chatf').onsubmit=e=>{e.preventDefault();const t=clean($('#chatIn').value,80);if(!t)return;S.sayN++;room.presence({say:{n:S.sayN,t}});$('#chatIn').value=''};
-  $('#start').onclick=()=>{room.presence({phase:'play',gen:Date.now(),dur:S.dur||180,mode:S.mode})};
-  const pushHost=()=>room.presence({size:S.size,dur:S.dur,mode:S.mode,bots:S.bots.map(b=>({...b}))});
+  $('#start').onclick=()=>{const M=members(S.peers||[]);
+    room.presence({phase:'play',gen:Date.now(),dur:S.dur||180,mode:S.mode,tour:S.mode==='tour'?{round:1,alive:M.all.map(m=>m.key),out:[],res:null}:null})};
+  const pushHost=()=>{SAVED.touch({bots:S.bots});room.presence({size:S.size,dur:S.dur,mode:S.mode,bots:S.bots.map(b=>({...b}))})};
   function buildHostUI(M){const box=$('#settings');hostUI=true;
-    box.innerHTML=`<div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="solo">เดี่ยว (ใครดีใครได้)</button><button data-v="team">ทีมละ 2 คน</button></div>
+    box.innerHTML=`<div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="solo">เดี่ยว (ใครดีใครได้)</button><button data-v="team">ทีมละ 2 คน</button><button data-v="tour">ทัวร์นาเมนต์</button></div>
       <div class="durpick" id="sizeP"><span class="muted">ขนาดห้อง</span>${[2,3,4,5,6].map(v=>`<button data-v="${v}">${v} คน</button>`).join('')}</div>
       <div class="durpick" id="durP"><span class="muted">เวลาต่อเกม</span>${[[120,'2 นาที'],[180,'3 นาที'],[300,'5 นาที']].map(([v,l])=>`<button data-v="${v}">${l}</button>`).join('')}</div>
       <div class="botadd"><span class="muted">เพิ่มบอท</span><select id="botLv">${Object.entries(BOTLV).map(([k,[th]])=>`<option value="${k}" ${k==='normal'?'selected':''}>${th}</option>`).join('')}</select><button class="btn" id="addBot">+ เพิ่มบอท</button></div>`;
@@ -1327,12 +1502,12 @@ function waitRoom(){
     const M=members(peers);const{hum,host,bots,all,size}=M;const iAmHost=host&&host.isMe;curTotal=all.length;
     const meIdx=hum.findIndex(p=>p.isMe);
     if(!iAmHost&&meIdx>=0&&meIdx>=size-bots.length){logMsg(null,`ห้องนี้เต็มแล้ว (${size} คน)`,true);toast('ห้องเต็มแล้ว');setTimeout(leaveRoom,1200);S.screen='leaving';return}
-    if(iAmHost&&!hostUI){if(!Array.isArray(S.bots))S.bots=[];buildHostUI(M)}
-    if(!iAmHost){hostUI=null;$('#settings').innerHTML=`<p class="muted">${host&&host.p.mode==='team'?'โหมดทีม (ทีมละ 2 คน)':'โหมดเดี่ยว'} · ห้อง ${size} ที่นั่ง · เวลาต่อเกม ${Math.round((+(host&&host.p.dur)||180)/60)} นาที · บอท ${bots.length} ตัว (หัวห้องเป็นคนตั้ง)</p>`}
+    if(iAmHost&&!hostUI){if(!Array.isArray(S.bots))S.bots=[];buildHostUI(M);return}   // buildHostUI pushes the settings -> render runs again with them
+    if(!iAmHost){hostUI=null;$('#settings').innerHTML=`<p class="muted">${host&&host.p.mode==='team'?'โหมดทีม (ทีมละ 2 คน)':host&&host.p.mode==='tour'?`ทัวร์นาเมนต์ (${tourPlan(all.length)})`:'โหมดเดี่ยว'} · ห้อง ${size} ที่นั่ง · เวลาต่อเกม ${Math.round((+(host&&host.p.dur)||180)/60)} นาที · บอท ${bots.length} ตัว (หัวห้องเป็นคนตั้ง)</p>`}
     else{$('#settings').querySelectorAll('#sizeP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.size));$('#settings').querySelectorAll('#durP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dur));$('#settings').querySelectorAll('#modeP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.mode));
       const ab=$('#addBot');if(ab)ab.disabled=all.length>=size}
     const ids=new Set(all.map(p=>p.id));
-    all.forEach(p=>{if(!seen.has(p.id)&&seen.size)logMsg(null,`${clean(p.p.nick,16)||'เชฟ'} ${p.isBot?'(บอท) ':''}เข้ามาในห้อง`,true)});
+    all.forEach(p=>{if(!seen.has(p.id)&&seen.size)SFX.play('join');if(!seen.has(p.id)&&seen.size)logMsg(null,`${clean(p.p.nick,16)||'เชฟ'} ${p.isBot?'(บอท) ':''}เข้ามาในห้อง`,true)});
     [...seen].forEach(id=>{if(!ids.has(id))logMsg(null,'มีเชฟออกจากห้อง',true)});
     hum.forEach(p=>{const s=p.p.say;if(s&&typeof s.t==='string'&&S.lastSay[p.id]!==s.n){S.lastSay[p.id]=s.n;logMsg(p.p,clean(s.t,80));p._fresh=true}});
     const tw=$('#tw');tw.querySelectorAll('.seat').forEach(e=>e.remove());const team=host&&host.p.mode==='team';tw.classList.toggle('teammode',!!team);
@@ -1347,16 +1522,18 @@ function waitRoom(){
       tw.appendChild(el)});
     seen=ids;
     const others=hum.filter(p=>p!==host);const allReady=others.every(p=>p.p.ready);
-    $('#start').hidden=!iAmHost;$('#ready').hidden=!!iAmHost;$('#start').disabled=!allReady||(team&&![4,6].includes(all.length));
-    $('#note').textContent=iAmHost&&team&&![4,6].includes(all.length)?`โหมดทีมต้องมี 4 คน (2v2) หรือ 6 คน (2v2v2) ตอนนี้ ${all.length} คน เพิ่มบอทได้`:iAmHost?(all.length===1?'เล่นคนเดียวได้ หรือเพิ่มบอท/รอเพื่อน':allReady?'ทุกคนพร้อมแล้ว กดเริ่มได้เลย':'รอให้ทุกคนกดพร้อม'):'รอหัวห้องกดเริ่มเกม';
+    $('#start').hidden=!iAmHost;$('#ready').hidden=!!iAmHost;$('#start').disabled=!allReady||(team&&![4,6].includes(all.length))||(host&&host.p.mode==='tour'&&all.length<2);
+    $('#note').textContent=iAmHost&&host.p.mode==='tour'?(all.length<2?'ทัวร์นาเมนต์ต้องมีอย่างน้อย 2 คน เพิ่มบอทได้':`ทัวร์นาเมนต์ ${all.length} คน: ${tourPlan(all.length)}`):iAmHost&&team&&![4,6].includes(all.length)?`โหมดทีมต้องมี 4 คน (2v2) หรือ 6 คน (2v2v2) ตอนนี้ ${all.length} คน เพิ่มบอทได้`:iAmHost?(all.length===1?'เล่นคนเดียวได้ หรือเพิ่มบอท/รอเพื่อน':allReady?'ทุกคนพร้อมแล้ว กดเริ่มได้เลย':'รอให้ทุกคนกดพร้อม'):'รอหัวห้องกดเริ่มเกม';
     NET.setLobby(iAmHost?{hosting:codeName(d),count:all.length,size,playing:null}:{hosting:null});
     if(host&&host.p.phase==='play'&&host.p.gen&&host.p.gen!==S.lastGen){S.lastGen=host.p.gen;S.dur=+host.p.dur||S.dur;countdown(()=>go(match))}
   }
   onLeave(room.onPeers(render));
 }
 function countdown(done){
+  if(W3D.loading){const o=document.createElement('div');o.className='count';o.innerHTML='<b style="font-size:clamp(1.6rem,5vw,2.6rem)">กำลังโหลดครัว 3D…</b>';document.body.appendChild(o);
+    Promise.race([W3D.wait,new Promise(r=>setTimeout(r,15000))]).then(()=>{o.remove();countdown(done)});return}
   const o=document.createElement('div');o.className='count';document.body.appendChild(o);let n=3;
-  const step=()=>{if(n===0){o.innerHTML='<b style="font-size:clamp(4rem,14vw,8rem)">ลุย!</b>';setTimeout(()=>{o.remove();done()},700);return}
+  const step=()=>{SFX.play(n===0?'go':'count');if(n===0){o.innerHTML='<b style="font-size:clamp(4rem,14vw,8rem)">ลุย!</b>';setTimeout(()=>{o.remove();done()},700);return}
     o.innerHTML=`<b>${n}</b>`;n--;setTimeout(step,800)};step();
 }
 
@@ -1380,7 +1557,15 @@ const MASHC={avocado:'#A9CC55',tomato:'#E0322F',potato:'#F4E2B0',chili:'#D7263D'
 const BOTTLE_SHORT={fish:'น้ำปลา',oyster:'ซอสหอย',salt:'เกลือ',sugar:'น้ำตาล',lime:'มะนาว',chili:'พริกป่น'};
 const BOTTLE_ART={fish:'b-fish',oyster:'b-oyster',salt:'b-salt',sugar:'b-sugar',lime:'b-lime',chili:'b-chili'};
 const RAW_ART={papaya:'papayaw'};  // whole fruit before it is shredded
-function itemArt(it){const k=it.ing,s=it.st,burnt=it.q<45&&['sauteed','deepfried','fries','baked','grilled'].includes(s);const b=burnt?' burnt':'';
+/* 3D icons: baked from the 3D models into one sprite sheet (public/3d/icons.webp, tools/bake_icons.py) */
+const ICON={ready:false,map:null,cols:1,rows:1};
+(location.protocol==='file:'?loadScript('3d/icons-data.js',20000).then(()=>window.ICON_DATA):fetch('3d/icons.json').then(r=>r.ok?r.json():null)).then(j=>{if(!j)return;const im=new Image();const url=j.dataUrl||'3d/'+j.file;
+  im.onload=()=>{Object.assign(ICON,{map:j.icons,cols:j.cols,rows:j.rows,ready:true});const st=document.documentElement.style;st.setProperty('--icons',`url(${url})`);st.setProperty('--icols',j.cols);st.setProperty('--irows',j.rows)};im.src=url}).catch(()=>{});
+function icon(key){if(!ICON.ready)return null;const n=ICON.map[key];if(n==null)return null;const c=n%ICON.cols,r=Math.floor(n/ICON.cols);
+  return`<i class="ico3d" style="background-position:${ICON.cols>1?c/(ICON.cols-1)*100:0}% ${ICON.rows>1?r/(ICON.rows-1)*100:0}%"></i>`}
+const bottleArt=k=>icon('bottle:'+k)||art(BOTTLE_ART[k]);
+function itemArt(it){{const burnt=it.q<45&&['sauteed','deepfried','fries','baked','grilled'].includes(it.st);const ic=icon(it.ing+':'+it.st+(burnt?':burnt':''));if(ic)return`<span class="ia i3">${ic}</span>`}
+const k=it.ing,s=it.st,burnt=it.q<45&&['sauteed','deepfried','fries','baked','grilled'].includes(s);const b=burnt?' burnt':'';
   if(k==='eggraw'&&(s==='sauteed'||s==='deepfried'))return`<span class="ia${b}${s==='deepfried'&&!burnt?' deep':''}">${art('egg')}</span>`;
   if(s==='fries')return`<span class="ia${b}">${art('fries')}</span>`;
   if(k==='pasta'&&s==='boiled')return`<span class="ia">${art('noodle')}</span>`;
@@ -1394,7 +1579,7 @@ function itemArt(it){const k=it.ing,s=it.st,burnt=it.q<45&&['sauteed','deepfried
 const toolIcon=id=>{const t=TOOLS.find(x=>x.id===id);return`<svg class="ic" viewBox="${t.vb}" aria-hidden="true"><use href="#a-${t.icon}"/></svg>`};
 function plateArt(items,cls=''){const n=items.length;return`<div class="dish ${cls}">${art('plate')}${items.map((it,i)=>{const a=i/Math.max(1,n)*6.283-1.4,rr=n===1?0:17;
   return`<span style="left:${50+Math.cos(a)*rr}%;top:${48+Math.sin(a)*rr*.9}%">${itemArt(it)}</span>`}).join('')}</div>`}
-const menuArt=(m,cls='')=>plateArt(m.c.map(([ing,st])=>({ing,st,q:100})),cls);
+const menuArt=(m,cls='')=>{const ic=icon('menu:'+m.id);return ic?`<div class="dish m3d ${cls}">${ic}</div>`:plateArt(m.c.map(([ing,st])=>({ing,st,q:100})),cls)};
 function toast(msg){document.querySelectorAll('.toastbar').forEach(e=>e.remove());const t=document.createElement('div');t.className='toastbar';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),1600)}
 
 /* ================= shared scene helpers ================= */
@@ -1402,12 +1587,12 @@ let KH=null;
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(KH&&['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Enter'].includes(e.code))e.preventDefault();if(!e.repeat&&KH&&KH.down)KH.down(e.code)});
 document.addEventListener('keyup',e=>{if(KH&&KH.up)KH.up(e.code)});
 function stageLoop(fn){let last=performance.now(),alive=true;const f=t=>{if(!alive)return;const dt=Math.min(.05,(t-last)/1000);last=t;fn(dt);if(alive)requestAnimationFrame(f)};requestAnimationFrame(f);const stop=()=>{alive=false};onLeave(stop);return stop}
-function spop(text,cls,x,y){const sc=$('#scene');if(!sc)return;const e=document.createElement('div');e.className='spop '+cls;e.textContent=text;e.style.left=x+'%';e.style.top=y+'%';sc.appendChild(e);setTimeout(()=>e.remove(),850)}
+function spop(text,cls,x,y){if(text!=='ผัด!')SFX.play({g:'good',y:'ok',r:'bad'}[cls]);const sc=$('#scene');if(!sc)return;const e=document.createElement('div');e.className='spop '+cls;e.textContent=text;e.style.left=x+'%';e.style.top=y+'%';sc.appendChild(e);setTimeout(()=>e.remove(),850)}
 function sburst(x,y,cols,n=10,spread=70,sz=[6,12]){if(REDUCED)return;const sc=$('#scene');if(!sc)return;const r=sc.getBoundingClientRect();
   for(let i=0;i<n;i++){const s=document.createElement('span');s.className='spark';s.style.background=pick(cols);const z=rand(sz[0],sz[1]);s.style.width=s.style.height=z+'px';s.style.left=x/100*r.width+'px';s.style.top=y/100*r.height+'px';sc.appendChild(s);
     const a=rand(Math.PI*1.05,Math.PI*1.95),d=rand(spread*.4,spread);
     s.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a)*d}px),calc(-50% + ${Math.sin(a)*d+40}px)) scale(.3)`,opacity:0}],{duration:rand(450,750),easing:'cubic-bezier(.2,.7,.4,1)'}).onfinish=()=>s.remove()}}
-function puff(x,y,dark){if(REDUCED)return;const sc=$('#scene');if(!sc)return;const s=document.createElement('span');s.className='spark';const z=rand(18,34);s.style.width=s.style.height=z+'px';
+function puff(x,y,dark){if(REDUCED||FX3.on)return;const sc=$('#scene');if(!sc)return;const s=document.createElement('span');s.className='spark';const z=rand(18,34);s.style.width=s.style.height=z+'px';
   s.style.background=dark?'rgba(60,50,55,.55)':'rgba(255,255,255,.45)';s.style.left=x+'%';s.style.top=y+'%';sc.appendChild(s);
   s.animate([{transform:'translate(-50%,-50%) scale(.5)',opacity:.9},{transform:`translate(calc(-50% + ${rand(-20,20)}px),calc(-50% - ${rand(60,110)}px)) scale(1.6)`,opacity:0}],{duration:rand(900,1400),easing:'ease-out'}).onfinish=()=>s.remove()}
 const obj=(k,style,extra='',id='')=>`<div class="obj ${extra}" ${id?`id="${id}"`:''} style="${style}">${art(k)}</div>`;
@@ -1423,7 +1608,7 @@ function mgKnife(it){return new Promise(res=>{
   const place=()=>{zc=.2+r()*.6;$('#zy').style.left=(zc-.15)*100+'%';$('#zy').style.width='30%';$('#zg').style.left=(zc-.07)*100+'%';$('#zg').style.width='14%'};place();
   const knife=$('#knife');
   const stop=stageLoop(dt=>{pos+=dir*speed*dt;if(pos>1){pos=1;dir=-1}if(pos<0){pos=0;dir=1};$('#nd').style.left=pos*100+'%'});
-  function act(){if(done)return;const d=Math.abs(pos-zc),g=d<=.07?'g':d<=.15?'y':'r';qs.push({g:100,y:75,r:45}[g]);$('#pips').children[cut].className=g;
+  function act(){if(done)return;FX3.hit('chop');const d=Math.abs(pos-zc),g=d<=.07?'g':d<=.15?'y':'r';qs.push({g:100,y:75,r:45}[g]);$('#pips').children[cut].className=g;
     if(!REDUCED)knife.animate([{transform:'translateY(0)'},{transform:'translateY(80%) rotate(-3deg)'},{transform:'translateY(0)'}],{duration:180,easing:'ease-in'});
     const x=52+cut*10,y=60+(g==='r'?rand(-8,8):0);const p=document.createElement('div');p.className='piece';p.style.left=x+'%';p.style.top=y+'%';p.style.width='12%';
     p.style.transform=`translate(-50%,-50%) rotate(${g==='g'?0:g==='y'?rand(-15,15):rand(-50,50)}deg) scale(${g==='r'?rand(.7,1.3):1})`;p.innerHTML=art(it.ing);$('#slices').appendChild(p);
@@ -1439,7 +1624,7 @@ function mgMortar(it){return new Promise(res=>{
   $('#ctrl').innerHTML=`<div><div class="mlabel"><span>กดรัว ๆ ให้หลอดเต็ม</span><span id="pv">0%</span></div><div class="meter"><i id="pb" style="width:0;background:#4CAF50"></i></div></div>
     <div class="row"><button class="btn big green" id="act">ตำ! <kbd>Space</kbd></button></div>`;
   const stop=stageLoop(dt=>{t+=dt;if(t>=T)finish(false)});
-  function tap(){if(done)return;p=Math.min(100,p+10);$('#pb').style.width=p+'%';$('#pv').textContent=p+'%';$('#paste').style.opacity=p/100;$('#chunk').style.transform=`translate(-50%,-50%) scale(${1-p/115})`;
+  function tap(){if(done)return;p=Math.min(100,p+10);FX3.hit('pound');FX3.set({done:p/100});$('#pb').style.width=p+'%';$('#pv').textContent=p+'%';$('#paste').style.opacity=p/100;$('#chunk').style.transform=`translate(-50%,-50%) scale(${1-p/115})`;
     if(!REDUCED){$('#pestle').animate([{transform:'rotate(14deg)'},{transform:'rotate(8deg) translateY(34%)'},{transform:'rotate(14deg)'}],{duration:120,easing:'ease-in'});sburst(50,50,[col,'#fff'],5,70,[5,9])}
     if(p>=100)finish(true)}
   function finish(ok){if(done)return;done=true;stop();const q=ok?Math.round(60+40*Math.max(0,T-t)/T):Math.max(35,Math.round(p*.6));spop(ok?'ละเอียด!':'หยาบไปนิด',ok?'g':'y',50,28);setTimeout(()=>res(q),450)}
@@ -1455,13 +1640,13 @@ function mgPan(it){return new Promise(res=>{
     <div class="row"><button class="btn big red" id="act">ผัด! ปัดขึ้น ↑ <kbd>↑/Space</kbd></button></div>`;
   const fd=$('#fd');
   const stop=stageLoop(dt=>{t+=dt;cool=Math.max(0,cool-dt);heat=Math.min(100,heat+(26+8*Math.sin(t*2.6))*dt);const z=heat<60?'g':heat<80?'y':'r';
-    dn=Math.min(100,dn+({g:30,y:24,r:14}[z])*dt);if(z==='r')burn+=dt;
+    dn=Math.min(100,dn+({g:30,y:24,r:14}[z])*dt);if(z==='r')burn+=dt;FX3.set({heat:heat/100,done:dn/100,burn:Math.min(1,burn*.5)});
     $('#hn').style.left=heat+'%';const hs=$('#hs');hs.className='state '+z;hs.textContent={g:'กำลังดี',y:'ร้อนแล้ว!',r:'จะไหม้! ปัดขึ้น'}[z];$('#db').style.width=dn+'%';$('#dv').textContent=Math.round(dn)+'%';
     [0,1,2].forEach(i=>{const f=$('#fl'+i);if(f)f.style.transform=`scale(${.6+heat/100*.8})`});
     fd.style.filter=`sepia(${dn/220}) brightness(${1-dn/600-Math.min(.4,burn*.15)})`;
     pf-=dt;if(pf<=0){pf=z==='r'?.12:.4;puff(rand(38,62),44,z==='r')}
     if(dn>=100||t>=8)finish()});
-  function toss(){if(fin||cool>0)return;cool=.2;heat=Math.max(5,heat-42);
+  function toss(){if(fin||cool>0)return;cool=.2;heat=Math.max(5,heat-42);FX3.hit('toss');
     if(!REDUCED){$('#wok').animate([{transform:'rotate(0)'},{transform:'rotate(-6deg) translateY(-4%)'},{transform:'rotate(0)'}],{duration:300});$('#woklip').animate([{transform:'rotate(0)'},{transform:'rotate(-6deg) translateY(-4%)'},{transform:'rotate(0)'}],{duration:300});
       const rr=rand(-300,300);fd.animate([{transform:'translate(-50%,-50%)'},{transform:`translate(-50%,-190%) rotate(${rr/2}deg)`,offset:.45},{transform:`translate(-50%,-50%) rotate(${rr}deg)`}],{duration:480,easing:'cubic-bezier(.3,.7,.4,1)'})}
     spop('ผัด!','g',50,22);sburst(50,46,['#FFD23F','#FF7A2F'],6,60,[4,8])}
@@ -1481,7 +1666,7 @@ function mgPot(it){return new Promise(res=>{
     <div class="heatbtns">${['ไฟเบา','ไฟกลาง','ไฟแรง'].map((l,i)=>`<button class="btn soft" data-h="${i}">${l} <kbd>${i+1}</kbd></button>`).join('')}</div>`;
   const hb=[...document.querySelectorAll('.heatbtns .btn')];const setH=i=>{hi=i;hb.forEach((b,j)=>b.classList.toggle('on',j===i))};setH(0);hb.forEach(b=>b.addEventListener('click',()=>setH(+b.dataset.h)));
   const stop=stageLoop(dt=>{t+=dt;level+=(TG[hi]-level)*dt*1.6;const z=level>85?'r':(level>=band[0]&&level<=band[1])?'g':'y';
-    dn=Math.min(100,dn+({g:34,y:level>band[1]?18:8,r:10}[z])*dt);if(z==='r')over+=dt;
+    dn=Math.min(100,dn+({g:34,y:level>band[1]?18:8,r:10}[z])*dt);if(z==='r')over+=dt;FX3.set({heat:hi/2,level:level/100,done:dn/100});
     $('#bn').style.left=level+'%';const bs=$('#bs');bs.className='state '+z;bs.textContent=z==='r'?'น้ำจะล้น! ลดไฟ':z==='g'?'กำลังดี':level<band[0]?'ไฟอ่อนไป':'แรงไปนิด';
     $('#db').style.width=dn+'%';$('#dv').textContent=Math.round(dn)+'%';$('#spill').classList.toggle('on',z==='r');[0,1,2].forEach(i=>{const f=$('#fl'+i);if(f)f.style.transform=`scale(${.45+hi*.35})`});
     bt-=dt;if(bt<=0){bt=Math.max(.05,.5-level/200);const b=document.createElement('span');b.className='bub';const zz=rand(6,10+level/8);b.style.width=b.style.height=zz+'px';b.style.left=rand(34,64)+'%';b.style.top=rand(32,38)+'%';$('#bubs').appendChild(b);setTimeout(()=>b.remove(),1100);if(level>60)puff(rand(40,60),28,false)}
@@ -1500,17 +1685,17 @@ function mgFryer(it){return new Promise(res=>{
     <div class="row"><button class="btn big" id="act">จุ่มตะแกรงลง ↓ <kbd>Space</kbd></button></div>
     <p class="muted kbhint" style="text-align:center;font-size:.85rem">กดเพื่อจุ่ม กดอีกครั้งเพื่อยกขึ้น ยกขึ้นตอนเข็มอยู่ในแถบเขียว</p>`;
   const bk=$('#bk'),oil=$('#oil'),btn=$('#act');
-  const set=v=>{if(fin)return;down=v;bk.classList.toggle('down',down);oil.classList.toggle('hot',down);btn.innerHTML=down?'ยกตะแกรงขึ้น ↑ <kbd>Space</kbd>':'จุ่มตะแกรงลง ↓ <kbd>Space</kbd>';
+  const set=v=>{if(fin)return;down=v;FX3.set({down:v});bk.classList.toggle('down',down);oil.classList.toggle('hot',down);btn.innerHTML=down?'ยกตะแกรงขึ้น ↑ <kbd>Space</kbd>':'จุ่มตะแกรงลง ↓ <kbd>Space</kbd>';
     if(down)sburst(50,42,['#FFE08A','#fff'],8,60,[4,8]);else if(dn>=65&&dn<=85){spop('กรอบกำลังดี!','g',50,20)}};
   const toggle=()=>set(!down);
-  const stop=stageLoop(dt=>{t+=dt;if(down)dn+=24*dt;const disp=Math.min(100,dn);
+  const stop=stageLoop(dt=>{t+=dt;if(down)dn+=24*dt;const disp=Math.min(100,dn);FX3.set({done:dn/75,burn:Math.max(0,(dn-85)/20)});
     $('#db').style.width=disp+'%';$('#fn').style.left=disp+'%';
     const z=dn<65?'y':dn<=85?'g':'r';const fs=$('#fs');fs.className='state '+z;fs.textContent=z==='y'?'ยังไม่สุก':z==='g'?'สุกกำลังดี ยกได้!':'จะไหม้แล้ว!';
     bk.querySelector('.food').style.filter=`sepia(${Math.min(.7,dn/130)}) saturate(${1+dn/140}) brightness(${1-Math.max(0,dn-85)/90})`;
     if(down){bt-=dt;if(bt<=0){bt=.06;const b=document.createElement('span');b.className='bub';const z2=rand(6,14);b.style.width=b.style.height=z2+'px';b.style.background='rgba(255,236,170,.9)';b.style.left=rand(34,66)+'%';b.style.top=rand(42,58)+'%';$('#bubs').appendChild(b);setTimeout(()=>b.remove(),900)}}
     if(!down&&dn>=65&&dn<=85){okT+=dt;if(okT>.35)finish()}else okT=0;
     if(dn>=105||t>=9)finish()});
-  function finish(){if(fin)return;fin=true;stop();if(down){down=false;bk.classList.remove('down')}
+  function finish(){if(fin)return;fin=true;stop();if(down){down=false;bk.classList.remove('down')}FX3.set({down:false});
     const q=dn<65?Math.max(35,Math.round(dn)):dn<=85?Math.round(100-Math.abs(dn-75)*.8):Math.max(35,Math.round(100-(dn-85)*3));
     if(dn>85)spop('ไหม้นิด ๆ','r',50,20);else if(dn<65)spop('ยังไม่กรอบ','y',50,20);setTimeout(()=>res(q),500)}
   btn.addEventListener('pointerdown',e=>{e.preventDefault();toggle()});onScene(toggle);
@@ -1524,12 +1709,12 @@ function mgOven(it){return new Promise(res=>{
   $('#ctrl').innerHTML=`<div><div class="mlabel"><span>อบไปแล้ว</span><span class="state y" id="os">กำลังอบ…</span></div>
       <div class="meter"><i style="left:0;width:70%;background:#FFE69A;border-radius:0"></i><i style="left:70%;width:20%;background:#A6DDA0;border-radius:0"></i><i style="left:90%;width:10%;background:#F6A79E;border-radius:0"></i><b class="nd" id="on"></b></div></div>
     <div class="row"><button class="btn big red" id="act">เปิดเตาเอาออก <kbd>Space</kbd></button></div>`;
-  const stop=stageLoop(dt=>{t+=dt;dn+=23*dt;const d=Math.min(100,dn);$('#on').style.left=d+'%';
+  const stop=stageLoop(dt=>{t+=dt;dn+=23*dt;const d=Math.min(100,dn);FX3.set({done:dn/80,burn:Math.max(0,(dn-90)/20)});$('#on').style.left=d+'%';
     const z=dn<70?'y':dn<=90?'g':'r';const os=$('#os');os.className='state '+z;os.textContent=z==='y'?'กำลังอบ…':z==='g'?'หอมได้ที่ เอาออกเลย!':'จะไหม้!';
     $('#glow').style.background=`rgba(255,${Math.round(150-dn*.6)},40,${.25+Math.sin(t*6)*.05+dn/400})`;
     $('#ofd').style.filter=`sepia(${Math.min(.75,dn/120)}) saturate(${1+dn/150}) brightness(${1-Math.max(0,dn-90)/60})`;
     if(Math.random()<dt*2)puff(rand(40,60),8,dn>95);if(dn>=110)finish()});
-  function finish(){if(fin)return;fin=true;stop();const q=dn<70?Math.max(40,Math.round(dn*.9)):dn<=90?Math.round(100-Math.abs(dn-80)*.6):Math.max(35,Math.round(100-(dn-90)*3));
+  function finish(){if(fin)return;fin=true;stop();FX3.hit('open');const q=dn<70?Math.max(40,Math.round(dn*.9)):dn<=90?Math.round(100-Math.abs(dn-80)*.6):Math.max(35,Math.round(100-(dn-90)*3));
     spop(dn<70?'ยังไม่ค่อยสุก':dn<=90?'อบได้ที่!':'ไหม้นิดนึง',dn<70?'y':dn<=90?'g':'r',50,20);setTimeout(()=>res(q),500)}
   $('#act').addEventListener('pointerdown',e=>{e.preventDefault();finish()});onScene(finish);KH={down:c=>{if(c==='Space'||c==='Enter')finish()}};
 })}
@@ -1542,7 +1727,7 @@ function mgWash(){return new Promise(res=>{
     <div class="row"><button class="btn big" id="act" style="--c:#8CD0F2;--d:#3F86B8">ถูจาน! <kbd>Space</kbd></button></div>
     <p class="muted" style="text-align:center;font-size:.85rem">ลากถูไปมาบนจาน หรือกดรัว ๆ</p>`;
   const grime=[...document.querySelectorAll('.grime')];
-  function add(v,x,y){if(fin)return;p=Math.min(100,p+v);$('#wb').style.width=p+'%';$('#wv').textContent=Math.round(p)+'%';grime.forEach((g,i)=>g.style.opacity=Math.max(0,1-p/100*(1+i*.15)));
+  function add(v,x,y){if(fin)return;if(Math.random()<.45)SFX.play('scrub');p=Math.min(100,p+v);$('#wb').style.width=p+'%';$('#wv').textContent=Math.round(p)+'%';grime.forEach((g,i)=>g.style.opacity=Math.max(0,1-p/100*(1+i*.15)));
     sudT-=v;if(sudT<=0){sudT=6;const s=document.createElement('i');s.className='suds';const z=rand(3,6);s.style.width=z+'%';s.style.aspectRatio='1';s.style.left=(x??rand(38,62))+'%';s.style.top=(y??rand(30,60))+'%';$('#suds').appendChild(s);setTimeout(()=>s.remove(),1400)}
     if(p>=100){fin=true;stop();sburst(50,44,['#fff','#BDE6FF','#FFD95A'],18,110);spop('ใสปิ๊ง!','g',50,24);setTimeout(()=>res(100),550)}}
   const stop=stageLoop(()=>{});
@@ -1562,12 +1747,12 @@ function mgGrill(it){return new Promise(res=>{
   $('#ctrl').innerHTML=zoneMeter('ga',G0,G1,'ด้าน A','gas')+zoneMeter('gb',G0,G1,'ด้าน B','gbs')+
     `<div class="row"><button class="btn big red" id="flip">พลิก! <kbd>Space</kbd></button><button class="btn big green" id="done">ยกออก <kbd>Enter</kbd></button></div>`;
   const gf=$('#gf');
-  const stop=stageLoop(dt=>{t+=dt;d[down]+=22*dt;
+  const stop=stageLoop(dt=>{t+=dt;d[down]+=22*dt;FX3.set({done:(Math.min(d[0],85)+Math.min(d[1],85))/144,burn:Math.max(0,Math.max(...d)-G1)/25,side:down});
     ['ga','gb'].forEach((id,i)=>{const v=Math.min(100,d[i]);$('#'+id).style.left=v+'%';$('#'+id+'f').style.width=v+'%';const z=d[i]<G0?'y':d[i]<=G1?'g':'r';const s=$('#'+id+'s');s.className='state '+z;s.textContent=(i===down?'🔥 ':'')+(z==='y'?'ยังไม่สุก':z==='g'?'สุกกำลังดี':'ไหม้แล้ว!')});
     const avg=(d[0]+d[1])/2;gf.style.filter=`sepia(${Math.min(.8,avg/110)}) saturate(${1+avg/130}) brightness(${1-Math.max(0,Math.max(...d)-G1)/80})`;
     if(Math.random()<dt*5)puff(rand(38,62),40,d[down]>G1);
     if(Math.min(...d)>=110||t>=16)finish()});
-  function flip(){if(fin||flipping)return;flipping=true;down=1-down;$('#side').textContent=`ด้าน ${down?'B':'A'} กำลังย่าง`;
+  function flip(){if(fin||flipping)return;flipping=true;down=1-down;FX3.hit('flip');$('#side').textContent=`ด้าน ${down?'B':'A'} กำลังย่าง`;
     if(!REDUCED)gf.animate([{transform:'translate(-50%,-50%)'},{transform:'translate(-50%,-140%) rotateX(180deg)',offset:.5},{transform:'translate(-50%,-50%) rotateX(360deg)'}],{duration:380,easing:'ease-out'});
     sburst(50,50,['#FFC933','#FF7A2F'],6,50,[4,8]);setTimeout(()=>flipping=false,250)}
   function finish(){if(fin)return;fin=true;stop();const q=Math.round((zoneQ(d[0],G0,G1)+zoneQ(d[1],G0,G1))/2);
@@ -1580,13 +1765,13 @@ function mgSteamer(it){return new Promise(res=>{
   freshScene().innerHTML=obj('steamer','left:27%;top:14%;width:46%')+`<div class="food" id="sf" style="left:50%;top:40%;width:16%;opacity:0">${itemArt(it)}</div>`+obj('steamlid','left:27%;top:14%;width:46%','','lid')+`<div id="wtag" class="sidetag" style="top:auto;bottom:6%">น้ำในหม้อ</div>`;
   $('#ctrl').innerHTML=`<div><div class="mlabel"><span>น้ำในหม้อ</span><span class="state g" id="ws">พอดี</span></div><div class="meter"><i style="left:0;width:18%;background:#F6A79E;border-radius:0"></i><i id="wb" style="width:70%;background:#7CC6FF"></i></div></div>`+
     zoneMeter('sp',G0,G1,'ความสุก','ss')+`<div class="row"><button class="btn big" id="water" style="--c:#7CC6FF;--d:#3F86B8">เติมน้ำ <kbd>W</kbd></button><button class="btn big green" id="open">เปิดฝา <kbd>Space</kbd></button></div>`;
-  const stop=stageLoop(dt=>{t+=dt;water=Math.max(0,water-11*dt);const ok=water>18;p+=(ok?15:3)*dt;if(!ok)dry+=dt;
+  const stop=stageLoop(dt=>{t+=dt;water=Math.max(0,water-11*dt);const ok=water>18;p+=(ok?15:3)*dt;if(!ok)dry+=dt;FX3.set({water:water/100,done:p/80});
     $('#wb').style.width=water+'%';const ws=$('#ws');ws.className='state '+(ok?'g':'r');ws.textContent=ok?'พอดี':'น้ำจะแห้ง! เติมน้ำ';
     const v=Math.min(100,p);$('#sp').style.left=v+'%';$('#spf').style.width=v+'%';const z=p<G0?'y':p<=G1?'g':'r';const s=$('#ss');s.className='state '+z;s.textContent=z==='y'?'กำลังนึ่ง…':z==='g'?'สุกแล้ว เปิดฝาได้!':'นึ่งนานไป!';
     pt-=dt;if(pt<=0&&ok){pt=.18;puff(rand(42,58),14,false)}
     if(p>=112||t>=14)finish()});
-  function fill(){if(fin)return;water=Math.min(100,water+40);sburst(50,60,['#BDE6FF','#fff'],6,50,[4,7])}
-  function finish(){if(fin)return;fin=true;stop();if(!REDUCED)$('#lid').animate([{transform:'translateY(0)'},{transform:'translateY(-40%) rotate(-8deg)'}],{duration:400,fill:'forwards'});$('#sf').style.opacity=1;
+  function fill(){if(fin)return;water=Math.min(100,water+40);FX3.hit('water');sburst(50,60,['#BDE6FF','#fff'],6,50,[4,7])}
+  function finish(){if(fin)return;fin=true;stop();FX3.set({open:true});FX3.hit('open');if(!REDUCED)$('#lid').animate([{transform:'translateY(0)'},{transform:'translateY(-40%) rotate(-8deg)'}],{duration:400,fill:'forwards'});$('#sf').style.opacity=1;
     const q=Math.max(30,zoneQ(p,G0,G1)-Math.round(dry*12));spop(q>=80?'นึ่งได้ที่!':q>=55?'พอใช้ได้':'ไม่ค่อยดี',q>=80?'g':q>=55?'y':'r',50,22);setTimeout(()=>res(q),650)}
   $('#water').addEventListener('pointerdown',e=>{e.preventDefault();fill()});$('#open').addEventListener('pointerdown',e=>{e.preventDefault();finish()});
   KH={down:c=>{if(c==='KeyW'||c==='ArrowDown')fill();if(c==='Space'||c==='Enter')finish()}};
@@ -1599,7 +1784,7 @@ function mgSomtam(it){return new Promise(res=>{
     <div class="row"><button class="btn big" id="pound">ตำ <kbd>←/Space</kbd></button><button class="btn big green" id="mix">คลุก <kbd>→/↑</kbd></button></div>`;
   const draw=()=>{$('#pr').innerHTML=seq.map((s,j)=>`<span class="pq ${s} ${j===i?'now':''} ${j<i?'done '+(qs[j]>=100?'g':qs[j]>=70?'y':'r'):''}">${s==='p'?'ตำ':'คลุก'}</span>`).join('');$('#cnt').textContent=`${i}/${N}`};draw();
   const stop=stageLoop(dt=>{if(fin)return;tw+=dt;$('#tw').style.width=Math.max(0,100-tw/win*100)+'%';$('#tw').style.background=tw/win<.6?'#4CAF50':tw/win<.85?'#FFC933':'#F26B5E';if(tw>=win)hit(null)});
-  function hit(k){if(fin)return;const ok=k===seq[i];const g=!k?'r':!ok?'r':tw/win<.6?'g':'y';qs.push({g:100,y:75,r:40}[g]);
+  function hit(k){if(fin)return;if(k)FX3.hit(k==='p'?'pound':'mix');FX3.set({done:(i+1)/N});const ok=k===seq[i];const g=!k?'r':!ok?'r':tw/win<.6?'g':'y';qs.push({g:100,y:75,r:40}[g]);
     if(k==='p'&&!REDUCED)$('#pestle').animate([{transform:'rotate(14deg)'},{transform:'rotate(8deg) translateY(34%)'},{transform:'rotate(14deg)'}],{duration:130});
     if(k==='m'&&!REDUCED)$('#chunk').animate([{transform:'translate(-50%,-50%)'},{transform:'translate(-50%,-110%) rotate(25deg)'},{transform:'translate(-50%,-50%)'}],{duration:280});
     spop({g:'เป๊ะ!',y:'ทัน',r:k?'ผิดจังหวะ':'ช้าไป'}[g],g,50,26);sburst(50,48,['#A8CC52','#F59A3C','#fff'],g==='g'?6:3,60,[4,7]);
@@ -1612,12 +1797,12 @@ function tasteBars(actual,target,small){return`<div class="tbars ${small?'sm':''
   return`<div class="tb"><span class="tl">${th}</span><span class="tm"><i style="width:${a}%;background:${c}"></i><b style="left:${t}%"></b></span><span class="tv ${Math.abs(d)<=5?'ok':''}">${a}<small>/${t}</small></span></div>`}).join('')}</div>`}
 function mgSeason(plate,season,target,onChange){return new Promise(res=>{
   const keys=SEASON_KEYS;let pour=null,fin=false;
-  freshScene().innerHTML=`<div class="obj" style="left:39%;top:1%;width:22%">${plateArt(plate)}</div>`+keys.map((k,i)=>`<div class="bottle" data-b="${k}" style="left:${5+i*15.5}%;top:36%;width:12%">${art(BOTTLE_ART[k])}<kbd>${i+1}</kbd><span class="bamt" id="ba-${k}">${season[k]||0}</span><span class="bname">${BOTTLE_SHORT[k]}</span></div>`).join('');
+  freshScene().innerHTML=`<div class="obj splate">${plateArt(plate)}</div><div class="brow">`+keys.map((k,i)=>`<div class="bottle" data-b="${k}"><span class="bimg">${bottleArt(k)}</span><span class="bmeta"><kbd>${i+1}</kbd><span class="bamt" id="ba-${k}">${season[k]||0}</span></span><span class="bname">${BOTTLE_SHORT[k]}</span></div>`).join('')+`</div>`;
   $('#ctrl').innerHTML=`<div class="mlabel"><span>กดค้างที่ขวดเพื่อเท · ธงดำ = รสที่ลูกค้าต้องการ</span><span class="state g" id="acc"></span></div><div id="tb"></div>
     <div class="row"><button class="btn big green" id="sdone">ปรุงเสร็จ <kbd>Enter</kbd></button></div>`;
   const upd=()=>{const a=tasteOf(plate,season);$('#tb').innerHTML=tasteBars(a,target,true);const acc=tasteAccuracy(a,target);const s=$('#acc');s.textContent=`รสตรง ${acc}%`;s.className='state '+(acc>=85?'g':acc>=65?'y':'r');keys.forEach(k=>{$('#ba-'+k).textContent=(season[k]||0).toFixed(1)});onChange&&onChange()};upd();
   const bottles=[...document.querySelectorAll('.bottle')];
-  const setPour=k=>{pour=k;bottles.forEach(b=>b.classList.toggle('pour',b.dataset.b===k))};
+  const setPour=k=>{pour=k;SFX.loop('pour',k?1:0);bottles.forEach(b=>b.classList.toggle('pour',b.dataset.b===k))};
   let acc=0;const stop=stageLoop(dt=>{if(!pour)return;acc+=dt;if(acc>=.07){season[pour]=Math.min(10,Math.round(((season[pour]||0)+.1)*10)/10);acc=0;upd();const b=bottles.find(x=>x.dataset.b===pour);if(b)sburst(parseFloat(b.style.left)+3,40,['#fff','#FFE8A0'],2,30,[3,6])}});
   bottles.forEach(b=>b.addEventListener('pointerdown',e=>{e.preventDefault();setPour(b.dataset.b)}));
   const off=()=>setPour(null);addEventListener('pointerup',off);addEventListener('pointercancel',off);onLeave(()=>{removeEventListener('pointerup',off);removeEventListener('pointercancel',off)});
@@ -1636,19 +1821,51 @@ function roomList(peers){const num=v=>typeof v==='number'&&isFinite(v);
   return peers.filter(p=>p.p&&p.p.joinedAt).sort((a,b)=>((b.p.creator?1:0)-(a.p.creator?1:0))||(num(a.p.seq)&&num(b.p.seq)?a.p.seq-b.p.seq:0)||(a.p.joinedAt-b.p.joinedAt)||(a.id<b.id?-1:1))}
 function members(peers){const hum=roomList(peers),host=hum[0];const raw=host&&Array.isArray(host.p.bots)?host.p.bots.slice(0,5):[];
   const bots=raw.filter(b=>b&&typeof b.id==='string').map(b=>({id:'bot:'+b.id,bid:b.id,isMe:false,isBot:true,p:{nick:clean(b.nick,16)||'บอท',chef:+b.chef||0,ready:true,lvl:BOTLV[b.lvl]?b.lvl:'normal'}}));
-  return{hum,host,bots,all:[...hum,...bots],size:Math.max(2,Math.min(6,(host&&+host.p.size)||4))}}
+  const all=[...hum,...bots];all.forEach(m=>m.key=m.isBot?m.id:(m.p.pid||m.id));
+  const tour=host&&host.p.mode==='tour'&&host.p.tour&&Array.isArray(host.p.tour.alive)?host.p.tour:null;
+  return{hum,host,bots,all,size:Math.max(2,Math.min(6,(host&&+host.p.size)||4)),tour,alive:tour?all.filter(m=>tour.alive.includes(m.key)):all}}
 function statOf(m,host,gen){if(m.isBot){const bs=host&&host.p.bgen===gen&&host.p.bs&&host.p.bs[m.bid];return{score:bs?+bs[0]||0:0,served:bs?+bs[1]||0:0,done:bs?!!bs[2]:false,tot:bs?+bs[3]||0:0}}
   const ok=m.p.gen===gen;return{score:ok?+m.p.score||0:0,served:ok?+m.p.served||0:0,done:ok&&!!m.p.done,tot:+m.p.tot||0}}
+/* solo bots are run by the host's screen; their progress travels in the host's presence so every screen sees it */
+function simBots(K,h,bots,gen){const bs={},timers=[];
+  bots.forEach(b=>{const prev=(h.p.bs&&h.p.bs[b.bid])||[];bs[b.bid]=h.p.bgen===gen&&!prev[2]?prev.slice(0,4).map(Number):[0,0,0,+prev[3]||0];const sk=BOTLV[b.p.lvl][1];
+    const step=()=>{if(K.done)return;bs[b.bid][0]+=Math.round(rand(55,95)*Math.min(sk,1.15));bs[b.bid][1]++;S.room.presence({bs:JSON.parse(JSON.stringify(bs)),bgen:gen});timers.push(setTimeout(step,rand(24000,34000)/sk))};
+    timers.push(setTimeout(step,rand(22000,30000)/sk))});
+  S.room.presence({bs,bgen:gen});K.botEnd=()=>{Object.keys(bs).forEach(k=>{bs[k][2]=1;bs[k][3]+=bs[k][0]});S.room.presence({bs:JSON.parse(JSON.stringify(bs)),bgen:gen})};
+  onLeave(()=>timers.forEach(clearTimeout))}
+/* ---------- tournament ---------- */
+function tourPlan(n){const a=[n];while(a[a.length-1]>1)a.push(E.tourNext(a[a.length-1]));return a.join(' → ')+' 🏆'}
+const ROUND_TH={normal:'รอบคัดเลือก',mystery:'รอบวัตถุดิบปริศนา',final:'รอบชิงชนะเลิศ'};
 function followHost(peers,{toWait=true,toPlay=true}={}){const h=roomList(peers)[0];if(!h)return;
   if(toWait&&h.p.phase==='wait'){go(waitRoom);return true}
   if(toPlay&&h.p.phase==='play'&&h.p.gen&&h.p.gen!==S.lastGen){S.lastGen=h.p.gen;S.dur=+h.p.dur||S.dur;countdown(()=>go(match));return true}}
 
+/* ================= SPECTATE (knocked out of the tournament) ================= */
+function spectate(){
+  S.screen='spectate';document.body.classList.add('in-game');KH=null;SFX.music('play');
+  const M0=members(S.peers||[]),h=M0.host,gen=S.lastGen,dur=(h&&+h.p.dur)||180,tour=M0.tour;
+  const K=S.k={gen,dur,mode:'solo',score:0,served:0,spect:true,done:false,end:performance.now()+dur*1000};const out=(tour&&(tour.out||[]).find(o=>M0.all.find(m=>m.isMe&&m.key===o.k)))||null;
+  report();
+  app.innerHTML=`<div class="card spect"><div class="ptimer"><span>เหลือ</span><b id="clock"></b></div>
+    <h2>คุณตกรอบ${out?`ที่ ${out.r}`:''}แล้ว · ดูเพื่อนแข่ง 👀</h2><p class="muted">ทัวร์นาเมนต์รอบที่ ${tour?tour.round:''} · ${ROUND_TH[E.tourKind(tour?tour.round:1,tour?tour.alive.length:2)]} · เหลือ ${tour?tour.alive.length:0} คน → ${tour?E.tourNext(tour.alive.length):0}</p>
+    <div id="sboard" class="sboard"></div></div>`;
+  const draw=peers=>{const M=members(peers);const list=M.alive.map(m=>({m,...statOf(m,M.host,gen)})).sort((a,b)=>b.score-a.score);const keep=tour?E.tourNext(tour.alive.length):1;
+    $('#sboard').innerHTML=list.map((x,i)=>`<div class="rank-row ${i<keep?'keep':'cut'}"><b>${i+1}</b>${chef(x.m.p.chef)}<span class="nm">${esc(clean(x.m.p.nick,16)||'เชฟ')}${x.m.isBot?' 🤖':''}</span><b>${x.score}</b><span class="tot">${x.served} จาน</span></div>`).join('')};
+  if(h&&h.isMe){const bots=M0.bots.filter(b=>tour&&tour.alive.includes(b.key));if(bots.length)simBots(K,h,bots,gen)}
+  onLeave(S.room.onPeers(peers=>{S.peers=peers;draw(peers);followHost(peers,{toPlay:false})}));draw(S.peers||[]);
+  stageLoop(()=>{if(K.done)return;const left=Math.max(0,(K.end-performance.now())/1000);const c=$('#clock');if(c)c.textContent=`${Math.floor(left/60)}:${String(Math.floor(left%60)).padStart(2,'0')}`;
+    if(performance.now()>K.end+3500){K.done=true;if(K.botEnd)K.botEnd();report();go(results)}});
+}
+
 /* ================= PLAY ================= */
 function match(){
+  SFX.music('play');
   S.screen='match';document.body.classList.add('in-game');KH=null;
   const M0=members(S.peers||[]);const h=M0.host;const dur=(h&&+h.p.dur)||S.dur||180;const gen=S.lastGen;const iHost=h&&h.isMe;
   const teamMode=!!(h&&h.p.mode==='team'&&[4,6].includes(M0.all.length));
-  const myId=(M0.all.find(m=>m.isMe)||{id:'me'}).id;
+  const myId=(M0.all.find(m=>m.isMe)||{id:'me'}).id;const meM=M0.all.find(m=>m.isMe);
+  const tour=M0.tour,roundKind=tour?E.tourKind(+tour.round||1,tour.alive.length):'normal';
+  if(tour&&meM&&!tour.alive.includes(meM.key))return spectate();          // knocked out: watch the others
   const nameOf=id=>{const m=M0.all.find(x=>x.id===id);return m?(clean(m.p.nick,16)||'เชฟ'):'เพื่อน'};
   const chefOf=id=>{const m=M0.all.find(x=>x.id===id);return m?m.p.chef:0};
   const K=S.k={gen,dur,mode:teamMode?'team':'solo',end:performance.now()+dur*1000,tickets:[],hand:null,inbox:[],plate:[],plateOn:false,season:{},clean:2,dirty:0,view:0,open:null,busy:false,score:0,served:0,selK:null,done:false,uid:1,pending:false,
@@ -1656,7 +1873,11 @@ function match(){
   report();NET.setLobby({playing:1});
   /* ----- the referee: the server when online, the same engine inside the browser when offline ----- */
   const online=NET.mode==='socket'&&NET.s&&S.room&&!S.room.offline;const code=S.room.code;
-  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:K.mode,players:teamMode?M0.all.map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1})):[{id:myId}]});
+  // F5: what you were holding (hand, plate, seasoning, inbox, dishes) comes back for the same round; the server keeps the cooked food
+  const BAG='wc_bag';if(online)try{const b=JSON.parse(sessionStorage.getItem(BAG)||'null');if(b&&b.gen===gen&&b.code===code&&Date.now()-b.at<dur*1000+60000){
+    for(const k of['hand','plate','plateOn','season','inbox','clean','dirty','uid'])if(b[k]!=null)K[k]=b[k]}}catch(e){}
+  let bagAt=0;const saveBag=()=>{if(!online||K.done)return;try{sessionStorage.setItem(BAG,JSON.stringify({gen,code,at:Date.now(),hand:K.hand,plate:K.plate,plateOn:K.plateOn,season:K.season,inbox:K.inbox,clean:K.clean,dirty:K.dirty,uid:K.uid}))}catch(e){}};
+  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:K.mode,round:roundKind,players:teamMode?M0.all.map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1})):[{id:myId}]});
   S.k.LM=LM;
   const ask=(ev,data)=>new Promise(res=>{let done=false;const t=setTimeout(()=>{if(!done){done=true;res({ok:false,msg:'เซิร์ฟเวอร์ไม่ตอบ ลองอีกครั้ง'})}},5000);
     NET.s.emit(ev,data,r=>{if(done)return;done=true;clearTimeout(t);res(r||{ok:false})})});
@@ -1664,16 +1885,19 @@ function match(){
   const J={
     serve:p=>online?ask('game:serve',{code,...p}):local(now=>LM.serve(myId,p,now)),
     wash:()=>online?ask('game:wash',code):local(now=>({...LM.wash(myId,now),score:LM.snap(myId,now).score})),
-    clear:()=>online?ask('game:clear',code):local(()=>LM.clear(myId)),
+    clear:plate=>online?ask('game:clear',{code,plate}):local(()=>LM.clear(myId,plate)),
+    cookStart:tool=>online?ask('game:cookStart',{code,tool}):local(now=>LM.cookStart(myId,tool,now)),
+    cook:c=>online?ask('game:cook',{code,c}):local(now=>LM.cook(myId,c,now)),
     pass:item=>online?ask('game:pass',{code,item}):local(now=>LM.pass(myId,item,now)),
     ask:ing=>online?ask('game:ask',{code,ing}):local(now=>LM.ask(myId,ing,now)),
   };
   const COOK=TOOLS.filter(t=>COOK_TOOLS.includes(t.id));const SINK=TOOLS.find(t=>t.id==='sink'),SEAS=TOOLS.find(t=>t.id==='season');
   const accOf=id=>Object.keys(TR[id]).map(k=>k.split(':')[0]).filter((v,i,a)=>a.indexOf(v)===i);
   const canUse=(tool,it)=>!!(it&&TR[tool]&&TR[tool][keyOf(it)]);
-  const ingArt=k=>art(RAW_ART[k]||k);
+  const ingArt=k=>icon(k+':raw')||art(RAW_ART[k]||k);
   const selTicket=()=>K.tickets.find(t=>t.k===K.selK)||K.tickets[0];
-  const SI=()=>E.STAGE_INFO[K.stage];
+  const SI=()=>{const si=E.STAGE_INFO[K.allOpen?Math.max(K.stage,2):K.stage];return K.allOpen?{...si,rush:E.STAGE_INFO[K.stage].rush}:si};
+  const tgtOf=tk=>E.targetFor(tk.m,tk.req,K.judge);
   const toolOpen=id=>SI().tools.includes(id);
   const ingOpen=k=>SI().ings.includes(k);
   const mine=k=>!K.pantry||K.pantry.includes(k);
@@ -1727,8 +1951,15 @@ function match(){
   $('#sinkBtn').onclick=$('#sinkBtn2').onclick=()=>openStation('sink');
   $('#seasBtn').onclick=$('#seasBtn2').onclick=()=>openStation('season');
   drawer.querySelectorAll('.ding').forEach(b=>b.onclick=e=>{if(e.detail===0)tapDrawer(b)});
+  // 3D kitchen: the same buttons, glued on top of the 3D stations
+  const is3d=W3D.toVport($('#vport'));
+  if(is3d){$('#vport').classList.add('k3d');
+    const st=[...document.querySelectorAll('#stgrid .stblock')].map(b=>[b,b.dataset.st]);
+    W3D.bind(()=>[...st,[$('#sinkBtn'),'sink'],[$('#seasBtn'),'season'],[$('#plateDrop'),'plate',W3D.S.plate]]);
+    onLeave(()=>{FX3.end();W3D.S.setPlate([]);W3D.unbind();W3D.toBg()})}
+  const camBack=()=>{if(is3d)W3D.shot(K.view?'plate':'kitchen')};
   $('#serve').onclick=serve;
-  $('#clear').onclick=()=>{if(K.busy||!K.plateOn)return;K.plate=[];K.season={};K.plateOn=false;K.dirty++;J.clear();renderPlate();renderHow();toast('เทจานทิ้งแล้ว จานไปรอที่อ่าง')};
+  $('#clear').onclick=()=>{if(K.busy||!K.plateOn)return;const dumped=K.plate.map(({ing,st,amt,q})=>({ing,st,amt,q}));K.plate=[];K.season={};K.plateOn=false;K.dirty++;J.clear(dumped);renderPlate();renderHow();toast('เทจานทิ้งแล้ว จานไปรอที่อ่าง')};
   $('#trash').onclick=()=>{if(K.busy||!K.hand)return;toast(`ทิ้ง ${itemName(K.hand)} แล้ว`);setHand(null)};
   $('#judge').onclick=()=>{$('#judge').hidden=true};
   if(teamMode)$('#passbox').onclick=()=>{if(K.hand)passItem(K.hand,()=>setHand(null));else toast('หยิบของใส่มือก่อน แล้วกดส่งให้เพื่อน')};
@@ -1736,33 +1967,34 @@ function match(){
   onLeave(S.room.onPeers(peers=>{S.peers=peers;renderScores(peers);followHost(peers,{toPlay:false})}));
   onLeave(()=>{KH=null});
   /* ----- everything the referee tells us ----- */
-  function applySnap(snap){if(!snap||snap.gen!==gen)return;S.lastSnap=snap;K.score=snap.score;K.served=snap.served;const now=performance.now();
-    K.tickets=snap.tickets.filter(t=>MENU_BY_ID[t.id]).map(t=>({k:t.k,m:MENU_BY_ID[t.id],life:t.life,rush:t.rush,born:now-(t.life*1000-t.left)}));
+  function applySnap(snap){if(!snap||snap.gen!==gen)return;S.lastSnap=snap;if(typeof snap.endIn==='number'&&online)K.end=performance.now()+snap.endIn;K.score=snap.score;K.served=snap.served;const now=performance.now();
+    K.tickets=snap.tickets.filter(t=>MENU_BY_ID[t.id]).map(t=>({k:t.k,m:MENU_BY_ID[t.id],life:t.life,rush:t.rush,req:t.req||null,born:now-(t.life*1000-t.left)}));
+    K.allOpen=!!snap.allOpen;K.judge=snap.judge||null;K.sets=snap.sets||null;K.round=snap.round||'normal';K.box=snap.box||null;
     if(!K.tickets.some(t=>t.k===K.selK))K.selK=K.tickets[0]&&K.tickets[0].k;
     const st=snap.stage||0;if(st!==K.stage){K.stage=st;stageChanged()}K.nextAt=snap.nextIn==null?null:now+snap.nextIn;
     K.pantry=snap.pantry||null;K.mate=snap.mate||null;K.team=snap.team||0;K.teams=snap.teams||[];
+    if(!K.introDone&&K.round!=='normal'||(!K.introDone&&tour)){K.introDone=true;roundIntro()}else K.introDone=true;
     renderTickets();renderPlate();renderLocks();renderScores(S.peers||[]);report()}
   function onEvent(e){if(!e)return;
-    if(e.type==='recv'&&(!e.to||e.to===myId)){K.inbox.push({...e.item,id:K.uid++,fromMate:true});if(K.inbox.length>6){K.inbox.shift();toast('ถาดรับของเต็ม ของชิ้นเก่าสุดหล่นไป')}renderInbox();renderHow();
+    if(e.type==='recv'&&(!e.to||e.to===myId)){SFX.play('join');K.inbox.push({...e.item,id:K.uid++,fromMate:true});if(K.inbox.length>6){K.inbox.shift();toast('ถาดรับของเต็ม ของชิ้นเก่าสุดหล่นไป')}renderInbox();renderHow();
       toast(`ได้รับ ${itemName(e.item)} จาก ${nameOf(e.from)}`);const ib=$('#inbox');if(ib&&!REDUCED)ib.animate([{transform:'scale(1)'},{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:350})}
     else if(e.type==='ask'&&(!e.to||e.to===myId)){K.asked[e.ing]=performance.now()+8000;renderLocks();toast(`${nameOf(e.from)} ขอ ${ING[e.ing].th} — แตะในตู้เพื่อส่งให้เลย`);if(!mobile())setDrawer(true)}
-    else if(e.type==='expired'&&(e.team==null||e.team===K.team))(e.list||[]).forEach(x=>toast(`ออร์เดอร์ ${x.th} หมดเวลา -10`))}
+    else if(e.type==='expired'&&(e.team==null||e.team===K.team))(e.list||[]).forEach(x=>{SFX.play('expire');toast(`ออร์เดอร์ ${x.th} หมดเวลา -10`)})}
   if(online){const f=(ev,d)=>{if(!d||d.code!==code)return;if(ev==='game:you')applySnap(d.snap);else if(ev==='game:recv')onEvent({type:'recv',...d});else if(ev==='game:ask')onEvent({type:'ask',...d});else if(ev==='game:expired')onEvent({type:'expired',...d})};
     NET.gameSubs.add(f);onLeave(()=>NET.gameSubs.delete(f));
     if(NET.you&&NET.you.code===code)applySnap(NET.you.snap);ask('game:sync',code).then(r=>{if(r&&r.ok)applySnap(r.snap)})}
   else applySnap(LM.snap(myId,Date.now()));
   // solo mode: the host's screen simulates its bots (team-mode bots live in the referee)
-  if(!teamMode&&iHost&&M0.bots.length){const bs={},timers=[];M0.bots.forEach(b=>{const prev=(h.p.bs&&h.p.bs[b.bid])||[];bs[b.bid]=[0,0,0,+prev[3]||0];const sk=BOTLV[b.p.lvl][1];
-      const step=()=>{if(K.done)return;bs[b.bid][0]+=Math.round(rand(55,95)*Math.min(sk,1.15));bs[b.bid][1]++;S.room.presence({bs:JSON.parse(JSON.stringify(bs)),bgen:gen});timers.push(setTimeout(step,rand(24000,34000)/sk))};
-      timers.push(setTimeout(step,rand(22000,30000)/sk))});
-    S.room.presence({bs,bgen:gen});K.botEnd=()=>{Object.keys(bs).forEach(k=>{bs[k][2]=1;bs[k][3]+=bs[k][0]});S.room.presence({bs:JSON.parse(JSON.stringify(bs)),bgen:gen})};
-    onLeave(()=>timers.forEach(clearTimeout))}
+  const liveBots=M0.bots.filter(b=>!tour||tour.alive.includes(b.key));
+  if(!teamMode&&iHost&&liveBots.length)simBots(K,h,liveBots,gen);
   let tickAcc=0,lockAcc=0;
   stageLoop(dt=>{if(K.done)return;const now=performance.now(),left=Math.max(0,(K.end-now)/1000);
+    if(now-bagAt>800){bagAt=now;saveBag()}
     const c=$('#clock');c.textContent=`${Math.floor(left/60)}:${String(Math.floor(left%60)).padStart(2,'0')}`;c.classList.toggle('low',left<20);
     K.tickets.forEach(tk=>{const f=Math.max(0,1-(now-tk.born)/(tk.life*1000));const bar=document.querySelector(`[data-tk="${tk.k}"] .pat i`);if(bar){bar.style.width=f*100+'%';bar.style.background=f>.5?'#4CAF50':f>.25?'#FFC933':'#F26B5E'}});
     lockAcc+=dt;if(lockAcc>.5){lockAcc=0;renderStagePill();renderLockTimes()}
     if(!online){tickAcc+=dt;if(tickAcc>.25){tickAcc=0;const r=LM.tick(Date.now());r.events.forEach(onEvent);if(r.changed)applySnap(LM.snap(myId,Date.now()))}}
+    const sec=Math.ceil(left);if(sec<=10&&sec>0&&sec!==K.lastBeep){K.lastBeep=sec;SFX.play('beep')}
     if(left<=0)endGame()});
   renderHand();renderInbox();renderPlate();setView(0);renderLocks();
 
@@ -1771,21 +2003,26 @@ function match(){
   function renderStagePill(){const p=$('#stagepill');if(!p)return;const si=SI();const nx=K.nextAt!=null?` · ถัดไป ${mmss(K.nextAt-performance.now())}`:'';
     p.className='stagepill'+(si.rush?' rush':'');p.textContent=`ช่วง ${K.stage+1}/${E.STAGES.length} · ${si.th}${nx}`}
   function renderLockTimes(){document.querySelectorAll('#stgrid .stblock.locked .lock').forEach(l=>{const i=E.STAGES.findIndex(s=>s.tools.includes(l.parentElement.dataset.st));
-    const at=K.nextAt!=null&&i===K.stage+1?mmss(K.nextAt-performance.now()):`ช่วง ${i+1}`;l.textContent=`🔒 เปิดใน ${at}`})}
+    const at=K.nextAt!=null&&i===K.stage+1?mmss(K.nextAt-performance.now()):`ช่วง ${i+1}`;l.innerHTML=`🔒<span class="lkw"> เปิดใน</span> ${at}`})}
   function renderLocks(){document.querySelectorAll('#stgrid .stblock').forEach(b=>{const lk=!toolOpen(b.dataset.st);b.classList.toggle('locked',lk);if(!lk)b.querySelector('.lock').textContent=''});
     const now=performance.now();
-    drawer.querySelectorAll('.ding').forEach(b=>{const k=b.dataset.ing;const lk=!ingOpen(k),mt=!lk&&!mine(k),as=!lk&&mine(k)&&K.asked[k]>now;
-      b.classList.toggle('locked',lk);b.classList.toggle('mate',mt);b.classList.toggle('asked',!!as);
-      b.querySelector('.dl').innerHTML=lk?'🔒':mt?`${chef(chefOf(K.mate),'mini')}<i>เพื่อน</i>`:as?'<i>เพื่อนขอ!</i>':''});
+    drawer.querySelectorAll('.ding').forEach(b=>{const k=b.dataset.ing;const nobox=!teamMode&&!mine(k);const lk=!ingOpen(k)||nobox,mt=teamMode&&!lk&&!mine(k),as=!lk&&mine(k)&&K.asked[k]>now;
+      b.classList.toggle('locked',lk);b.classList.toggle('mate',mt);b.classList.toggle('asked',!!as);b.classList.toggle('nobox',nobox);
+      b.querySelector('.dl').innerHTML=nobox?'<i class="nb">ไม่มีในกล่อง</i>':lk?'🔒':mt?`${chef(chefOf(K.mate),'mini')}<i>เพื่อน</i>`:as?'<i>เพื่อนขอ!</i>':''});
     renderStagePill();renderLockTimes()}
-  function stageChanged(){const si=SI();renderLocks();const b=$('#stagebanner');if(!b)return;
+  function roundIntro(){const b=$('#stagebanner');if(!b)return;const n=tour?tour.alive.length:0;
+    const body=K.round==='mystery'&&K.box?`<p>กล่องปริศนา: ทำได้แค่ ${K.box.map(id=>MENU_BY_ID[id].th).join(' · ')}</p><p class="ni">${(K.pantry||[]).slice(0,10).map(k=>`<span title="${ING[k].th}">${icon(k+':raw')||art(k)}</span>`).join('')}</p>`
+      :K.round==='final'?`<p>กรรมการ: ${esc(K.judge?K.judge.name+' '+K.judge.th:'')}</p><p>ทำเซ็ต จานหลัก + เครื่องเคียง + ของหวาน ได้โบนัส +${E.SET_BONUS} · เครื่องครัวเปิดครบ</p>`
+      :`<p>${n} คน · เหลือ ${E.tourNext(n)} คนหลังรอบนี้</p>`;
+    b.innerHTML=`<div><small>${tour?`ทัวร์นาเมนต์ · รอบที่ ${tour.round}`:''}</small><b>${ROUND_TH[K.round]||'เริ่ม!'}</b>${body}</div>`;b.hidden=false;b.classList.remove('rush');clearTimeout(K.sbT);K.sbT=setTimeout(()=>{b.hidden=true},4200);b.onclick=()=>{b.hidden=true}}
+  function stageChanged(){const si=SI();renderLocks();SFX.play(si.rush?'rush':'stage');SFX.music(si.rush?'rush':'play');const b=$('#stagebanner');if(!b)return;
     const nt=E.STAGES[K.stage].tools;const newIngs=K.stage>0?si.ings.filter(k=>!E.STAGE_INFO[K.stage-1].ings.includes(k)):[];
     b.innerHTML=`<div><small>ช่วงที่ ${K.stage+1}</small><b>${si.th}</b>${nt.length?`<p>เปิดเครื่องครัวใหม่: ${nt.map(t=>`<span>${toolIcon(t)}${TOOLS.find(x=>x.id===t).th}</span>`).join('')}</p>`:''}
       ${newIngs.length?`<p class="ni">วัตถุดิบใหม่ ${newIngs.slice(0,8).map(k=>`<span title="${ING[k].th}">${ingArt(k)}</span>`).join('')}</p>`:''}${si.rush?'<p>ออร์เดอร์มาเร็วขึ้น เวลาสั้นลง แต่คะแนน ×1.5!</p>':''}</div>`;
     b.hidden=false;b.classList.toggle('rush',si.rush);clearTimeout(K.sbT);K.sbT=setTimeout(()=>{b.hidden=true},2600);b.onclick=()=>{b.hidden=true}}
   /* ---------- views ---------- */
   function setView(v){if(K.busy&&K.open)return;K.view=v;$('#track').classList.toggle('p',v===1);$('#tabK').setAttribute('aria-pressed',v===0);$('#tabP').setAttribute('aria-pressed',v===1);
-    if(K.open&&!K.busy)closeStation();KH=baseKH()}
+    if(K.open&&!K.busy)closeStation();KH=baseKH();camBack()}
   function baseKH(){return{down:c=>{
     if(K.open){if(c==='Escape')closeStation();if(c==='Space'&&COOK_TOOLS.includes(K.open)&&canUse(K.open,K.hand))cook(K.open,K.hand,()=>setHand(null));if(c==='Space'&&K.open==='sink')wash();return}
     if(c==='ArrowLeft')setView(0);if(c==='ArrowRight')setView(1);
@@ -1795,7 +2032,7 @@ function match(){
     if(c==='KeyS'&&K.view===1)openStation('season');
     if(c==='Enter'&&K.view===1)serve()}}}
   /* ---------- hand (one item) + amount ---------- */
-  function setHand(it){K.hand=it;renderHand();renderHow();markTargets(it)}
+  function setHand(it){if(it&&it!==K.hand)SFX.play('pop');K.hand=it;renderHand();renderHow();markTargets(it)}
   function stepAmt(d){const it=K.hand;if(!it||it.st!=='raw')return;const o=ING[it.ing].opts;const i=Math.max(0,Math.min(o.length-1,o.indexOf(it.amt)+d));it.amt=o[i];renderHand()}
   function renderHand(){const el=$('#hand'),it=K.hand;el.classList.toggle('full',!!it);$('#trash').disabled=!it;
     el.removeAttribute('data-drag');
@@ -1812,18 +2049,19 @@ function match(){
     $('#plateDrop').classList.toggle('can',!!it&&dragging)}
   /* ---------- team: pass & ask ---------- */
   function passItem(it,take){if(!teamMode||K.busy||K.done||!it)return;
-    J.pass({ing:it.ing,st:it.st,amt:it.amt,q:it.q}).then(r=>{if(S.k!==K)return;if(!r||!r.ok){toast(r&&r.msg||'ส่งไม่สำเร็จ');return}take&&take();toast(`ส่ง ${itemName(it)} ให้ ${nameOf(K.mate)} แล้ว`);
+    J.pass({ing:it.ing,st:it.st,amt:it.amt,q:it.q}).then(r=>{if(S.k!==K)return;if(!r||!r.ok){toast(r&&r.msg||'ส่งไม่สำเร็จ');return}take&&take();SFX.play('whoosh');toast(`ส่ง ${itemName(it)} ให้ ${nameOf(K.mate)} แล้ว`);
       const pb=$('#passbox');if(pb&&!REDUCED)pb.animate([{transform:'translateX(0)'},{transform:'translateX(10px)'},{transform:'translateX(0)'}],{duration:300})})}
   function askMate(k){J.ask(k).then(r=>{if(S.k!==K)return;toast(r&&r.ok?`ขอ ${ING[k].th} จาก ${nameOf(K.mate)} แล้ว`:(r&&r.msg)||'ขอไม่สำเร็จ')})}
   /* ---------- stations ---------- */
   function setBusy(v){K.busy=v;$('#play').classList.toggle('busy',v);$('#back').disabled=v}
   function openStation(id){if(K.busy||K.done)return;const t=TOOLS.find(x=>x.id===id);
+    if(innerWidth<=600)setTimeout(()=>{const v=$('#vport');if(v&&K.open===id)v.scrollIntoView({block:'start',behavior:'smooth'})},60);   // phones: bring the station + its controls on screen
     if(COOK_TOOLS.includes(id)&&!toolOpen(id)){toast(`${t.th} ยังไม่เปิด รออีกนิด`);return}
     if(id==='season'&&!K.plateOn){toast('วางของลงจานก่อน แล้วค่อยปรุงรส');return}
-    K.open=id;if(mobile())setDrawer(false);
+    K.open=id;if(mobile())setDrawer(false);if(is3d){W3D.shot('st:'+id,mobile()?0:2.4,mobile()?1.6:0);$('#vport').classList.add('stopen');$('#vport').classList.toggle('cook3d',COOK_TOOLS.includes(id))}
     const sv=$('#sview');sv.hidden=false;$('#rib').style.setProperty('--c',t.c);$('#stTitle').textContent=t.th;
     const sc=freshScene();sc.dataset.drop=COOK_TOOLS.includes(id)?'st:'+id:'';
-    if(id==='season'){const tk=selTicket();const tgt=tk?targetOf(tk.m):{sw:0,sa:0,so:0,sp:0,um:0};
+    if(id==='season'){const tk=selTicket();const tgt=tk?tgtOf(tk):{sw:0,sa:0,so:0,sp:0,um:0};
       $('#stHow').textContent=tk?`ปรุงให้รสใกล้ ${tk.m.th}`:'ปรุงรส';setBusy(true);
       mgSeason(K.plate,K.season,tgt,()=>renderTaste()).then(()=>{if(S.k!==K)return;setBusy(false);KH=baseKH();renderPlate();closeStation()});return}
     if(id==='sink'){$('#stHow').textContent='ล้างจานสกปรกให้มีจานสะอาดไว้ใช้';
@@ -1840,35 +2078,39 @@ function match(){
     $('#ctrl').innerHTML=it?`<div class="row"><button class="btn big ${ok?'green':''}" id="useHand" ${ok?'':'disabled'}>${ok?`${t.verb} ${itemName(it)} <kbd>Space</kbd>`:`${itemName(it)} ใช้กับ${t.th}ไม่ได้`}</button></div>`
       :`<p class="muted" style="text-align:center">ลากวัตถุดิบจากลิ้นชักมาวางที่นี่ได้เลย</p>`;
     const u=$('#useHand');if(u)u.onclick=()=>cook(id,K.hand,()=>setHand(null));KH=baseKH()}
-  function closeStation(){if(K.busy)return toast('ทำให้เสร็จก่อนค่อยออก');K.open=null;$('#sview').hidden=true;$('#ctrl').innerHTML='';KH=baseKH()}
+  function closeStation(){if(K.busy)return toast('ทำให้เสร็จก่อนค่อยออก');const was=K.open;K.open=null;$('#sview').hidden=true;$('#vport').classList.remove('stopen','cook3d');FX3.end();$('#ctrl').innerHTML='';KH=baseKH();if(was)camBack()}
   // take() removes the item from where it came from (hand / inbox); items straight from your pantry need nothing
   function cook(id,it,take){if(K.busy||K.done||!it)return;const t=TOOLS.find(x=>x.id===id);const next=TR[id]&&TR[id][keyOf(it)];
     if(!toolOpen(id)){toast(`${t.th} ยังไม่เปิด`);return}
     if(!next){toast(`${itemName(it)} ใช้กับ${t.th}ไม่ได้`);return}
     if(!take&&K.hand){toast('ในมือมีของอยู่แล้ว ถือได้ทีละ 1 อย่าง');return}
     if(K.open!==id)openStation(id);
-    take&&take();setBusy(true);
+    take&&take();setBusy(true);FX3.start(id,it);J.cookStart(id);
     const game=id==='mortar'&&next==='somtam'?mgSomtam:MG[id];
     if(next==='somtam')$('#stTitle').textContent='ครก · ตำส้มตำ';
-    game(it).then(q=>{if(S.screen!=='match'||S.k!==K)return;setBusy(false);
+    game(it).then(q=>{if(S.screen!=='match'||S.k!==K)return;setBusy(false);setTimeout(()=>FX3.end(),450);
       const out={id:K.uid++,ing:it.ing,st:next,amt:it.amt,q:Math.round(it.st==='raw'?q:(it.q+q)/2),fromMate:it.fromMate};setHand(out);
-      toast(`ได้ ${itemName(out)} แล้ว ถืออยู่ในมือ`);setTimeout(()=>{if(S.k===K&&!K.busy&&K.open===id)closeStation()},500)})}
+      toast(`ได้ ${itemName(out)} แล้ว ถืออยู่ในมือ`);setTimeout(()=>{if(S.k===K&&!K.busy&&K.open===id)closeStation()},500);
+      // the referee times the cooking and records the result (it keeps its own copy of the quality)
+      J.cook({tool:id,ing:it.ing,st:it.st,to:next,amt:it.amt,q}).then(r=>{if(S.k!==K)return;if(r&&r.ok){out.q=r.q;if(K.hand===out)renderHand()}
+        else{toast((r&&r.msg)||'กรรมการไม่รับของชิ้นนี้');if(K.hand===out)setHand(null)}})})}
   function wash(){if(K.busy||K.done)return;if(K.dirty<=0){toast('ยังไม่มีจานสกปรก');return}setBusy(true);
     mgWash().then(()=>{if(S.screen!=='match'||S.k!==K)return;setBusy(false);K.dirty--;K.clean++;
-      J.wash().then(r=>{if(r&&typeof r.score==='number')K.score=r.score;report()});toast('ล้างจานเสร็จ +3');renderPlate();openStation('sink')})}
+      J.wash().then(r=>{if(r&&typeof r.score==='number')K.score=r.score;report()});SFX.play('wash');toast('ล้างจานเสร็จ +3');renderPlate();openStation('sink')})}
   /* ---------- plate + taste ---------- */
   function renderTaste(){const tk=selTicket();const box=$('#tpanel');if(!tk){box.innerHTML='';return}
-    const tgt=targetOf(tk.m),a=tasteOf(K.plate,K.season),acc=tasteAccuracy(a,tgt);
-    box.innerHTML=`<div class="tph"><b>รสชาติ</b><span class="state ${acc>=85?'g':acc>=65?'y':'r'}">ตรง ${K.plate.length?acc:0}%</span></div>${tasteBars(a,tgt,true)}<p class="tpn">ธงดำ = ${esc(tk.m.th)} ที่ลูกค้าต้องการ</p>`}
+    const tgt=tgtOf(tk),a=tasteOf(K.plate,K.season),acc=tasteAccuracy(a,tgt);const wish=[tk.req&&`ลูกค้าขอ "${tk.req.th}"`,K.judge&&`${K.judge.name} ${K.judge.th}`].filter(Boolean).join(' · ');
+    box.innerHTML=`<div class="tph"><b>รสชาติ</b><span class="state ${acc>=85?'g':acc>=65?'y':'r'}">ตรง ${K.plate.length?acc:0}%</span></div>${tasteBars(a,tgt,true)}<p class="tpn">ธงดำ = ${esc(tk.m.th)} ที่ลูกค้าต้องการ${wish?`<br><b class="wish">${esc(wish)}</b>`:''}</p>`}
   function renderPlate(){const pd=$('#plateDrop');if(!pd)return;pd.classList.toggle('empty',!K.plateOn);
     pd.innerHTML=K.plateOn?plateArt(K.plate)+(Object.keys(K.season).length?`<span class="seasoned">ปรุงแล้ว: ${Object.entries(K.season).map(([k,v])=>`${SEASON[k].th} ${v}`).join(' · ')}</span>`:''):`${art('plate')}<span class="ph">${K.clean>0?'ลากของมาวางเพื่อเริ่มจัดจาน':'ไม่มีจานสะอาด ไปล้างจานก่อน'}</span>`;
     $('#pcount').textContent=`จานสะอาด ${K.clean} · รอล้าง ${K.dirty}`;$('#sinkInfo').textContent=K.dirty?`รอล้าง ${K.dirty} ใบ`:'ไม่มีจานสกปรก';
     $('#seasInfo').textContent=K.plateOn?'กด S หรือแตะเพื่อปรุง':'วางของลงจานก่อน';
-    $('#plateBadge').textContent=K.plate.length||'';$('#serve').disabled=!K.plate.length||K.pending;renderTaste()}
+    $('#plateBadge').textContent=K.plate.length||'';$('#serve').disabled=!K.plate.length||K.pending;renderTaste();
+    if(is3d)W3D.S.setPlate(K.plateOn?K.plate:[])}
   function toPlate(it,take){if(K.busy||K.done||!it)return false;
     if(!K.plateOn){if(K.clean<=0){toast('ไม่มีจานสะอาด ไปล้างจานที่อ่างก่อน');return false}K.clean--;K.plateOn=true}
     if(K.plate.length>=MAX_PLATE){toast('จานเต็มแล้ว');return false}
-    take&&take();K.plate.push({...it,id:K.uid++});renderPlate();renderHow();return true}
+    take&&take();K.plate.push({...it,id:K.uid++});SFX.play('place');renderPlate();renderHow();return true}
   /* ---------- drag & drop ---------- */
   let drag=null,dragging=false,dragJustEnded=false,hoverT=null,hoverEl=null;
   const rawItem=k=>({id:0,ing:k,st:'raw',q:100,amt:ING[k].d});
@@ -1900,6 +2142,7 @@ function match(){
     else if(tgt==='hand'&&d.src!=='hand'){if(K.hand){toast('มือไม่ว่าง');return}d.take&&d.take();setHand({...d.it,id:K.uid++})}
     else if(tgt==='trash'&&d.src!=='drawer'){toast(`ทิ้ง ${itemName(d.it)} แล้ว`);d.take()}}
   function tapDrawer(b){if(K.done)return;const k=b.dataset.ing;
+    if(b.classList.contains('nobox')){toast(`${ING[k].th} ไม่มีในกล่องปริศนารอบนี้`);return}
     if(b.classList.contains('locked')){toast(`${ING[k].th} ยังไม่เปิด จะมาในช่วงถัดไป`);return}
     if(b.classList.contains('mate')){askMate(k);return}
     if(b.classList.contains('asked')){delete K.asked[k];renderLocks();passItem(rawItem(k),null);return}
@@ -1909,20 +2152,21 @@ function match(){
   document.addEventListener('pointerdown',onDown);document.addEventListener('pointermove',onMove,{passive:false});document.addEventListener('pointerup',onUp);document.addEventListener('pointercancel',onUp);
   onLeave(()=>{document.removeEventListener('pointerdown',onDown);document.removeEventListener('pointermove',onMove);document.removeEventListener('pointerup',onUp);document.removeEventListener('pointercancel',onUp);document.body.classList.remove('dragging');document.querySelectorAll('.ghost').forEach(g=>g.remove())});
   /* ---------- orders ---------- */
-  function renderTickets(){$('#tickets').innerHTML=K.tickets.map(tk=>`<button class="ticket ${tk.k===K.selK?'sel':''} ${tk.m.cuisine==='th'?'thai':''} ${tk.rush?'rush':''}" data-tk="${tk.k}"><span class="tier">${'★'.repeat(tk.m.tier)}</span>${menuArt(tk.m)}<span class="tn">${tk.m.th}</span><span class="pat"><i></i></span></button>`).join('');
+  function renderTickets(){$('#tickets').innerHTML=K.tickets.map(tk=>`<button class="ticket ${tk.k===K.selK?'sel':''} ${tk.m.cuisine==='th'?'thai':''} ${tk.rush?'rush':''}" data-tk="${tk.k}"><span class="tier">${'★'.repeat(tk.m.tier)}</span>${tk.req?`<span class="req">${esc(tk.req.th)}</span>`:''}${K.sets?`<span class="crs ${E.courseOf(tk.m.id)}">${E.COURSE_TH[E.courseOf(tk.m.id)]}</span>`:''}${menuArt(tk.m)}<span class="tn">${tk.m.th}</span><span class="pat"><i></i></span></button>`).join('')+
+      (K.sets?`<div class="setbox"><b>เซ็ตอาหาร</b>${['main','side','dessert'].map(c=>`<span class="${(K.sets.have[c]||0)>0?'got':''}">${E.COURSE_TH[c]}</span>`).join('')}<small>ครบ 3 อย่าง +${E.SET_BONUS} · ทำได้ ${K.sets.n} เซ็ต</small></div>`:'');
     document.querySelectorAll('.ticket').forEach(b=>b.onclick=()=>{K.selK=+b.dataset.tk;renderTickets();renderTaste()});renderHow()}
   function renderHow(){const tk=selTicket();if(!tk){$('#howto').innerHTML='';return}const plateKeys=K.plate.map(keyOf),handKey=K.hand?keyOf(K.hand):'';const used=[];const hint=seasonHint(tk.m);
     $('#howto').innerHTML=`<h3>วิธีทำ ${tk.m.th} <small class="muted">· จัดจานตามลำดับซ้าย→ขวา</small></h3><div class="steps">${tk.m.c.map(([ing,st,amt])=>{const key=ing+':'+st;const onP=plateKeys.indexOf(key);let cls='';
       if(onP>-1&&!used.includes('p'+onP)){used.push('p'+onP);cls='ok'}else if(handKey===key)cls='ready';
       const whose=teamMode&&!mine(ing)?`<em class="whose">${chef(chefOf(K.mate),'mini')}เพื่อนมี</em>`:'';
       const path=pathTo(ing,st)||[];return`<div class="step ${cls}">${whose}${itemArt({ing,st:'raw',q:100})}${path.map(t=>`<span class="arr">→</span>${toolIcon(t)}`).join('')}${path.length?`<span class="arr">→</span>${itemArt({ing,st,q:100})}`:''}<span>${itemName({ing,st})}<small>${amtText(ing,amt)}</small></span></div>`}).join('')}
-      ${hint.length?`<div class="step seas">${art(BOTTLE_ART[hint[0]])}<span>ปรุงรส<small>${hint.map(k=>SEASON[k].th).join(' · ')}</small></span></div>`:''}</div>`}
+      ${hint.length?`<div class="step seas">${bottleArt(hint[0])}<span>ปรุงรส<small>${hint.map(k=>SEASON[k].th).join(' · ')}</small></span></div>`:''}</div>`}
   /* ---------- serve: the referee scores it ---------- */
   function serve(){if(K.done||K.busy||K.pending)return;if(!K.plate.length){toast('จานยังว่างอยู่');return}
     K.pending=true;$('#serve').disabled=true;const tk=selTicket();
     J.serve({plate:K.plate.map(({ing,st,amt,q})=>({ing,st,amt,q})),season:K.season,sel:tk?tk.k:-1}).then(r=>{K.pending=false;if(S.k!==K)return;
-      if(!r||!r.ok){toast(r&&r.msg||'ส่งไม่สำเร็จ');renderPlate();if(!REDUCED)$('#plateDrop').animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:300});return}
-      K.plate=[];K.season={};K.plateOn=false;K.dirty++;applySnap(r.snap);showJudge(r);vpop(`+${r.pts}`);toast(`ส่ง ${r.th} สำเร็จ! จานสกปรกไปรอที่อ่าง`)})}
+      if(!r||!r.ok){SFX.play('fail');toast(r&&r.msg||'ส่งไม่สำเร็จ');renderPlate();if(!REDUCED)$('#plateDrop').animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:300});return}
+      SFX.play('serve');setTimeout(()=>SFX.play('coin'),450);K.plate=[];K.season={};K.plateOn=false;K.dirty++;applySnap(r.snap);showJudge(r);vpop(`+${r.pts}`);toast(`ส่ง ${r.th} สำเร็จ! จานสกปรกไปรอที่อ่าง`)})}
   function showJudge(r){const b=r.br,el=$('#judge');const row=(l,v,m,sub)=>`<div class="jr"><span>${l}${sub?`<small>${sub}</small>`:''}</span><span class="jm"><i style="width:${v/m*100}%"></i></span><b>${v}<small>/${m}</small></b></div>`;
     el.innerHTML=`<div class="jcard"><div class="jh"><b>${esc(r.th)}</b><span>${'★'.repeat(r.tier)}</span></div>
       <div class="jtotal">${b.total}<small>/100</small></div>
@@ -1932,10 +2176,11 @@ function match(){
       ${row('เวลา (Time)',b.time,15,'ส่งเร็วได้มาก')}
       ${tasteBars(b.actual,b.target,true)}
       ${b.missing.length?`<p class="jmiss">ขาด/ทำไม่ตรง: ${b.missing.map(esc).join(', ')}</p>`:''}${b.extra.length?`<p class="jmiss">ของเกิน: ${b.extra.map(esc).join(', ')}</p>`:''}
-      <div class="jpts">${b.total} × ${r.x} (ดาว ${r.tier}${r.rush?' · Rush ×1.5':''}) = <b>+${r.pts}</b> คะแนน${teamMode?' ให้ทีม':''}</div><p class="tpn">แตะเพื่อปิด</p></div>`;
+      ${r.req?`<p class="wish">คำขอของลูกค้า: "${esc(r.req.th)}"</p>`:''}
+      <div class="jpts">${b.total} × ${r.x} (ดาว ${r.tier}${r.rush?' · Rush ×1.5':''})${r.bonus?` + เซ็ตครบ ${r.bonus}`:''} = <b>+${r.pts}</b> คะแนน${teamMode?' ให้ทีม':''}</div><p class="tpn">แตะเพื่อปิด</p></div>`;
     el.hidden=false;clearTimeout(K.jt);K.jt=setTimeout(()=>{el.hidden=true},6000)}
   function vpop(text){const pd=$('#plateDrop');if(!pd)return;const e=document.createElement('div');e.className='spop g';e.textContent=text;e.style.left='50%';e.style.top='40%';pd.appendChild(e);setTimeout(()=>e.remove(),850)}
-  function endGame(){if(K.done)return;K.done=true;KH=null;S.tot=(S.tot||0)+K.score;report();if(K.botEnd)K.botEnd();
+  function endGame(){if(K.done)return;K.done=true;KH=null;FX3.end();SFX.music(null);SFX.play('timeup');S.tot=(S.tot||0)+K.score;SAVED.touch({tot:S.tot});report();if(K.botEnd)K.botEnd();
     if(LM){const r=LM.tick(Date.now()+3000);applySnap(LM.snap(myId,Date.now()))}
     const b=document.createElement('div');b.className='count';b.innerHTML='<b style="font-size:clamp(3rem,10vw,6rem)">หมดเวลา!</b>';document.body.appendChild(b);setTimeout(()=>{b.remove();go(results)},1600)}
 }
@@ -1944,12 +2189,14 @@ function renderTeams(box,K,peers,big){const M=members(peers);const nm=id=>{const
   box.innerHTML=K.teams.map(t=>`<div class="pl team ${t.t===K.team?'me':''}" style="--tc:${T[t.t][1]}">${t.members.map(ch).join('')}<span class="nm">${T[t.t][0]}<small>${t.members.map(id=>esc(nm(id))).join(' + ')}</small></span><b>${t.score}</b></div>`).join('<span class="vs">VS</span>')}
 function renderScores(peers){const box=$('#plist');if(!box||!S.k)return;const gen=S.k.gen;const M=members(peers);
   if(S.k.mode==='team'){renderTeams(box,S.k,peers);return}
-  const list=M.all.map(m=>({m,...statOf(m,M.host,gen)})).sort((a,b)=>b.score-a.score);
+  const list=M.alive.map(m=>({m,...statOf(m,M.host,gen)})).sort((a,b)=>b.score-a.score);
   box.innerHTML=list.map((x,i)=>`<div class="pl ${x.m.isMe?'me':''}"><b>${i+1}</b>${chef(x.m.p.chef)}<span class="nm"></span><b>${x.score}</b></div>`).join('');
   [...box.querySelectorAll('.nm')].forEach((e,i)=>{const x=list[i];e.textContent=(clean(x.m.p.nick,16)||'เชฟ')+(x.m.isMe?' (คุณ)':x.m.isBot?' 🤖':'');const s=document.createElement('small');s.textContent=`ส่งแล้ว ${x.served} จาน`;e.appendChild(s)})}
 function results(){
+  SFX.play('fanfare');setTimeout(()=>{if(S.screen==='results')SFX.music('lobby')},2500);
   S.screen='results';document.body.classList.add('in-game');const K=S.k,gen=K.gen;NET.setLobby({playing:null});
   if(K.mode==='team')return resultsTeam();
+  if(members(S.peers||[]).tour)return resultsTour();
   app.innerHTML=`<div class="res-grid">
     <section class="card"><h2 style="text-align:center">ผลการแข่ง ${Math.round(K.dur/60)} นาที</h2><div class="podium" id="podium"></div><div id="ranks"></div><p class="note" id="waitnote"></p></section>
     <section class="card"><h3>ของคุณรอบนี้</h3><p style="font-size:1.1rem;margin:10px 0">คะแนน <b style="font-size:2rem">${K.score}</b> · ส่งอาหาร <b>${K.served}</b> จาน · สะสม <b>${S.tot}</b></p>
@@ -1968,6 +2215,37 @@ function results(){
     if(!iHost)hb.innerHTML='<p class="muted">รอหัวห้องเริ่มรอบต่อไป</p>';
     followHost(peers);
   }));
+}
+/* tournament results: rank the cooks still in, the host publishes who goes through, the last one standing wins */
+function resultsTour(){const K=S.k,gen=K.gen;const t0=performance.now();
+  app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center" id="thead"></h2><div id="champ"></div><div id="ranks"></div><p class="note" id="waitnote"></p></section>
+    <section class="card"><h3>เส้นทางทัวร์นาเมนต์</h3><div id="path" class="tpath"></div><div class="wait-actions" id="hostbtns" style="justify-content:flex-start;margin-top:14px"></div></section></div>`;
+  let published=false;
+  const draw=peers=>{const M=members(peers),tour=M.tour;if(!tour)return;const n=tour.alive.length,keepN=E.tourNext(n),kind=E.tourKind(+tour.round,n);
+    $('#thead').textContent=`ทัวร์นาเมนต์ · รอบที่ ${tour.round} · ${ROUND_TH[kind]}`;
+    const list=M.alive.map(m=>({m,...statOf(m,M.host,gen)})).sort((a,b)=>(b.score-a.score)||(b.served-a.served)||(a.m.key<b.m.key?-1:1));
+    const res=tour.res&&tour.res.round===tour.round?tour.res:null;const keep=res?res.keep:null;
+    $('#ranks').innerHTML=list.map((x,i)=>{const st=keep?(keep.includes(x.m.key)?(keep.length===1?'🏆 แชมป์':'ผ่าน'):'ตกรอบ'):'';
+      return`<div class="rank-row ${x.m.isMe?'me':''} ${keep?(keep.includes(x.m.key)?'keep':'cut'):''}"><b>${i+1}</b>${chef(x.m.p.chef)}<span class="nm">${esc(clean(x.m.p.nick,16)||'เชฟ')}${x.m.isMe?' (คุณ)':x.m.isBot?' 🤖':''}</span><b>${x.score}</b><span class="tag">${st}</span></div>`}).join('');
+    // the path so far: who was knocked out in which round
+    const outs=(tour.out||[]).concat(keep?list.filter(x=>!keep.includes(x.m.key)).map(x=>({k:x.m.key,r:tour.round})):[]);
+    const nm=k=>{const m=M.all.find(x=>x.key===k);return m?esc(clean(m.p.nick,14)||'เชฟ')+(m.isBot?' 🤖':''):'—'};
+    let rounds=[];for(let i=1;i<=tour.round;i++)rounds.push(`<div class="tp"><b>รอบ ${i}</b><span>${outs.filter(o=>o.r===i).map(o=>nm(o.k)).join(', ')||'—'}</span></div>`);
+    $('#path').innerHTML=`<p class="muted">ตกรอบ:</p>${rounds.join('')}`;
+    if(keep&&keep.length===1){const w=M.all.find(m=>m.key===keep[0]);$('#champ').innerHTML=w?`<div class="champ">${chef(w.p.chef,'av')}<b>🏆 ${esc(clean(w.p.nick,16)||'เชฟ')}</b><span>แชมป์ We're CooK?</span></div>`:''}
+    const allDone=list.every(x=>x.done)||performance.now()-t0>12000;
+    $('#waitnote').textContent=keep?(keep.length===1?'จบทัวร์นาเมนต์!':`ผ่านเข้ารอบต่อไป ${keep.length} คน`):allDone?'กำลังสรุปผล…':`รออีก ${list.filter(x=>!x.done).length} คนหมดเวลา…`;
+    const iHost=M.host&&M.host.isMe;const hb=$('#hostbtns');
+    // the host decides who goes through once everyone has finished (scores come from the server)
+    if(iHost&&!res&&allDone&&!published){published=true;const kept=list.slice(0,keepN).map(x=>x.m.key);S.room.presence({tour:{...tour,res:{round:tour.round,keep:kept}}})}
+    if(iHost&&res&&hb.dataset.on!==String(tour.round)){hb.dataset.on=tour.round;
+      hb.innerHTML=keep.length>1?`<button class="btn red big" id="nextR">เริ่มรอบที่ ${+tour.round+1}</button><button class="btn soft" id="toWait">ยกเลิกทัวร์นาเมนต์</button>`:`<button class="btn red big" id="toWait">กลับห้องรอ</button>`;
+      const nx=$('#nextR');if(nx)nx.onclick=()=>S.room.presence({phase:'play',gen:Date.now(),dur:S.dur||K.dur,tour:{round:+tour.round+1,alive:keep,out:outs,res:null}});
+      $('#toWait').onclick=()=>S.room.presence({phase:'wait',tour:null})}
+    if(!iHost)hb.innerHTML='<p class="muted">รอหัวห้องเริ่มรอบต่อไป</p>';
+    if(keep&&keep.length===1&&!K.champSfx){K.champSfx=1;SFX.play('fanfare')}};
+  onLeave(S.room.onPeers(peers=>{S.peers=peers;draw(peers);followHost(peers)}));
+  const iv=setInterval(()=>draw(S.peers||[]),1000);onLeave(()=>clearInterval(iv));
 }
 function resultsTeam(){const K=S.k,gen=K.gen;const T=[['ทีมแดง','#FF5A4E'],['ทีมฟ้า','#3E8EDE'],['ทีมเขียว','#3DAA48']];
   app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center">ผลแข่งทีม ${(S.lastSnap&&S.lastSnap.teams||K.teams||[]).length>2?'2v2v2':'2v2'} · ${Math.round(K.dur/60)} นาที</h2><div class="teamres" id="teamres"></div><p class="note" id="waitnote"></p></section>
@@ -1992,7 +2270,20 @@ Object.assign(VB,{fryer:'0 0 220 170',basket:'0 0 160 120',oven:'0 0 200 170',si
 Object.assign(VB,{board:'0 0 200 130',cleaver:'0 0 160 100',mortar:'0 0 160 130',mortarlip:'0 0 160 130',pestle:'0 0 40 150',wok:'0 0 220 110',woklip:'0 0 220 110',pot:'0 0 200 160',potlip:'0 0 200 160',bowl:'0 0 200 120',bowllip:'0 0 200 120',flame:'0 0 60 90','b-fish':'0 0 80 140','b-sugar':'0 0 80 140','b-lime':'0 0 80 140','b-chili':'0 0 80 140'});
 /* ================= boot ================= */
 go(lobby);
-NET.init().then(()=>{if(S.screen==='lobby'){NET.setLobby({nick:S.name,chef:S.chef,hosting:null});go(lobby)}});
+try{localStorage.removeItem('wc_2d')}catch(e){}   // old versions kept 2D forever
+W3D.init().finally(()=>{W3D.loading=false;W3D._done&&W3D._done()});
+{const b=$('#snd');let pan=null;const icon=()=>{const v=SFX.vol;b.textContent=(v.master<=0?'🔇':'🔊')+' เสียง'};icon();
+  b.onclick=e=>{e.stopPropagation();if(pan){pan.remove();pan=null;b.setAttribute('aria-expanded','false');return}
+    pan=document.createElement('div');pan.className='sndpanel';const v=SFX.vol;
+    pan.innerHTML=[['master','ทั้งหมด'],['music','เพลง'],['sfx','เสียงทำอาหาร']].map(([k,l])=>`<label><span>${l}</span><input type="range" min="0" max="100" value="${Math.round(v[k]*100)}" data-k="${k}"></label>`).join('');
+    pan.querySelectorAll('input').forEach(i=>i.oninput=()=>{SFX.setVol(i.dataset.k,i.value/100);icon()});
+    pan.onclick=e=>e.stopPropagation();document.body.appendChild(pan);b.setAttribute('aria-expanded','true')};
+  document.addEventListener('click',()=>{if(pan){pan.remove();pan=null;b.setAttribute('aria-expanded','false')}})}
+document.addEventListener('pointerdown',e=>{if(e.target.closest('.btn,.ding,.ticket,.chefpick,.palette button,.durpick button'))SFX.play('click')});
+{const b=$('#gq');b.onclick=()=>{const v=!(W3D.k&&W3D.k.low);store('wc_low',v);W3D.setLow(v);toast(v?'ภาพเบา: ลื่นขึ้น แต่ละเอียดน้อยลง':'ภาพสวย: เต็มความละเอียด')}}
+{const b=$('#v3d');b.textContent=W3D.off()?'ภาพ 2D':'ภาพ 3D';b.onclick=()=>{try{sessionStorage.setItem('wc_2d',W3D.off()?'0':'1')}catch(e){}store('wc_2d',null);if(/[?&]2d\b/.test(location.search))location.search='';else location.reload()}}
+NET.init().then(()=>{const sv=SAVED.get();if(sv&&Array.isArray(sv.digits)&&sv.digits.length===4){enterRoom(sv.digits,sv.creator,sv);return}
+  if(S.screen==='lobby'){NET.setLobby({nick:S.name,chef:S.chef,hosting:null});go(lobby)}});
 </script>
 </body>
 </html>

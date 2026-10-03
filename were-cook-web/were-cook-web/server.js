@@ -51,12 +51,37 @@ function hostId(code) {
     ((b.creator ? 1 : 0) - (a.creator ? 1 : 0)) || ((a.seq || 0) - (b.seq || 0)) || (ia < ib ? -1 : 1));
   return list.length ? list[0][0] : null;
 }
-function leave(socket, code) {
-  const m = rooms.get(code);
-  if (!m || !m.delete(socket.id)) return;
-  socket.leave(code);
-  if (!m.size) { rooms.delete(code); seqs.delete(code); stopGame(code); }
+// "ghosts": players who dropped (e.g. pressed F5). For GRACE ms they keep their seat, host role and
+// place in a running game; joining again with the same player id (pid) takes it all back.
+const GRACE = 45000;
+const ghosts = new Map();             // code -> Map(pid -> { p: presence, id: old socket id, t })
+const validPid = v => typeof v === 'string' && /^[a-z0-9]{6,32}$/i.test(v);
+function closeRoom(code) { rooms.delete(code); seqs.delete(code); ghosts.delete(code); tours.delete(code); stopGame(code); }
+function leave(socket, code, keep) {
+  const m = rooms.get(code); if (!m) return;
+  const p = m.get(socket.id); if (!p) return;
+  m.delete(socket.id); socket.leave(code);
+  if (keep && validPid(p.pid)) { let g = ghosts.get(code); if (!g) ghosts.set(code, (g = new Map())); g.set(p.pid, { p, id: socket.id, t: Date.now() }); }
+  if (!m.size && !(ghosts.get(code) && ghosts.get(code).size)) closeRoom(code);
   sendRoom(code);
+}
+setInterval(() => {
+  const now = Date.now();
+  for (const [code, g] of ghosts) {
+    for (const [pid, gh] of g) if (now - gh.t > GRACE) g.delete(pid);
+    if (!g.size) { ghosts.delete(code); const m = rooms.get(code); if (m && !m.size) closeRoom(code); }
+  }
+}, 5000);
+// give a returning player their old seat (and their place in the game, if one is running)
+function reclaim(code, pid, socket, m) {
+  if (!validPid(pid)) return null;
+  let old = null;
+  const g = ghosts.get(code); if (g && g.has(pid)) { old = g.get(pid); g.delete(pid); }
+  if (!old) for (const [id, p] of m) if (id !== socket.id && p.pid === pid) { old = { p, id }; m.delete(id); break; }   // same player, stale connection
+  if (!old) return null;
+  const gm = games.get(code);
+  if (gm) { const gp = gm.M.players.find(x => x.id === old.id); if (gp) gp.id = socket.id; }
+  return old.p;
 }
 
 /* ---------------- referee ---------------- */
@@ -64,11 +89,11 @@ function leave(socket, code) {
 function seatOrder(code) {
   const m = rooms.get(code); if (!m) return [];
   const hum = [...m].filter(([, p]) => p && p.joinedAt).sort(([ia, a], [ib, b]) =>
-    ((b.creator ? 1 : 0) - (a.creator ? 1 : 0)) || ((a.seq || 0) - (b.seq || 0)) || (ia < ib ? -1 : 1)).map(([id]) => ({ id }));
+    ((b.creator ? 1 : 0) - (a.creator ? 1 : 0)) || ((a.seq || 0) - (b.seq || 0)) || (ia < ib ? -1 : 1)).map(([id, p]) => ({ id, key: validPid(p.pid) ? p.pid : id }));
   const host = hum[0] && m.get(hum[0].id);
   const LV = { easy: .7, normal: 1, hard: 1.35 };
   const bots = (host && Array.isArray(host.bots) ? host.bots.slice(0, 5) : []).filter(b => b && typeof b.id === 'string')
-    .map(b => ({ id: 'bot:' + b.id, bot: LV[b.lvl] ? b.lvl : 'normal', sk: LV[b.lvl] || 1 }));
+    .map(b => ({ id: 'bot:' + b.id, key: 'bot:' + b.id, bot: LV[b.lvl] ? b.lvl : 'normal', sk: LV[b.lvl] || 1 }));
   return [...hum, ...bots];
 }
 function stopGame(code) { const gm = games.get(code); if (gm) { clearInterval(gm.timer); games.delete(code); } }
@@ -89,14 +114,37 @@ function dispatch(gm, events) {
     else if (e.type === 'stage') io.to(gm.code).emit('game:stage', { code: gm.code, i: e.i });
   }
 }
-function startGame(code, gen, dur, mode) {
+const tours = new Map();              // code -> { round, alive: [ids] }  (tournament progress, checked by the server)
+// the host proposes who is still in; the server only accepts the right number of players, all still alive
+function checkTour(code, tour, players) {
+  if (!tour || typeof tour !== 'object' || !Array.isArray(tour.alive)) return null;
+  // players are identified by a stable key (their player id), so a reload (new connection) keeps their place
+  const ids = players.map(p => p.key), round = +tour.round, alive = tour.alive.filter(id => typeof id === 'string');
+  const prev = tours.get(code);
+  if (round === 1 || !prev) { const all = ids.slice(); tours.set(code, { round: 1, alive: all }); return tours.get(code) }
+  if (round !== prev.round + 1) return prev.round === round ? prev : null;
+  const want = E.tourNext(prev.alive.length);
+  const ok = alive.length === want && alive.every(id => prev.alive.includes(id)) && new Set(alive).size === alive.length;
+  if (!ok) return null;
+  // people the server refereed last round: nobody kept may have scored less than a person who was cut
+  const sc = prev.scores || {}, kept = alive.filter(k => k in sc).map(k => sc[k]), cut = prev.alive.filter(k => k in sc && !alive.includes(k)).map(k => sc[k]);
+  if (kept.length && cut.length && Math.max(...cut) > Math.min(...kept)) return null;
+  tours.set(code, { round, alive }); return tours.get(code);
+}
+function startGame(code, gen, dur, mode, tour) {
   stopGame(code);
   if (!rooms.get(code)) return;
-  const players = seatOrder(code);
+  let players = seatOrder(code), round = 'normal';
+  if (mode === 'tour') {
+    const t = checkTour(code, tour, players.filter(p => !p.bot).concat(players.filter(p => p.bot)));
+    if (!t) return;                                              // refuse a bad tournament step
+    players = players.filter(p => t.alive.includes(p.key)); round = E.tourKind(t.round, t.alive.length);
+  } else tours.delete(code);
   const t0 = Date.now() + COUNTDOWN_MS;
-  // solo: only people play in the referee (solo bots are simulated by the host's screen as before)
-  const M = E.createMatch({ gen, dur, t0, mode: mode === 'team' && [4, 6].includes(players.length) ? 'team' : 'solo', players: mode === 'team' && [4, 6].includes(players.length) ? players : players.filter(p => !p.bot) });
-  const gm = { code, gen, M };
+  const team = mode === 'team' && [4, 6].includes(players.length);
+  // solo / tournament: only people play in the referee (solo bots are simulated by the host's screen)
+  const M = E.createMatch({ gen, dur, t0, mode: team ? 'team' : 'solo', players: team ? players : players.filter(p => !p.bot), round });
+  const gm = { code, gen, M, keys: Object.fromEntries(players.map(p => [p.id, p.key])), tour: mode === 'tour' };
   for (const p of humans(gm)) setServerFields(code, p.id, { done: false });
   pushAll(gm);
   // every half second: expired orders, stage changes, bots, and the end of the match
@@ -105,6 +153,7 @@ function startGame(code, gen, dur, mode) {
     dispatch(gm, r.events);
     if (r.events.some(e => e.type === 'end')) {
       for (const p of humans(gm)) { const snap = M.snap(p.id, now); const pr = rooms.get(code).get(p.id); setServerFields(code, p.id, { done: true, score: snap.score, served: snap.served, tot: ((pr && +pr.tot) || 0) + snap.score }); }
+      if (gm.tour && tours.get(code)) { const sc = {}; for (const p of humans(gm)) { const pr = rooms.get(code).get(p.id); sc[(pr && validPid(pr.pid)) ? pr.pid : (gm.keys[p.id] || p.id)] = M.snap(p.id, now).score; } tours.get(code).scores = sc; }
       clearInterval(gm.timer); pushAll(gm); return;
     }
     if (r.changed) pushAll(gm);
@@ -129,9 +178,11 @@ io.on('connection', socket => {
     if (m.size >= MAX_PLAYERS && !m.has(socket.id)) return socket.emit('room:full', code);
     socket.join(code);
     let base = m.get(socket.id);
+    if (!base) base = reclaim(code, p && p.pid, socket, m);
     if (!base) { const n = (seqs.get(code) || 0) + 1; seqs.set(code, n); base = { seq: n }; }
     m.set(socket.id, merge(base, strip(p)));
     sendRoom(code);
+    const gm = games.get(code); if (gm && gm.M.players.some(x => x.id === socket.id)) socket.emit('game:you', { code, snap: gm.M.snap(socket.id, Date.now()) });
   });
 
   socket.on('room:set', ({ code, patch } = {}) => {
@@ -144,7 +195,7 @@ io.on('connection', socket => {
       const gm = games.get(code);
       if (clean.phase === 'play' && typeof clean.gen === 'number' && (!gm || gm.gen !== clean.gen)) {
         const dur = [120, 180, 300].includes(+clean.dur) ? +clean.dur : 180;
-        startGame(code, clean.gen, dur, m.get(socket.id).mode === 'team' ? 'team' : 'solo');
+        const hp = m.get(socket.id); startGame(code, clean.gen, dur, ['team', 'tour'].includes(hp.mode) ? hp.mode : 'solo', hp.tour);
       } else if (clean.phase === 'wait') stopGame(code);
     }
     sendRoom(code);
@@ -178,7 +229,10 @@ io.on('connection', socket => {
     const r = gm.M.ask(socket.id, String(msg.ing), Date.now()); if (r.ok) dispatch(gm, r.events);
     reply(ack, { ok: r.ok, msg: r.msg });
   });
-  socket.on('game:clear', (code, ack) => { if (!allow()) return reply(ack, { ok: false }); const gm = myGame(code); reply(ack, gm ? gm.M.clear(socket.id) : { ok: false }); });
+  socket.on('game:clear', (msg, ack) => { if (!allow()) return reply(ack, { ok: false }); const code = msg && typeof msg === 'object' ? msg.code : msg; const gm = myGame(code); reply(ack, gm ? gm.M.clear(socket.id, msg && msg.plate) : { ok: false }); });
+  // cooking is reported in two steps (start / done); the server times it and keeps the cooked food in a ledger
+  socket.on('game:cookStart', (msg, ack) => { if (!allow()) return reply(ack, { ok: false }); if (bad(msg)) return reply(ack, { ok: false }); const gm = myGame(msg.code); reply(ack, gm ? gm.M.cookStart(socket.id, String(msg.tool), Date.now()) : { ok: false }); });
+  socket.on('game:cook', (msg, ack) => { if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' }); if (bad(msg)) return reply(ack, { ok: false, msg: 'ข้อมูลไม่ถูกต้อง' }); const gm = myGame(msg.code); reply(ack, gm ? gm.M.cook(socket.id, msg.c, Date.now()) : { ok: false, msg: 'ไม่ได้อยู่ในเกม' }); });
   socket.on('game:wash', (code, ack) => {
     if (!allow()) return reply(ack, { ok: false });
     const gm = myGame(code); if (!gm) return reply(ack, { ok: false });
@@ -190,7 +244,7 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
     lobby.delete(socket.id);
-    for (const code of [...rooms.keys()]) leave(socket, code);
+    for (const code of [...rooms.keys()]) leave(socket, code, true);
     sendLobby();
   });
 });
