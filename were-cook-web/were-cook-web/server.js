@@ -122,15 +122,19 @@ function checkTour(code, tour, players) {
   // players are identified by a stable key (their player id), so a reload (new connection) keeps their place
   const ids = players.map(p => p.key), round = +tour.round, alive = tour.alive.filter(id => typeof id === 'string');
   const prev = tours.get(code);
-  if (round === 1 || !prev) { const all = ids.slice(); tours.set(code, { round: 1, alive: all }); return tours.get(code) }
+  if (round === 1 || !prev) { if (!E.tourOk(ids.length)) return null;          // 4 or 6 cooks only (there is a 2v2 team round)
+    const order = alive.length === ids.length && alive.every(k => ids.includes(k)) ? alive : ids;   // the host's order = team pairing
+    tours.set(code, { round: 1, n0: ids.length, alive: order.slice() }); return tours.get(code) }
   if (round !== prev.round + 1) return prev.round === round ? prev : null;
-  const want = E.tourNext(prev.alive.length);
+  const want = E.tourKeep(prev.round, prev.n0);
   const ok = alive.length === want && alive.every(id => prev.alive.includes(id)) && new Set(alive).size === alive.length;
   if (!ok) return null;
+  // after the team round only the winning pair (worked out by the server) may go on
+  if (E.tourKind(prev.round, prev.n0) === 'team') { if (!prev.win || !alive.every(k => prev.win.includes(k))) return null; tours.set(code, { round, n0: prev.n0, alive }); return tours.get(code) }
   // people the server refereed last round: nobody kept may have scored less than a person who was cut
   const sc = prev.scores || {}, kept = alive.filter(k => k in sc).map(k => sc[k]), cut = prev.alive.filter(k => k in sc && !alive.includes(k)).map(k => sc[k]);
   if (kept.length && cut.length && Math.max(...cut) > Math.min(...kept)) return null;
-  tours.set(code, { round, alive }); return tours.get(code);
+  tours.set(code, { round, n0: prev.n0, alive }); return tours.get(code);
 }
 function startGame(code, gen, dur, mode, tour, diff, market, day) {
   stopGame(code);
@@ -139,10 +143,10 @@ function startGame(code, gen, dur, mode, tour, diff, market, day) {
   if (mode === 'tour') {
     const t = checkTour(code, tour, players.filter(p => !p.bot).concat(players.filter(p => p.bot)));
     if (!t) return;                                              // refuse a bad tournament step
-    players = players.filter(p => t.alive.includes(p.key)); round = E.tourKind(t.round, t.alive.length);
+    players = t.alive.map(k => players.find(p => p.key === k)).filter(Boolean); round = E.tourKind(t.round, t.n0);   // in the alive order: the team round pairs (1,2) and (3,4)
   } else tours.delete(code);
   const t0 = Date.now() + COUNTDOWN_MS;
-  const team = mode === 'team' && [4, 6].includes(players.length);
+  const team = (mode === 'team' || round === 'team') && [4, 6].includes(players.length);
   // solo / tournament: only people play in the referee (solo bots are simulated by the host's screen)
   const coop = mode === 'coop';
   const M = E.createMatch({ gen, dur, t0, mode: team ? 'team' : coop ? 'coop' : 'solo', players: team || coop ? players : players.filter(p => !p.bot), round, diff: ['easy', 'normal', 'chef'].includes(diff) ? diff : 'normal', market: !!market, day: mode === 'coop' && Number.isInteger(+day) && +day >= 1 && +day <= E.DAYS.length ? +day : 0 });
@@ -155,6 +159,7 @@ function startGame(code, gen, dur, mode, tour, diff, market, day) {
     dispatch(gm, r.events);
     if (r.events.some(e => e.type === 'end')) {
       for (const p of humans(gm)) { const snap = M.snap(p.id, now); const pr = rooms.get(code).get(p.id); setServerFields(code, p.id, { done: true, score: snap.score, served: snap.served, tot: ((pr && +pr.tot) || 0) + snap.score }); }
+      if (gm.tour && tours.get(code) && M.mode === 'team') { const best = M.teams().sort((a, b) => b.score - a.score)[0]; tours.get(code).win = best ? best.members.map(id => gm.keys[id] || id) : []; }
       if (gm.tour && tours.get(code)) { const sc = {}; for (const p of humans(gm)) { const pr = rooms.get(code).get(p.id); sc[(pr && validPid(pr.pid)) ? pr.pid : (gm.keys[p.id] || p.id)] = M.snap(p.id, now).score; } tours.get(code).scores = sc; }
       clearInterval(gm.timer); pushAll(gm); return;
     }

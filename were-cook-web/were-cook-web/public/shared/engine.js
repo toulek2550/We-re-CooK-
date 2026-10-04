@@ -291,10 +291,17 @@
   // minimum time a mini-game can really take (ms) - the server refuses faster "cooking"
   const MIN_COOK = { knife: 400, mortar: 500, pan: 900, fryer: 900, pot: 900, oven: 300, grill: 300, steamer: 300, somtam: 600 };
   /* tournament: how many stay after a round with n cooks, and what kind of round it is */
-  const tourNext = n => n >= 5 ? n - 2 : n >= 3 ? 2 : 1;
-  const tourKind = (round, n) => n <= 2 ? 'final' : round === 2 ? 'mystery' : 'normal';
+  // the tournament is for an even number of cooks (4 or 6) and always has a 2v2 team round (Thai Kitchen Battle):
+  //   6: qualifier (6→4) → mystery box (4, ranks only) → team 2v2 (winning pair goes on) → final 1v1 set meal
+  //   4: mystery box (ranks only) → team 2v2 → final
+  const TOUR_PLANS = { 4: [['mystery', 4], ['team', 2], ['final', 1]], 6: [['normal', 4], ['mystery', 4], ['team', 2], ['final', 1]] };
+  const tourOk = n => !!TOUR_PLANS[n];
+  const tourStep = (round, n0) => (TOUR_PLANS[n0] || TOUR_PLANS[4])[Math.max(0, Math.min((TOUR_PLANS[n0] || TOUR_PLANS[4]).length - 1, round - 1))];
+  const tourKind = (round, n0) => tourStep(round, n0)[0];
+  const tourKeep = (round, n0) => tourStep(round, n0)[1];
+  const tourNext = n => n >= 5 ? n - 2 : n >= 3 ? 2 : 1;          // (old rule, kept for anything that still asks)
   /* round kinds for the tournament */
-  const ROUNDS = { normal: { th: 'รอบคัดเลือก' }, mystery: { th: 'รอบวัตถุดิบปริศนา' }, final: { th: 'รอบชิงชนะเลิศ' } };
+  const ROUNDS = { normal: { th: 'รอบคัดเลือก' }, mystery: { th: 'รอบวัตถุดิบปริศนา' }, team: { th: 'รอบทีม 2v2' }, final: { th: 'รอบชิงชนะเลิศ' } };
   // mystery box: 4 menus picked by the round seed -> the pantry is only their ingredients (+ 3 decoys)
   function mysteryBox(seed) {
     const r = mulberry((Math.floor(seed) % 2147483647) ^ 0xbeef); const pool = MENUS.slice();
@@ -730,7 +737,7 @@
         const humans = M.players.filter(q => !q.bot);
         for (const p of M.players) {
           if (!p.bot || !humans.length) continue; if (!p.next) p.next = now + (3500 + rand() * 2500) / p.sk; if (now < p.next) continue;
-          p.next = now + (4500 + rand() * 3500) / p.sk;
+          p.next = now + (g.opt.owners ? 10000 + rand() * 6000 : 4500 + rand() * 3500) / p.sk;   // table co-op: bots help, but the people do most of the cooking
           const near = humans.slice().sort((a, b) => { const d = x => { const i = M.players.indexOf(p), j = M.players.indexOf(x); const k = (j - i + n) % n; return Math.min(k, n - k) }; return d(a) - d(b) })[0];
           const dir0 = toward(p, near), dir = dir0;
           const load = humans.reduce((a, h) => a + Object.values(h.recv).reduce((x, y) => x + Math.max(0, y), 0) + Object.values(h.ledger).reduce((x, l) => x + l.length, 0), 0);
@@ -753,7 +760,7 @@
             continue }
           // 3) nothing to send: the bot plates an order by itself now and then
           const myTk = g.opt.owners ? g.tickets.find(t => t.own === p.id) : (g.tickets.find(t => !t.gold) || g.tickets[0]);
-          if (rand() < .55 && myTk) { const tk = myTk; const m = MENU_BY_ID[tk.id];
+          if (rand() < (g.opt.owners ? .2 : .55) && myTk) { const tk = myTk; const m = MENU_BY_ID[tk.id];
             const pts = Math.round((50 + rand() * 35) * TIER_X[m.tier] * (tk.rush ? RUSH_X : 1) * Math.min(p.sk, 1.15)); g.botServe(pts, now, g.opt.owners ? p.id : null); p.pts += pts; p.served++; changed = true;
             events.push({ type: 'coopserve', by: p.id, th: m.th, pts, helpers: [p.id] }) }
         }
@@ -789,6 +796,6 @@
   return {
     TASTE, TK, ING, CATS, SEASON, SEASON_KEYS, COOK_TOOLS, TR, MENUS, MENU_BY_ID, LIFE, TIER_X, MAX_PLATE, SPECIAL,
     itemName, amtText, keyOf, mulberry, pathTo, buildSeq, tasteOf, targetOf, tasteAccuracy, seasonHint, judgeDish, cleanPlate, cleanSeason, createGame, createMatch, splitPantry, HEARTS, METER, fsComp, FS_MENUS, STAGES, STAGE_INFO, stageAt, RUSH_X,
-    REQS, JUDGES, targetFor, tourNext, tourKind, COURSE_TH, courseOf, SET_BONUS, MIN_COOK, ROUNDS, mysteryBox, idealSeason, CARDS, CO_CARDS, DAYS, WORLDS, COMBO_MS, GOLD_BONUS, EASY_MENUS, DIFFS, STAPLES, BELT,
+    REQS, JUDGES, targetFor, tourNext, tourKind, tourKeep, tourOk, TOUR_PLANS, COURSE_TH, courseOf, SET_BONUS, MIN_COOK, ROUNDS, mysteryBox, idealSeason, CARDS, CO_CARDS, DAYS, WORLDS, COMBO_MS, GOLD_BONUS, EASY_MENUS, DIFFS, STAPLES, BELT,
   };
 });

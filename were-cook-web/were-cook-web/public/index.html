@@ -2199,7 +2199,7 @@ function lobby(){
         <div class="chefs">${CHEFS.map((c,i)=>`<button class="chefpick" data-i="${i}" aria-pressed="${i===S.chef}" aria-label="เชฟแบบที่ ${i+1}">${chef(i)}</button>`).join('')}</div>
       </section>
       <section class="card actions">
-        <button class="btn big tutbtn ${store('wc_tut')?'':'first'}" id="tut">🎓 ฝึกทำจานแรก<small>${store('wc_tut')?'ทบทวนวิธีเล่น 1 นาที':'เล่นครั้งแรก? เริ่มตรงนี้ · 1 นาที'}</small></button>
+        <button class="btn big tutbtn ${store('wc_tut')?'':'first'}" id="tut">🎓 ฝึกทำจานแรก (โหมดแข่ง/ทัวร์นาเมนต์)<small>${store('wc_tut')?'ทบทวนวิธีเล่น 1 นาที':'เล่นครั้งแรก? เริ่มตรงนี้ · 1 นาที'} · ครัวโกลาหลมีคำอธิบายในการ์ดรอบแรก</small></button>
         <button class="btn red big opennow" id="create">🎮 เริ่มเกม (สร้างห้อง)<small>เลือกโหมดได้ในห้องรอ · เล่นคนเดียวกับบอทก็ได้</small></button>
         <div class="howplay">${[['🍳','ครัวโกลาหล','ช่วยกันทำ · ของที่ต้องใช้อยู่บนโต๊ะเพื่อน ส่งให้กัน'],['🏆','ทัวร์นาเมนต์','แข่งตกรอบ · ปรุงรสให้ถูกใจกรรมการ'],['👥','ทีม 2 ต่อ 2','จับคู่แข่ง · ส่งของให้คู่ของตัวเอง']].map(([i,b,t])=>`<div><i>${i}</i><b>${b}</b><span>${t}</span></div>`).join('')}</div>
         <div class="divider">หรือเข้าห้องด้วยรหัส</div>
@@ -2268,7 +2268,7 @@ const MODE_INFO={
   coop:['🍳 ครัวโกลาหล · ช่วยกันทำ','ทุกคนมีออร์เดอร์ของตัวเอง แต่ของที่ต้องใช้มักไปตกอยู่บนโต๊ะเพื่อน → ลากหรือโยนส่งให้กัน · ส่งครบแต่ละรอบ = มีเมนูและเครื่องครัวใหม่ ยิ่งเล่นยิ่งยาก · ⭐ คะแนนร้านลดตลอด ส่งอาหารเพื่อเติม · <b>หมดหลอด = ร้านปิด</b>'],
   solo:['⚔️ เดี่ยว · แข่งกัน','ทุกคนมีครัวของตัวเอง ทำออร์เดอร์ให้ได้คะแนนมากที่สุดก่อนหมดเวลา · ทำมินิเกมให้ดีและปรุงรสให้ตรงเป้า = คะแนนสูง · <b>คะแนนสูงสุดชนะ</b>'],
   team:['👥 ทีม 2 ต่อ 2','จับคู่เป็นทีม (4 คน = 2v2 · 6 คน = 2v2v2) วัตถุดิบถูกแบ่งให้คู่ ต้องส่งของให้คู่ของตัวเอง · <b>ทีมที่คะแนนรวมสูงสุดชนะ</b>'],
-  tour:['🏆 ทัวร์นาเมนต์ · Thai Kitchen Battle','แข่งตกรอบ: รอบคัดเลือก → รอบวัตถุดิบปริศนา → รอบชิง (เซ็ตเมนู + กรรมการปรับรส) · <b>คะแนนท้ายตารางตกรอบ เหลือคนสุดท้ายเป็นแชมป์</b>']};
+  tour:['🏆 ทัวร์นาเมนต์ · Thai Kitchen Battle','เล่นได้ 4 หรือ 6 คน (รวมบอท) · 6 คน: รอบคัดเลือก (เหลือ 4) → รอบวัตถุดิบปริศนา → รอบทีม 2v2 (ทีมชนะไปต่อ) → รอบชิง 1v1 เซ็ตเมนู + กรรมการปรับรส · 4 คน: เริ่มที่รอบปริศนา · <b>เหลือคนสุดท้ายเป็นแชมป์</b>']};
 function runHTML(mode){const [t,d]=MODE_INFO[mode]||MODE_INFO.coop;
   return`<div class="rc rclong"><div class="rc-top"><span class="rc-w">${t}</span></div>${mode==='coop'?`<div class="rc-worlds">${WORLDS.map(w=>`<span>${w.icon} ${w.th}</span>`).join('<b>➜</b>')}</div>`:''}<p class="rc-news">${d}</p></div>`}
 function renderRun(){const el=$('#runcard');if(!el)return;el.hidden=false;el.innerHTML=runHTML(S.mode)}
@@ -2315,7 +2315,7 @@ function waitRoom(){
   $('#ready').onclick=()=>{myReady=!myReady;room.presence({ready:myReady});$('#ready').textContent=myReady?'ยกเลิกพร้อม':'พร้อมแล้ว!'};
   $('#chatf').onsubmit=e=>{e.preventDefault();const t=clean($('#chatIn').value,80);if(!t)return;S.sayN++;room.presence({say:{n:S.sayN,t}});$('#chatIn').value=''};
   $('#start').onclick=()=>{const M=members(S.peers||[]);
-    const dd=curDay();room.presence({phase:'play',gen:Date.now(),dur:dd?DAYS[dd-1].dur:S.dur||180,day:dd,mode:S.mode,diff:S.diff,market:S.market,tour:S.mode==='tour'?{round:1,alive:M.all.map(m=>m.key),out:[],res:null}:null})};
+    const dd=curDay();room.presence({phase:'play',gen:Date.now(),dur:dd?DAYS[dd-1].dur:S.mode==='tour'?120:S.dur||180,day:dd,mode:S.mode,diff:S.diff,market:S.market,tour:S.mode==='tour'?{round:1,n0:M.all.length,alive:M.all.map(m=>m.key),out:[],res:null}:null})};
   const pushHost=()=>{SAVED.touch({bots:S.bots});const dd=curDay();S.day=dd;renderRun();$('#settings')&&$('#settings').classList.toggle('dayon',!!dd);room.presence({size:S.size,dur:S.dur,mode:S.mode,diff:S.diff,market:S.market,day:dd,locked:!!S.locked,bots:S.bots.map(b=>({...b}))});const lb=$('#lockBtn');if(lb){lb.textContent=S.locked?'🔒 ห้องล็อกอยู่ (แตะเพื่อเปิด)':'🔓 ล็อกห้อง';lb.classList.toggle('on',!!S.locked)}};
   function buildHostUI(M){const box=$('#settings');hostUI=true;
     const ds=dayStars();
@@ -2369,8 +2369,8 @@ function waitRoom(){
       tw.appendChild(el)});
     seen=ids;
     const others=hum.filter(p=>p!==host);const allReady=others.every(p=>p.p.ready);
-    $('#start').hidden=!iAmHost;$('#ready').hidden=!!iAmHost;$('#start').disabled=!allReady||(team&&![4,6].includes(all.length))||(host&&host.p.mode==='tour'&&all.length<2);
-    $('#note').textContent=iAmHost&&host.p.mode==='tour'?(all.length<2?'ทัวร์นาเมนต์ต้องมีอย่างน้อย 2 คน เพิ่มบอทได้':`ทัวร์นาเมนต์ ${all.length} คน: ${tourPlan(all.length)}`):iAmHost&&team&&![4,6].includes(all.length)?`โหมดทีมต้องมี 4 คน (2v2) หรือ 6 คน (2v2v2) ตอนนี้ ${all.length} คน เพิ่มบอทได้`:iAmHost?(all.length===1?'เล่นคนเดียวได้ หรือเพิ่มบอท/รอเพื่อน':allReady?'ทุกคนพร้อมแล้ว กดเริ่มได้เลย':'รอให้ทุกคนกดพร้อม'):'รอหัวห้องกดเริ่มเกม';
+    $('#start').hidden=!iAmHost;$('#ready').hidden=!!iAmHost;$('#start').disabled=!allReady||(team&&![4,6].includes(all.length))||(host&&host.p.mode==='tour'&&!E.tourOk(all.length));
+    $('#note').textContent=iAmHost&&host.p.mode==='tour'?(!E.tourOk(all.length)?`ทัวร์นาเมนต์ต้องมี 4 หรือ 6 คน (จำนวนคู่) ตอนนี้ ${all.length} คน · เพิ่มบอทหรือเอาบอทออกได้`:`ทัวร์นาเมนต์ ${all.length} คน: ${tourPlan(all.length)}`):iAmHost&&team&&![4,6].includes(all.length)?`โหมดทีมต้องมี 4 คน (2v2) หรือ 6 คน (2v2v2) ตอนนี้ ${all.length} คน เพิ่มบอทได้`:iAmHost?(all.length===1?'เล่นคนเดียวได้ หรือเพิ่มบอท/รอเพื่อน':allReady?'ทุกคนพร้อมแล้ว กดเริ่มได้เลย':'รอให้ทุกคนกดพร้อม'):'รอหัวห้องกดเริ่มเกม';
     NET.setLobby(iAmHost&&!S.locked?{hosting:codeName(d),count:all.length,size,playing:null}:{hosting:null});
     if(host&&host.p.phase==='play'&&host.p.gen&&host.p.gen!==S.lastGen){S.lastGen=host.p.gen;S.dur=+host.p.dur||S.dur;countdown(()=>go(match))}
   }
@@ -2740,8 +2740,9 @@ function simBots(K,h,bots,gen){const bs={},timers=[];K.botHit=K.botHit||{};
   S.room.presence({bs,bgen:gen});K.botEnd=()=>{Object.keys(bs).forEach(k=>{bs[k][2]=1;bs[k][3]+=bs[k][0]});S.room.presence({bs:JSON.parse(JSON.stringify(bs)),bgen:gen})};
   onLeave(()=>timers.forEach(clearTimeout))}
 /* ---------- tournament ---------- */
-function tourPlan(n){const a=[n];while(a[a.length-1]>1)a.push(E.tourNext(a[a.length-1]));return a.join(' → ')+' 🏆'}
-const ROUND_TH={normal:'รอบคัดเลือก',mystery:'รอบวัตถุดิบปริศนา',final:'รอบชิงชนะเลิศ'};
+function tourPlan(n){if(!E.tourOk(n))return'ต้องมี 4 หรือ 6 คน (รวมบอท)';let c=n;return E.TOUR_PLANS[n].map(([k,keep])=>{const t=`${ROUND_TH[k]}${k==='final'?'':keep===c?' (จัดอันดับ)':` (เหลือ ${keep})`}`;c=keep;return t}).join(' → ')+' 🏆'}
+const ROUND_TH={normal:'รอบคัดเลือก',mystery:'รอบวัตถุดิบปริศนา',team:'รอบทีม 2v2',final:'รอบชิงชนะเลิศ'};
+const tourN0=t=>(t&&+t.n0)||(t?t.alive.length:4);
 function followHost(peers,{toWait=true,toPlay=true}={}){const h=roomList(peers)[0];if(!h)return;
   if(toWait&&h.p.phase==='wait'){go(waitRoom);return true}
   if(toPlay&&h.p.phase==='play'&&h.p.gen&&h.p.gen!==S.lastGen){S.lastGen=h.p.gen;S.dur=+h.p.dur||S.dur;countdown(()=>go(match));return true}}
@@ -2753,9 +2754,9 @@ function spectate(){
   const K=S.k={gen,dur,mode:'solo',score:0,served:0,spect:true,done:false,end:performance.now()+dur*1000};const out=(tour&&(tour.out||[]).find(o=>M0.all.find(m=>m.isMe&&m.key===o.k)))||null;
   report();
   app.innerHTML=`<div class="card spect"><div class="ptimer"><span>เหลือ</span><b id="clock"></b></div>
-    <h2>คุณตกรอบ${out?`ที่ ${out.r}`:''}แล้ว · ดูเพื่อนแข่ง 👀</h2><p class="muted">ทัวร์นาเมนต์รอบที่ ${tour?tour.round:''} · ${ROUND_TH[E.tourKind(tour?tour.round:1,tour?tour.alive.length:2)]} · เหลือ ${tour?tour.alive.length:0} คน → ${tour?E.tourNext(tour.alive.length):0}</p>
+    <h2>คุณตกรอบ${out?`ที่ ${out.r}`:''}แล้ว · ดูเพื่อนแข่ง 👀</h2><p class="muted">ทัวร์นาเมนต์รอบที่ ${tour?tour.round:''} · ${ROUND_TH[E.tourKind(tour?tour.round:1,tourN0(tour))]} · เหลือ ${tour?tour.alive.length:0} คน → ${tour?E.tourKeep(+tour.round,tourN0(tour)):0}</p>
     <div id="sboard" class="sboard"></div></div>`;
-  const draw=peers=>{const M=members(peers);const list=M.alive.map(m=>({m,...statOf(m,M.host,gen)})).sort((a,b)=>b.score-a.score);const keep=tour?E.tourNext(tour.alive.length):1;
+  const draw=peers=>{const M=members(peers);const list=M.alive.map(m=>({m,...statOf(m,M.host,gen)})).sort((a,b)=>b.score-a.score);const keep=tour?E.tourKeep(+tour.round,tourN0(tour)):1;
     $('#sboard').innerHTML=list.map((x,i)=>`<div class="rank-row ${i<keep?'keep':'cut'}"><b>${i+1}</b>${chef(x.m.p.chef)}<span class="nm">${esc(clean(x.m.p.nick,16)||'เชฟ')}${x.m.isBot?' 🤖':''}</span><b>${x.score}</b><span class="tot">${x.served} จาน</span></div>`).join('')};
   if(h&&h.isMe){const bots=M0.bots.filter(b=>tour&&tour.alive.includes(b.key));if(bots.length)simBots(K,h,bots,gen)}
   onLeave(S.room.onPeers(peers=>{S.peers=peers;draw(peers);followHost(peers,{toPlay:false})}));draw(S.peers||[]);
@@ -3030,11 +3031,12 @@ function match(){
   SFX.music('play');setTimeout(rotateHint,300);
   S.screen='match';document.body.classList.add('in-game');KH=null;
   const M0=members(S.peers||[]);const h=M0.host;const dayN=h&&h.p.mode==='coop'&&+h.p.day||0;const DAY=dayN?DAYS[dayN-1]:null;if(DAY)return fsMatch();const dur=DAY?DAY.dur:(h&&+h.p.dur)||S.dur||180;const gen=S.lastGen;const iHost=h&&h.isMe;
-  const teamMode=!!(h&&h.p.mode==='team'&&[4,6].includes(M0.all.length));
+  const tourT=M0.tour,tourKindNow=tourT?E.tourKind(+tourT.round||1,tourN0(tourT)):'';
+  const teamMode=!!(h&&((h.p.mode==='team'&&[4,6].includes(M0.all.length))||tourKindNow==='team'));
   const coop=!!(h&&h.p.mode==='coop');const ring=coop;const passUI=teamMode||ring;
   const myId=(M0.all.find(m=>m.isMe)||{id:'me'}).id;const meM=M0.all.find(m=>m.isMe);
   const tut=!!(h&&h.p.tut);const wantMarket=!!(h&&h.p.market);const diff=tut?'easy':DAY?'normal':(h&&h.p.diff)||S.diff||'normal',easy=diff==='easy';const noWash=easy||!!(DAY&&!DAY.wash),noTaste=!!(DAY&&!DAY.season),slim=easy||!!DAY;
-  const tour=M0.tour,roundKind=tour?E.tourKind(+tour.round||1,tour.alive.length):'normal';
+  const tour=M0.tour,roundKind=tour?tourKindNow:'normal';
   if(tour&&meM&&!tour.alive.includes(meM.key))return spectate();          // knocked out: watch the others
   const nameOf=id=>{if(id==='rival')return'ร้านคู่แข่ง 😈';const m=M0.all.find(x=>x.id===id);return m?(clean(m.p.nick,16)||'เชฟ'):'เพื่อน'};
   const chefOf=id=>{const m=M0.all.find(x=>x.id===id);return m?m.p.chef:0};
@@ -3047,7 +3049,7 @@ function match(){
   const BAG='wc_bag';if(online)try{const b=JSON.parse(sessionStorage.getItem(BAG)||'null');if(b&&b.gen===gen&&b.code===code&&Date.now()-b.at<dur*1000+60000){
     for(const k of(false?['hand','inbox','uid']:['hand','plate','plateOn','season','inbox','clean','dirty','uid']))if(b[k]!=null)K[k]=b[k]}}catch(e){}
   let bagAt=0;const saveBag=()=>{if(!online||K.done)return;try{sessionStorage.setItem(BAG,JSON.stringify({gen,code,at:Date.now(),hand:K.hand,plate:K.plate,plateOn:K.plateOn,season:K.season,inbox:K.inbox,clean:K.clean,dirty:K.dirty,uid:K.uid}))}catch(e){}};
-  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:K.mode,round:roundKind,diff,tut,market:wantMarket,day:dayN,players:teamMode||coop?M0.all.map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1})):[{id:myId}]});
+  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:K.mode,round:roundKind,diff,tut,market:wantMarket,day:dayN,players:teamMode||coop?(tour?tour.alive.map(k=>M0.all.find(m=>m.key===k)).filter(Boolean):M0.all).map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1})):[{id:myId}]});
   S.k.LM=LM;
   const ask=(ev,data)=>new Promise(res=>{let done=false;const t=setTimeout(()=>{if(!done){done=true;res({ok:false,msg:'เซิร์ฟเวอร์ไม่ตอบ ลองอีกครั้ง'})}},5000);
     NET.s.emit(ev,data,r=>{if(done)return;done=true;clearTimeout(t);res(r||{ok:false})})});
@@ -3296,7 +3298,8 @@ function match(){
   function roundIntro(){const b=$('#stagebanner');if(!b)return;const n=tour?tour.alive.length:0;
     const body=K.round==='mystery'&&K.box?`<p>กล่องปริศนา: ทำได้แค่ ${K.box.map(id=>MENU_BY_ID[id].th).join(' · ')}</p><p class="ni">${(K.pantry||[]).slice(0,10).map(k=>`<span title="${ING[k].th}">${icon(k+':raw')||art(k)}</span>`).join('')}</p>`
       :K.round==='final'?`<p>กรรมการ: ${esc(K.judge?K.judge.name+' '+K.judge.th:'')}</p><p>ทำเซ็ต จานหลัก + เครื่องเคียง + ของหวาน ได้โบนัส +${E.SET_BONUS} · เครื่องครัวเปิดครบ</p>`
-      :`<p>${n} คน · เหลือ ${E.tourNext(n)} คนหลังรอบนี้</p>`;
+      :K.round==='team'?`<p>จับคู่ 2 ต่อ 2 · ส่งของให้คู่ของตัวเองได้เท่านั้น · ทีมที่คะแนนรวมสูงกว่าเข้ารอบชิงทั้งคู่</p>`
+      :`<p>${n} คน · เหลือ ${E.tourKeep(+tour.round,tourN0(tour))} คนหลังรอบนี้</p>`;
     b.innerHTML=`<div><small>${tour?`ทัวร์นาเมนต์ · รอบที่ ${tour.round}`:''}</small><b>${ROUND_TH[K.round]||'เริ่ม!'}</b>${body}</div>`;b.hidden=false;b.classList.remove('rush');clearTimeout(K.sbT);K.sbT=setTimeout(()=>{b.hidden=true},4200);b.onclick=()=>{b.hidden=true}}
   function stageChanged(){const si=SI();renderLocks();SFX.play(si.rush?'rush':'stage');SFX.music(si.rush?'rush':'play');const b=$('#stagebanner');if(!b)return;
     const nt=E.STAGES[K.stage].tools;const newIngs=K.stage>0?si.ings.filter(k=>!E.STAGE_INFO[K.stage-1].ings.includes(k)):[];
@@ -3607,9 +3610,9 @@ function renderScores(peers){const box=$('#plist');if(!box||!S.k)return;const ge
 function results(){
   SFX.play('fanfare');setTimeout(()=>{if(S.screen==='results')SFX.music('lobby')},2500);
   S.screen='results';document.body.classList.add('in-game');const K=S.k,gen=K.gen;NET.setLobby({playing:null});
+  if(members(S.peers||[]).tour)return resultsTour();
   if(K.mode==='team')return resultsTeam();
   if(K.mode==='coop')return resultsCoop();
-  if(members(S.peers||[]).tour)return resultsTour();
   app.innerHTML=`<div class="res-grid">
     <section class="card"><h2 style="text-align:center">ผลการแข่ง ${Math.round(K.dur/60)} นาที</h2><div class="podium" id="podium"></div><div id="ranks"></div><p class="note" id="waitnote"></p></section>
     <section class="card"><h3>ของคุณรอบนี้</h3>${resStars(K)}<p style="font-size:1.1rem;margin:10px 0">คะแนน <b style="font-size:2rem">${K.score}</b> · ส่งอาหาร <b>${K.served}</b> จาน · สะสม <b>${S.tot}</b></p>
@@ -3697,12 +3700,16 @@ function resultsTour(){const K=S.k,gen=K.gen;const t0=performance.now();
   app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center" id="thead"></h2><div id="champ"></div><div id="ranks"></div><p class="note" id="waitnote"></p></section>
     <section class="card"><h3>เส้นทางทัวร์นาเมนต์</h3><div id="path" class="tpath"></div><div class="wait-actions" id="hostbtns" style="justify-content:flex-start;margin-top:14px"></div></section></div>`;
   let published=false;
-  const draw=peers=>{const M=members(peers),tour=M.tour;if(!tour)return;const n=tour.alive.length,keepN=E.tourNext(n),kind=E.tourKind(+tour.round,n);
+  const draw=peers=>{const M=members(peers),tour=M.tour;if(!tour)return;const n0=tourN0(tour),keepN=E.tourKeep(+tour.round,n0),kind=E.tourKind(+tour.round,n0),isTeam=kind==='team';
     $('#thead').textContent=`ทัวร์นาเมนต์ · รอบที่ ${tour.round} · ${ROUND_TH[kind]}`;
-    const list=M.alive.map(m=>({m,...statOf(m,M.host,gen)})).sort((a,b)=>(b.score-a.score)||(b.served-a.served)||(a.m.key<b.m.key?-1:1));
+    // team round: each cook's score = their team's total (the server's snapshot), so the whole pair goes through together
+    const sn=S.lastSnap&&S.lastSnap.gen===gen?S.lastSnap:null,teams=isTeam?((sn&&sn.teams)||K.teams||[]):[];
+    const teamOf=m=>teams.find(t=>t.members.includes(m.id));
+    const list=M.alive.map(m=>{const st=statOf(m,M.host,gen),t=isTeam?teamOf(m):null;return{m,...st,score:t?t.score:st.score,tt:t?t.t:null,done:isTeam?(m.isBot||st.done):st.done}})
+      .sort((a,b)=>(b.score-a.score)||((a.tt??9)-(b.tt??9))||(b.served-a.served)||(a.m.key<b.m.key?-1:1));
     const res=tour.res&&tour.res.round===tour.round?tour.res:null;const keep=res?res.keep:null;
     $('#ranks').innerHTML=list.map((x,i)=>{const st=keep?(keep.includes(x.m.key)?(keep.length===1?'🏆 แชมป์':'ผ่าน'):'ตกรอบ'):'';
-      return`<div class="rank-row ${x.m.isMe?'me':''} ${keep?(keep.includes(x.m.key)?'keep':'cut'):''}"><b>${i+1}</b>${chef(x.m.p.chef)}<span class="nm">${esc(clean(x.m.p.nick,16)||'เชฟ')}${x.m.isMe?' (คุณ)':x.m.isBot?' 🤖':''}</span><b>${x.score}</b><span class="tag">${st}</span></div>`}).join('');
+      return`<div class="rank-row ${x.m.isMe?'me':''} ${keep?(keep.includes(x.m.key)?'keep':'cut'):''}"><b>${isTeam&&x.tt!=null?['🔴','🔵','🟢'][x.tt]:i+1}</b>${chef(x.m.p.chef)}<span class="nm">${esc(clean(x.m.p.nick,16)||'เชฟ')}${x.m.isMe?' (คุณ)':x.m.isBot?' 🤖':''}</span><b>${x.score}</b><span class="tag">${st}</span></div>`}).join('');
     // the path so far: who was knocked out in which round
     const outs=(tour.out||[]).concat(keep?list.filter(x=>!keep.includes(x.m.key)).map(x=>({k:x.m.key,r:tour.round})):[]);
     const nm=k=>{const m=M.all.find(x=>x.key===k);return m?esc(clean(m.p.nick,14)||'เชฟ')+(m.isBot?' 🤖':''):'—'};
@@ -3713,10 +3720,11 @@ function resultsTour(){const K=S.k,gen=K.gen;const t0=performance.now();
     $('#waitnote').textContent=keep?(keep.length===1?'จบทัวร์นาเมนต์!':`ผ่านเข้ารอบต่อไป ${keep.length} คน`):allDone?'กำลังสรุปผล…':`รออีก ${list.filter(x=>!x.done).length} คนหมดเวลา…`;
     const iHost=M.host&&M.host.isMe;const hb=$('#hostbtns');
     // the host decides who goes through once everyone has finished (scores come from the server)
-    if(iHost&&!res&&allDone&&!published){published=true;const kept=list.slice(0,keepN).map(x=>x.m.key);S.room.presence({tour:{...tour,res:{round:tour.round,keep:kept}}})}
+    if(iHost&&!res&&allDone&&!published){published=true;let kept=list.slice(0,keepN).map(x=>x.m.key);
+      if(E.tourKind(+tour.round+1,n0)==='team'&&kept.length===4)kept=[kept[0],kept[3],kept[1],kept[2]];S.room.presence({tour:{...tour,res:{round:tour.round,keep:kept}}})}
     if(iHost&&res&&hb.dataset.on!==String(tour.round)){hb.dataset.on=tour.round;
       hb.innerHTML=keep.length>1?`<button class="btn red big" id="nextR">เริ่มรอบที่ ${+tour.round+1}</button><button class="btn soft" id="toWait">ยกเลิกทัวร์นาเมนต์</button>`:`<button class="btn red big" id="toWait">กลับห้องรอ</button>`;
-      const nx=$('#nextR');if(nx)nx.onclick=()=>S.room.presence({phase:'play',gen:Date.now(),dur:S.dur||K.dur,tour:{round:+tour.round+1,alive:keep,out:outs,res:null}});
+      const nx=$('#nextR');if(nx)nx.onclick=()=>S.room.presence({phase:'play',gen:Date.now(),dur:S.dur||K.dur,tour:{round:+tour.round+1,n0,alive:keep,out:outs,res:null}});
       $('#toWait').onclick=()=>S.room.presence({phase:'wait',tour:null})}
     if(!iHost)hb.innerHTML='<p class="muted">รอหัวห้องเริ่มรอบต่อไป</p>';
     if(keep&&keep.length===1&&!K.champSfx){K.champSfx=1;SFX.play('fanfare')}};
