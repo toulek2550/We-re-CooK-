@@ -1570,6 +1570,7 @@ body.fsgame .fsheld .fsitem{filter:drop-shadow(0 16px 4px rgba(40,80,20,.28))!im
 
 body.fsgame .fsname,body.fsgame .fsplate3 .fsst-e{display:none}
 .rsub{margin:-4px 0 0;color:#C9C0EE;font-weight:800;font-size:1.05rem}
+.lockbtn.on{--c:#3a2233;--d:#000;color:#fff}
 </style>
 </head>
 <body>
@@ -2087,6 +2088,7 @@ const NET={mode:'offline',lobbyPeers:[],lobbySubs:new Set(),lobbyP:{},you:null,g
         s.on('lobby:peers',l=>this._lobby(l.map(x=>({id:x.id,isMe:x.id===s.id,p:x.p||{}}))));
         s.on('room:peers',({code,peers})=>{const rm=this.rooms[code];if(rm)rm._emit(peers.map(x=>({id:x.id,isMe:x.id===s.id,p:x.p||{}})))});
         s.on('room:full',code=>{const rm=this.rooms[code];if(rm)rm._full&&rm._full()});
+        s.on('room:locked',code=>{delete this.rooms[code];if(S.room&&S.room.code===code){S.room=null;SAVED.set(null);go(lobby);setTimeout(()=>toast('🔒 ห้องนี้ล็อกอยู่ เข้าไม่ได้'),200)}});
         ['game:you','game:recv','game:ask','game:expired','game:stage','game:prank','game:gold','game:goldnew','game:grab'].forEach(ev=>s.on(ev,d=>{if(ev==='game:you')this.you=d;this.gameSubs.forEach(f=>f(ev,d))}));
         return}catch(e){}
     }
@@ -2186,7 +2188,7 @@ function lobby(){
     <section class="hero">
       ${[['chili',4,18,-12],['egg',86,10,8],['shrimp',10,62,10],['lime',90,58,-6],['basil',24,-4,14],['tomato',74,74,4]].map(([k,x,y,r],i)=>`<div class="floaty" style="left:${x}%;top:${y}%;--r:${r}deg;animation-delay:${-i*.7}s">${art(k)}</div>`).join('')}
       <h1 class="logo">${logo}</h1>
-      <p class="tag">เปิดร้านอาหารกับเพื่อน · แต่ละคนมีของไม่เหมือนกัน ต้องส่งต่อกันถึงจะทำเมนูได้ · ผ่านให้ครบ 12 วัน!</p>
+      <p class="tag">ปาร์ตี้ทำอาหารกับเพื่อน · ช่วยกันในครัวโกลาหล หรือแข่งกันในทัวร์นาเมนต์ Thai Kitchen Battle</p>
     </section>
     <div class="lobby">
       <section class="card">
@@ -2198,8 +2200,8 @@ function lobby(){
       </section>
       <section class="card actions">
         <button class="btn big tutbtn ${store('wc_tut')?'':'first'}" id="tut">🎓 ฝึกทำจานแรก<small>${store('wc_tut')?'ทบทวนวิธีเล่น 1 นาที':'เล่นครั้งแรก? เริ่มตรงนี้ · 1 นาที'}</small></button>
-        <button class="btn red big opennow" id="create">🍳 เปิดร้าน (สร้างห้อง)<small>เริ่มวันที่ 1 · เล่นคนเดียวกับบอทก็ได้</small></button>
-        <div class="howplay">${[['👉','แตะขั้นที่กระพริบ','เกมบอกทีละขั้นว่าต้องทำอะไร'],['🔁','ส่งของให้เพื่อน','ใครไม่มีของ/เครื่องครัว ส่งซ้าย-ขวา'],['⭐','รักษาหลอดคะแนนร้าน','ลดเรื่อย ๆ · ส่งอาหาร = เติม · หมดหลอด = ร้านปิด']].map(([i,b,t])=>`<div><i>${i}</i><b>${b}</b><span>${t}</span></div>`).join('')}</div>
+        <button class="btn red big opennow" id="create">🎮 เริ่มเกม (สร้างห้อง)<small>เลือกโหมดได้ในห้องรอ · เล่นคนเดียวกับบอทก็ได้</small></button>
+        <div class="howplay">${[['🍳','ครัวโกลาหล','ช่วยกันทำ · ของที่ต้องใช้อยู่บนโต๊ะเพื่อน ส่งให้กัน'],['🏆','ทัวร์นาเมนต์','แข่งตกรอบ · ปรุงรสให้ถูกใจกรรมการ'],['👥','ทีม 2 ต่อ 2','จับคู่แข่ง · ส่งของให้คู่ของตัวเอง']].map(([i,b,t])=>`<div><i>${i}</i><b>${b}</b><span>${t}</span></div>`).join('')}</div>
         <div class="divider">หรือเข้าห้องด้วยรหัส</div>
         <div>
           <div class="join-code" id="slots"></div>
@@ -2242,7 +2244,7 @@ const PID=(()=>{let v=store('wc_pid');if(typeof v!=='string'||!/^[a-z0-9]{6,32}$
 const SAVED={get(){try{const v=JSON.parse(sessionStorage.getItem('wc_room')||'null');return v&&Date.now()-v.t<30*60*1000?v:null}catch(e){return null}},
   set(v){try{v?sessionStorage.setItem('wc_room',JSON.stringify({...v,t:Date.now()})):sessionStorage.removeItem('wc_room')}catch(e){}},
   touch(patch){const v=this.get();if(v)this.set({...v,...patch})}};
-async function enterRoom(digits,create=false,rejoin=null){
+async function enterRoom(digits,create=false,rejoin=null){if(create&&!rejoin)S.locked=false;
   const code=codeName(digits);S.joinedAt=rejoin?rejoin.joinedAt:Date.now();S.sayN=0;S.lastSay={};S.lastGen=null;S.tot=rejoin?(+rejoin.tot||0):0;S.run=null;S.bots=rejoin&&Array.isArray(rejoin.bots)?rejoin.bots:[];S.rejoin=!!rejoin;
   app.innerHTML=`<div class="card" style="text-align:center">${rejoin?'กำลังกลับเข้าห้องเดิม…':'กำลังเข้าห้อง…'}</div>`;
   const me={nick:S.name,chef:S.chef,joinedAt:S.joinedAt,creator:!!create,pid:PID,...(create&&!rejoin?{size:S.size||4,dur:S.dur||180,mode:S.mode||'coop',diff:S.diff||'easy',market:S.market,day:curDay()}:{})};
@@ -2262,11 +2264,14 @@ function saveDay(n,stars){const d=dayStars();if((d[n]||0)<stars){d[n]=stars;stor
 /* the run (like Family Style): pass a day (★1+) -> next day; no star -> the shop closes and you start again from day 1 */
 const RUN={get(){const r=S.runMem;return r&&r.day>=1&&r.day<=DAYS.length?r:{day:1,best:0,runs:1,gen:0}},set(r){S.runMem=r},reset(){const r=this.get();S.runMem={day:1,best:r.best||0,runs:(r.runs||1)+1,gen:0}}};
 const curDay=()=>S.mode==='coop'?1:0;   // co-op always starts at round 1 and plays on continuously
-function runHTML(day,r){const rows=roundRows(DAYS[0],null);
-  return`<div class="rc rclong"><div class="rc-top"><span class="rc-w">🍳 ครัวโกลาหล · เล่นยาวต่อเนื่อง</span></div>
-    <div class="rc-worlds">${WORLDS.map(w=>`<span>${w.icon} ${w.th}</span>`).join('<b>➜</b>')}</div>
-    <p class="rc-news">เริ่มรอบ 1 แล้วเล่นต่อไปเรื่อย ๆ · ส่งครบแต่ละรอบ = มีเมนูและเครื่องครัวใหม่ ยิ่งเล่นยิ่งยาก · ⭐ คะแนนร้านลดตลอด ส่งอาหารเพื่อเติม · <b>หลอดหมด = ร้านปิด</b></p></div>`}
-function renderRun(day){const el=$('#runcard');if(!el)return;el.hidden=!day;if(day)el.innerHTML=runHTML(day,RUN.get())}
+const MODE_INFO={
+  coop:['🍳 ครัวโกลาหล · ช่วยกันทำ','ทุกคนมีออร์เดอร์ของตัวเอง แต่ของที่ต้องใช้มักไปตกอยู่บนโต๊ะเพื่อน → ลากหรือโยนส่งให้กัน · ส่งครบแต่ละรอบ = มีเมนูและเครื่องครัวใหม่ ยิ่งเล่นยิ่งยาก · ⭐ คะแนนร้านลดตลอด ส่งอาหารเพื่อเติม · <b>หมดหลอด = ร้านปิด</b>'],
+  solo:['⚔️ เดี่ยว · แข่งกัน','ทุกคนมีครัวของตัวเอง ทำออร์เดอร์ให้ได้คะแนนมากที่สุดก่อนหมดเวลา · ทำมินิเกมให้ดีและปรุงรสให้ตรงเป้า = คะแนนสูง · <b>คะแนนสูงสุดชนะ</b>'],
+  team:['👥 ทีม 2 ต่อ 2','จับคู่เป็นทีม (4 คน = 2v2 · 6 คน = 2v2v2) วัตถุดิบถูกแบ่งให้คู่ ต้องส่งของให้คู่ของตัวเอง · <b>ทีมที่คะแนนรวมสูงสุดชนะ</b>'],
+  tour:['🏆 ทัวร์นาเมนต์ · Thai Kitchen Battle','แข่งตกรอบ: รอบคัดเลือก → รอบวัตถุดิบปริศนา → รอบชิง (เซ็ตเมนู + กรรมการปรับรส) · <b>คะแนนท้ายตารางตกรอบ เหลือคนสุดท้ายเป็นแชมป์</b>']};
+function runHTML(mode){const [t,d]=MODE_INFO[mode]||MODE_INFO.coop;
+  return`<div class="rc rclong"><div class="rc-top"><span class="rc-w">${t}</span></div>${mode==='coop'?`<div class="rc-worlds">${WORLDS.map(w=>`<span>${w.icon} ${w.th}</span>`).join('<b>➜</b>')}</div>`:''}<p class="rc-news">${d}</p></div>`}
+function renderRun(){const el=$('#runcard');if(!el)return;el.hidden=false;el.innerHTML=runHTML(S.mode)}
 const nextDay=()=>{const d=dayStars();for(const D of DAYS)if(!d[D.n])return D.n;return DAYS.length};
 function dayGoals(n,cooks){const D=DAYS[n-1];return starGoals(D.dur,'normal',cooks).map(v=>Math.round(v*D.gx/10)*10)}
 function starGoals(dur,diff,cooks=1){const m=dur/60*(diff==='easy'?.75:diff==='chef'?1.25:1)*(cooks>1?cooks*.7:1);return[55,110,165].map(v=>Math.round(v*m/10)*10)}
@@ -2311,19 +2316,20 @@ function waitRoom(){
   $('#chatf').onsubmit=e=>{e.preventDefault();const t=clean($('#chatIn').value,80);if(!t)return;S.sayN++;room.presence({say:{n:S.sayN,t}});$('#chatIn').value=''};
   $('#start').onclick=()=>{const M=members(S.peers||[]);
     const dd=curDay();room.presence({phase:'play',gen:Date.now(),dur:dd?DAYS[dd-1].dur:S.dur||180,day:dd,mode:S.mode,diff:S.diff,market:S.market,tour:S.mode==='tour'?{round:1,alive:M.all.map(m=>m.key),out:[],res:null}:null})};
-  const pushHost=()=>{SAVED.touch({bots:S.bots});const dd=curDay();S.day=dd;renderRun(dd);$('#settings')&&$('#settings').classList.toggle('dayon',!!dd);room.presence({size:S.size,dur:S.dur,mode:S.mode,diff:S.diff,market:S.market,day:dd,bots:S.bots.map(b=>({...b}))})};
+  const pushHost=()=>{SAVED.touch({bots:S.bots});const dd=curDay();S.day=dd;renderRun();$('#settings')&&$('#settings').classList.toggle('dayon',!!dd);room.presence({size:S.size,dur:S.dur,mode:S.mode,diff:S.diff,market:S.market,day:dd,locked:!!S.locked,bots:S.bots.map(b=>({...b}))});const lb=$('#lockBtn');if(lb){lb.textContent=S.locked?'🔒 ห้องล็อกอยู่ (แตะเพื่อเปิด)':'🔓 ล็อกห้อง';lb.classList.toggle('on',!!S.locked)}};
   function buildHostUI(M){const box=$('#settings');hostUI=true;
     const ds=dayStars();
     box.innerHTML=`<div class="runcard" id="runcard"></div>
-      <div class="botadd main"><button class="btn" id="addBot">+ เพิ่มบอท</button><span class="muted">ไม่มีเพื่อน? เพิ่มบอทมาช่วยได้ · หรือส่งรหัสห้องให้เพื่อน</span></div>
+      <div class="botadd main"><button class="btn" id="addBot">+ เพิ่มบอท</button><button class="btn soft lockbtn" id="lockBtn">🔓 ล็อกห้อง</button><span class="muted">ไม่มีเพื่อน? เพิ่มบอทได้ · ล็อกห้องแล้วคนใหม่เข้าไม่ได้และห้องจะไม่โชว์ในรายการ</span></div>
       <details class="moreset" id="moreset"><summary>⚙️ โหมดอื่น / ตั้งค่าเพิ่ม</summary><div class="msbody">
-      <div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="coop">🍳 ครัวโกลาหล (ช่วยกัน)</button><button data-v="solo">⚔️ เดี่ยว (แข่งกัน)</button><button data-v="team">ทีมละ 2 คน</button><button data-v="tour">ทัวร์นาเมนต์</button></div>
+      <div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="coop">🍳 ครัวโกลาหล (ช่วยกัน)</button><button data-v="solo">⚔️ เดี่ยว (แข่งกัน)</button><button data-v="team">👥 ทีม 2 ต่อ 2</button><button data-v="tour">🏆 ทัวร์นาเมนต์</button></div>
       <div class="durpick diffpick" id="diffP"><span class="muted">ความยาก</span><button data-v="easy">😊 ง่าย<small>มือใหม่ · 9 เมนู · ไม่ต้องล้างจาน</small></button><button data-v="normal">🙂 ปกติ<small>ครบทุกระบบ</small></button><button data-v="chef">🔥 เชฟ<small>เร็ว · ออร์เดอร์เยอะ</small></button></div>
       <div class="durpick" id="sizeP"><span class="muted">ขนาดห้อง</span>${[2,3,4,5,6].map(v=>`<button data-v="${v}">${v} คน</button>`).join('')}</div>
       <div class="durpick" id="durP"><span class="muted">เวลาต่อเกม</span>${[[120,'2 นาที'],[180,'3 นาที'],[300,'5 นาที']].map(([v,l])=>`<button data-v="${v}">${l}</button>`).join('')}</div>
       <div class="botadd"><span class="muted">ฝีมือบอท</span><select id="botLv">${Object.entries(BOTLV).map(([k,[th]])=>`<option value="${k}" ${k==='normal'?'selected':''}>${th}</option>`).join('')}</select></div>
       </div></details>`;
     if(S.mode!=='coop'||S.free)$('#moreset').open=true;
+    $('#lockBtn').onclick=()=>{S.locked=!S.locked;toast(S.locked?'🔒 ล็อกห้องแล้ว คนใหม่เข้าไม่ได้':'🔓 เปิดห้องแล้ว');pushHost()};
     box.querySelectorAll('#freeP button').forEach(b=>b.onclick=()=>{S.free=b.dataset.v==='1';store('wc_free',S.free);pushHost()});
     if($('#runP'))$('#runP button').onclick=()=>{const r=RUN.get();if(r.day===1){toast('อยู่วันที่ 1 อยู่แล้ว');return}RUN.set({...r,day:1,runs:(r.runs||1)+1});toast('เริ่มร้านใหม่ วันที่ 1');pushHost()};
     box.querySelectorAll('#sizeP button').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;if(v<curTotal){toast('ในห้องมีคนและบอทมากกว่านี้แล้ว');return}S.size=v;store('wc_size',v);pushHost()});
@@ -2343,8 +2349,8 @@ function waitRoom(){
     const meIdx=hum.findIndex(p=>p.isMe);
     if(!iAmHost&&meIdx>=0&&meIdx>=size-bots.length){logMsg(null,`ห้องนี้เต็มแล้ว (${size} คน)`,true);toast('ห้องเต็มแล้ว');setTimeout(leaveRoom,1200);S.screen='leaving';return}
     if(iAmHost&&!hostUI){if(!Array.isArray(S.bots))S.bots=[];buildHostUI(M);return}   // buildHostUI pushes the settings -> render runs again with them
-    if(!iAmHost){hostUI=null;const hp=host&&host.p||{};const md=hp.mode==='coop'?'🍳 ครัวโกลาหล (ช่วยกัน)':hp.mode==='team'?'ทีมละ 2 คน':hp.mode==='tour'?`ทัวร์นาเมนต์ (${tourPlan(all.length)})`:'⚔️ เดี่ยว (แข่งกัน)';
-      $('#settings').innerHTML=hp.mode==='coop'&&+hp.day?runHTML(+hp.day,null)+`<p class="muted">${md} · บอท ${bots.length} ตัว · หัวห้องเป็นคนกดเริ่ม</p>`:`<p class="muted">${md} · ${Math.round((+hp.dur||180)/60)} นาที${hp.market?' · 🛒 ตลาดแย่งกัน':''} · บอท ${bots.length} ตัว · หัวห้องเป็นคนกดเริ่ม</p>`}
+    if(!iAmHost){hostUI=null;const hp=host&&host.p||{};const md=(hp.locked?'🔒 ห้องล็อกแล้ว · ':'')+(hp.mode==='tour'?`แผนการแข่ง: ${tourPlan(all.length)} · `:'');
+      $('#settings').innerHTML=runHTML(hp.mode||'coop')+`<p class="muted">${md}${hp.mode==='coop'?'':`${Math.round((+hp.dur||180)/60)} นาที · `}บอท ${bots.length} ตัว · หัวห้องเป็นคนกดเริ่ม</p>`}
     else{$('#settings').querySelectorAll('#sizeP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.size));$('#settings').querySelectorAll('#durP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dur));$('#settings').querySelectorAll('#modeP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.mode));$('#settings').querySelectorAll('#diffP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.diff));$('#settings').querySelectorAll('#freeP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.free));if($('#freeP'))$('#freeP').hidden=S.mode!=='coop';$('#settings').classList.toggle('coopset',S.mode==='coop');$('#settings').querySelectorAll('#mktP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.market));
       const ab=$('#addBot');if(ab)ab.disabled=all.length>=size}
     const ids=new Set(all.map(p=>p.id));
@@ -2365,7 +2371,7 @@ function waitRoom(){
     const others=hum.filter(p=>p!==host);const allReady=others.every(p=>p.p.ready);
     $('#start').hidden=!iAmHost;$('#ready').hidden=!!iAmHost;$('#start').disabled=!allReady||(team&&![4,6].includes(all.length))||(host&&host.p.mode==='tour'&&all.length<2);
     $('#note').textContent=iAmHost&&host.p.mode==='tour'?(all.length<2?'ทัวร์นาเมนต์ต้องมีอย่างน้อย 2 คน เพิ่มบอทได้':`ทัวร์นาเมนต์ ${all.length} คน: ${tourPlan(all.length)}`):iAmHost&&team&&![4,6].includes(all.length)?`โหมดทีมต้องมี 4 คน (2v2) หรือ 6 คน (2v2v2) ตอนนี้ ${all.length} คน เพิ่มบอทได้`:iAmHost?(all.length===1?'เล่นคนเดียวได้ หรือเพิ่มบอท/รอเพื่อน':allReady?'ทุกคนพร้อมแล้ว กดเริ่มได้เลย':'รอให้ทุกคนกดพร้อม'):'รอหัวห้องกดเริ่มเกม';
-    NET.setLobby(iAmHost?{hosting:codeName(d),count:all.length,size,playing:null}:{hosting:null});
+    NET.setLobby(iAmHost&&!S.locked?{hosting:codeName(d),count:all.length,size,playing:null}:{hosting:null});
     if(host&&host.p.phase==='play'&&host.p.gen&&host.p.gen!==S.lastGen){S.lastGen=host.p.gen;S.dur=+host.p.dur||S.dur;countdown(()=>go(match))}
   }
   onLeave(room.onPeers(render));

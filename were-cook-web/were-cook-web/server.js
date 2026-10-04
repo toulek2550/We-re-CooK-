@@ -178,6 +178,11 @@ io.on('connection', socket => {
     let m = rooms.get(code);
     if (!m) rooms.set(code, (m = new Map()));
     if (m.size >= MAX_PLAYERS && !m.has(socket.id)) return socket.emit('room:full', code);
+    // a locked room: only people already inside (or coming back after F5 with the same player id) may enter
+    const h = hostId(code), hp = h && m.get(h);
+    if (hp && hp.locked && !m.has(socket.id)) { const pid = p && p.pid, g = ghosts.get(code);
+      const back = validPid(pid) && ((g && g.has(pid)) || [...m.values()].some(x => x.pid === pid));
+      if (!back) return socket.emit('room:locked', code); }
     socket.join(code);
     let base = m.get(socket.id);
     if (!base) base = reclaim(code, p && p.pid, socket, m);
