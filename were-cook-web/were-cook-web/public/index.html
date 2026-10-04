@@ -1313,6 +1313,263 @@ kbd,.stblock .num,.vlabel,.dhint,#howto h3 small,#stHow,.idlehint{display:none!i
 /* day mode: no orange hand-holding (harder, like Family Style) */
 .play.fsday .step.next{box-shadow:0 3px 0 rgba(58,34,51,.12)}.play.fsday .step.next::before{display:none}
 .play.fsday .ding.need{box-shadow:inset 0 -6px 0 rgba(160,100,40,.25),0 3px 0 rgba(0,0,0,.12)}.play.fsday .ding.need::before{display:none}
+
+/* ===== Family Style table (day mode) — fixed light colours so it reads the same in dark mode ===== */
+.fs{--wood1:#E8B27A;--wood2:#C98A4E;color:#3a2233;display:grid;gap:10px;max-width:1240px;margin:0 auto;padding:6px 8px 14px;user-select:none;-webkit-user-select:none}
+.fsitem,.fscrate,.fsplate{touch-action:none}
+.fs *{-webkit-tap-highlight-color:transparent}
+.fs>*{min-width:0}.fs{width:100%;box-sizing:border-box;overflow-x:hidden}
+.fstop{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.fsday,.fsdish,.fsmeter,.fsquit{background:#FFFDF7;color:#3a2233;border-radius:999px;padding:6px 14px;font-weight:800;box-shadow:0 3px 0 rgba(0,0,0,.18);border:0;font-size:.95rem;white-space:nowrap}
+.fsquit{cursor:pointer;margin-left:auto}
+.fsmeter{flex:1 1 260px;display:flex;align-items:center;gap:8px;position:relative}.fsmeter span{font-size:.85rem}
+.fsbar{flex:1;height:18px;border-radius:9px;background:#EADBC8;overflow:hidden}.fsbar i{display:block;height:100%;width:60%;border-radius:9px;transition:width .25s linear,background .4s}
+.fsmeter b{min-width:2.2em;text-align:right;font-size:1.1rem}.fsmeter.low{animation:mlow 1s ease-in-out infinite}
+.fsorders{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px;min-height:150px}
+.fswaitord{color:#fff;opacity:.85;align-self:center;margin:auto}
+.fstk{flex:none;background:#FFFDF7;border-radius:18px;padding:10px 12px 12px;display:grid;gap:8px;box-shadow:0 5px 0 rgba(0,0,0,.2);min-width:180px;max-width:300px;border:3px solid transparent}
+.fstkh{display:flex;align-items:center;gap:8px}.fstkh b{font-size:1rem;line-height:1.15}.fstkh .dish{width:54px;height:54px;flex:none}
+.fscomp{display:flex;gap:10px;flex-wrap:wrap}
+.fsc{position:relative;width:54px;height:54px;border-radius:14px;background:#FFF1DC;display:grid;place-items:center}
+.fsc>.ico3d,.fsc>svg{width:44px!important;height:44px!important}
+.fsc .fsb{position:absolute;right:-8px;bottom:-8px;display:flex;gap:1px}
+.fsc .fsb em{width:26px;height:26px;border-radius:50%;background:#fff;border:2px solid #3a2233;display:grid;place-items:center}
+.fsc .fsb em .ico3d,.fsc .fsb em svg{width:20px!important;height:20px!important}
+.fsc.away{background:#E4F1FF;cursor:pointer}.fsc .fsaway{position:absolute;left:-6px;top:-8px;font-style:normal;font-size:.9rem}
+.fspat{display:block;height:8px;border-radius:4px;background:#EADBC8;overflow:hidden}.fspat i{display:block;height:100%;width:100%}
+.fshint{background:rgba(255,253,247,.95);color:#3a2233;border-radius:14px;padding:8px 12px;font-size:.9rem;margin:0}.fshint small{color:#86697a}
+.fstable{display:grid;grid-template-columns:96px minmax(0,1fr) 96px;gap:10px;align-items:stretch}
+.fs.nopass .fstable{grid-template-columns:minmax(0,1fr)}
+.fspass{border:0;border-radius:22px;background:#5FA8E8;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 4px;font:inherit;box-shadow:inset 0 -6px 0 rgba(0,0,0,.18);cursor:pointer}
+.fspass[hidden]{display:none}.fspass .fsarr{font-size:1.6rem;line-height:1}.fspass svg{width:46px;height:46px}.fspass b{font-size:.85rem;text-align:center;line-height:1.1}
+.fspass small{font-size:.66rem;opacity:.9;text-align:center;line-height:1.2}.fsptools{display:flex;gap:2px;flex-wrap:wrap;justify-content:center}.fsptools em{width:28px;height:28px;border-radius:50%;background:#fff;display:grid;place-items:center}.fsptools em .ico3d{width:22px;height:22px}
+.fscounter{background:linear-gradient(180deg,var(--wood1),var(--wood2));border-radius:26px;padding:14px;display:grid;gap:14px;box-shadow:inset 0 -10px 0 rgba(110,60,20,.3),0 6px 0 rgba(0,0,0,.25)}
+.fsstations{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.fsst{position:relative;width:150px;min-height:150px;background:#FFF8EE;border-radius:22px;padding:8px;display:grid;grid-template-rows:auto 1fr auto;justify-items:center;gap:4px;box-shadow:0 5px 0 rgba(110,60,20,.35);cursor:pointer}
+.fsst-t{display:flex;align-items:center;gap:6px;font-size:.9rem}.fsst-t .ico3d,.fsst-t svg{width:34px;height:34px}
+.fsst-i{display:grid;place-items:center;width:100%}.fsst-e{color:#A8896F;font-size:.78rem;font-weight:700}
+.fsst.cook{box-shadow:0 0 0 4px #43B649,0 5px 0 rgba(110,60,20,.35)}.fsst.busy{opacity:.75}
+.fsprog{width:100%;height:10px;border-radius:5px;background:#EADBC8;overflow:hidden}.fsprog i{display:block;height:100%;background:#43B649;transition:width .1s}
+.fstap{font-weight:900;color:#2E9D3A;font-size:.85rem;animation:canpulse 1s ease-in-out infinite}
+.fsplates{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.fsplate{position:relative;width:170px;height:150px;border-radius:50%;background:radial-gradient(circle,#fff 55%,#F0E6DA 56%,#fff 70%);display:grid;place-items:center;box-shadow:0 6px 0 rgba(110,60,20,.35);cursor:pointer}
+.fsplate .dish{width:130px;height:130px}.fsplate.ready{box-shadow:0 0 0 5px #43B649,0 6px 0 rgba(110,60,20,.35)}
+.fsready{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);background:#43B649;color:#fff;border-radius:999px;padding:2px 10px;font-size:.75rem;white-space:nowrap}
+.fsrow{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap}
+.fsslots{display:grid;grid-template-columns:repeat(6,minmax(0,104px));gap:10px;justify-content:center}
+.fsslot{aspect-ratio:1;border-radius:18px;border:3px dashed rgba(110,60,20,.35);background:rgba(255,255,255,.15);display:grid;place-items:center;min-height:70px}
+.fsitem{width:100%;height:100%;display:grid;place-items:center;align-content:center;gap:2px;background:#FFFDF7;border-radius:15px;box-shadow:0 4px 0 rgba(110,60,20,.3);cursor:grab;touch-action:none;padding:4px}
+.fsitem .ia,.fsitem .ico3d,.fsitem>svg{width:60px!important;height:60px!important}
+.fsitem small{font-size:.72rem;font-weight:800;text-align:center;line-height:1.1;color:#3a2233}
+.fsitem.done{background:#F1FFE9}
+.fsst .fsitem{width:100px;height:100px}
+.fsbins{display:flex;gap:10px;align-items:stretch}
+.fscrates{flex:1;display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px}
+.fscrate{flex:none;position:relative;width:104px;height:104px;border:0;border-radius:18px;background:linear-gradient(180deg,#B9773E,#94592A);color:#fff;display:grid;place-items:center;align-content:center;gap:2px;font:inherit;box-shadow:inset 0 -8px 0 rgba(0,0,0,.2),0 4px 0 rgba(0,0,0,.25);cursor:grab;touch-action:none}
+.fscrate .ico3d,.fscrate svg{width:62px!important;height:62px!important;filter:drop-shadow(0 3px 2px rgba(0,0,0,.3))}.fscrate span{font-weight:800;font-size:.8rem;text-shadow:0 1px 0 rgba(0,0,0,.4)}
+.fscrate.asked{box-shadow:0 0 0 4px #FFC933,inset 0 -8px 0 rgba(0,0,0,.2);animation:canpulse 1s ease-in-out infinite}.fscrate>i.fsask{position:absolute;top:-8px;right:-6px;background:#FFC933;color:#3a2233;font-style:normal;font-size:.7rem;font-weight:800;border-radius:999px;padding:1px 6px}
+.fstrash{flex:none;width:90px;border:0;border-radius:18px;background:#6B5A63;color:#fff;font-size:1.8rem;display:grid;place-items:center;align-content:center;font-family:inherit;box-shadow:inset 0 -6px 0 rgba(0,0,0,.2)}.fstrash small{font-size:.75rem}
+.fsnote{color:#fff;font-size:.85rem;margin:0;text-align:center}
+.fssel{outline:4px solid #3E8EDE!important;outline-offset:3px}
+.fshover{outline:4px dashed #43B649!important;outline-offset:3px}
+.fsdragging{opacity:.35}
+.fsghost{position:fixed;z-index:300;pointer-events:none;width:84px;height:84px;transform:translate(-50%,-60%) scale(1.1);filter:drop-shadow(0 10px 8px rgba(0,0,0,.35))}
+.fsghost>*{width:100%!important;height:100%!important}.fsghost .ico3d{width:84px!important;height:84px!important}
+@media (max-width:760px){
+  .fstable{grid-template-columns:58px minmax(0,1fr) 58px;gap:6px}.fspass small,.fsptools{display:none}.fspass svg{width:34px;height:34px}.fspass b{font-size:.7rem}
+  .fscounter{padding:10px;gap:10px;border-radius:20px}.fsst{width:112px;min-height:120px}.fsst .fsitem{width:76px;height:76px}.fsst .fsitem .ico3d{width:44px!important;height:44px!important}
+  .fsplate{width:120px;height:110px}.fsplate .dish{width:96px;height:96px}
+  .fsslots{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.fsrow{gap:10px}.fsitem .ia,.fsitem .ico3d,.fsitem>svg{width:46px!important;height:46px!important}
+  .fscrate{width:84px;height:84px}.fscrate .ico3d{width:50px!important;height:50px!important}.fstrash{width:64px}
+  .fstk{min-width:160px;padding:8px}.fsc{width:46px;height:46px}.fsc>.ico3d{width:38px!important;height:38px!important}
+  .fsday{font-size:.8rem}.fsmeter{order:5;flex-basis:100%}
+  .fstable{grid-template-columns:44px minmax(0,1fr) 44px}.fspass{border-radius:14px;padding:6px 2px}.fspass b{display:none}.fspass svg{width:30px;height:30px}
+  .fsrow{flex-direction:column;gap:10px}.fsstations{flex-wrap:nowrap;gap:6px;width:100%}.fsst{flex:1 1 0;width:auto;min-width:0;min-height:112px}
+  .fsplates{flex-wrap:nowrap;gap:10px}.fsplate{width:118px;height:104px}
+  .fsslots{grid-template-columns:repeat(3,minmax(0,1fr));justify-content:stretch;width:100%}
+}
+
+/* ===== free board (Family Style counter) ===== */
+.fsboard{position:relative;height:clamp(380px,58vh,600px);background:linear-gradient(180deg,#E8B27A,#C98A4E);border-radius:26px;box-shadow:inset 0 -10px 0 rgba(110,60,20,.3),0 6px 0 rgba(0,0,0,.25);overflow:hidden;touch-action:none}
+.fsboard::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 118px,rgba(110,60,20,.08) 118px 121px);pointer-events:none}
+.fsobj{position:absolute;transform:translate(-50%,-50%);touch-action:none}
+.fsboard .fsst{width:140px;min-height:140px}
+.fsboard .fsplate{width:150px;height:136px}.fsboard .fsplate .dish{width:118px;height:118px}
+.fsloose .fsitem{width:86px;height:86px;cursor:grab}.fsloose .fsitem .ia,.fsloose .fsitem .ico3d,.fsloose .fsitem>svg{width:54px!important;height:54px!important}
+.fsloose .fsitem small{font-size:.66rem}
+.fsboard .fstrash{position:absolute;right:10px;bottom:10px;width:76px;height:76px;z-index:0;opacity:.92}
+.fsobj{z-index:1}
+.fsfull{position:absolute;left:50%;top:8px;transform:translateX(-50%);z-index:5;background:#F2483A;color:#fff;font-weight:800;border-radius:999px;padding:4px 14px;font-size:.85rem;animation:canpulse 1s ease-in-out infinite;white-space:nowrap}
+.fsgst{width:84px;height:84px;background:#FFF8EE;border-radius:20px;display:grid;place-items:center}.fsgst .ico3d,.fsgst svg{width:64px!important;height:64px!important}
+@media (max-width:760px){.fsboard{height:62vh;border-radius:18px}.fsboard .fsst{width:96px;min-height:96px;padding:4px}.fsboard .fsst .fsitem{width:62px;height:62px}.fsboard .fsst-t b{font-size:.7rem}.fsboard .fsst-t .ico3d{width:24px;height:24px}
+  .fsboard .fsplate{width:100px;height:92px}.fsboard .fsplate .dish{width:80px;height:80px}.fsloose .fsitem{width:62px;height:62px}.fsloose .fsitem .ico3d{width:38px!important;height:38px!important}.fsloose .fsitem small{display:none}
+  .fsboard .fstrash{width:56px;height:56px;font-size:1.3rem}.fstap{font-size:.7rem}}
+
+/* ===== 3D pieces without frames, each with its own size ===== */
+.fsloose .fsitem,.fsst3 .fsitem{background:none!important;box-shadow:none!important;border-radius:0;padding:0;width:var(--isz)!important;height:var(--isz)!important;filter:drop-shadow(0 6px 4px rgba(70,35,10,.45))}
+.fsloose .fsitem .ia,.fsloose .fsitem .ico3d,.fsloose .fsitem>svg,.fsst3 .fsitem .ia,.fsst3 .fsitem .ico3d,.fsst3 .fsitem>svg{width:100%!important;height:100%!important}
+.fsloose .fsitem small,.fsst3 .fsitem small{display:none}
+.fsloose .fsitem.fssel,.fsst3 .fsitem.fssel{outline:none!important;filter:drop-shadow(0 0 0 #3E8EDE) drop-shadow(0 0 6px #3E8EDE) drop-shadow(0 6px 4px rgba(70,35,10,.45))}
+.fsst3{width:var(--sz);height:var(--sz);display:grid;place-items:center;cursor:pointer}
+.fst3{width:100%;height:100%;filter:drop-shadow(0 8px 6px rgba(70,35,10,.45))}.fst3 .ico3d,.fst3 svg{width:100%!important;height:100%!important}
+.fsst3 .fsst-i{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:2}
+.fsst3 .fsname{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);background:rgba(58,34,51,.78);color:#fff;font-size:.68rem;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.fsst3 .fsprog{position:absolute;left:15%;right:15%;bottom:14px;height:8px;width:auto;z-index:3}
+.fsst3 .fstap{position:absolute;top:-8px;right:-4px;z-index:3;background:#43B649;color:#fff;border-radius:999px;padding:2px 8px;font-size:.8rem}
+.fsst3.cook .fst3{filter:drop-shadow(0 0 6px #43B649) drop-shadow(0 8px 6px rgba(70,35,10,.45))}.fsst3.busy{opacity:.8}
+.fsst3.fshover .fst3,.fsst3.fssel .fst3{filter:drop-shadow(0 0 8px #43B649)}.fsst3.fshover,.fsst3.fssel{outline:none!important}
+.fsplate3{background:none!important;box-shadow:none!important;width:170px!important;height:150px!important;filter:drop-shadow(0 8px 6px rgba(70,35,10,.4))}
+.fsplate3 .dish{width:150px!important;height:150px!important}.fsplate3:not(:has(.dish)){background:radial-gradient(circle,#fff 52%,#EFE5D8 53%,#fff 68%,transparent 70%)!important}
+.fsplate3.ready{filter:drop-shadow(0 0 8px #43B649) drop-shadow(0 8px 6px rgba(70,35,10,.4))}
+@media (max-width:760px){.fsboard{--m:.7}.fsst3{width:calc(var(--sz)*.68);height:calc(var(--sz)*.68)}.fsloose .fsitem{width:calc(var(--isz)*.75)!important;height:calc(var(--isz)*.75)!important}
+  .fsst3 .fsitem{width:calc(var(--isz)*.7)!important;height:calc(var(--isz)*.7)!important}.fsplate3{width:118px!important;height:104px!important}.fsplate3 .dish{width:104px!important;height:104px!important}}
+
+/* ===== Family Style look: round cards, pie timers, green table ===== */
+@property --p{syntax:'<percentage>';inherits:false;initial-value:0%}
+.rcard{position:relative;width:min(560px,92vw);margin:0 auto;background:#474761;border:6px solid #B3A8DD;border-radius:26px;box-shadow:10px 10px 0 #9F94CC,0 20px 40px rgba(0,0,0,.35);padding:22px 26px 18px;color:#fff;display:grid;gap:12px;text-align:center}
+.rcard h2{font-size:clamp(2rem,6vw,3rem);font-weight:900;letter-spacing:.5px;color:#fff}
+.rcard.done h2{color:#FFD43B}.rpun{font-size:1.3rem;font-weight:800;color:#C9C0EE;margin:0}
+.rrow{display:flex;align-items:center;justify-content:center;gap:14px}.rrow span{width:62px;height:62px;display:grid;place-items:center}.rrow span .ico3d,.rrow span svg,.rrow span .ia{width:62px!important;height:62px!important}
+.rrow b{font-size:1.6rem;color:#fff}
+.rdish{display:flex;gap:10px;justify-content:center}.rdish .dish{width:72px;height:72px}
+.rfoot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}.rfoot span{font-size:1.15rem;font-weight:800;color:#B3A8DD;text-align:left}
+.rpie{flex:none;width:58px;height:58px;border-radius:50%;border:5px solid #22304A;background:conic-gradient(#22304A var(--p),#fff 0);animation:rpie var(--d) linear forwards}
+@keyframes rpie{from{--p:0%}to{--p:100%}}
+.dayintro .rcard{cursor:pointer;animation:rpop .35s cubic-bezier(.34,1.56,.64,1)}@keyframes rpop{from{transform:scale(.8);opacity:0}}
+.rstage{display:grid;place-items:center;min-height:56vh;padding:20px 0}.rstage .rcard{animation:rpop .35s cubic-bezier(.34,1.56,.64,1)}
+.spie{position:absolute;right:2%;bottom:4%;z-index:3;width:42px;height:42px;border-radius:50%;border:4px solid #22304A;background:conic-gradient(#fff var(--p),#22304A 0)}
+.spie.full{background:#fff;border-color:#43B649}
+.tpie{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:50%;border:3px solid var(--c,#22304A);background:conic-gradient(var(--c,#22304A) var(--p),#fff 0)}
+.fstk{position:relative;padding-right:44px}
+.fsboard{background:radial-gradient(ellipse at 50% 120%,#A9D67E,#B9E08F 60%,#C3E59B)!important;box-shadow:inset 0 -10px 0 rgba(60,110,30,.25),0 6px 0 rgba(0,0,0,.25)!important}
+.fsboard::before{display:none}
+.fsloose .fsitem,.fsst3 .fsitem{filter:drop-shadow(0 6px 3px rgba(40,80,20,.35))!important}.fst3{filter:drop-shadow(0 8px 4px rgba(40,80,20,.35))}
+.fsplate3{filter:drop-shadow(0 8px 4px rgba(40,80,20,.3))}
+.fsboard .fstrash{background:transparent;color:#5E8A43;box-shadow:none;font-size:2rem;opacity:.55}
+
+/* wait-room card for the long co-op game: fixed colours so it reads in dark mode too */
+.rc.rclong{background:#FFF4E2;color:#3a2233}.rc.rclong .rc-w{font-size:1.05rem;color:#3a2233}.rc.rclong .rc-news{color:#3a2233;font-size:.9rem}.rc.rclong b{color:#C23A2E}
+.rc-worlds{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:800;font-size:.9rem;color:#3a2233}.rc-worlds span{background:#fff;border-radius:999px;padding:3px 10px;box-shadow:0 2px 0 rgba(0,0,0,.08)}.rc-worlds b{color:#86697a!important}
+.rc .rc-w,.rc .rc-news,.rc small{color:#3a2233}
+
+/* recipe steps are read-only: no orange "do next" highlight, no grabbing from the step */
+.v2 .step.next{box-shadow:0 2px 0 var(--line)}.v2 .step.next::before{display:none}.v2 .step:not(.seas){cursor:default}
+#plateDrop{cursor:pointer}
+
+/* Family Style polish: score bar at the bottom of the table, landscape phones, Master Chef card */
+.fsm2{position:absolute!important;left:50%;bottom:8px;transform:translateX(-50%);width:min(56%,520px);z-index:4;background:rgba(255,253,247,.85)!important;flex-direction:column;gap:2px!important;padding:4px 14px 6px!important;pointer-events:none;box-shadow:0 3px 0 rgba(0,0,0,.15)!important}
+.fsm2 span{font-size:.75rem;font-weight:900;letter-spacing:.5px}.fsm2 .fsbar{flex:none;width:100%;height:14px}
+.rothint{position:fixed;inset:0;z-index:400;background:rgba(30,12,28,.88);display:grid;place-items:center;padding:20px;text-align:center;color:#fff}
+.rothint>div{display:grid;gap:10px;justify-items:center;max-width:320px}.rotic{font-size:3.4rem;animation:rotwig 1.6s ease-in-out infinite}@keyframes rotwig{50%{transform:rotate(-90deg)}}
+.rothint p{opacity:.85;margin:0}
+.mcard{gap:10px}.mchead{display:flex;align-items:center;gap:12px;justify-content:center}.mchead .av,.mchead svg{width:64px;height:64px}.mchead b{display:block;color:#FFD43B;font-size:1.3rem}.mchead span{color:#C9C0EE;font-size:.9rem}
+.mcols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left}.mcols h4{margin:0 0 4px;color:#fff;font-size:1.1rem}.mcols p{margin:0;color:#C9C0EE;font-weight:700;font-size:.9rem}
+.mcard .wait-actions{justify-content:center}.mcard .muted{color:#C9C0EE}
+@media (orientation:landscape) and (max-height:560px){
+  body.fsgame .top{display:none}body.fsgame .shell{padding-top:2px}
+  .fs{gap:4px;padding:2px 6px}.fstop{position:fixed;top:4px;right:8px;z-index:30;gap:4px;flex-wrap:nowrap}.fsday,.fsdish,.fsquit{padding:3px 8px;font-size:.72rem}.fsorders{padding-right:250px}
+  .fshint{display:none}.fsorders{min-height:0;padding:0 2px 2px;gap:6px}.fstk{padding:4px 30px 4px 6px;gap:3px;min-width:0;border-radius:12px}.fstkh b{font-size:.75rem}.fstkh .dish{width:30px;height:30px}
+  .fsc{width:32px;height:32px;border-radius:9px}.fsc>.ico3d,.fsc>svg{width:26px!important;height:26px!important}.fsc .fsb em{width:18px;height:18px}.fsc .fsb em .ico3d{width:14px!important;height:14px!important}.tpie{width:20px;height:20px;top:4px;right:4px}
+  .fsboard{height:calc(100vh - 112px)!important;min-height:200px}.fstable{grid-template-columns:44px minmax(0,1fr) 44px}.fspass small,.fsptools,.fspass b{display:none}.fspass svg{width:30px;height:30px}
+  .fsst3{width:calc(var(--sz)*.62);height:calc(var(--sz)*.62)}.fsloose .fsitem{width:calc(var(--isz)*.72)!important;height:calc(var(--isz)*.72)!important}
+  .fsplate3{width:110px!important;height:96px!important}.fsplate3 .dish{width:96px!important;height:96px!important}.fsm2{bottom:4px;padding:2px 10px 4px!important}
+}
+
+/* ===== order cards like Family Style: white tickets hanging from the top of the table, notch at the bottom ===== */
+.fsord2{position:absolute!important;left:0;right:0;top:0;z-index:5;display:flex;justify-content:center;gap:14px;padding:0 120px!important;min-height:0!important;overflow:visible!important;pointer-events:none}
+.fscard{pointer-events:auto;position:relative;background:var(--bc,#A99BE0)!important;padding:0 5px 5px!important;border-radius:0 0 20px 20px!important;box-shadow:0 5px 0 rgba(40,70,20,.25)!important;min-width:0!important;max-width:none!important;border:0!important;transition:background .4s;
+  clip-path:polygon(0 0,100% 0,100% 100%,62% 100%,62% 82%,38% 82%,38% 100%,0 100%)}
+.fscard .fscin{background:#fff;border-radius:0 0 16px 16px;padding:6px 12px 18px;clip-path:polygon(0 0,100% 0,100% 100%,calc(62% - 2px) 100%,calc(62% - 2px) calc(82% + 3px),calc(38% + 2px) calc(82% + 3px),calc(38% + 2px) 100%,0 100%)}
+.fscard .fscomp{gap:8px;flex-wrap:nowrap}.fscard .fsc{background:none;width:52px;height:52px}.fscard .fsc .ia,.fscard .fsc>.ico3d,.fscard .fsc>svg{width:48px!important;height:48px!important}
+.fscard .fsc.away{background:#E4F1FF;border-radius:12px}
+.fscard .fscname{display:block;text-align:center;font-size:.62rem;font-weight:800;color:#86697a;margin-top:-2px;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.fscard.hurry{animation:hurry .5s ease-in-out infinite}@keyframes hurry{50%{transform:translateY(3px)}}
+.fscard.fshover{outline:none!important;filter:drop-shadow(0 0 8px #43B649)}
+.fsboard .fsfull{top:auto;bottom:62px}
+@media (orientation:landscape) and (max-height:560px){.fsord2{padding:0 60px!important;gap:8px}.fscard .fsc{width:36px;height:36px}.fscard .fsc .ia,.fscard .fsc>.ico3d{width:32px!important;height:32px!important}.fscard .fscin{padding:3px 8px 12px}.fscard .fscname{display:none}
+  .fsboard{height:calc(100vh - 46px)!important}}
+@media (max-width:760px){.fsord2{padding:0 8px!important;gap:6px}.fscard .fsc{width:38px;height:38px}.fscard .fsc .ia,.fscard .fsc>.ico3d{width:34px!important;height:34px!important}}
+
+/* ===== order = stack of cards, one piece each (Family Style) ===== */
+.fsstack{position:relative;pointer-events:auto;transition:transform .2s}.fsstack .fscard{position:relative;z-index:2}
+.fsback{position:absolute;top:0;bottom:6px;left:8px;right:-8px;background:var(--bc,#A99BE0);border-radius:0 0 18px 18px;z-index:1;opacity:.85;box-shadow:inset 0 0 0 4px rgba(255,255,255,.55)}
+.fsback.b3{left:16px;right:-16px;bottom:12px;opacity:.6}
+.fsone{display:flex;align-items:center;gap:6px;justify-content:center;position:relative;min-width:84px;min-height:58px}
+.fsone .fsbig{width:72px;height:72px;display:grid;place-items:center}.fsone .fsbig .ia,.fsone .fsbig .ico3d,.fsone .fsbig svg{width:72px!important;height:72px!important}
+.fsone .fstool{width:38px;height:38px;display:grid;place-items:center;background:#F3EEFF;border-radius:50%}.fsone .fstool .ico3d,.fsone .fstool svg{width:32px!important;height:32px!important}
+.fsone.away{cursor:pointer}.fsone.away .fsbig{background:#E4F1FF;border-radius:14px}.fsone .fsaway{position:absolute;left:-4px;top:-2px;font-style:normal}
+.fsone.ok{flex-direction:column;gap:0;color:#2E9D3A;font-weight:900}.fsone.ok b{font-size:1.6rem;line-height:1}.fsone.ok span{font-size:.72rem}
+.fsstack.done .fscard{--bc:#43B649!important;background:#43B649!important}.fsstack.cur .fscard{filter:drop-shadow(0 0 6px rgba(62,142,222,.7))}
+.fscard.flip .fscin{animation:cflip .35s cubic-bezier(.34,1.56,.64,1)}@keyframes cflip{from{transform:translateY(-30px) rotate(-4deg);opacity:0}}
+.fsstack.fshover{outline:none!important}.fsstack.fshover .fscard{filter:drop-shadow(0 0 10px #43B649)}
+.fsstack.hurry{animation:hurry .5s ease-in-out infinite}
+.fsx{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:4rem;color:#fff;background:#3a2233;border-radius:50%;width:72px;height:72px;display:grid;place-items:center;z-index:5;animation:rpop .3s}
+@media (orientation:landscape) and (max-height:560px){.fsone{min-width:60px;min-height:40px}.fsone .fsbig{width:40px;height:40px}.fsone .fsbig .ico3d,.fsone .fsbig .ia{width:38px!important;height:38px!important}.fsone .fstool{width:28px;height:28px}.fsone .fstool .ico3d{width:22px!important;height:22px!important}}
+
+/* other modes: recipe as a card stack (one step shows, the others are cards behind it) */
+.v2 .steps.stack{gap:0;padding-right:20px}
+.v2 .steps.stack .step.front{position:relative;background:#fff;color:#3a2233;border:4px solid #A99BE0;border-radius:18px;padding:8px 14px 18px;gap:8px;font-size:.92rem}
+.v2 .steps.stack .step.front svg,.v2 .steps.stack .step.front .ia,.v2 .steps.stack .step.front .ico3d{width:48px;height:48px}
+.v2 .steps.stack[data-left="2"] .step.front{box-shadow:8px 0 0 -2px #CFC6F0}
+.v2 .steps.stack[data-left="3"] .step.front{box-shadow:8px 0 0 -2px #CFC6F0,16px 0 0 -4px #E2DCF7}
+.v2 .step .stepn{position:absolute;left:50%;bottom:2px;transform:translateX(-50%);font-style:normal;font-size:.62rem;font-weight:800;color:#86697a;white-space:nowrap}
+.v2 .step.alldone{background:#43B649;color:#fff;font-weight:900;border-radius:16px;padding:10px 16px}
+.v2 .steps.stack .step.front.ready{border-color:#43B649}
+
+.v2 .step[hidden]{display:none!important}
+/* players find ingredients themselves: no orange "you need this" marks in the pantry */
+.v2 .ding.need{box-shadow:0 3px 0 var(--line)!important}.v2 .ding.need::before{display:none!important}
+
+.fsqueue{pointer-events:none;align-self:flex-start;margin-top:8px;background:rgba(58,34,51,.7);color:#fff;font-size:.72rem;font-weight:800;border-radius:999px;padding:3px 10px;white-space:nowrap}
+
+/* ===== passing like Family Style: no side panels; the table edges glow only while you drag; flick to throw ===== */
+.fstable{grid-template-columns:minmax(0,1fr)!important}
+.fsedge{position:absolute;top:0;bottom:0;width:11%;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;opacity:0;pointer-events:none;transition:opacity .2s;color:#3a2233}
+.fsedge.l{left:0;background:linear-gradient(90deg,rgba(255,255,255,.55),transparent)}.fsedge.r{right:0;background:linear-gradient(270deg,rgba(255,255,255,.55),transparent)}
+.fsedge[hidden]{display:none}.fs.dragging .fsedge{opacity:1;pointer-events:auto}
+.fsedge .fsarr{font-size:2.2rem;color:#fff;text-shadow:0 2px 0 rgba(60,110,30,.35)}.fsedge svg{width:40px;height:40px;opacity:.9}.fsedge b{font-size:.72rem;background:rgba(58,34,51,.7);color:#fff;border-radius:999px;padding:1px 8px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.fsedge.fshover{outline:none!important;background:linear-gradient(90deg,rgba(255,255,255,.85),transparent)}.fsedge.r.fshover{background:linear-gradient(270deg,rgba(255,255,255,.85),transparent)}
+.fsfly{position:fixed;z-index:350;pointer-events:none;margin:0;filter:drop-shadow(0 6px 3px rgba(40,80,20,.35))}.fsfly .ia,.fsfly .ico3d,.fsfly svg{width:100%!important;height:100%!important}
+.fsspark{position:fixed;z-index:360;pointer-events:none;font-style:normal;color:#E4F7C8;text-shadow:0 0 8px rgba(255,255,255,.8)}
+.rhow{margin:0;padding:0 0 0 20px;text-align:left;color:#E6E0FA;font-size:.95rem;line-height:1.55}.rhow b{color:#FFD43B}
+
+/* ===== full-screen table (Family Style) ===== */
+body.fsgame .top{display:none}
+body.fsgame .fs{position:fixed;inset:0;max-width:none;margin:0;padding:0;gap:0;display:block;z-index:5}
+body.fsgame .fstable{display:block;height:100%}
+body.fsgame .fsboard{height:100vh!important;height:100dvh!important;border-radius:0;box-shadow:none!important}
+body.fsgame .fstop{position:fixed;top:8px;left:10px;right:10px;z-index:30;pointer-events:none;flex-wrap:nowrap}body.fsgame .fstop>*{pointer-events:auto}
+body.fsgame .fsday,body.fsgame .fsdish,body.fsgame .fsquit{font-size:.8rem;padding:4px 12px;opacity:.92}
+body.fsgame .fsord2{padding:0 230px!important}
+.fsboard{--sc:1}
+.fsboard .fsplate3{width:calc(170px*var(--sc))!important;height:calc(150px*var(--sc))!important}.fsboard .fsplate3 .dish{width:calc(150px*var(--sc))!important;height:calc(150px*var(--sc))!important}
+.fscard .fsone .fsbig{width:calc(72px*var(--sc));height:calc(72px*var(--sc))}.fscard .fsone .fsbig .ia,.fscard .fsone .fsbig .ico3d,.fscard .fsone .fsbig svg{width:calc(72px*var(--sc))!important;height:calc(72px*var(--sc))!important}
+.fsm2{width:min(46%,560px)!important}
+.fsheld{z-index:20!important}.fsheld .fsitem{transform:scale(1.12);filter:drop-shadow(0 14px 6px rgba(40,80,20,.35))!important;cursor:grabbing}
+.fsedge{width:7%}
+@media (orientation:landscape) and (max-height:560px){body.fsgame .fsord2{padding:0 200px!important}}
+@media (max-width:760px){body.fsgame .fsord2{padding:34px 8px 0!important}}
+
+/* bigger, chunkier pieces (Family Style flat-shadow look) */
+.fsboard .fsplate3{width:calc(250px*var(--sc))!important;height:calc(225px*var(--sc))!important}.fsboard .fsplate3 .dish{width:calc(225px*var(--sc))!important;height:calc(225px*var(--sc))!important}
+.fsloose .fsitem,.fsst3 .fsitem{filter:saturate(1.18) drop-shadow(0 calc(8px*var(--sc,1)) 0 rgba(45,85,20,.22))!important}
+.fst3{filter:saturate(1.1) drop-shadow(0 calc(10px*var(--sc,1)) 0 rgba(45,85,20,.22))!important}
+.fsplate3{filter:drop-shadow(0 calc(10px*var(--sc,1)) 0 rgba(45,85,20,.2))!important}
+.fsheld .fsitem{filter:saturate(1.18) drop-shadow(0 18px 6px rgba(40,80,20,.3))!important}
+
+/* ===== flat cartoon look for the co-op table ===== */
+.fl{display:block;width:100%;height:100%}.fl>.ia,.fl>svg{width:100%!important;height:100%!important}
+.fl-deepfried,.fl-baked{filter:sepia(.55) saturate(1.9) brightness(.98)}
+.fl-sauteed,.fl-grilled{filter:sepia(.35) saturate(1.35) brightness(.86)}
+.fl-boiled,.fl-steamed{filter:brightness(1.08) saturate(.85)}
+body.fsgame .fsboard svg.ic{overflow:visible}
+body.fsgame .fsloose .fsitem,body.fsgame .fsst3 .fsitem{filter:drop-shadow(0 calc(7px*var(--sc,1)) 0 rgba(45,85,20,.25))!important}
+body.fsgame .fst3{filter:drop-shadow(0 calc(9px*var(--sc,1)) 0 rgba(45,85,20,.25))!important}
+body.fsgame .fsheld .fsitem{filter:drop-shadow(0 16px 4px rgba(40,80,20,.28))!important}
+
+
+body.fsgame .fsname,body.fsgame .fsplate3 .fsst-e{display:none}
+.rsub{margin:-4px 0 0;color:#C9C0EE;font-weight:800;font-size:1.05rem}
 </style>
 </head>
 <body>
@@ -1866,10 +2123,10 @@ function offlineRoom(code,p){
 }
 
 /* ================= STATE ================= */
-const S={name:store('wc_name')||'เชฟ'+pick(CHEF_NAMES),chef:store('wc_chef')??Math.floor(Math.random()*6),room:null,peers:[],joinedAt:0,sayN:0,lastSay:{},lastGen:null,screen:'',dur:store('wc_dur')||180,mode:store('wc_mode')||'coop',diff:store('wc_diff')||'easy',day:store('wc_day'),free:!!store('wc_free'),market:!!store('wc_market'),size:store('wc_size')||4,bots:[]};
+const S={name:store('wc_name')||'เชฟ'+pick(CHEF_NAMES),chef:store('wc_chef')??Math.floor(Math.random()*6),room:null,peers:[],joinedAt:0,sayN:0,lastSay:{},lastGen:null,screen:'',dur:store('wc_dur')||180,mode:store('wc_mode')||'coop',diff:store('wc_diff')||'easy',day:store('wc_day'),free:false,market:true,size:store('wc_size')||4,bots:[]};
 const app=$('#app');
 let cleanup=[];const onLeave=f=>cleanup.push(f);
-function go(fn){cleanup.forEach(f=>{try{f()}catch(e){}});cleanup=[];document.body.classList.remove('in-game');fn()}
+function go(fn){cleanup.forEach(f=>{try{f()}catch(e){}});cleanup=[];S.flat=false;document.body.classList.remove('in-game');fn()}
 document.addEventListener('pointermove',e=>{if(REDUCED)return;const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;$('#bg').style.transform=`scale(1.06) translate(${-x*14}px,${-y*10}px)`});
 
 /* ================= 3D KITCHEN (KayKit Restaurant Bits by Kay Lousberg, CC0) =================
@@ -1941,7 +2198,7 @@ function lobby(){
       </section>
       <section class="card actions">
         <button class="btn big tutbtn ${store('wc_tut')?'':'first'}" id="tut">🎓 ฝึกทำจานแรก<small>${store('wc_tut')?'ทบทวนวิธีเล่น 1 นาที':'เล่นครั้งแรก? เริ่มตรงนี้ · 1 นาที'}</small></button>
-        <button class="btn red big opennow" id="create">🍳 เปิดร้าน (สร้างห้อง)<small>${(()=>{const r=RUN.get();return r.day>1?`เล่นต่อ วันที่ ${r.day} · ${WORLDS[DAYS[r.day-1].w].icon} ${WORLDS[DAYS[r.day-1].w].th}`:'เริ่มวันที่ 1 · เล่นคนเดียวกับบอทก็ได้'})()}</small></button>
+        <button class="btn red big opennow" id="create">🍳 เปิดร้าน (สร้างห้อง)<small>เริ่มวันที่ 1 · เล่นคนเดียวกับบอทก็ได้</small></button>
         <div class="howplay">${[['👉','แตะขั้นที่กระพริบ','เกมบอกทีละขั้นว่าต้องทำอะไร'],['🔁','ส่งของให้เพื่อน','ใครไม่มีของ/เครื่องครัว ส่งซ้าย-ขวา'],['⭐','รักษาหลอดคะแนนร้าน','ลดเรื่อย ๆ · ส่งอาหาร = เติม · หมดหลอด = ร้านปิด']].map(([i,b,t])=>`<div><i>${i}</i><b>${b}</b><span>${t}</span></div>`).join('')}</div>
         <div class="divider">หรือเข้าห้องด้วยรหัส</div>
         <div>
@@ -2003,13 +2260,12 @@ const dayStars=()=>store('wc_days')||{};
 const dayOpen=n=>n===1||(dayStars()[n-1]||0)>=1;
 function saveDay(n,stars){const d=dayStars();if((d[n]||0)<stars){d[n]=stars;store('wc_days',d)}}
 /* the run (like Family Style): pass a day (★1+) -> next day; no star -> the shop closes and you start again from day 1 */
-const RUN={get(){const r=store('wc_run');return r&&r.day>=1&&r.day<=DAYS.length?r:{day:1,best:0,runs:1,gen:0}},set(r){store('wc_run',r)}};
-const curDay=()=>S.mode==='coop'&&!S.free?RUN.get().day:0;
-function runHTML(day,r){const D=DAYS[day-1],w=WORLDS[D.w];
-  return`<div class="rc w-${w.id}"><div class="rc-top"><span class="rc-w">${w.icon} ${w.th}</span><b>วันที่ ${day} <small>/ ${DAYS.length}</small></b></div>
-    <div class="rc-dots">${WORLDS.map((ww,wi)=>`<span class="rcg">${DAYS.filter(x=>x.w===wi).map(x=>`<i class="${x.n<day?'done':x.n===day?'now':''}" title="วันที่ ${x.n}"></i>`).join('')}</span>`).join('')}</div>
-    <p class="rc-news"><b>วันนี้: ${esc(D.th)}</b> · ${esc(D.news)}</p>
-    <small class="muted">🍽 ส่งให้ครบ ${D.goal} จาน (+ตามจำนวนคน) = ผ่าน ไปวันต่อไปเลย · ⭐ คะแนนร้านลดเรื่อย ๆ ส่งอาหารเพื่อเติม ถ้าหมดหลอด = ร้านปิด เริ่มใหม่วันที่ 1${r&&r.best?` · ไกลสุด: วันที่ ${r.best}`:''}</small></div>`}
+const RUN={get(){const r=S.runMem;return r&&r.day>=1&&r.day<=DAYS.length?r:{day:1,best:0,runs:1,gen:0}},set(r){S.runMem=r},reset(){const r=this.get();S.runMem={day:1,best:r.best||0,runs:(r.runs||1)+1,gen:0}}};
+const curDay=()=>S.mode==='coop'?1:0;   // co-op always starts at round 1 and plays on continuously
+function runHTML(day,r){const rows=roundRows(DAYS[0],null);
+  return`<div class="rc rclong"><div class="rc-top"><span class="rc-w">🍳 ครัวโกลาหล · เล่นยาวต่อเนื่อง</span></div>
+    <div class="rc-worlds">${WORLDS.map(w=>`<span>${w.icon} ${w.th}</span>`).join('<b>➜</b>')}</div>
+    <p class="rc-news">เริ่มรอบ 1 แล้วเล่นต่อไปเรื่อย ๆ · ส่งครบแต่ละรอบ = มีเมนูและเครื่องครัวใหม่ ยิ่งเล่นยิ่งยาก · ⭐ คะแนนร้านลดตลอด ส่งอาหารเพื่อเติม · <b>หลอดหมด = ร้านปิด</b></p></div>`}
 function renderRun(day){const el=$('#runcard');if(!el)return;el.hidden=!day;if(day)el.innerHTML=runHTML(day,RUN.get())}
 const nextDay=()=>{const d=dayStars();for(const D of DAYS)if(!d[D.n])return D.n;return DAYS.length};
 function dayGoals(n,cooks){const D=DAYS[n-1];return starGoals(D.dur,'normal',cooks).map(v=>Math.round(v*D.gx/10)*10)}
@@ -2018,7 +2274,7 @@ const starsOf=(score,g)=>g.filter(v=>score>=v).length;
 function startTutorial(){if(S.room){try{S.room.leave()}catch(e){}}
   const p={nick:S.name,chef:S.chef,joinedAt:1,creator:true,pid:PID,size:1,dur:600,mode:'solo',diff:'easy',tut:1,phase:'play',gen:Date.now()};
   S.room=offlineRoom('wc0000',p);S.peers=[{id:'me',isMe:true,p}];S.lastGen=p.gen;go(match)}
-function leaveRoom(){SAVED.set(null);if(S.room){S.room.leave();S.room=null}NET.setLobby({hosting:null,count:null,playing:null});go(lobby)}
+function leaveRoom(){SAVED.set(null);if(typeof RUN!=='undefined')RUN.reset();if(S.room){S.room.leave();S.room=null}NET.setLobby({hosting:null,count:null,playing:null});go(lobby)}
 
 function waitRoom(){
   SFX.music('lobby');
@@ -2061,17 +2317,15 @@ function waitRoom(){
     box.innerHTML=`<div class="runcard" id="runcard"></div>
       <div class="botadd main"><button class="btn" id="addBot">+ เพิ่มบอท</button><span class="muted">ไม่มีเพื่อน? เพิ่มบอทมาช่วยได้ · หรือส่งรหัสห้องให้เพื่อน</span></div>
       <details class="moreset" id="moreset"><summary>⚙️ โหมดอื่น / ตั้งค่าเพิ่ม</summary><div class="msbody">
-      <div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="coop">🤝 ร้านเดียวกัน (ช่วยกัน)</button><button data-v="solo">⚔️ เดี่ยว (แข่งกัน)</button><button data-v="team">ทีมละ 2 คน</button><button data-v="tour">ทัวร์นาเมนต์</button></div>
-      <div class="durpick" id="freeP"><span class="muted">รูปแบบ</span><button data-v="0">📅 เล่นเป็นวัน</button><button data-v="1">⏱ เล่นยาว (ตั้งเวลาเอง)</button></div>
+      <div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="coop">🍳 ครัวโกลาหล (ช่วยกัน)</button><button data-v="solo">⚔️ เดี่ยว (แข่งกัน)</button><button data-v="team">ทีมละ 2 คน</button><button data-v="tour">ทัวร์นาเมนต์</button></div>
       <div class="durpick diffpick" id="diffP"><span class="muted">ความยาก</span><button data-v="easy">😊 ง่าย<small>มือใหม่ · 9 เมนู · ไม่ต้องล้างจาน</small></button><button data-v="normal">🙂 ปกติ<small>ครบทุกระบบ</small></button><button data-v="chef">🔥 เชฟ<small>เร็ว · ออร์เดอร์เยอะ</small></button></div>
-      <div class="durpick diffpick" id="mktP"><span class="muted">วัตถุดิบ</span><button data-v="0">🗄️ ตู้ไม่จำกัด<small>หยิบได้ทุกอย่าง</small></button><button data-v="1">🛒 ตลาดแย่งกัน<small>ของสดมาบนสายพาน ใครคว้าก่อนได้</small></button></div>
       <div class="durpick" id="sizeP"><span class="muted">ขนาดห้อง</span>${[2,3,4,5,6].map(v=>`<button data-v="${v}">${v} คน</button>`).join('')}</div>
       <div class="durpick" id="durP"><span class="muted">เวลาต่อเกม</span>${[[120,'2 นาที'],[180,'3 นาที'],[300,'5 นาที']].map(([v,l])=>`<button data-v="${v}">${l}</button>`).join('')}</div>
       <div class="botadd"><span class="muted">ฝีมือบอท</span><select id="botLv">${Object.entries(BOTLV).map(([k,[th]])=>`<option value="${k}" ${k==='normal'?'selected':''}>${th}</option>`).join('')}</select></div>
-      <div class="durpick" id="runP"><span class="muted">ความคืบหน้า</span><button data-v="reset">🔁 เริ่มร้านใหม่ตั้งแต่วันที่ 1</button></div></div></details>`;
+      </div></details>`;
     if(S.mode!=='coop'||S.free)$('#moreset').open=true;
     box.querySelectorAll('#freeP button').forEach(b=>b.onclick=()=>{S.free=b.dataset.v==='1';store('wc_free',S.free);pushHost()});
-    $('#runP button').onclick=()=>{const r=RUN.get();if(r.day===1){toast('อยู่วันที่ 1 อยู่แล้ว');return}RUN.set({...r,day:1,runs:(r.runs||1)+1});toast('เริ่มร้านใหม่ วันที่ 1');pushHost()};
+    if($('#runP'))$('#runP button').onclick=()=>{const r=RUN.get();if(r.day===1){toast('อยู่วันที่ 1 อยู่แล้ว');return}RUN.set({...r,day:1,runs:(r.runs||1)+1});toast('เริ่มร้านใหม่ วันที่ 1');pushHost()};
     box.querySelectorAll('#sizeP button').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;if(v<curTotal){toast('ในห้องมีคนและบอทมากกว่านี้แล้ว');return}S.size=v;store('wc_size',v);pushHost()});
     box.querySelectorAll('#durP button').forEach(b=>b.onclick=()=>{S.dur=+b.dataset.v;store('wc_dur',S.dur);pushHost()});
     box.querySelectorAll('#diffP button').forEach(b=>b.onclick=()=>{S.diff=b.dataset.v;store('wc_diff',S.diff);pushHost()});
@@ -2089,9 +2343,9 @@ function waitRoom(){
     const meIdx=hum.findIndex(p=>p.isMe);
     if(!iAmHost&&meIdx>=0&&meIdx>=size-bots.length){logMsg(null,`ห้องนี้เต็มแล้ว (${size} คน)`,true);toast('ห้องเต็มแล้ว');setTimeout(leaveRoom,1200);S.screen='leaving';return}
     if(iAmHost&&!hostUI){if(!Array.isArray(S.bots))S.bots=[];buildHostUI(M);return}   // buildHostUI pushes the settings -> render runs again with them
-    if(!iAmHost){hostUI=null;const hp=host&&host.p||{};const md=hp.mode==='coop'?'🤝 ร้านเดียวกัน (ช่วยกัน)':hp.mode==='team'?'ทีมละ 2 คน':hp.mode==='tour'?`ทัวร์นาเมนต์ (${tourPlan(all.length)})`:'⚔️ เดี่ยว (แข่งกัน)';
+    if(!iAmHost){hostUI=null;const hp=host&&host.p||{};const md=hp.mode==='coop'?'🍳 ครัวโกลาหล (ช่วยกัน)':hp.mode==='team'?'ทีมละ 2 คน':hp.mode==='tour'?`ทัวร์นาเมนต์ (${tourPlan(all.length)})`:'⚔️ เดี่ยว (แข่งกัน)';
       $('#settings').innerHTML=hp.mode==='coop'&&+hp.day?runHTML(+hp.day,null)+`<p class="muted">${md} · บอท ${bots.length} ตัว · หัวห้องเป็นคนกดเริ่ม</p>`:`<p class="muted">${md} · ${Math.round((+hp.dur||180)/60)} นาที${hp.market?' · 🛒 ตลาดแย่งกัน':''} · บอท ${bots.length} ตัว · หัวห้องเป็นคนกดเริ่ม</p>`}
-    else{$('#settings').querySelectorAll('#sizeP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.size));$('#settings').querySelectorAll('#durP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dur));$('#settings').querySelectorAll('#modeP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.mode));$('#settings').querySelectorAll('#diffP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.diff));$('#settings').querySelectorAll('#freeP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.free));$('#freeP').hidden=S.mode!=='coop';$('#settings').classList.toggle('coopset',S.mode==='coop');$('#settings').querySelectorAll('#mktP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.market));
+    else{$('#settings').querySelectorAll('#sizeP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.size));$('#settings').querySelectorAll('#durP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dur));$('#settings').querySelectorAll('#modeP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.mode));$('#settings').querySelectorAll('#diffP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.diff));$('#settings').querySelectorAll('#freeP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.free));if($('#freeP'))$('#freeP').hidden=S.mode!=='coop';$('#settings').classList.toggle('coopset',S.mode==='coop');$('#settings').querySelectorAll('#mktP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.market));
       const ab=$('#addBot');if(ab)ab.disabled=all.length>=size}
     const ids=new Set(all.map(p=>p.id));
     all.forEach(p=>{if(!seen.has(p.id)&&seen.size)SFX.play('join');if(!seen.has(p.id)&&seen.size)logMsg(null,`${clean(p.p.nick,16)||'เชฟ'} ${p.isBot?'(บอท) ':''}เข้ามาในห้อง`,true)});
@@ -2117,7 +2371,7 @@ function waitRoom(){
   onLeave(room.onPeers(render));
 }
 function countdown(done){
-  if(W3D.loading){const o=document.createElement('div');o.className='count';o.innerHTML='<b style="font-size:clamp(1.6rem,5vw,2.6rem)">กำลังโหลดครัว 3D…</b>';document.body.appendChild(o);
+  if(W3D.loading){const o=document.createElement('div');o.className='count';o.innerHTML='<b style="font-size:clamp(1.6rem,5vw,2.6rem)">🧺 กำลังเติมของเข้าครัว…</b>';document.body.appendChild(o);
     Promise.race([W3D.wait,new Promise(r=>setTimeout(r,15000))]).then(()=>{o.remove();countdown(done)});return}
   const o=document.createElement('div');o.className='count';document.body.appendChild(o);let n=3;
   const step=()=>{SFX.play(n===0?'go':'count');if(n===0){o.innerHTML='<b style="font-size:clamp(4rem,14vw,8rem)">ลุย!</b>';setTimeout(()=>{o.remove();done()},700);return}
@@ -2148,7 +2402,7 @@ const RAW_ART={papaya:'papayaw'};  // whole fruit before it is shredded
 const ICON={ready:false,map:null,cols:1,rows:1};
 (location.protocol==='file:'?loadScript('3d/icons-data.js',20000).then(()=>window.ICON_DATA):fetch('3d/icons.json').then(r=>r.ok?r.json():null)).then(j=>{if(!j)return;const im=new Image();const url=j.dataUrl||'3d/'+j.file;
   im.onload=()=>{Object.assign(ICON,{map:j.icons,cols:j.cols,rows:j.rows,ready:true});const st=document.documentElement.style;st.setProperty('--icons',`url(${url})`);st.setProperty('--icols',j.cols);st.setProperty('--irows',j.rows)};im.src=url}).catch(()=>{});
-function icon(key){if(!ICON.ready)return null;const n=ICON.map[key];if(n==null)return null;const c=n%ICON.cols,r=Math.floor(n/ICON.cols);
+function icon(key){if(!ICON.ready||S.flat)return null;const n=ICON.map[key];if(n==null)return null;const c=n%ICON.cols,r=Math.floor(n/ICON.cols);
   return`<i class="ico3d" style="background-position:${ICON.cols>1?c/(ICON.cols-1)*100:0}% ${ICON.rows>1?r/(ICON.rows-1)*100:0}%"></i>`}
 const bottleArt=k=>icon('bottle:'+k)||art(BOTTLE_ART[k]);
 function itemArt(it){{const burnt=it.q<45&&['sauteed','deepfried','fries','baked','grilled'].includes(it.st);const ic=icon(it.ing+':'+it.st+(burnt?':burnt':''));if(ic)return`<span class="ia i3">${ic}</span>`}
@@ -2504,10 +2758,272 @@ function spectate(){
 }
 
 /* ================= PLAY ================= */
+/* ================= FAMILY STYLE TABLE (day mode) =================
+   Your own counter: crates of YOUR ingredients at the bottom, YOUR stations and two plates on the table,
+   a few free spots for loose food. Drag (or tap, then tap where) everything:
+   crate -> station -> tap 6 times -> plate -> drag the plate onto the order. Food you can't make: drag it to the
+   left/right edge to pass it to the cook beside you. A shop meter drains all the time; serving fills it.       */
+{const _ia=itemArt;itemArt=function(it){const h=_ia(it);return S.flat&&it&&it.ing!=='eggraw'?`<span class="fl fl-${it.st}">${h}</span>`:h}}
+/* phones: the kitchen plays best sideways (like Family Style) — offer full screen + landscape */
+function rotateHint(){if(S.rotOk||document.querySelector('.rothint')||!matchMedia('(pointer:coarse)').matches)return;const mq=matchMedia('(orientation:portrait)');if(!mq.matches)return;
+  const o=document.createElement('div');o.className='rothint';o.innerHTML=`<div><b class="rotic">📱↻</b><h3>หมุนมือถือเป็นแนวนอน</h3><p>เล่นแนวนอนจะเห็นโต๊ะกว้างกว่า ลากของง่ายกว่า</p>
+    <button class="btn big green" id="rotFs">เต็มจอ + แนวนอน</button><button class="btn soft" id="rotNo">เล่นแนวตั้งต่อ</button></div>`;document.body.appendChild(o);
+  const close=()=>{o.remove();mq.removeEventListener('change',onCh)};const onCh=e=>{if(!e.matches)close()};mq.addEventListener('change',onCh);
+  o.querySelector('#rotNo').onclick=()=>{S.rotOk=true;close()};
+  o.querySelector('#rotFs').onclick=async()=>{S.rotOk=true;try{await document.documentElement.requestFullscreen();await screen.orientation.lock('landscape')}catch(e){toast('หมุนมือถือเองได้เลย (ปิดล็อกการหมุนจอก่อน)')}close()};onLeave(close)}
+function fsMatch(){
+  SFX.music('play');S.screen='match';S.flat=true;document.body.classList.add('in-game','fsgame');onLeave(()=>document.body.classList.remove('fsgame'));KH=null;setTimeout(rotateHint,300);
+  const M0=members(S.peers||[]),h=M0.host,dayN=+h.p.day||1,gen=S.lastGen;let DAY=DAYS[dayN-1],W=WORLDS[DAY.w];const dur=DAY.dur;
+  const myId=(M0.all.find(m=>m.isMe)||{id:'me'}).id;
+  const nameOf=id=>{const m=M0.all.find(x=>x.id===id);return m?(clean(m.p.nick,16)||'เชฟ'):'เพื่อน'};
+  const chefOf=id=>{const m=M0.all.find(x=>x.id===id);return m?m.p.chef:0};
+  const K=S.k={gen,dur,mode:'coop',end:Infinity,tickets:[],score:0,served:0,done:false,uid:1,day:dayN,dq:null,dqAt:null,ring:null,pantry:null,fs:true};
+  // the counter is a free board: everything has a position (0..1 of the board) and can be dragged anywhere
+  const ST={passed:0,trashed:0,lost:0,t0:performance.now()};K.stats=ST;
+  const F={items:[],st:{},pos:{},plates:[[]],sel:null,asked:{},spawnAt:performance.now()+1500};
+  const CAP=15+Math.min(6,Math.floor(dayN/2)),SPAWN=Math.max(1700,3200-dayN*110);   // how many loose pieces fit, how often new food lands
+  report();NET.setLobby({playing:1});
+  const online=NET.mode==='socket'&&NET.s&&S.room&&!S.room.offline;const code=S.room.code;
+  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:'coop',day:dayN,players:M0.all.map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1}))});K.LM=LM;
+  const ask=(ev,data)=>new Promise(res=>{let done=false;const t=setTimeout(()=>{if(!done){done=true;res({ok:false,msg:'เซิร์ฟเวอร์ไม่ตอบ ลองอีกครั้ง'})}},5000);
+    NET.s.emit(ev,data,r=>{if(done)return;done=true;clearTimeout(t);res(r||{ok:false})})});
+  const local=fn=>{const now=Date.now();const r=fn(now);if(r&&r.events)r.events.forEach(onEvent);return Promise.resolve({...r,snap:LM.snap(myId,now)})};
+  const J={
+    serve:p=>online?ask('game:serve',{code,...p}):local(now=>LM.serve(myId,p,now)),
+    cookStart:tool=>online?ask('game:cookStart',{code,tool}):local(now=>LM.cookStart(myId,tool,now)),
+    cook:c=>online?ask('game:cook',{code,c}):local(now=>LM.cook(myId,c,now)),
+    pass:(item,dir)=>online?ask('game:pass',{code,item,dir}):local(now=>LM.pass(myId,item,now,dir)),
+    ask:ing=>online?ask('game:ask',{code,ing}):local(now=>LM.ask(myId,ing,now)),
+  };
+  const TI=id=>TOOLS.find(t=>t.id===id)||{th:id,verb:''};
+  const tArt=id=>icon('tool:'+id)||toolIcon(id);
+  const rawArt=k=>icon(k+':raw')||art(RAW_ART[k]||k);
+  const myTools=()=>K.ring&&K.ring.tools?K.ring.tools:DAY.tools;
+  const myIngs=()=>DAY.ings.filter(k=>!K.pantry||K.pantry.includes(k));
+  const ownerOf=k=>K.ring&&K.ring.who?K.ring.who.find(w=>w.id!==myId&&w.pantry&&w.pantry.includes(k)):null;
+  const toolOwner=t=>K.ring&&K.ring.who?K.ring.who.find(w=>w.id!==myId&&w.tools&&w.tools.includes(t)):null;
+  const sideOf=id=>{if(!K.ring||!id)return null;if(K.ring.l===K.ring.r)return'l';const Wd=K.ring.who.map(w=>w.id),i=Wd.indexOf(myId),j=Wd.indexOf(id),n=Wd.length;const r=(j-i+n)%n;return r<=n-r?'r':'l'};
+  const sideTxt=id=>sideOf(id)==='l'?'⬅ ทางซ้าย':'ทางขวา ➡';
+  const canUse=(tool,it)=>!!(it&&TR[tool]&&TR[tool][it.ing+':'+it.st]);
+  const TAPS=6;
+  document.body.dataset.world=W.id;onLeave(()=>{document.body.dataset.world=''});
+  app.innerHTML=`<div class="fs w-${W.id}" id="fs">
+    <div class="fstop">
+      <div class="fsday" id="fsday">${W.icon} รอบที่ ${DAY.n} · ${esc(DAY.th)}</div>
+      <div class="fsdish">🍽 <b id="dqn"></b></div>
+      <button class="fsquit" id="quit">ออก</button></div>
+    <div class="fstable">
+      <div class="fsboard" id="board" data-drop="board"><div class="fsedge l" id="passL" data-drop="pass:l"></div><div class="fsedge r" id="passR" data-drop="pass:r"></div><div class="fsorders fsord2" id="orders"></div><div class="fsfull" id="full" hidden>โต๊ะรกเต็มแล้ว! ส่งของให้เพื่อนหรือทิ้ง</div><button class="fstrash" data-drop="trash">🗑️<small>ทิ้ง</small></button>
+        <div class="fsmeter fsm2" id="goal" title="คะแนนร้าน: ลดลงเรื่อย ๆ · ส่งอาหาร = เติม · ออร์เดอร์หมดเวลา = ลดฮวบ · หมดหลอด = ร้านปิด"><span>คะแนนร้าน <b id="mval"></b></span><div class="fsbar"><i id="gfill"></i></div></div></div>
+    </div>
+  </div>`;
+  let quitArm=0;$('#quit').onclick=()=>{if(performance.now()-quitArm>2500){quitArm=performance.now();toast('แตะ "ออก" อีกครั้ง · ออกแล้วร้านจะเริ่มใหม่วันที่ 1');return}RUN.reset();const hh=roomList(S.peers||[])[0];if(hh&&hh.isMe)S.room.presence({phase:'wait'});go(waitRoom)};
+  /* ---------- drawing ---------- */
+  const itemHTML=(it,drag)=>`<div class="fsitem ${it.st!=='raw'?'done':''}" data-ing="${it.ing}" data-st="${it.st}" ${drag?`data-drag="${drag}"`:''}>${itemArt(it)}<small>${esc(itemName(it))}</small></div>`;
+  const lastLeft={};
+  // one order at a time (Family Style): the plate's order, else the one dealt to me; the rest wait in a small queue chip
+  const myTicket=()=>K.tickets.find(t=>t.own===myId)||(K.tickets.some(t=>t.own)?null:K.tickets[0])||null;   // every chef has their OWN order
+  function frontTicket(){return myTicket()}
+  function renderOrders(){const box=$('#orders');const tg=plateTarget();const ft=frontTicket(tg);
+    const sig=(ft?ft.k:'-')+'|'+K.tickets.length+'|'+myIngs().join(',')+'|'+myTools().join(',')+'|'+F.plates[0].map(x=>x.ing+':'+x.st).join(',')+'|'+(tg?tg.k:'');
+    if(box.dataset.sig!==sig){box.dataset.sig=sig;
+      box.innerHTML=(ft?[ft]:[]).map(t=>{const left=leftFor(t,tg),tot=t.m.c.length,f=left[0];
+        const flip=lastLeft[t.k]!=null&&left.length<lastLeft[t.k];lastLeft[t.k]=left.length;
+        let body;if(f){const path=pathTo(f.ing,f.st)||[];const mine=myIngs().includes(f.ing);
+          body=`<div class="fsone ${mine?'':'away'}" ${mine?'':`data-ask="${f.ing}"`} title="${esc(itemName(f))}"><span class="fsbig">${itemArt({ing:f.ing,st:f.st,q:100})}</span>${path.map(x=>`<span class="fstool">${tArt(x)}</span>`).join('')}${mine?'':'<i class="fsaway">📣</i>'}</div>`}
+        else body=`<div class="fsone ok"><b>✓</b><span>ลากจานมาเสิร์ฟ</span></div>`;
+        return`<div class="fsstack ${tg===t?'cur':''} ${f?'':'done'}" data-drop="tk:${t.k}" data-tk="${t.k}" title="${esc(t.m.th)}">${left.length>2?'<i class="fsback b3"></i>':''}${left.length>1?'<i class="fsback b2"></i>':''}
+          <div class="fstk fscard ${flip?'flip':''}"><div class="fscin">${body}<small class="fscname">${esc(t.m.th)} · ${tot-left.length}/${tot}</small></div></div></div>`}).join('')+(ft?'':'<div class="fsqueue">รอออร์เดอร์ใหม่…</div>')}
+    markSel()}
+  function fits(t,items){const left=t.m.c.map(c=>c[0]+':'+c[1]);for(const x of items){const j=left.indexOf(x.ing+':'+x.st);if(j<0)return false;left.splice(j,1)}return true}
+  function plateTarget(){const p=F.plates[0],t=myTicket();if(!p.length||!t)return null;return fits(t,p)?t:null}
+  function leftFor(t,tg){const need=t.m.c.map(c=>({ing:c[0],st:c[1]}));if(tg!==t)return need;for(const x of F.plates[0]){const j=need.findIndex(n=>n.ing===x.ing&&n.st===x.st);if(j>-1)need.splice(j,1)}return need}
+  function plateMatch(items){for(const t of K.tickets){const need=t.m.c.map(c=>c[0]+':'+c[1]);if(need.length!==items.length)continue;const n2=need.slice();if(items.every(x=>{const j=n2.indexOf(x.ing+':'+x.st);if(j<0)return false;n2.splice(j,1);return true}))return t}return null}
+  const tools=()=>myTools().filter(t=>DAY.tools.includes(t));
+  const ISZ={chili:42,garlic:44,basil:54,mushroom:48,eggraw:50,onion:54,tomato:56,lettuce:72,potato:60,avocado:60,mango:66,pineapple:76,papaya:84,
+    shrimp:58,sausage:62,bacon:66,patty:62,chicken:72,pork:70,steak:82,salmon:78,fish:92,cheese:56,butter:52,coconut:66,
+    bun:74,hbun:80,toast:68,tortilla:78,pasta:72,pizza:96,croissant:68,donut:60,rice:72,sticky:64};
+  const isz=k=>Math.round((ISZ[k]||(ING[k]&&ING[k].cat==='sauce'?54:62))*2.05);
+  const TSZ={knife:150,pan:128,fryer:132,pot:138,oven:168,mortar:104,grill:156,steamer:124};
+  // new stations (a new round can add some) go to the first free spot on the board
+  const SPOTS=[[.14,.42],[.34,.42],[.54,.42],[.14,.7],[.34,.7],[.54,.7],[.9,.55],[.12,.86],[.62,.86]];
+  function layout(){F.plates.forEach((_,i)=>{if(!F.pos['plate:'+i])F.pos['plate:'+i]={x:.78,y:.46}});
+    for(const id of tools()){const k='stn:'+id;if(F.pos[k])continue;const used=Object.entries(F.pos).filter(([kk])=>kk!==k).map(([,v])=>v);
+      const sp=SPOTS.find(([x,y])=>used.every(u=>Math.hypot(u.x-x,(u.y-y)*.6)>.13))||[.2+Math.random()*.5,.3+Math.random()*.4];F.pos[k]={x:sp[0],y:sp[1]}}}
+  let dirty=false;
+  let SC=1;const scaleNow=()=>{const r=$('#board').getBoundingClientRect();SC=Math.max(.5,Math.min(1.6,Math.min(r.width/1300,r.height/720)));$('#board').style.setProperty('--sc',SC)};
+  function renderBoard(){if(drag&&drag.moved){dirty=true;return}dirty=false;layout();const bd=$('#board');if(!bd)return;scaleNow();
+    bd.querySelectorAll('.fsobj').forEach(e=>e.remove());
+    const at=k=>{const p=F.pos[k]||{x:.5,y:.5};return`left:${p.x*100}%;top:${p.y*100}%`};
+    let html=tools().map(id=>{const s=F.st[id]||{};const it=s.item;const cook=it&&canUse(id,it);
+      return`<div class="fsobj fsst3 ${cook?'cook':''} ${s.pending?'busy':''}" style="${at('stn:'+id)};--sz:${Math.round((TSZ[id]||130)*1.75*SC)}px" data-drop="st:${id}" data-drag="stn:${id}" data-st="${id}"><div class="fst3">${tArt(id)}</div>
+        ${it?`<div class="fsst-i" style="--isz:${Math.round(isz(it.ing)*.7*SC)}px">${itemHTML(it,'st:'+id)}</div>`:''}<b class="fsname">${TI(id).th}</b>
+        ${it?`<i class="spie ${cook?'':'full'}" style="--p:${cook?(s.taps||0)/TAPS*100:100}%"></i>`:''}${cook?`<span class="fstap">แตะ ${TAPS-(s.taps||0)}</span>`:''}</div>`}).join('');
+    html+=F.plates.map((p,i)=>{const t=p.length?plateMatch(p):null;return`<div class="fsobj fsplate fsplate3 ${t?'ready':''}" style="${at('plate:'+i)}" data-drop="plate:${i}" data-drag="plate:${i}">${p.length?plateArt(p):'<span class="fsst-e">จาน</span>'}${t?`<b class="fsready">✓ ${esc(t.m.th)} · ลากไปเสิร์ฟ</b>`:''}</div>`}).join('');
+    html+=F.items.map(it=>`<div class="fsobj fsloose ${drag&&drag.src==='it:'+it.id?'fsheld':''}" data-pid="${it.id}" style="left:${it.x*100}%;top:${it.y*100}%;--isz:${Math.round(isz(it.ing)*SC)}px">${itemHTML(it,'it:'+it.id)}</div>`).join('');
+    bd.insertAdjacentHTML('beforeend',html);$('#full').hidden=F.items.length<CAP;markSel()}
+  const renderStations=()=>renderBoard(),renderPlates=()=>renderBoard(),renderSlots=()=>renderBoard(),renderCrates=()=>{};
+  function renderPass(){const r=K.ring;for(const [sel,id,arrow] of [['#passL',r&&r.l,'⇦'],['#passR',r&&r.r,'⇨']]){const b=$(sel);if(!b)continue;b.hidden=!id;if(!id)continue;
+      b.innerHTML=`<span class="fsarr">${arrow}</span>`}
+    $('#fs').classList.toggle('nopass',!r||!r.l)}
+  // passing: the piece flies off that edge with a fading trail, and a few sparkles pop at the table edge (like Family Style)
+  function flyOut(it,pt,dir){if(!it||REDUCED)return;const bd=$('#board').getBoundingClientRect();const x=pt?pt.x:bd.left+bd.width/2,y=pt?pt.y:bd.top+bd.height/2,sz=70;
+    const dx=(dir==='l'?bd.left-x:bd.right-x)+(dir==='l'?-90:90);
+    for(let i=0;i<4;i++){const c=document.createElement('div');c.className='fsfly';c.innerHTML=itemArt(it);Object.assign(c.style,{left:(x-sz/2)+'px',top:(y-sz/2)+'px',width:sz+'px',height:sz+'px'});document.body.appendChild(c);
+      c.animate([{transform:'translate(0,0) scale(1)',opacity:i?.5-i*.12:1},{transform:`translate(${dx}px,-14px) scale(.75)`,opacity:0}],{duration:340,delay:i*40,easing:'cubic-bezier(.3,0,.7,.6)',fill:'both'}).onfinish=()=>c.remove()}
+    sparkle(dir==='l'?bd.left+6:bd.right-6,y)}
+  function sparkle(x,y){if(REDUCED)return;for(let i=0;i<3;i++){const st=document.createElement('i');st.className='fsspark';st.textContent='✦';Object.assign(st.style,{left:x+'px',top:(y-30+i*26)+'px',fontSize:(26+i*10)+'px'});document.body.appendChild(st);
+      st.animate([{transform:'translate(-50%,-50%) scale(.2) rotate(0deg)',opacity:0},{transform:'translate(-50%,-50%) scale(1.1) rotate(25deg)',opacity:.9,offset:.35},{transform:'translate(-50%,-50%) scale(.9) rotate(40deg)',opacity:0}],{duration:650,delay:120+i*70,fill:'both'}).onfinish=()=>st.remove()}}
+  function renderAll(){renderOrders();renderBoard();renderPass()}
+  function markSel(){document.querySelectorAll('#fs .fssel').forEach(e=>e.classList.remove('fssel'));if(!F.sel)return;const el=document.querySelector(`#fs [data-drag="${F.sel}"]`);if(el)el.classList.add('fssel');else F.sel=null}
+  /* ---------- moving food ---------- */
+  const findIt=id=>F.items.find(x=>String(x.id)===String(id));
+  function addLoose(it,x,y){F.items.push({...it,vx:0,vy:0,x:x==null?.08+Math.random()*.84:x,y:y==null?.5+Math.random()*.3:y})}
+  function peek(src){const [k,v]=src.split(':');if(k==='it')return findIt(v);if(k==='st')return F.st[v]&&F.st[v].item;if(k==='plate')return F.plates[+v];if(k==='stn')return{stn:v};return null}
+  function remove(src){const [k,v]=src.split(':');if(k==='it')F.items=F.items.filter(x=>String(x.id)!==v);else if(k==='st')F.st[v]={};else if(k==='plate')F.plates[+v]=[];renderBoard()}
+  const clamp01=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const nope=(el,msg)=>{if(msg)toast(msg);SFX.play('fail');if(el&&!REDUCED)el.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:260})};
+  function move(src,dst,dEl,pt){if(K.done||!src||!dst||src===dst)return;const [sk,sv]=src.split(':'),[dk,dv]=dst.split(':');const it=peek(src);if(!it)return;
+    // dropped on the bare board: just put it there (food, a plate or a whole station)
+    if(dk==='board'||(sk==='stn'&&dk!=='trash')||(sk==='plate'&&dk==='plate')){if(!pt)return;const r=$('#board').getBoundingClientRect();const x=clamp01((pt.x-r.left)/r.width,.05,.95),y=clamp01((pt.y-r.top)/r.height,.08,.92);
+      if(sk==='it'){it.x=x;it.y=y;F.items=F.items.filter(o=>o!==it).concat(it);renderBoard();return}
+      if(sk==='stn'||sk==='plate'){F.pos[src]={x,y};renderBoard();return}
+      if(sk==='st'){if(F.st[sv].pending)return nope(dEl,'กำลังทำอยู่ รอแป๊บ');addLoose(it,x,y);remove(src);return}}
+    if(sk==='stn')return;
+    if(sk==='st'&&F.st[src.split(':')[1]].pending)return nope(dEl,'กำลังทำอยู่ รอแป๊บ');
+    if(sk==='plate'){                                       // a whole plate: serve it or tip it out
+      if(dk==='tk')return serve(+src.split(':')[1],+dv,dEl);
+      if(dk==='trash'){remove(src);SFX.play('whoosh');return}
+      return nope(dEl,'ลากจานไปวางที่ออร์เดอร์เพื่อเสิร์ฟ')}
+    if(dk==='st'){const s=F.st[dv]||{};if(s.item)return nope(dEl,'เครื่องครัวนี้มีของอยู่แล้ว');if(!canUse(dv,it))return nope(dEl,`${itemName(it)} ใช้กับ${TI(dv).th}ไม่ได้`);F.st[dv]={item:it,taps:0};remove(src);renderStations();SFX.play('place');return}
+    if(dk==='plate'){const p=F.plates[+dv];if(p.length>=MAX_PLATE)return nope(dEl,'จานเต็มแล้ว');
+      const mt=myTicket();if(!mt||!fits(mt,p.concat(it))){const pe=document.querySelector(`#board [data-drop="plate:${dv}"]`);if(pe){const x=document.createElement('b');x.className='fsx';x.textContent='✕';pe.appendChild(x);setTimeout(()=>x.remove(),800)}
+        return nope(pe,!mt?'ยังไม่มีออร์เดอร์':`ออร์เดอร์ของคุณไม่ใช้${itemName(it)} · ส่งให้เพื่อนดีกว่า`)}
+      p.push(it);remove(src);renderPlates();renderOrders();SFX.play('place');return}
+    if(dk==='trash'){remove(src);ST.trashed++;SFX.play('whoosh');return}
+    if(dk==='pass'){const dir=dv;J.pass({ing:it.ing,st:it.st,amt:1,q:it.q},dir).then(r=>{if(S.k!==K)return;if(!r||!r.ok)return nope(dEl,(r&&r.msg)||'ส่งไม่สำเร็จ');flyOut(it,pt,dir);if(sk!=='crate'&&peek(src)===it)remove(src);ST.passed++;SFX.play('whoosh')});return}
+    if(dk==='tk')return nope(dEl,'วางของลงจานก่อน แล้วลากจานมาที่ออร์เดอร์')}
+  function serve(pi,tk,el){const items=F.plates[pi],t=K.tickets.find(x=>x.k===tk);if(!t)return;
+    const need=t.m.c.map(c=>c[0]+':'+c[1]);const extra=[];for(const x of items){const j=need.indexOf(x.ing+':'+x.st);if(j<0)extra.push(itemName(x));else need.splice(j,1)}
+    if(need.length||extra.length)return nope(el,need.length?`ยังขาด: ${need.map(k=>{const [i,s]=k.split(':');return itemName({ing:i,st:s})}).join(', ')}`:`มีของเกิน: ${extra.join(', ')}`);
+    J.serve({plate:items.map(({ing,st,q})=>({ing,st,amt:1,q})),season:{},sel:tk}).then(r=>{if(S.k!==K)return;if(!r||!r.ok)return nope(el,(r&&r.msg)||'เสิร์ฟไม่สำเร็จ');
+      F.plates[pi]=[];renderPlates();SFX.play('serve');setTimeout(()=>SFX.play('coin'),300);if(r.snap)applySnap(r.snap)})}
+  /* ---------- cooking: tap the station 6 times (the referee checks the real minimum time) ---------- */
+  function cookTap(id,el){const s=F.st[id];if(!s||!s.item||s.pending)return;const it=s.item;if(!canUse(id,it)){toast(`${itemName(it)} เสร็จแล้ว ลากไปวางต่อได้เลย`);return}
+    if(!s.taps){s.t0=performance.now();s.start=J.cookStart(id)}
+    s.taps=(s.taps||0)+1;SFX.play('chop');if(el&&!REDUCED)el.animate([{transform:'scale(1)'},{transform:'scale(.94)'},{transform:'scale(1)'}],{duration:140});
+    if(s.taps<TAPS){renderStations();return}
+    s.pending=true;renderStations();const kind=id==='mortar'&&TR[id][it.ing+':'+it.st]==='somtam'?'somtam':id;const wait=Math.max(0,(E.MIN_COOK[kind]||400)+150-(performance.now()-s.t0));
+    setTimeout(()=>{s.start.then(r0=>{if(r0&&r0.ok===false){s.pending=false;s.taps=0;renderStations();return nope(null,r0.msg||'ทำไม่ได้')}
+      const to=TR[id][it.ing+':'+it.st];J.cook({tool:id,ing:it.ing,st:it.st,to,amt:1,q:95}).then(r=>{if(S.k!==K)return;s.pending=false;s.taps=0;
+        if(!r||!r.ok){renderStations();return nope(null,(r&&r.msg)||'ทำไม่สำเร็จ')}
+        s.item={...it,st:to,q:r.q||95};SFX.play('ding');renderStations()})})},wait)}
+  /* ---------- pointer: drag, or tap-then-tap ---------- */
+  let drag=null,ghost=null,hover=null;
+  const fs=$('#fs');
+  fs.addEventListener('pointerdown',e=>{if(K.done||e.button>0)return;const d=e.target.closest('[data-drag]');const ask2=e.target.closest('[data-ask]');if(ask2)return;
+    drag={src:d?d.dataset.drag:null,el:d,x:e.clientX,y:e.clientY,moved:false,target:e.target,vx:0,lt:0,lx:e.clientX}});
+  window.addEventListener('pointermove',onMove);window.addEventListener('pointerup',onUp);onLeave(()=>{window.removeEventListener('pointermove',onMove);window.removeEventListener('pointerup',onUp);if(ghost)ghost.remove()});
+  // drop target under the finger: a station/plate/order/edge wins over the bare board even when loose food lies on top of it
+  function dropAt(x,y){const els=document.elementsFromPoint(x,y);let board=null;for(const el of els){if(el.closest('.fsdragging,.fsheld'))continue;const d=el.closest('#fs [data-drop]');if(!d)continue;if(d.dataset.drop==='board'){board=board||d;continue}return d}return board}
+  function onMove(e){if(!drag||!drag.src)return;if(!drag.moved&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<8)return;
+    if(!drag.moved&&drag.src.startsWith('it:')){const it=peek(drag.src);if(!it){drag=null;return}drag.moved=true;held=it;it.vx=it.vy=0;const pe=drag.el.closest('.fsloose');pe&&pe.classList.add('fsheld');drag.pe=pe;drag.ly=e.clientY;drag.vy=0}
+    if(!drag.moved){drag.moved=true;const it=peek(drag.src);if(!it){drag=null;return}ghost=document.createElement('div');ghost.className='fsghost';ghost.innerHTML=it.stn?`<div class="fsgst">${tArt(it.stn)}</div>`:Array.isArray(it)?plateArt(it):itemArt(it);document.body.appendChild(ghost);drag.el.classList.add('fsdragging')}
+    const tn=performance.now();if(drag.lt){const dt=Math.max(8,tn-drag.lt);drag.vx=drag.vx*.4+.6*(e.clientX-drag.lx)/dt}drag.lt=tn;drag.lx=e.clientX;$('#fs').classList.add('dragging');
+    if(held){const R=$('#board').getBoundingClientRect(),dt2=Math.max(8,performance.now()-(drag.mt||0));if(drag.mt){held.vx=held.vx*.3+.7*(e.clientX-drag.mx)/dt2*1000;held.vy=held.vy*.3+.7*(e.clientY-drag.my)/dt2*1000}drag.mt=performance.now();drag.mx=e.clientX;drag.my=e.clientY;
+      held.x=Math.max(.01,Math.min(.99,(e.clientX-R.left)/R.width));held.y=Math.max(.01,Math.min(.99,(e.clientY-R.top)/R.height));if(drag.pe){drag.pe.style.left=held.x*100+'%';drag.pe.style.top=held.y*100+'%'}}
+    else{ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px'}const t=dropAt(e.clientX,e.clientY);if(t!==hover){if(hover)hover.classList.remove('fshover');hover=t;if(t)t.classList.add('fshover')}}
+  function onUp(e){if(!drag)return;const d=drag;drag=null;const wasHeld=held;held=null;if(d.pe)d.pe.classList.remove('fsheld');if(hover){hover.classList.remove('fshover')}const tgt=hover;hover=null;
+    $('#fs')&&$('#fs').classList.remove('dragging');
+    const BR=$('#board').getBoundingClientRect(),fx=(e.clientX-BR.left)/BR.width,toward=d.vx<0?fx<.3:fx>.7;const flick=d.moved&&toward&&Math.abs(d.vx||0)>1.1&&/^(it|st):/.test(d.src||'')&&K.ring&&K.ring.l&&(!tgt||tgt.dataset.drop==='board');
+    if(flick){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');move(d.src,'pass:'+(d.vx<0?'l':'r'),null,{x:e.clientX,y:e.clientY});return}
+    if(wasHeld&&(!tgt||tgt.dataset.drop==='board')){wasHeld.vx=(wasHeld.vx||0)*.7;wasHeld.vy=(wasHeld.vy||0)*.7;if(dirty)renderBoard();return}   // let go on the table: it slides on
+    if(wasHeld){wasHeld.vx=wasHeld.vy=0}
+    if(d.moved){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');if(tgt)move(d.src,tgt.dataset.drop,tgt,{x:e.clientX,y:e.clientY});if(dirty)renderBoard();return}
+    tap(d,e)}
+  function tap(d,e){const dropEl=d.target.closest('#fs [data-drop]');const src=d.src;const pt={x:e.clientX,y:e.clientY};
+    const give=s0=>s0&&!s0.startsWith('stn:')&&!s0.startsWith('plate:');
+    if(src&&src.startsWith('st:')){const id=src.slice(3);if(F.sel&&F.sel!==src&&give(F.sel))return nope(dropEl,'เครื่องครัวนี้มีของอยู่แล้ว');if(canUse(id,F.st[id].item))return cookTap(id,dropEl);F.sel=F.sel===src?null:src;return markSel()}
+    const stEl=d.target.closest('.fsst3,.fsst');
+    if(stEl){const id=stEl.dataset.st;if(give(F.sel)){const s0=F.sel;F.sel=null;move(s0,'st:'+id,stEl);return markSel()}const s1=F.st[id];if(s1&&s1.item){if(canUse(id,s1.item))return cookTap(id,stEl);F.sel='st:'+id;return markSel()}return}
+    const plEl=d.target.closest('.fsplate');
+    if(plEl){const pk=plEl.dataset.drop;if(give(F.sel)){const s0=F.sel;F.sel=null;move(s0,pk,plEl);return markSel()}F.sel=F.sel===pk?null:pk;return markSel()}
+    if(src&&src.startsWith('it:')){F.sel=F.sel===src?null:src;return markSel()}
+    if(dropEl&&F.sel){const s0=F.sel;F.sel=null;move(s0,dropEl.dataset.drop,dropEl,pt);return markSel()}}
+  fs.addEventListener('click',e=>{const a=e.target.closest('[data-ask]');if(!a)return;const ing=a.dataset.ask;J.ask(ing).then(r=>{if(S.k!==K)return;const o=r&&r.owner;toast(r&&r.ok?`📣 ขอ${ING[ing].th}จาก ${nameOf(o)} (${sideTxt(o)}) แล้ว`:(r&&r.msg)||'ขอไม่สำเร็จ')})});
+  /* ---------- the shop meter ---------- */
+  function meterNow(){const d=K.dq;if(!d||K.dqAt==null)return null;return Math.max(0,Math.min(d.max,d.meter-d.drain*(performance.now()-K.dqAt)/1000))}
+  function meterPop(d){const g=$('#goal');if(!g)return;const e=document.createElement('b');e.className='mpop '+(d>0?'up':'down');e.textContent=(d>0?'+':'')+d;g.appendChild(e);setTimeout(()=>e.remove(),1300);
+    if(d<0&&!REDUCED)g.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:320})}
+  function renderMeter(){const d=K.dq;if(!d)return;const v=meterNow()||0,f=v/d.max;const fill=$('#gfill');fill.style.width=f*100+'%';fill.style.background=f>.5?'#43B649':f>.25?'#FFB020':'#F2483A';
+    $('#goal').classList.toggle('low',f<=.25&&!d.result);$('#mval').textContent=Math.ceil(v);$('#dqn').textContent=`${Math.min(d.served??K.served,d.goal)}/${d.goal} จาน`}
+  /* ---------- the referee ---------- */
+  let first=true,ringSig='';
+  function applySnap(snap){if(!snap||snap.gen!==gen)return;S.lastSnap=snap;K.score=snap.score;K.served=snap.served;
+    if(snap.dq){const pred=meterNow();K.dq=snap.dq;K.dqAt=performance.now();if(pred!=null){const d=Math.round(snap.dq.meter-pred);if(Math.abs(d)>=4)meterPop(d)}if(snap.dq.result&&!K.done)setTimeout(endGame,300)}
+    const now=performance.now();K.tickets=snap.tickets.filter(t=>MENU_BY_ID[t.id]).map(t=>({k:t.k,own:t.own||null,m:{...MENU_BY_ID[t.id],c:E.fsComp(MENU_BY_ID[t.id])},life:t.life,born:now-(t.life*1000-t.left)}));
+    if(snap.day&&snap.day!==K.day&&DAYS[snap.day-1]){const P0=DAY;K.day=snap.day;DAY=DAYS[snap.day-1];W=WORLDS[DAY.w];nextRound(P0)}
+    if(snap.ring)K.ring=snap.ring;K.pantry=snap.pantry||null;
+    const rs=JSON.stringify([K.pantry,K.ring&&K.ring.tools,K.ring&&K.ring.l,K.ring&&K.ring.r]);if(rs!==ringSig){ringSig=rs;renderCrates();renderStations();renderPass()}
+    renderOrders();renderPlates();renderMeter();report();if(first){first=false;intro()}}
+  function onEvent(e){if(!e)return;
+    if(e.type==='recv'&&(!e.to||e.to===myId)){const L=sideOf(e.from)==='l';const it={...e.item,id:K.uid++};F.items.push({...it,x:L?.07+Math.random()*.1:.76+Math.random()*.1,y:.45+Math.random()*.38});renderBoard();SFX.play('join');toast(`ได้รับ ${itemName(e.item)} จาก ${nameOf(e.from)} ${L?'⬅':'➡'}`);
+      const el=document.querySelector(`#board [data-drag="it:${it.id}"]`);if(el&&!REDUCED){el.animate([{transform:`translateX(${L?-160:160}px)`,opacity:0},{transform:'translateX(0)',opacity:1}],{duration:420,easing:'cubic-bezier(.2,.8,.2,1)'});const bd=$('#board').getBoundingClientRect(),r=el.getBoundingClientRect();sparkle(L?bd.left+4:bd.right-4,r.top+r.height/2)}}
+    else if(e.type==='ask'&&(!e.to||e.to===myId)){F.asked[e.ing]=performance.now()+8000;if(myIngs().includes(e.ing)&&!F.items.some(x=>x.ing===e.ing&&x.st==='raw')){addLoose({id:K.uid++,ing:e.ing,st:'raw',q:100},sideOf(e.from)==='l'?.12:.82,.6);renderBoard()}say(`${nameOf(e.from)} ขอ${ING[e.ing].th}`);toast(`📣 ${nameOf(e.from)} ขอ${ING[e.ing].th} (${sideTxt(e.from)}) — ลาก${ING[e.ing].th}บนโต๊ะไปที่ขอบ${sideOf(e.from)==='l'?'ซ้าย':'ขวา'}`)}
+    else if(e.type==='coopserve'){if(e.by===myId)return;SFX.play('coin');toast(`${nameOf(e.by)} เสิร์ฟ ${e.th}!`)}
+    else if(e.type==='expired'&&(e.team==null||e.team===0))(e.list||[]).forEach(x=>{ST.lost++;SFX.play('expire');toast(`💢 ลูกค้าที่สั่ง${x.th}รอไม่ไหว เดินออก! คะแนนร้าน -${E.METER.miss}`)})}
+  if(online){const f=(ev,d)=>{if(!d||d.code!==code)return;if(ev==='game:you')applySnap(d.snap);else if(ev==='game:recv')onEvent({type:'recv',...d});else if(ev==='game:ask')onEvent({type:'ask',...d});else if(ev==='game:expired')onEvent({type:'expired',...d});else if(ev==='game:coopserve')onEvent({...d,type:'coopserve'})};
+    NET.gameSubs.add(f);onLeave(()=>NET.gameSubs.delete(f));if(NET.you&&NET.you.code===code)applySnap(NET.you.snap);ask('game:sync',code).then(r=>{if(r&&r.ok)applySnap(r.snap)})}
+  renderAll();if(!online)applySnap(LM.snap(myId,Date.now()));
+  // a round is cleared: "รอบที่ N ผ่าน!" then the next round's card (the referee pauses orders and the meter meanwhile)
+  function nextRound(P0){const fd=$('#fsday');if(fd)fd.textContent=`${W.icon} รอบที่ ${DAY.n} · ${DAY.th}`;document.body.dataset.world=W.id;{const fe=$('#fs');fe.classList.remove('w-home','w-diner','w-thai');fe.classList.add('w-'+W.id)}
+    SFX.play('fanfare');F.plates=[[]];renderBoard();document.querySelectorAll('.dayintro').forEach(x=>x.remove());
+    const b=document.createElement('div');b.className='dayintro';const n=M0.all.length,goal=DAY.goal+Math.floor((n-1)*.75);
+    b.innerHTML=roundCard(`รอบที่ ${P0.n} ผ่าน!`,`ส่งครบแล้ว · ⭐ +15`,[],2.4,`<p class="rpun">${PUNS[(P0.n*3+K.served)%PUNS.length]}</p>`,'🍽 กำลังเก็บจาน…').replace('class="rcard"','class="rcard done"');document.body.appendChild(b);
+    const t1=setTimeout(()=>{const rows=roundRows(DAY,P0);const t=tools();const nw=DAY.w!==P0.w;
+      b.innerHTML=roundCard(`รอบที่ ${DAY.n}:`,`${nw?'🎉 ร้านใหม่! ':''}${W.icon} ${esc(DAY.th)} · ส่ง ${goal} จาน`,rows,3,(rows.length?'':`<div class="rdish">${DAY.menus.filter(id=>!P0.menus.includes(id)).concat(DAY.menus).slice(0,4).map(id=>menuArt(MENU_BY_ID[id])).join('')}</div>`)+(n>1&&DAY.split?`<p class="rpun">คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}</p>`:''),'🧽 กำลังเช็ดโต๊ะ…')},2400);
+    const t2=setTimeout(()=>b.remove(),5500);onLeave(()=>{clearTimeout(t1);clearTimeout(t2);b.remove()})}
+  function intro(){if(S.fromNext){S.fromNext=false;const t=myTools().filter(x=>DAY.tools.includes(x));toast(`วันนี้คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}`);return}
+    const b=document.createElement('div');b.className='dayintro';const t=myTools().filter(x=>DAY.tools.includes(x));const rows=roundRows(DAY,dayN>1?DAYS[dayN-2]:null);
+    b.innerHTML=roundCard(`รอบที่ ${DAY.n}:`,`${W.icon} ${esc(DAY.th)} · ส่ง ${K.dq?K.dq.goal:DAY.goal} จาน`,rows,3.2,(rows.length?'':`<div class="rdish">${DAY.menus.slice(0,4).map(id=>menuArt(MENU_BY_ID[id])).join('')}</div>`)+(M0.all.length>1&&DAY.split?`<p class="rpun">คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}</p>`:''),'🧽 กำลังเช็ดโต๊ะ…');
+    if(DAY.n<=3){const how=`<ul class="rhow"><li>วัตถุดิบจะหล่นมาบนโต๊ะเรื่อย ๆ</li><li>ลากไป<b>เครื่องครัว</b> แล้ว<b>แตะ ${TAPS} ครั้ง</b></li><li>ทำตาม<b>การ์ดใบหน้า</b>ทีละชิ้น วางลงจาน ครบแล้ว<b>ลากจานไปที่การ์ด</b></li>${M0.all.length>1?'<li>ของที่ไม่ใช้ <b>ลาก/โยนไปขอบซ้าย-ขวา</b> ส่งให้เพื่อน</li>':'<li>ของที่ไม่ใช้ ลากไปถังขยะ</li>'}</ul>`;const rf=b.querySelector('.rfoot');if(rf)rf.insertAdjacentHTML('beforebegin',how);const pie=b.querySelector('.rpie');if(pie)pie.style.setProperty('--d','7s')}
+    document.body.appendChild(b);const close=()=>b.remove();b.onclick=close;setTimeout(close,DAY.n<=3?7000:3200);onLeave(close)}
+  /* ---------- solid pieces: they shove each other, a hard bump sends them sliding, the table edge stops them
+     (only YOUR drag or throw can pass something to a friend) ---------- */
+  let held=null;
+  function physics(dt){const bd=$('#board');if(!bd||!F.items.length)return;const R=bd.getBoundingClientRect(),W=R.width,H=R.height;if(!W)return;
+    const bodies=F.items.map(it=>({it,x:it.x*W,y:it.y*H,r:isz(it.ing)*SC*.42,vx:it.vx||0,vy:it.vy||0,kin:held===it}));
+    const stat=[...tools().map(id=>({k:'stn:'+id,r:(TSZ[id]||130)*1.75*SC*.36})),...F.plates.map((_,i)=>({k:'plate:'+i,r:92*SC}))].map(o=>{const p=F.pos[o.k]||{x:.5,y:.5};return{x:p.x*W,y:p.y*H,r:o.r}});
+    for(const b of bodies)if(!b.kin){const f=Math.exp(-3.2*dt);b.vx*=f;b.vy*=f;if(Math.abs(b.vx)<4)b.vx=0;if(Math.abs(b.vy)<4)b.vy=0;b.x+=b.vx*dt;b.y+=b.vy*dt}
+    for(let it2=0;it2<2;it2++){
+      for(let i=0;i<bodies.length;i++)for(let j=i+1;j<bodies.length;j++){const a=bodies[i],b=bodies[j];let dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),m=a.r+b.r;if(d>=m)continue;if(d<.01){dx=Math.random()-.5;dy=Math.random()-.5;d=Math.hypot(dx,dy)}
+        const nx=dx/d,ny=dy/d,ov=m-d;
+        if(a.kin||b.kin){const k=a.kin?a:b,o=a.kin?b:a,sg=a.kin?1:-1;o.x+=nx*ov*sg;o.y+=ny*ov*sg;const rel=(k.vx-o.vx)*nx*sg+(k.vy-o.vy)*ny*sg;if(rel>0){o.vx+=nx*sg*rel*1.25;o.vy+=ny*sg*rel*1.25}continue}
+        a.x-=nx*ov/2;a.y-=ny*ov/2;b.x+=nx*ov/2;b.y+=ny*ov/2;const rel=(a.vx-b.vx)*nx+(a.vy-b.vy)*ny;if(rel>0){const imp=rel*.8;a.vx-=nx*imp;a.vy-=ny*imp;b.vx+=nx*imp;b.vy+=ny*imp}}
+      for(const b of bodies){if(b.kin)continue;for(const o of stat){let dx=b.x-o.x,dy=b.y-o.y,d=Math.hypot(dx,dy),m=b.r+o.r;if(d>=m||d<.01)continue;const nx=dx/d,ny=dy/d;b.x+=nx*(m-d);b.y+=ny*(m-d);const vn=b.vx*nx+b.vy*ny;if(vn<0){b.vx-=1.5*vn*nx;b.vy-=1.5*vn*ny}}
+        if(b.x<b.r){b.x=b.r;b.vx=Math.abs(b.vx)*.45}if(b.x>W-b.r){b.x=W-b.r;b.vx=-Math.abs(b.vx)*.45}if(b.y<b.r){b.y=b.r;b.vy=Math.abs(b.vy)*.45}if(b.y>H-b.r-62*SC){b.y=H-b.r-62*SC;b.vy=-Math.abs(b.vy)*.45}}}
+    for(const b of bodies){const it=b.it;if(b.kin)continue;const nx=b.x/W,ny=b.y/H;if(Math.abs(nx-it.x)<1e-5&&Math.abs(ny-it.y)<1e-5&&!b.vx&&!b.vy)continue;it.x=nx;it.y=ny;it.vx=b.vx;it.vy=b.vy;
+      const el=bd.querySelector(`.fsloose[data-pid="${it.id}"]`);if(el){el.style.left=nx*100+'%';el.style.top=ny*100+'%'}}}
+  /* ---------- the clock ---------- */
+  let tickAcc=0;
+  function spawn(now){F.spawnAt=now+SPAWN*(.8+Math.random()*.4);if(F.items.length>=CAP)return;const own=myIngs();if(!own.length)return;
+    const lying=k=>F.items.filter(x=>x.ing===k).length;const ingsOf=ts=>[...new Set(ts.flatMap(t=>t.m.c.map(c=>c[0])))].filter(k=>own.includes(k)&&lying(k)<2);
+    const others=ingsOf(K.tickets.filter(t=>t.own&&t.own!==myId)),mine=ingsOf(K.tickets.filter(t=>!t.own||t.own===myId));const x=Math.random();
+    const spare=own.filter(k=>lying(k)<3);const pool=others.length&&x<.5?others:mine.length&&x<.8?mine:spare;if(!pool.length)return;const ing=pool[Math.floor(Math.random()*pool.length)];
+    const it={id:K.uid++,ing,st:'raw',q:100};addLoose(it);renderBoard();SFX.play('pop');const el=document.querySelector(`#board [data-drag="it:${it.id}"]`);if(el&&!REDUCED)el.animate([{transform:'translateY(-40px) scale(.6)',opacity:0},{transform:'translateY(0) scale(1)',opacity:1}],{duration:300,easing:'cubic-bezier(.34,1.56,.64,1)'})}
+  stageLoop(dt=>{if(K.done)return;renderMeter();physics(Math.min(dt,.033));const now=performance.now();if(K.tickets.length&&now>=F.spawnAt&&!document.querySelector('.dayintro'))spawn(now);else if(document.querySelector('.dayintro'))F.spawnAt=Math.max(F.spawnAt,now+800);
+    K.tickets.forEach(t=>{const f=Math.max(0,1-(now-t.born)/(t.life*1000));const cd=document.querySelector(`#orders [data-tk="${t.k}"]`);if(cd){cd.style.setProperty('--bc',f>.5?'#A99BE0':f>.25?'#E07AA8':'#D8344A');cd.classList.toggle('hurry',f<=.25)}});
+    if(!online){tickAcc+=dt;if(tickAcc>.25){tickAcc=0;const r=LM.tick(Date.now());r.events.forEach(onEvent);if(r.changed)applySnap(LM.snap(myId,Date.now()))}}});
+  K.onEvent=onEvent;K.myId=myId;
+  function endGame(){if(K.done)return;K.done=true;ST.time=performance.now()-ST.t0;KH=null;SFX.music(null);SFX.play('timeup');S.tot=(S.tot||0)+K.score;SAVED.touch({tot:S.tot});report();
+    if(LM)applySnap(LM.snap(myId,Date.now()));
+    const b=document.createElement('div');b.className='count';b.innerHTML=`<b style="font-size:clamp(3rem,10vw,6rem)">${K.dq&&K.dq.result==='clear'?'ครบแล้ว! 🎉':'ร้านปิด! 💔'}</b>`;document.body.appendChild(b);setTimeout(()=>{b.remove();go(results)},1600)}
+}
+
 function match(){
-  SFX.music('play');
+  SFX.music('play');setTimeout(rotateHint,300);
   S.screen='match';document.body.classList.add('in-game');KH=null;
-  const M0=members(S.peers||[]);const h=M0.host;const dayN=h&&h.p.mode==='coop'&&+h.p.day||0;const DAY=dayN?DAYS[dayN-1]:null;const dur=DAY?DAY.dur:(h&&+h.p.dur)||S.dur||180;const gen=S.lastGen;const iHost=h&&h.isMe;
+  const M0=members(S.peers||[]);const h=M0.host;const dayN=h&&h.p.mode==='coop'&&+h.p.day||0;const DAY=dayN?DAYS[dayN-1]:null;if(DAY)return fsMatch();const dur=DAY?DAY.dur:(h&&+h.p.dur)||S.dur||180;const gen=S.lastGen;const iHost=h&&h.isMe;
   const teamMode=!!(h&&h.p.mode==='team'&&[4,6].includes(M0.all.length));
   const coop=!!(h&&h.p.mode==='coop');const ring=coop;const passUI=teamMode||ring;
   const myId=(M0.all.find(m=>m.isMe)||{id:'me'}).id;const meM=M0.all.find(m=>m.isMe);
@@ -2622,6 +3138,7 @@ function match(){
   if(DAY){const n=$('#fsnote');if(n)n.textContent=DAY.split&&M0.all.length>1?'ของที่ไม่มี อยู่ที่เพื่อน · แตะการ์ดวิธีทำเพื่อขอ แล้วรอเพื่อนส่งมา':'แตะของเพื่อหยิบ หรือแตะการ์ดวิธีทำด้านบน'}
   $('#back').onclick=()=>closeStation();
   $('#stgrid').querySelectorAll('.stblock').forEach(b=>b.onclick=()=>{if(dragJustEnded)return;toggleStation(b.dataset.st)});
+  $('#plateDrop').addEventListener('click',()=>{if(dragJustEnded||K.busy||K.done||!K.hand)return;const it=K.hand;toPlate(it,()=>setHand(null))});
   $('#sinkBtn').onclick=()=>toggleStation('sink');
   $('#seasBtn').onclick=$('#seasBtn2').onclick=()=>toggleStation('season');
   drawer.querySelectorAll('.ding').forEach(b=>b.onclick=e=>{if(e.detail===0)tapDrawer(b)});
@@ -2694,18 +3211,18 @@ function match(){
       const need=tk.m.c.map(c=>c[0]+':'+c[1]);for(const x of K.plate){const j=need.indexOf(x.ing+':'+x.st);if(j>-1)need.splice(j,1)}
       if(!need.length&&K.plate.length){if(!noTaste&&E.seasonHint(tk.m).length&&!Object.values(K.season||{}).some(v=>v>0))return['🧂',`${tk.m.th}ครบแล้ว! ปรุงรสก่อนส่ง`,'#seasBtn2'];return['🍽',`${tk.m.th}ครบแล้ว! กด ส่งอาหาร`,'#serve']}
       if(K.hand){const h=K.hand;let rem=null;for(const c of tk.m.c){if(c[0]!==h.ing||!need.includes(c[0]+':'+c[1]))continue;rem=stepRemain(c[0],h.st,c[1]);if(rem)break}
-        if(rem&&!rem.length)return['🍽',`${TAP} เพื่อวาง${itemName(h)}ลงจาน`,$('.step.ready')?'.step.ready':'.step.next'];
+        if(rem&&!rem.length)return['🍽',`แตะจาน (หรือลากไป) เพื่อวาง${itemName(h)}`,'#plateDrop'];
         if(rem){const t=rem[0];if(!toolMine(t)){const w=toolOwner(t);return['📤',`${T(t).th}อยู่ที่ ${w?nameOf(w.id):'เพื่อน'} · ส่ง${itemName(h)}ไป${side(w&&w.id)}`,w&&sideOf(w.id)==='l'?'#passL':'#passR']}
-          return['👉',`เอา${itemName(h)}ไป${T(t).th}: ${TAP}`,$('.step.ready')?'.step.ready':'.step.next']}
+          return['👉',`เอา${itemName(h)}ไป${T(t).th}: แตะ${T(t).th}ในเครื่องครัว`,`#stgrid .stblock[data-st="${t}"]`]}
         return passUI?['📤',`${tk.m.th}ไม่ใช้${itemName(h)} · ส่งให้เพื่อนหรือทิ้ง`,'#trash']:['🗑',`${tk.m.th}ไม่ใช้${itemName(h)} · ทิ้งได้`,'#trash']}
       const [ing]=need[0].split(':');
-      if(passUI&&!mine(ing)&&!(K.mkt&&!isStaple(ing))){const o=ingOwner(ing);return['📣',`${ING[ing].th}อยู่ที่ ${o?nameOf(o.id):'เพื่อน'} ${o?side(o.id):''} · ${TAP}เพื่อขอ`,'.step.next']}
+      if(passUI&&!mine(ing)&&!(K.mkt&&!isStaple(ing))){const o=ingOwner(ing);return['📣',`${ING[ing].th}อยู่ที่ ${o?nameOf(o.id):'เพื่อน'} ${o?side(o.id):''} · แตะ${ING[ing].th}ในตู้เพื่อขอ`,drawer.classList.contains('closed')?'#dtab':`.ding[data-ing="${ing}"]`]}
       if(K.mkt&&avail(ing)<=0)return['🛒',`คว้า${ING[ing].th}จากสายพานด้านบน`,'#belt'];
-      return['👉',`${TAP} เพื่อหยิบ${ING[ing].th}`,'.step.next']};
+      return['👉',`หา${ING[ing].th}ในตู้วัตถุดิบ แล้วแตะเพื่อหยิบ`,drawer.classList.contains('closed')?'#dtab':`.ding[data-ing="${ing}"]`]};
     const t=setInterval(()=>{if(S.k!==K||K.done){clearInterval(t);if(lastEl)lastEl.classList.remove('cue');return}
       let w;try{w=want()}catch(e){return}const [ic,tx,sel]=w;
       if(ic+tx!==last){last=ic+tx;gi.textContent=ic;gt.textContent=tx;box.classList.remove('pop');void box.offsetWidth;box.classList.add('pop')}
-      const el=sel&&CUE?document.querySelector(sel):null;if(el!==lastEl){if(lastEl)lastEl.classList.remove('cue');if(el)el.classList.add('cue');lastEl=el}},300);
+      const el=sel&&CUE&&!sel.startsWith('.ding')?document.querySelector(sel):null;if(el!==lastEl){if(lastEl)lastEl.classList.remove('cue');if(el)el.classList.add('cue');lastEl=el}},300);
     onLeave(()=>clearInterval(t))}
   // the coach: every few hundred ms work out what the player should do next and spotlight it
   function coach(){const ov=document.createElement('div');ov.className='coach';ov.innerHTML='<i></i><p></p><button class="btn soft coachskip">ข้ามการสอน</button>';document.body.appendChild(ov);
@@ -2719,8 +3236,10 @@ function match(){
       if(K.open&&K.busy){sel='#ctrl';txt='ทำมินิเกม: กดปุ่มในกล่องนี้ตามที่บอก จนเสร็จ'}
       else if(K.open&&$('#useHand')){sel='#useHand';txt='กดปุ่มนี้เพื่อเริ่มทำ'}
       else if(allOn){sel='#serve';txt='ครบแล้ว! กด ส่งอาหาร'}
-      else if(K.hand){sel='.step.next';txt='ได้ของแล้ว แตะขั้นนี้อีกครั้ง เพื่อวางลงจาน'}
-      else{sel='.step.next';txt=K.plate.length?'ดีมาก! แตะขั้นต่อไป':'นี่คือวิธีทำ แตะขั้นที่มีป้าย 👉 เพื่อหยิบของ'}
+      else if(K.hand){const h=K.hand,c=tk&&tk.m.c.find(c=>c[0]===h.ing),rem=c?stepRemain(c[0],h.st,c[1]):null;
+        if(rem&&rem.length){sel=`#stgrid .stblock[data-st="${rem[0]}"]`;txt=`ได้${itemName(h)}แล้ว! แตะ${(TOOLS.find(x=>x.id===rem[0])||{}).th}เพื่อทำต่อ`}else{sel='#plateDrop';txt=`แตะจานเพื่อวาง${itemName(h)}ลงจาน`}}
+      else{const need=tk?tk.m.c.filter(c=>!K.plate.some(x=>x.ing===c[0]&&x.st===c[1])):[];const ing=need[0]&&need[0][0];sel=ing?(drawer.classList.contains('closed')?'#dtab':`.ding[data-ing="${ing}"]`):'.step';
+        txt=ing?`ดูวิธีทำด้านบน แล้วหา${ING[ing].th}ในตู้วัตถุดิบ แตะเพื่อหยิบ`:'ดูวิธีทำด้านบน'}
       const el=document.querySelector(sel);if(!el){hole.style.display='none';tip.style.display='none';return}
       const r=el.getBoundingClientRect();hole.style.display='block';tip.style.display='block';
       Object.assign(hole.style,{left:r.left-8+'px',top:r.top-8+'px',width:r.width+16+'px',height:r.height+16+'px'});
@@ -2957,9 +3476,14 @@ function match(){
       if(onP>-1&&!used.includes('p'+onP)){used.push('p'+onP);cls='ok'}else if(handKey===key)cls='ready';
       const own2=ring?ingOwner(ing):null;const whose=teamMode&&!mine(ing)?`<em class="whose">${chef(chefOf(K.mate),'mini')}เพื่อนมี</em>`:ring&&!mine(ing)&&own2&&!(K.mkt&&!isStaple(ing))?`<em class="whose">${chef(chefOf(own2.id),'mini')}${esc(nameOf(own2.id))}</em>`:'';
       if(cls!=='ok'&&!nextDone){nextDone=true;cls+=' next'}
-      const path=pathTo(ing,st)||[];if(DAY)return`<div class="step fsx ${cls}" data-si="${si}" role="button" tabindex="0">${whose}<span class="fsi">${itemArt({ing,st:'raw',q:100})}${path.length?`<span class="fsb">${path.map(t=>`<em class="fst">${toolArt(t)}</em>`).join('')}</span>`:''}</span><small>${itemName({ing,st})}</small></div>`;return`<div class="step ${cls}" data-si="${si}" role="button" tabindex="0">${whose}${itemArt({ing,st:'raw',q:100})}${path.map(t=>`<span class="arr">→</span>${toolIcon(t)}`).join('')}${path.length?`<span class="arr">→</span>${itemArt({ing,st,q:100})}`:''}<span>${itemName({ing,st})}<small>${amtText(ing,amt)}</small></span></div>`}).join('')}
+      const path=pathTo(ing,st)||[];if(DAY)return`<div class="step fsx ${cls}" data-si="${si}" role="button" tabindex="0">${whose}<span class="fsi">${itemArt({ing,st:'raw',q:100})}${path.length?`<span class="fsb">${path.map(t=>`<em class="fst">${toolArt(t)}</em>`).join('')}</span>`:''}</span><small>${itemName({ing,st})}</small></div>`;return`<div class="step ${cls}" data-si="${si}" role="button" tabindex="0">${whose}${itemArt({ing,st:'raw',q:100})}${path.map(t=>`<span class="arr">→</span>${toolArt(t)}`).join('')}${path.length?`<span class="arr">→</span>${itemArt({ing,st,q:100})}`:''}<span>${itemName({ing,st})}<small>${amtText(ing,amt)}</small></span></div>`}).join('')}
       ${hint.length?`<div class="step seas" data-si="seas" role="button">${bottleArt(hint[0])}<span>ปรุงรส<small>${hint.map(k=>SEASON[k].th).join(' · ')}</small></span></div>`:''}</div>`;
-    $('#howto').querySelectorAll('.step').forEach(b=>b.onclick=()=>stepClick(b.dataset.si));renderNeed()}
+    $('#howto').querySelectorAll('.step.seas').forEach(b=>b.onclick=()=>stepClick('seas'));
+    // like Family Style: the recipe is a stack of cards — only the next piece shows, the rest wait behind it
+    {const ho=$('#howto'),st=[...ho.querySelectorAll('.step:not(.seas)')],left=st.filter(x=>!x.classList.contains('ok')),wrap=ho.querySelector('.steps');
+      st.forEach(x=>{x.hidden=true;x.classList.remove('front')});if(wrap){wrap.dataset.left=Math.min(3,left.length);wrap.classList.add('stack')}
+      if(left[0]){left[0].hidden=false;left[0].classList.add('front');left[0].insertAdjacentHTML('beforeend',`<em class="stepn">ขั้น ${st.length-left.length+1}/${st.length}</em>`)}
+      else if(wrap&&!wrap.querySelector('.alldone'))wrap.insertAdjacentHTML('afterbegin','<div class="step alldone">✓ ครบทุกขั้นแล้ว กด ส่งอาหาร</div>')}renderNeed()}
   // tap a recipe step: grab that ingredient and take it where it has to go next (station or plate)
   function stepRemain(ing,cur,target){const p=pathTo(ing,target)||[];let st='raw';for(let i=0;i<p.length;i++){if(st===cur)return p.slice(i);st=TR[p[i]][ing+':'+st]}return st===cur?[]:null}
   function stepClick(si){if(K.done||K.busy)return;if(si==='seas'){toggleStation('season');return}
@@ -3121,7 +3645,16 @@ function resultsCoop(){if(S.k.dq)return dayEnd();const K=S.k,gen=K.gen;const M0=
       const nr=$('#nextR');if(nr)nr.onclick=()=>go2(0);const nd=$('#nextD');if(nd)nd.onclick=()=>go2(nxt);$('#toWait').onclick=()=>S.room.presence({phase:'wait'})}
     if(!iHost)hb.innerHTML='<p class="muted">รอหัวห้องเริ่มรอบต่อไป</p>';followHost(peers,{toWait:true,toPlay:true})}))}
 /* Family Style flow: a cleared day rolls straight into a loading card and the next day; 3 angry customers close the shop -> back to day 1 */
-function dayEnd(){const K=S.k,gen=K.gen,M0=members(S.peers||[]),D=DAYS[K.day-1],res=K.dq.result==='clear'?(D.n>=DAYS.length?'won':'pass'):'fail';
+
+/* round cards like Family Style: "รอบที่ 3:" + the new prep recipes as  ingredient ➜ station ➜ result,  and a pie timer */
+function roundRows(D,P){const ids=P?D.menus.filter(id=>!P.menus.includes(id)):D.menus;const seen=new Set(),rows=[];const MC=id=>({c:E.fsComp(MENU_BY_ID[id])});
+  for(const id of(ids.length?ids:D.menus))for(const [ing,st] of MC(id).c){const path=pathTo(ing,st)||[];if(!path.length)continue;const k=ing+':'+st;if(seen.has(k))continue;seen.add(k);rows.push({ing,st,path})}
+  return rows.slice(0,4)}
+function roundCard(title,sub,rows,sec,extra='',load=''){const ic=(k,fb)=>icon(k)||fb||'';
+  return`<div class="rcard"><h2>${title}</h2>${load&&sub?`<p class="rsub">${sub}</p>`:''}${rows.map(r=>`<div class="rrow"><span>${ic(r.ing+':raw',art(r.ing))}</span><b>➜</b>${r.path.map(t=>`<span>${ic('tool:'+t,toolIcon(t))}</span><b>➜</b>`).join('')}<span>${itemArt({ing:r.ing,st:r.st,q:100})}</span></div>`).join('')}${extra}
+    <div class="rfoot"><span>${load||sub}</span><i class="rpie" style="--d:${sec}s"></i></div></div>`}
+const PUNS=['ไม่ไหม้สักจาน เก่งมาก!','ทอดกรอบ ส่งไว ใจตรงกัน!','ลูกค้ายิ้มแก้มปริ!','ครัวไฟลุก แต่ใจเย็น!','ข้าวไม่ติดก้นหม้อ!','ส่งต่อกันเป๊ะ ทีมเวิร์กสุด ๆ!','ร้านเริ่มดังแล้ว!','เชฟตัวจริง!'];
+function dayEnd(){S.flat=true;const K=S.k,gen=K.gen,M0=members(S.peers||[]),D=DAYS[K.day-1],res=K.dq.result==='clear'?(D.n>=DAYS.length?'won':'pass'):'fail';
   const amHost=M0.host&&M0.host.isMe,R0=RUN.get();
   if(amHost&&R0.gen!==gen){const best=Math.max(R0.best||0,res!=='fail'?D.n:D.n-1),dishes=(R0.dishes||0)+K.served;RUN.set(res==='pass'?{...R0,day:D.n+1,best,gen,dishes}:{day:1,best,runs:(R0.runs||1)+1,gen,dishes:0,last:{day:D.n,dishes}})}
   const R=RUN.get(),N=res==='pass'?DAYS[D.n]:null;
@@ -3131,27 +3664,27 @@ function dayEnd(){const K=S.k,gen=K.gen,M0=members(S.peers||[]),D=DAYS[K.day-1],
     const newMenus=N.menus.filter(id=>!P.menus.includes(id)),newTools=N.tools.filter(t=>!P.tools.includes(t));
     const flags=[['split','🔁 แบ่งของ ส่งซ้าย/ขวา'],['wash','🧽 ล้างจาน'],['season','🧂 ปรุงรส'],['gold','🥇 ลูกค้า VIP'],['market','🛒 ตลาดสายพาน'],['rival','😈 ร้านคู่แข่ง'],['cards','🃏 การ์ดช่วยทีม']].filter(([k])=>N[k]&&!P[k]);
     const goalN=N.goal+Math.floor((M0.all.length-1)*.75);
-    app.innerHTML=`<div class="nextday w-${W.id}"><div class="ndok">✅ วันที่ ${D.n} ผ่าน! ส่ง ${K.served} จาน · คะแนนร้านเหลือ ${Math.round(K.dq.meter)}</div>
-      <div class="dic"><small>${newW?'🎉 ร้านใหม่! ':''}${W.icon} ${W.th}</small><h2>วันที่ ${N.n} · ${esc(N.th)}</h2><p>${esc(N.news)}</p>
-        ${newMenus.length?`<p class="ndl">เมนูใหม่</p><div class="dim">${newMenus.slice(0,6).map(id=>`<span>${menuArt(MENU_BY_ID[id])}<small>${MENU_BY_ID[id].th}</small></span>`).join('')}</div>`:''}
-        ${newTools.length||flags.length?`<div class="dif">${newTools.map(t=>{const x=TOOLS.find(y=>y.id===t);return`<i>🆕 ${x?x.th:t}</i>`}).join('')}${flags.map(([,t])=>`<i>🆕 ${t}</i>`).join('')}</div>`:''}
-        <div class="dig"><span>🍽 ส่งให้ครบ ${goalN} จาน</span><span>⚡ ลูกค้าใจร้อนขึ้น หลอดลดเร็วขึ้น</span></div>
-        <p class="ndload">กำลังเปิดร้าน…</p><div class="dibar long"><div></div></div></div>
-      <div class="coopmem small">${crew}</div><div class="wait-actions" id="hostbtns"></div></div>`;
+    const done=roundCard(`รอบที่ ${D.n} ผ่าน!`,`ส่ง ${K.served} จาน · ⭐ ${Math.round(K.dq.meter)}`,[],2.4,`<p class="rpun">${PUNS[(D.n*3+K.served)%PUNS.length]}</p>`,'🍽 กำลังเก็บจาน…').replace('class="rcard"','class="rcard done"');
+    const nextRows=roundRows(N,P);
+    const nxt=roundCard(`รอบที่ ${N.n}:`,`${newW?'🎉 ร้านใหม่! '+W.icon+' ':''}${esc(N.th)} · ส่ง ${goalN} จาน`,nextRows,3,nextRows.length?'':`<div class="rdish">${newMenus.concat(N.menus).slice(0,4).map(id=>menuArt(MENU_BY_ID[id])).join('')}</div>`,'🧽 กำลังเช็ดโต๊ะ…');
+    app.innerHTML=`<div class="rstage" id="rstage">${done}</div>`;
+    setTimeout(()=>{const st=$('#rstage');if(st&&S.screen==='results')st.innerHTML=nxt},2400);
     S.fromNext=true;let fired=false;
-    const t=setTimeout(()=>{if(fired||S.screen!=='results')return;const M=members(S.peers||[]);if(M.host&&M.host.isMe){fired=true;S.day=N.n;S.room.presence({phase:'play',gen:Date.now(),day:N.n,dur:N.dur})}},5200);
+    const t=setTimeout(()=>{if(fired||S.screen!=='results')return;const M=members(S.peers||[]);if(M.host&&M.host.isMe){fired=true;S.day=N.n;S.room.presence({phase:"play",gen:Date.now(),day:N.n,dur:N.dur})}},5400);
     onLeave(()=>clearTimeout(t));
-    onLeave(S.room.onPeers(peers=>{S.peers=peers;const M=members(peers);const hb=$('#hostbtns');if(hb&&M.host&&M.host.isMe&&!hb.dataset.on){hb.dataset.on=1;hb.innerHTML='<button class="btn soft" id="toWait">⏸ พักก่อน (กลับห้องรอ)</button>';$('#toWait').onclick=()=>{fired=true;S.fromNext=false;S.room.presence({phase:'wait'})}}
-      followHost(peers,{toWait:true,toPlay:true})}));
+    onLeave(S.room.onPeers(peers=>{S.peers=peers;followHost(peers,{toWait:true,toPlay:true})}));
     return}
-  const last=R.last||{day:D.n,dishes:K.served};
-  app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center">${res==='won'?'🎉 ผ่านครบ 12 วัน! ร้านดังทั้งประเทศ':'💔 ร้านปิด!'}</h2>
-    <p class="runend ${res==='won'?'won':''}">${res==='won'?`ส่งอาหารรวม ${last.dishes} จาน`:`คะแนนร้านหมดหลอด · ไปถึงวันที่ ${D.n} · ส่งรวม ${last.dishes} จาน`}</p>
-    <p class="muted" style="text-align:center">ไกลสุดที่เคยไป: วันที่ ${R.best||0} / ${DAYS.length}</p>
-    <div class="coopmem">${crew}</div><p class="note" id="waitnote"></p></section>
-    <section class="card"><h3>เล่นอีกครั้ง</h3><p class="muted">ร้านเริ่มใหม่ที่วันที่ 1 · ทิป: ดูหลอดเวลาใต้ออร์เดอร์ ทำเมนูที่หลอดใกล้หมดก่อน และบอกเพื่อนว่าต้องการอะไร</p><div class="wait-actions" id="hostbtns" style="justify-content:flex-start;margin-top:14px"></div></section></div>`;
+  const st=K.stats||{passed:0,trashed:0,lost:0,time:0};const meW=who.find(w=>M0.all.some(m=>m.isMe&&m.id===w.id))||{pts:0,served:0};
+  const mc=M0.all.map(m=>({m,w:who.find(x=>x.id===m.id)||{pts:0,served:0}})).sort((a,b)=>b.w.pts-a.w.pts)[0];
+  const mmss=ms=>{const t=Math.round((ms||0)/1000);return`${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`};
+  app.innerHTML=`<div class="rstage"><div class="rcard mcard"><h2>${res==='won'?'🎉 ผ่านครบ 12 รอบ!':'ร้านปิด!'}</h2>
+      ${mc&&M0.all.length>1?`<div class="mchead">${chef(mc.m.p.chef,'av')}<div><b>👑 Master Chef</b><span>${esc(clean(mc.m.p.nick,14)||'เชฟ')}${mc.m.isMe?' (คุณ)':mc.m.isBot?' 🤖':''} · ทำคะแนนให้ทีมมากที่สุด!</span></div></div>`:''}
+      <div class="mcols"><div><h4>คุณ</h4><p>ส่ง: ${meW.served}</p><p>คะแนน: ${meW.pts}</p><p>ส่งต่อ: ${st.passed}</p><p>ทิ้ง: ${st.trashed}</p></div>
+        <div><h4>ทีม</h4><p>ส่ง: ${K.served}</p><p>คะแนน: ${K.score}</p><p>ลูกค้าเดินออก: ${st.lost}</p></div>
+        <div><h4>ร้าน</h4><p>เชฟ: ${M0.all.length}</p><p>ถึงรอบ: ${D.n}</p><p>เวลา: ${mmss(st.time)}</p></div></div>
+      <div class="wait-actions" id="hostbtns"></div></div></div>`;
   onLeave(S.room.onPeers(peers=>{S.peers=peers;const M=members(peers);const hb=$('#hostbtns');
-    if(M.host&&M.host.isMe&&!hb.dataset.on){hb.dataset.on=1;hb.innerHTML=`<button class="btn red big" id="nextD">🔁 เปิดร้านใหม่ วันที่ 1</button><button class="btn soft" id="toWait">กลับห้องรอ</button>`;
+    if(M.host&&M.host.isMe&&!hb.dataset.on){hb.dataset.on=1;hb.innerHTML=`<button class="btn red big" id="nextD">🔁 เปิดร้านใหม่ เริ่มรอบ 1</button><button class="btn soft" id="toWait">กลับห้องรอ</button>`;
       $('#nextD').onclick=()=>{S.day=1;S.room.presence({phase:'play',gen:Date.now(),day:1,dur:DAYS[0].dur})};$('#toWait').onclick=()=>S.room.presence({phase:'wait'})}
     if(!(M.host&&M.host.isMe))hb.innerHTML='<p class="muted">รอหัวห้องเริ่มรอบต่อไป</p>';followHost(peers,{toWait:true,toPlay:true})}))}
 function resultsTour(){const K=S.k,gen=K.gen;const t0=performance.now();
