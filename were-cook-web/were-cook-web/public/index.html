@@ -1096,6 +1096,7 @@ body.in-game .shell{max-width:none;padding-left:clamp(10px,1.4vw,24px);padding-r
 .coach p.coachdone{left:50%!important;top:50%!important;transform:translate(-50%,-50%);width:min(92vw,420px);display:grid!important;gap:10px;padding:22px;font-weight:500}
 .coach p.coachdone b{font-size:1.3rem}
 .play.easy .hand .amt{display:none}
+.hand .amt:has(b:empty){display:none}.step small:empty{display:none}
 
 .goal{position:relative;flex:0 1 220px;min-width:140px;height:34px;display:flex;align-items:center}
 .goal[hidden]{display:none}
@@ -1194,6 +1195,124 @@ body.in-game .shell{max-width:none;padding-left:clamp(10px,1.4vw,24px);padding-r
 .pl.coopsc{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .pl.coopsc .cseat svg{width:24px;height:24px}
 @media (max-width:700px){.v2 .handbar{flex-wrap:wrap}.v2 .handbar .hand{flex:1 1 calc(100% - 70px)}.v2 .handbar .passbox.pl2,.v2 .handbar .passbox.pr2{flex:0 0 auto}.v2 .handbar .inbox{flex:1 1 0}}
+
+/* ===== days campaign ===== */
+.daypick{display:grid;gap:8px;margin-bottom:6px}
+.dph{display:grid}.dph small{color:var(--muted);font-size:.72rem}
+.dworld{border-radius:16px;padding:6px 8px;background:var(--cream2)}
+.dworld.w-home{background:#FFF0DC}.dworld.w-diner{background:#E3F3F1}.dworld.w-thai{background:#EAF5DF}
+.dwt{font-weight:800;font-size:.8rem;color:#3a2233}
+.ddays{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}
+.dday{border:0;border-radius:12px;background:#fff;color:#3a2233;padding:6px 4px;display:grid;justify-items:center;line-height:1.15;font:inherit;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+.dday b{font-size:.78rem}.dday span{font-size:.64rem;text-align:center}.dday i{font-style:normal;color:#E0A412;font-size:.8rem;letter-spacing:1px}
+.dday.lock{opacity:.45;cursor:not-allowed}
+.dday[aria-pressed="true"]{box-shadow:0 0 0 3px var(--tomato);background:#FFF7EC}
+.dday.free{grid-auto-flow:column;gap:8px;justify-content:center;background:var(--cream)}
+#settings:not(.coopset) .daypick{display:none}
+#settings.dayon #diffP,#settings.dayon #mktP,#settings.dayon #durP{display:none}
+.dayline{color:var(--tomato-d)}
+.dayintro{position:fixed;inset:0;z-index:160;background:rgba(30,12,28,.55);display:grid;place-items:center;padding:16px;animation:fadein .25s}
+@keyframes fadein{from{opacity:0}}
+.dic{width:min(94vw,520px);background:var(--glass);backdrop-filter:blur(12px);border-radius:26px;padding:20px 22px;display:grid;gap:10px;justify-items:center;text-align:center;box-shadow:var(--shadow);animation:popin .35s cubic-bezier(.34,1.56,.64,1);color:var(--ink)}
+.dic.w-home{border-top:8px solid #F2A65A}.dic.w-diner{border-top:8px solid #2FA79A}.dic.w-thai{border-top:8px solid #6DB33F}
+.dic h2{font-size:1.5rem;margin:0}.dic p{margin:0}
+.dim{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.dim span{display:grid;justify-items:center;width:72px;font-size:.62rem}.dim .dish{width:52px}
+.dif{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}.dif i{font-style:normal;background:#3a2233;color:#fff;border-radius:999px;padding:2px 10px;font-size:.75rem}
+.dig{display:flex;gap:10px}.dig span{color:#C98A00;font-weight:800;font-size:.85rem}
+/* world themes (page tint) */
+body[data-world="home"] .shell .card{background:color-mix(in srgb,var(--glass) 92%,#F2A65A)}
+body[data-world="diner"] .shell .card{background:color-mix(in srgb,var(--glass) 92%,#2FA79A)}
+body[data-world="thai"] .shell .card{background:color-mix(in srgb,var(--glass) 92%,#6DB33F)}
+body[data-world="home"]{background:linear-gradient(180deg,#8a5a3c,#3e2437)}
+body[data-world="diner"]{background:linear-gradient(180deg,#2c6f74,#2a1f38)}
+body[data-world="thai"]{background:linear-gradient(180deg,#5d7a2e,#2f1a2b)}
+.play.nowash #sinkBtn,.play.nowash .prow .pc{display:none}
+.play.notaste #seasBtn2,.play.notaste .step.seas{display:none}
+/* quick cooking */
+.qarrow{position:absolute;left:54%;top:40%;font-size:2.4rem;color:#fff;font-weight:800}
+.qbtn{touch-action:none;user-select:none}.qbtn.on{transform:translateY(3px);filter:brightness(1.1)}
+.stblock.offday{display:none!important}
+.v2 .kgrid{align-content:start}
+.cseat{position:relative}.chold{position:absolute;right:-8px;top:-6px;width:20px;height:20px;background:#fff;border-radius:50%;padding:1px;box-shadow:0 1px 3px rgba(0,0,0,.3)}.chold>*{width:100%;height:100%}
+
+/* ===== run + lobby polish ===== */
+.opennow{display:grid;justify-items:center;line-height:1.2}.opennow small{font-size:.78rem;font-weight:500;opacity:.9}
+.howplay{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.howplay>div{background:var(--cream2);border-radius:16px;padding:10px 8px;display:grid;justify-items:center;text-align:center;gap:2px}
+.howplay i{font-style:normal;font-size:1.6rem}
+@media (max-width:560px){.howplay{grid-template-columns:1fr;gap:6px}.howplay>div{grid-template-columns:36px 1fr;justify-items:start;text-align:left;column-gap:8px;padding:8px 10px}.howplay i{grid-row:span 2;font-size:1.4rem;align-self:center}}.howplay b{font-size:.9rem}.howplay span{font-size:.72rem;color:var(--muted);line-height:1.25}
+.runcard{width:100%}.rc{border-radius:18px;padding:12px 14px;background:#FFF0DC;display:grid;gap:6px;text-align:left;width:100%;box-sizing:border-box}
+.rc.w-diner{background:#E3F3F1}.rc.w-thai{background:#EAF5DF}
+.rc-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.rc-w{font-weight:800}.rc-top b{font-size:1.5rem;color:var(--tomato-d)}.rc-top small{font-size:.9rem;color:var(--muted)}
+.rc-dots{display:flex;gap:10px;flex-wrap:wrap}.rcg{display:flex;gap:4px}
+.rc-dots i{width:16px;height:16px;border-radius:50%;background:rgba(58,34,51,.15)}.rc-dots i.done{background:#4CAF50}.rc-dots i.now{background:var(--tomato);box-shadow:0 0 0 3px rgba(255,90,78,.3);animation:canpulse 1.4s ease-in-out infinite}
+.rc-news{margin:0;font-size:.92rem}.rc small{font-size:.75rem}
+.botadd.main{gap:10px}.botadd.main .muted{font-size:.8rem}
+.moreset{width:100%;background:var(--cream2);border-radius:14px;padding:6px 10px}.moreset summary{cursor:pointer;font-weight:700;font-size:.9rem;color:var(--muted)}
+.moreset .msbody{display:grid;gap:8px;justify-items:center;padding:8px 0 4px}
+.runend{text-align:center;font-weight:800;font-size:1.1rem;background:#FFE3DE;color:#A3271C;border-radius:14px;padding:8px 12px;margin:6px 0}.runend.won{background:#E5F6DF;color:#2E7D32}
+/* one guide line instead of many little hints */
+.guide{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:6;display:flex;align-items:center;gap:8px;background:#fff;color:#3a2233;border-radius:999px;padding:7px 16px 7px 12px;font-size:1.02rem;line-height:1.25;box-shadow:0 4px 0 rgba(0,0,0,.18),0 8px 18px rgba(0,0,0,.25);max-width:calc(100% - 24px);width:max-content;pointer-events:none}
+.vport.stopen .guide{display:none}
+.guide i{font-style:normal;font-size:1.4rem;flex:none}.guide b{font-weight:700}
+.guide.pop{animation:gpop .35s cubic-bezier(.34,1.56,.64,1)}@keyframes gpop{from{transform:translateX(-50%) scale(.9);background:#FFC933}}
+.cue{outline:4px solid #FFC933!important;outline-offset:2px;animation:cuepulse 1.1s ease-in-out infinite}
+@keyframes cuepulse{50%{outline-color:rgba(255,201,51,.25)}}
+@media (prefers-reduced-motion:reduce){.cue,.guide.pop{animation:none}}
+/* no keyboard hints, no extra little instructions (the guide line says what to do) */
+kbd,.stblock .num,.vlabel,.dhint,#howto h3 small,#stHow,.idlehint{display:none!important}
+
+/* ===== Family Style day flow ===== */
+.tk .tier,.ticket .tier{display:none}
+.dqbox{gap:8px}.dqbox #hearts{font-size:1.05rem;letter-spacing:1px;white-space:nowrap}.dqbox #hearts i{font-style:normal;opacity:.5}.dqbox b{font-size:1.1rem!important;white-space:nowrap}
+.dimine{margin:6px 0 0;font-size:.95rem}
+.dibar{display:block;height:8px;border-radius:99px;background:rgba(58,34,51,.12);overflow:hidden;margin-top:10px}.dibar>div{display:block;height:100%;width:0;background:var(--basil);animation:dibar 3.1s linear forwards}.dibar.long>div{animation-duration:5.1s}
+@keyframes dibar{to{width:100%}}
+.dayintro .dic{cursor:pointer}
+.nextday{max-width:640px;margin:20px auto;display:grid;gap:12px;animation:fadein .3s}
+.nextday .dic{background:#FFF7EC;border-radius:24px;padding:20px 22px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.nextday.w-diner .dic{background:#EEF8F6}.nextday.w-thai .dic{background:#F2F9EA}
+.nextday .dic h2{margin:4px 0}.nextday .dim{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}.nextday .dim span{display:grid;justify-items:center;width:84px;font-size:.72rem}.nextday .dim .dish{width:64px;height:64px}
+.nextday .dif{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}.nextday .dif i{font-style:normal;background:#3a2233;color:#fff;border-radius:999px;padding:3px 10px;font-size:.8rem}
+.nextday .dig{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-weight:700}
+.ndok{background:#E5F6DF;color:#2E7D32;font-weight:800;text-align:center;border-radius:16px;padding:10px;font-size:1.1rem}
+.ndl{margin:10px 0 4px;font-weight:800;font-size:.85rem;color:var(--muted)}.ndload{margin:12px 0 0;color:var(--muted);font-weight:700}
+.coopmem.small{transform:scale(.85)}
+
+/* ===== Family Style: shop meter, recipe cards, own crates ===== */
+.smeter{flex:1 1 300px!important;min-width:180px;gap:8px;background:#fff;border-radius:999px;padding:4px 12px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.smeter .smlab{font-weight:800;font-size:.8rem;white-space:nowrap}.smeter .gbar{height:16px;border-radius:8px}.smeter .gbar i{transition:width .25s linear,background .4s}
+.smeter b#mval{min-width:2.2em;text-align:right;font-size:1.05rem}
+.smeter.low{animation:mlow 1s ease-in-out infinite}@keyframes mlow{50%{box-shadow:0 0 0 4px rgba(242,72,58,.45)}}
+.mpop{position:absolute;right:30px;top:-6px;font-size:1.3rem;font-weight:900;pointer-events:none;animation:mpop 1.3s ease-out forwards;z-index:5}
+.mpop.up{color:#2E9D3A}.mpop.down{color:#E2382A;font-size:1.6rem}
+@keyframes mpop{0%{transform:translateY(8px) scale(.6);opacity:0}15%{transform:translateY(0) scale(1.15);opacity:1}100%{transform:translateY(-26px);opacity:0}}
+.steps:has(.fsx){gap:10px}
+.step.fsx{flex-direction:column;align-items:center;gap:2px;padding:8px 8px 6px;min-width:84px;background:#fff;border-radius:16px;box-shadow:0 3px 0 rgba(58,34,51,.12);cursor:pointer}
+.step.fsx .fsi{position:relative;display:block;width:56px;height:56px}.step.fsx .fsi>svg,.step.fsx .fsi>.ia,.step.fsx .fsi>.ico3d{width:56px!important;height:56px!important}
+.step.fsx .fsb{position:absolute;right:-12px;bottom:-6px;display:flex;gap:2px}
+.step.fsx .fsb .fst{width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid #3a2233;display:grid;place-items:center;box-shadow:0 2px 0 rgba(0,0,0,.25);font-style:normal}
+.v2 .step.fsx .fsb .fst svg,.v2 .step.fsx .fsb .fst .ico3d{width:24px!important;height:24px!important}
+.v2 .step.fsx .fsi>.ia,.v2 .step.fsx .fsi>svg,.v2 .step.fsx .fsi .ia .ico3d{width:56px!important;height:56px!important}
+.step.fsx small{font-size:.72rem;font-weight:700;color:#3a2233;text-align:center;line-height:1.1;max-width:96px}
+.step.fsx.ok{background:#D9F2D4;opacity:.75}.step.fsx.ok::after{width:24px;height:24px;font-size:.9rem;top:-8px;right:-8px}
+.step.fsx.ready{background:#FFF0C2}
+.step.fsx .whose{top:-10px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.fspan .dsearch,.fspan .djump,.fspan .dcat,.fspan .dhint{display:none!important}
+.fspan .dbody{display:flex;flex-direction:column}
+.fspan .dbody>.dgrid{display:contents}
+.fspan .dbody{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-content:start}
+.fspan .dbody>.colh,.fspan .dbody>.fsnote{grid-column:1/-1;margin:0}
+.fspan .fsnote{font-size:.75rem;color:var(--muted);line-height:1.3}
+.fspan .ding.mate,.fspan .ding.locked,.fspan .ding.off,.fspan .ding.nobox{display:none!important}
+.fspan .ding{aspect-ratio:1;border-radius:20px;background:linear-gradient(#FFE9C7,#F6D19A);box-shadow:inset 0 -6px 0 rgba(160,100,40,.25),0 3px 0 rgba(0,0,0,.12);display:grid;place-items:center;align-content:center;gap:2px;padding:6px}
+.fspan .ding svg:not(.mini),.fspan .ding .ico3d{width:64px!important;height:64px!important}
+.fspan .ding span{font-weight:700;font-size:.8rem}
+.fspan .ding.need{box-shadow:0 0 0 3px #FF8A3D,inset 0 -6px 0 rgba(160,100,40,.25)}
+
+/* day mode: no orange hand-holding (harder, like Family Style) */
+.play.fsday .step.next{box-shadow:0 3px 0 rgba(58,34,51,.12)}.play.fsday .step.next::before{display:none}
+.play.fsday .ding.need{box-shadow:inset 0 -6px 0 rgba(160,100,40,.25),0 3px 0 rgba(0,0,0,.12)}.play.fsday .ding.need::before{display:none}
 </style>
 </head>
 <body>
@@ -1747,7 +1866,7 @@ function offlineRoom(code,p){
 }
 
 /* ================= STATE ================= */
-const S={name:store('wc_name')||'เชฟ'+pick(CHEF_NAMES),chef:store('wc_chef')??Math.floor(Math.random()*6),room:null,peers:[],joinedAt:0,sayN:0,lastSay:{},lastGen:null,screen:'',dur:store('wc_dur')||180,mode:store('wc_mode')||'coop',diff:store('wc_diff')||'easy',market:!!store('wc_market'),size:store('wc_size')||4,bots:[]};
+const S={name:store('wc_name')||'เชฟ'+pick(CHEF_NAMES),chef:store('wc_chef')??Math.floor(Math.random()*6),room:null,peers:[],joinedAt:0,sayN:0,lastSay:{},lastGen:null,screen:'',dur:store('wc_dur')||180,mode:store('wc_mode')||'coop',diff:store('wc_diff')||'easy',day:store('wc_day'),free:!!store('wc_free'),market:!!store('wc_market'),size:store('wc_size')||4,bots:[]};
 const app=$('#app');
 let cleanup=[];const onLeave=f=>cleanup.push(f);
 function go(fn){cleanup.forEach(f=>{try{f()}catch(e){}});cleanup=[];document.body.classList.remove('in-game');fn()}
@@ -1810,7 +1929,7 @@ function lobby(){
     <section class="hero">
       ${[['chili',4,18,-12],['egg',86,10,8],['shrimp',10,62,10],['lime',90,58,-6],['basil',24,-4,14],['tomato',74,74,4]].map(([k,x,y,r],i)=>`<div class="floaty" style="left:${x}%;top:${y}%;--r:${r}deg;animation-delay:${-i*.7}s">${art(k)}</div>`).join('')}
       <h1 class="logo">${logo}</h1>
-      <p class="tag">แข่งเปิดร้านอาหาร รับออร์เดอร์ หั่น ผัด ทอด ต้ม อบ จัดจาน ล้างจาน ใครได้คะแนนสูงสุดชนะ</p>
+      <p class="tag">เปิดร้านอาหารกับเพื่อน · แต่ละคนมีของไม่เหมือนกัน ต้องส่งต่อกันถึงจะทำเมนูได้ · ผ่านให้ครบ 12 วัน!</p>
     </section>
     <div class="lobby">
       <section class="card">
@@ -1822,9 +1941,8 @@ function lobby(){
       </section>
       <section class="card actions">
         <button class="btn big tutbtn ${store('wc_tut')?'':'first'}" id="tut">🎓 ฝึกทำจานแรก<small>${store('wc_tut')?'ทบทวนวิธีเล่น 1 นาที':'เล่นครั้งแรก? เริ่มตรงนี้ · 1 นาที'}</small></button>
-        <button class="btn red big" id="create">สร้างห้องใหม่</button>
-        <div class="durpick" id="sizepick"><span class="muted">ขนาดห้อง</span>${[2,3,4,5,6].map(v=>`<button data-s="${v}" aria-pressed="${(S.size||4)===v}">${v}</button>`).join('')}</div>
-        <div class="durpick" id="durpick"><span class="muted">เวลาต่อเกม</span>${[[120,'2 นาที'],[180,'3 นาที'],[300,'5 นาที']].map(([v,l])=>`<button data-d="${v}" aria-pressed="${(S.dur||180)===v}">${l}</button>`).join('')}</div>
+        <button class="btn red big opennow" id="create">🍳 เปิดร้าน (สร้างห้อง)<small>${(()=>{const r=RUN.get();return r.day>1?`เล่นต่อ วันที่ ${r.day} · ${WORLDS[DAYS[r.day-1].w].icon} ${WORLDS[DAYS[r.day-1].w].th}`:'เริ่มวันที่ 1 · เล่นคนเดียวกับบอทก็ได้'})()}</small></button>
+        <div class="howplay">${[['👉','แตะขั้นที่กระพริบ','เกมบอกทีละขั้นว่าต้องทำอะไร'],['🔁','ส่งของให้เพื่อน','ใครไม่มีของ/เครื่องครัว ส่งซ้าย-ขวา'],['⭐','รักษาหลอดคะแนนร้าน','ลดเรื่อย ๆ · ส่งอาหาร = เติม · หมดหลอด = ร้านปิด']].map(([i,b,t])=>`<div><i>${i}</i><b>${b}</b><span>${t}</span></div>`).join('')}</div>
         <div class="divider">หรือเข้าห้องด้วยรหัส</div>
         <div>
           <div class="join-code" id="slots"></div>
@@ -1842,8 +1960,6 @@ function lobby(){
     const big=$('.big-chef');big.outerHTML=chef(S.chef,'big-chef')});
   $('#create').onclick=()=>enterRoom(newCode(),true);
   $('#tut').onclick=startTutorial;
-  const bindDur=()=>document.querySelectorAll('#durpick button').forEach(b=>b.onclick=()=>{S.dur=+b.dataset.d;store('wc_dur',S.dur);document.querySelectorAll('#durpick button').forEach(x=>x.setAttribute('aria-pressed',x===b));if(S.room&&S.screen==='wait')S.room.presence({dur:S.dur})});bindDur();
-  document.querySelectorAll('#sizepick button').forEach(b=>b.onclick=()=>{S.size=+b.dataset.s;store('wc_size',S.size);document.querySelectorAll('#sizepick button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
   const drawSlots=pop=>{$('#slots').innerHTML=[0,1,2,3].map(i=>`<div class="slot ${joinDigits[i]!=null?'filled':''} ${pop&&i===joinDigits.length-1?'pop':''}">${joinDigits[i]!=null?art(CODE_ICONS[joinDigits[i]]):''}</div>`).join('');
     $('#joinBtn').disabled=joinDigits.length<4};
   drawSlots();
@@ -1872,7 +1988,7 @@ const SAVED={get(){try{const v=JSON.parse(sessionStorage.getItem('wc_room')||'nu
 async function enterRoom(digits,create=false,rejoin=null){
   const code=codeName(digits);S.joinedAt=rejoin?rejoin.joinedAt:Date.now();S.sayN=0;S.lastSay={};S.lastGen=null;S.tot=rejoin?(+rejoin.tot||0):0;S.run=null;S.bots=rejoin&&Array.isArray(rejoin.bots)?rejoin.bots:[];S.rejoin=!!rejoin;
   app.innerHTML=`<div class="card" style="text-align:center">${rejoin?'กำลังกลับเข้าห้องเดิม…':'กำลังเข้าห้อง…'}</div>`;
-  const me={nick:S.name,chef:S.chef,joinedAt:S.joinedAt,creator:!!create,pid:PID,...(create&&!rejoin?{size:S.size||4,dur:S.dur||180,mode:S.mode||'coop',diff:S.diff||'easy',market:S.market}:{})};
+  const me={nick:S.name,chef:S.chef,joinedAt:S.joinedAt,creator:!!create,pid:PID,...(create&&!rejoin?{size:S.size||4,dur:S.dur||180,mode:S.mode||'coop',diff:S.diff||'easy',market:S.market,day:curDay()}:{})};
   SAVED.set({digits,creator:!!create,joinedAt:S.joinedAt,bots:S.bots,tot:S.tot});
   let room;try{room=await NET.join(code,rejoin?me:{...me,ready:false,phase:'wait'})}
   catch(e){app.innerHTML=`<div class="card" style="text-align:center"><p>เข้าห้องไม่สำเร็จ ลองใหม่อีกครั้ง</p><button class="btn" id="bk" style="margin-top:12px">กลับล็อบบี้</button></div>`;$('#bk').onclick=()=>go(lobby);return}
@@ -1881,6 +1997,22 @@ async function enterRoom(digits,create=false,rejoin=null){
 }
 /* tutorial: a private offline kitchen, one hot dog, a coach that points at what to tap next */
 // score goals for 1/2/3 stars (per minute, scaled by difficulty and, in the shared shop, by the number of cooks)
+/* ---------- days campaign: progress lives on this device ---------- */
+const DAYS=WCEngine.DAYS,WORLDS=WCEngine.WORLDS;
+const dayStars=()=>store('wc_days')||{};
+const dayOpen=n=>n===1||(dayStars()[n-1]||0)>=1;
+function saveDay(n,stars){const d=dayStars();if((d[n]||0)<stars){d[n]=stars;store('wc_days',d)}}
+/* the run (like Family Style): pass a day (★1+) -> next day; no star -> the shop closes and you start again from day 1 */
+const RUN={get(){const r=store('wc_run');return r&&r.day>=1&&r.day<=DAYS.length?r:{day:1,best:0,runs:1,gen:0}},set(r){store('wc_run',r)}};
+const curDay=()=>S.mode==='coop'&&!S.free?RUN.get().day:0;
+function runHTML(day,r){const D=DAYS[day-1],w=WORLDS[D.w];
+  return`<div class="rc w-${w.id}"><div class="rc-top"><span class="rc-w">${w.icon} ${w.th}</span><b>วันที่ ${day} <small>/ ${DAYS.length}</small></b></div>
+    <div class="rc-dots">${WORLDS.map((ww,wi)=>`<span class="rcg">${DAYS.filter(x=>x.w===wi).map(x=>`<i class="${x.n<day?'done':x.n===day?'now':''}" title="วันที่ ${x.n}"></i>`).join('')}</span>`).join('')}</div>
+    <p class="rc-news"><b>วันนี้: ${esc(D.th)}</b> · ${esc(D.news)}</p>
+    <small class="muted">🍽 ส่งให้ครบ ${D.goal} จาน (+ตามจำนวนคน) = ผ่าน ไปวันต่อไปเลย · ⭐ คะแนนร้านลดเรื่อย ๆ ส่งอาหารเพื่อเติม ถ้าหมดหลอด = ร้านปิด เริ่มใหม่วันที่ 1${r&&r.best?` · ไกลสุด: วันที่ ${r.best}`:''}</small></div>`}
+function renderRun(day){const el=$('#runcard');if(!el)return;el.hidden=!day;if(day)el.innerHTML=runHTML(day,RUN.get())}
+const nextDay=()=>{const d=dayStars();for(const D of DAYS)if(!d[D.n])return D.n;return DAYS.length};
+function dayGoals(n,cooks){const D=DAYS[n-1];return starGoals(D.dur,'normal',cooks).map(v=>Math.round(v*D.gx/10)*10)}
 function starGoals(dur,diff,cooks=1){const m=dur/60*(diff==='easy'?.75:diff==='chef'?1.25:1)*(cooks>1?cooks*.7:1);return[55,110,165].map(v=>Math.round(v*m/10)*10)}
 const starsOf=(score,g)=>g.filter(v=>score>=v).length;
 function startTutorial(){if(S.room){try{S.room.leave()}catch(e){}}
@@ -1922,15 +2054,24 @@ function waitRoom(){
   $('#ready').onclick=()=>{myReady=!myReady;room.presence({ready:myReady});$('#ready').textContent=myReady?'ยกเลิกพร้อม':'พร้อมแล้ว!'};
   $('#chatf').onsubmit=e=>{e.preventDefault();const t=clean($('#chatIn').value,80);if(!t)return;S.sayN++;room.presence({say:{n:S.sayN,t}});$('#chatIn').value=''};
   $('#start').onclick=()=>{const M=members(S.peers||[]);
-    room.presence({phase:'play',gen:Date.now(),dur:S.dur||180,mode:S.mode,diff:S.diff,market:S.market,tour:S.mode==='tour'?{round:1,alive:M.all.map(m=>m.key),out:[],res:null}:null})};
-  const pushHost=()=>{SAVED.touch({bots:S.bots});room.presence({size:S.size,dur:S.dur,mode:S.mode,diff:S.diff,market:S.market,bots:S.bots.map(b=>({...b}))})};
+    const dd=curDay();room.presence({phase:'play',gen:Date.now(),dur:dd?DAYS[dd-1].dur:S.dur||180,day:dd,mode:S.mode,diff:S.diff,market:S.market,tour:S.mode==='tour'?{round:1,alive:M.all.map(m=>m.key),out:[],res:null}:null})};
+  const pushHost=()=>{SAVED.touch({bots:S.bots});const dd=curDay();S.day=dd;renderRun(dd);$('#settings')&&$('#settings').classList.toggle('dayon',!!dd);room.presence({size:S.size,dur:S.dur,mode:S.mode,diff:S.diff,market:S.market,day:dd,bots:S.bots.map(b=>({...b}))})};
   function buildHostUI(M){const box=$('#settings');hostUI=true;
-    box.innerHTML=`<div class="durpick diffpick" id="diffP"><span class="muted">ความยาก</span><button data-v="easy">😊 ง่าย<small>มือใหม่ · 9 เมนู · ไม่ต้องล้างจาน</small></button><button data-v="normal">🙂 ปกติ<small>ครบทุกระบบ</small></button><button data-v="chef">🔥 เชฟ<small>เร็ว · ออร์เดอร์เยอะ</small></button></div>
+    const ds=dayStars();
+    box.innerHTML=`<div class="runcard" id="runcard"></div>
+      <div class="botadd main"><button class="btn" id="addBot">+ เพิ่มบอท</button><span class="muted">ไม่มีเพื่อน? เพิ่มบอทมาช่วยได้ · หรือส่งรหัสห้องให้เพื่อน</span></div>
+      <details class="moreset" id="moreset"><summary>⚙️ โหมดอื่น / ตั้งค่าเพิ่ม</summary><div class="msbody">
+      <div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="coop">🤝 ร้านเดียวกัน (ช่วยกัน)</button><button data-v="solo">⚔️ เดี่ยว (แข่งกัน)</button><button data-v="team">ทีมละ 2 คน</button><button data-v="tour">ทัวร์นาเมนต์</button></div>
+      <div class="durpick" id="freeP"><span class="muted">รูปแบบ</span><button data-v="0">📅 เล่นเป็นวัน</button><button data-v="1">⏱ เล่นยาว (ตั้งเวลาเอง)</button></div>
+      <div class="durpick diffpick" id="diffP"><span class="muted">ความยาก</span><button data-v="easy">😊 ง่าย<small>มือใหม่ · 9 เมนู · ไม่ต้องล้างจาน</small></button><button data-v="normal">🙂 ปกติ<small>ครบทุกระบบ</small></button><button data-v="chef">🔥 เชฟ<small>เร็ว · ออร์เดอร์เยอะ</small></button></div>
       <div class="durpick diffpick" id="mktP"><span class="muted">วัตถุดิบ</span><button data-v="0">🗄️ ตู้ไม่จำกัด<small>หยิบได้ทุกอย่าง</small></button><button data-v="1">🛒 ตลาดแย่งกัน<small>ของสดมาบนสายพาน ใครคว้าก่อนได้</small></button></div>
-      <div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="coop">🤝 ร้านเดียวกัน (ช่วยกัน)</button><button data-v="solo">เดี่ยว (ใครดีใครได้)</button><button data-v="team">ทีมละ 2 คน</button><button data-v="tour">ทัวร์นาเมนต์</button></div>
       <div class="durpick" id="sizeP"><span class="muted">ขนาดห้อง</span>${[2,3,4,5,6].map(v=>`<button data-v="${v}">${v} คน</button>`).join('')}</div>
       <div class="durpick" id="durP"><span class="muted">เวลาต่อเกม</span>${[[120,'2 นาที'],[180,'3 นาที'],[300,'5 นาที']].map(([v,l])=>`<button data-v="${v}">${l}</button>`).join('')}</div>
-      <div class="botadd"><span class="muted">เพิ่มบอท</span><select id="botLv">${Object.entries(BOTLV).map(([k,[th]])=>`<option value="${k}" ${k==='normal'?'selected':''}>${th}</option>`).join('')}</select><button class="btn" id="addBot">+ เพิ่มบอท</button></div>`;
+      <div class="botadd"><span class="muted">ฝีมือบอท</span><select id="botLv">${Object.entries(BOTLV).map(([k,[th]])=>`<option value="${k}" ${k==='normal'?'selected':''}>${th}</option>`).join('')}</select></div>
+      <div class="durpick" id="runP"><span class="muted">ความคืบหน้า</span><button data-v="reset">🔁 เริ่มร้านใหม่ตั้งแต่วันที่ 1</button></div></div></details>`;
+    if(S.mode!=='coop'||S.free)$('#moreset').open=true;
+    box.querySelectorAll('#freeP button').forEach(b=>b.onclick=()=>{S.free=b.dataset.v==='1';store('wc_free',S.free);pushHost()});
+    $('#runP button').onclick=()=>{const r=RUN.get();if(r.day===1){toast('อยู่วันที่ 1 อยู่แล้ว');return}RUN.set({...r,day:1,runs:(r.runs||1)+1});toast('เริ่มร้านใหม่ วันที่ 1');pushHost()};
     box.querySelectorAll('#sizeP button').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;if(v<curTotal){toast('ในห้องมีคนและบอทมากกว่านี้แล้ว');return}S.size=v;store('wc_size',v);pushHost()});
     box.querySelectorAll('#durP button').forEach(b=>b.onclick=()=>{S.dur=+b.dataset.v;store('wc_dur',S.dur);pushHost()});
     box.querySelectorAll('#diffP button').forEach(b=>b.onclick=()=>{S.diff=b.dataset.v;store('wc_diff',S.diff);pushHost()});
@@ -1948,8 +2089,9 @@ function waitRoom(){
     const meIdx=hum.findIndex(p=>p.isMe);
     if(!iAmHost&&meIdx>=0&&meIdx>=size-bots.length){logMsg(null,`ห้องนี้เต็มแล้ว (${size} คน)`,true);toast('ห้องเต็มแล้ว');setTimeout(leaveRoom,1200);S.screen='leaving';return}
     if(iAmHost&&!hostUI){if(!Array.isArray(S.bots))S.bots=[];buildHostUI(M);return}   // buildHostUI pushes the settings -> render runs again with them
-    if(!iAmHost){hostUI=null;$('#settings').innerHTML=`<p class="muted">ความยาก: <b>${({easy:'😊 ง่าย',normal:'🙂 ปกติ',chef:'🔥 เชฟ'})[host&&host.p.diff]||'🙂 ปกติ'}</b>${host&&host.p.market?' · 🛒 ตลาดแย่งกัน':''} · ${host&&host.p.mode==='coop'?'🤝 ร้านเดียวกัน (ทุกคนช่วยกัน)':host&&host.p.mode==='team'?'โหมดทีม (ทีมละ 2 คน)':host&&host.p.mode==='tour'?`ทัวร์นาเมนต์ (${tourPlan(all.length)})`:'โหมดเดี่ยว'} · ห้อง ${size} ที่นั่ง · เวลาต่อเกม ${Math.round((+(host&&host.p.dur)||180)/60)} นาที · บอท ${bots.length} ตัว (หัวห้องเป็นคนตั้ง)</p>`}
-    else{$('#settings').querySelectorAll('#sizeP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.size));$('#settings').querySelectorAll('#durP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dur));$('#settings').querySelectorAll('#modeP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.mode));$('#settings').querySelectorAll('#diffP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.diff));$('#settings').querySelectorAll('#mktP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.market));
+    if(!iAmHost){hostUI=null;const hp=host&&host.p||{};const md=hp.mode==='coop'?'🤝 ร้านเดียวกัน (ช่วยกัน)':hp.mode==='team'?'ทีมละ 2 คน':hp.mode==='tour'?`ทัวร์นาเมนต์ (${tourPlan(all.length)})`:'⚔️ เดี่ยว (แข่งกัน)';
+      $('#settings').innerHTML=hp.mode==='coop'&&+hp.day?runHTML(+hp.day,null)+`<p class="muted">${md} · บอท ${bots.length} ตัว · หัวห้องเป็นคนกดเริ่ม</p>`:`<p class="muted">${md} · ${Math.round((+hp.dur||180)/60)} นาที${hp.market?' · 🛒 ตลาดแย่งกัน':''} · บอท ${bots.length} ตัว · หัวห้องเป็นคนกดเริ่ม</p>`}
+    else{$('#settings').querySelectorAll('#sizeP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.size));$('#settings').querySelectorAll('#durP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dur));$('#settings').querySelectorAll('#modeP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.mode));$('#settings').querySelectorAll('#diffP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.diff));$('#settings').querySelectorAll('#freeP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.free));$('#freeP').hidden=S.mode!=='coop';$('#settings').classList.toggle('coopset',S.mode==='coop');$('#settings').querySelectorAll('#mktP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.market));
       const ab=$('#addBot');if(ab)ab.disabled=all.length>=size}
     const ids=new Set(all.map(p=>p.id));
     all.forEach(p=>{if(!seen.has(p.id)&&seen.size)SFX.play('join');if(!seen.has(p.id)&&seen.size)logMsg(null,`${clean(p.p.nick,16)||'เชฟ'} ${p.isBot?'(บอท) ':''}เข้ามาในห้อง`,true)});
@@ -2285,6 +2427,23 @@ function mgSeason(plate,season,target,onChange,info){return new Promise(res=>{
   KH={down:c=>{const m=c.match(/^(?:Digit|Numpad)([1-6])$/);if(m&&plan[+m[1]-1])setPour(plan[+m[1]-1].k);if(c==='Space'){const p=plan.find(x=>!ok(x))||plan[0];setPour(p.k)}if(c==='Enter')done()},
       up:c=>{if(/^(?:Digit|Numpad)[1-6]$/.test(c)||c==='Space')setPour(null)}};
 })}
+/* quick cooking (days campaign): hold the button, let go in the green part. One gesture for every station. */
+const QUICK_VERB={knife:'หั่น',mortar:'ตำ',pan:'ผัด',fryer:'ทอด',pot:'ต้ม',oven:'อบ',grill:'ย่าง',steamer:'นึ่ง'};
+function mgQuick(it,tool,next){return new Promise(res=>{
+  const T=1.25,G0=.72,G1=.94;let f=0,down=false,fin=false,t0=performance.now();const min=(E.MIN_COOK[tool==='mortar'&&next==='somtam'?'somtam':tool]||500)+60;
+  freshScene().innerHTML=`<div class="obj" style="left:38%;top:30%;width:24%">${itemArt(it)}</div><div class="qarrow">→</div><div class="obj" style="left:62%;top:30%;width:24%;opacity:.55">${itemArt({...it,st:next})}</div>`;
+  $('#ctrl').innerHTML=`<div class="mlabel"><span>กดค้างให้ถึงช่องเขียวแล้วปล่อย</span><span class="state y" id="qs">พร้อม</span></div>
+    <div class="meter"><i style="left:${G0*100}%;width:${(G1-G0)*100}%;background:#A6DDA0;border-radius:0"></i><i style="left:${G1*100}%;width:${(1-G1)*100}%;background:#F6A79E;border-radius:0"></i><i id="qf" style="width:0;background:rgba(224,164,18,.75)"></i><b class="nd" id="qn"></b></div>
+    <div class="row"><button class="btn big red qbtn" id="act">กดค้างเพื่อ${QUICK_VERB[tool]||'ทำ'} <kbd>Space</kbd></button></div>`;
+  const set=v=>{if(fin)return;down=v;$('#act').classList.toggle('on',v);if(v){FX3.hit({knife:'chop',mortar:'pound',pan:'toss',fryer:'dip'}[tool]||'open');FX3.set({down:true})}else if(f>0)finish()};
+  const stop=stageLoop(dt=>{if(fin)return;if(down){f=Math.min(1.08,f+dt/T);FX3.set({done:f,heat:f,burn:Math.max(0,(f-G1)*4)})}
+    $('#qf').style.width=Math.min(100,f*100)+'%';$('#qn').style.left=Math.min(100,f*100)+'%';const z=f<G0?'y':f<=G1?'g':'r';const q=$('#qs');q.className='state '+z;q.textContent=z==='y'?(down?'อีกนิด…':'พร้อม'):z==='g'?'ปล่อยเลย!':'เกินแล้ว!';
+    if(f>=1.08)finish()});
+  function finish(){if(fin)return;fin=true;stop();FX3.set({down:false});const q=f<G0?Math.max(40,Math.round(f/G0*80)):f<=G1?100:Math.max(55,Math.round(100-(f-G1)*300));
+    spop(q>=90?'เป๊ะ!':q>=70?'ดี':'พอได้',q>=90?'g':q>=70?'y':'r',50,24);const wait=Math.max(350,min-(performance.now()-t0));setTimeout(()=>res(q),wait)}
+  const b=$('#act');b.addEventListener('pointerdown',e=>{e.preventDefault();set(true)});const up=()=>{if(down)set(false)};addEventListener('pointerup',up);addEventListener('pointercancel',up);onLeave(()=>{removeEventListener('pointerup',up);removeEventListener('pointercancel',up)});
+  onScene(()=>set(true));KH={down:c=>{if(c==='Space'||c==='Enter')set(true)},up:c=>{if(c==='Space'||c==='Enter')set(false)}};
+})}
 const MG={knife:mgKnife,mortar:mgMortar,pan:mgPan,fryer:mgFryer,pot:mgPot,oven:mgOven,grill:mgGrill,steamer:mgSteamer};
 const BOTLV={easy:['ง่าย',.7],normal:['ปกติ',1],hard:['เก่ง',1.35]};
 const BOTNAMES=['บอทเบอร์เกอร์','บอทพาสต้า','บอทโดนัท','บอทพิซซ่า','บอททาโก้','บอทเฟรนช์ฟรายส์'];
@@ -2348,11 +2507,11 @@ function spectate(){
 function match(){
   SFX.music('play');
   S.screen='match';document.body.classList.add('in-game');KH=null;
-  const M0=members(S.peers||[]);const h=M0.host;const dur=(h&&+h.p.dur)||S.dur||180;const gen=S.lastGen;const iHost=h&&h.isMe;
+  const M0=members(S.peers||[]);const h=M0.host;const dayN=h&&h.p.mode==='coop'&&+h.p.day||0;const DAY=dayN?DAYS[dayN-1]:null;const dur=DAY?DAY.dur:(h&&+h.p.dur)||S.dur||180;const gen=S.lastGen;const iHost=h&&h.isMe;
   const teamMode=!!(h&&h.p.mode==='team'&&[4,6].includes(M0.all.length));
   const coop=!!(h&&h.p.mode==='coop');const ring=coop;const passUI=teamMode||ring;
   const myId=(M0.all.find(m=>m.isMe)||{id:'me'}).id;const meM=M0.all.find(m=>m.isMe);
-  const tut=!!(h&&h.p.tut);const wantMarket=!!(h&&h.p.market);const diff=tut?'easy':(h&&h.p.diff)||S.diff||'normal',easy=diff==='easy';
+  const tut=!!(h&&h.p.tut);const wantMarket=!!(h&&h.p.market);const diff=tut?'easy':DAY?'normal':(h&&h.p.diff)||S.diff||'normal',easy=diff==='easy';const noWash=easy||!!(DAY&&!DAY.wash),noTaste=!!(DAY&&!DAY.season),slim=easy||!!DAY;
   const tour=M0.tour,roundKind=tour?E.tourKind(+tour.round||1,tour.alive.length):'normal';
   if(tour&&meM&&!tour.alive.includes(meM.key))return spectate();          // knocked out: watch the others
   const nameOf=id=>{if(id==='rival')return'ร้านคู่แข่ง 😈';const m=M0.all.find(x=>x.id===id);return m?(clean(m.p.nick,16)||'เชฟ'):'เพื่อน'};
@@ -2366,7 +2525,7 @@ function match(){
   const BAG='wc_bag';if(online)try{const b=JSON.parse(sessionStorage.getItem(BAG)||'null');if(b&&b.gen===gen&&b.code===code&&Date.now()-b.at<dur*1000+60000){
     for(const k of(false?['hand','inbox','uid']:['hand','plate','plateOn','season','inbox','clean','dirty','uid']))if(b[k]!=null)K[k]=b[k]}}catch(e){}
   let bagAt=0;const saveBag=()=>{if(!online||K.done)return;try{sessionStorage.setItem(BAG,JSON.stringify({gen,code,at:Date.now(),hand:K.hand,plate:K.plate,plateOn:K.plateOn,season:K.season,inbox:K.inbox,clean:K.clean,dirty:K.dirty,uid:K.uid}))}catch(e){}};
-  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:K.mode,round:roundKind,diff,tut,market:wantMarket,players:teamMode||coop?M0.all.map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1})):[{id:myId}]});
+  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:K.mode,round:roundKind,diff,tut,market:wantMarket,day:dayN,players:teamMode||coop?M0.all.map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1})):[{id:myId}]});
   S.k.LM=LM;
   const ask=(ev,data)=>new Promise(res=>{let done=false;const t=setTimeout(()=>{if(!done){done=true;res({ok:false,msg:'เซิร์ฟเวอร์ไม่ตอบ ลองอีกครั้ง'})}},5000);
     NET.s.emit(ev,data,r=>{if(done)return;done=true;clearTimeout(t);res(r||{ok:false})})});
@@ -2392,7 +2551,7 @@ function match(){
   const canUse=(tool,it)=>!!(it&&TR[tool]&&TR[tool][keyOf(it)]);
   const ingArt=k=>icon(k+':raw')||art(RAW_ART[k]||k);
   const selTicket=()=>K.tickets.find(t=>t.k===K.selK)||K.tickets[0];
-  const SI=()=>{const si=E.STAGE_INFO[K.allOpen?Math.max(K.stage,2):K.stage];return K.allOpen?{...si,rush:E.STAGE_INFO[K.stage].rush}:si};
+  const SI=()=>{if(DAY){const s2=E.STAGE_INFO[K.stage];return{...s2,tools:DAY.tools,menus:DAY.menus,ings:DAY.ings}}const si=E.STAGE_INFO[K.allOpen?Math.max(K.stage,2):K.stage];return K.allOpen?{...si,rush:E.STAGE_INFO[K.stage].rush}:si};
   const tgtOf=tk=>E.targetFor(tk.m,tk.req,K.judge);
   const toolOpen=id=>SI().tools.includes(id);
   // co-op ring: whose station / pantry is this?
@@ -2406,12 +2565,13 @@ function match(){
   const toolArt=id=>icon('tool:'+id)||toolIcon(id);
   const stTile=(t,i)=>`<button class="stblock" data-st="${t.id}" data-drop="st:${t.id}" style="--c:${t.c}"><span class="num">${i+1}</span>
       <span class="stico">${toolArt(t.id)}</span><b>${t.th}</b><small>${t.verb}</small><span class="lock"></span></button>`;
-  app.innerHTML=`<div class="play v2 ${teamMode?'teamplay':''} ${easy?'easy':''}" id="play">
+  document.body.dataset.world=DAY?WORLDS[DAY.w].id:'';onLeave(()=>{document.body.dataset.world=''});
+  app.innerHTML=`<div class="play v2 ${DAY?'fsday':''} ${teamMode?'teamplay':''} ${easy?'easy':''} ${noWash?'nowash':''} ${noTaste?'notaste':''}" id="play">
     <section class="card ptop">
       <div class="phead">
-        <div class="ptimer"><span>เหลือ</span><b id="clock"></b></div>
+        ${DAY?`<div class="ptimer dqbox" title="ส่งให้ครบเพื่อผ่านวันนี้"><span>🍽</span><b id="dqn"></b></div>`:`<div class="ptimer"><span>เหลือ</span><b id="clock"></b></div>`}
         <div class="stagepill" id="stagepill"></div>
-        <div class="goal" id="goal" title="เป้าหมายรอบนี้"><div class="gbar"><i id="gfill"></i></div><div class="gstars" id="gstars"></div></div>
+        ${DAY?`<div class="goal smeter" id="goal" title="คะแนนร้าน: ลดลงเรื่อย ๆ · ส่งอาหารเพื่อเติม · ออร์เดอร์หมดเวลา = ลดฮวบ · หมดหลอด = ร้านปิด"><span class="smlab">⭐ คะแนนร้าน</span><div class="gbar"><i id="gfill"></i></div><b id="mval"></b><div class="gstars" id="gstars"></div></div>`:`<div class="goal" id="goal" title="เป้าหมายรอบนี้"><div class="gbar"><i id="gfill"></i></div><div class="gstars" id="gstars"></div></div>`}
         <div class="plist" id="plist"></div>
         <div class="combo" id="combo" hidden><b id="comboN"></b><span>คอมโบ</span><i><i id="comboBar"></i></i></div>
         <button class="cardbtn" id="cardBtn" hidden></button>
@@ -2420,16 +2580,17 @@ function match(){
       </div>
       <div class="orders"><div class="tickets" id="tickets"></div><div class="howto" id="howto"></div></div>
     </section>
-    <aside class="drawer" id="drawer"><button class="dtab" id="dtab">วัตถุดิบ ◁</button>
-      <div class="dbody"><h3 class="colh">${teamMode?'ตู้วัตถุดิบของคุณ':'ตู้วัตถุดิบ'}</h3><p class="muted dhint">${teamMode?'ของเพื่อน = แตะเพื่อขอ':'แตะ = หยิบใส่มือ · ลากไปวางที่เครื่องครัวหรือจาน'}</p>
+    <aside class="drawer ${DAY?'fspan':''}" id="drawer"><button class="dtab" id="dtab">วัตถุดิบ ◁</button>
+      <div class="dbody"><h3 class="colh">${DAY?'🧺 ของของคุณ':teamMode?'ตู้วัตถุดิบของคุณ':'ตู้วัตถุดิบ'}</h3>${DAY?'<p class="fsnote" id="fsnote"></p>':''}<p class="muted dhint">${teamMode?'ของเพื่อน = แตะเพื่อขอ':'แตะ = หยิบใส่มือ · ลากไปวางที่เครื่องครัวหรือจาน'}</p>
         <input class="dsearch" id="dsearch" type="search" placeholder="🔍 ค้นหา เช่น ไข่ หมู" aria-label="ค้นหาวัตถุดิบ">
         <div class="djump">${CATS.map(([c,th])=>`<button data-c="${c}">${({meat:'เนื้อ',carb:'แป้ง',veg:'ผัก',dairy:'นม/ชีส',sauce:'ซอส'})[c]||th}</button>`).join('')}</div>
         ${CATS.map(([c,th])=>`<p class="dcat" data-cat="${c}">${th}</p><div class="dgrid">${Object.entries(ING).filter(([,v])=>v.cat===c).map(([k,v])=>`<button class="ding" data-ing="${k}">${ingArt(k)}<span>${v.th}</span><em class="dl"></em></button>`).join('')}</div>`).join('')}</div></aside>
     <section class="card pcenter">
       <div class="belt" id="belt" hidden><span class="blabel">🛒 สายพาน<small>แตะเพื่อคว้า</small></span><div class="btrack" id="btrack"></div><span class="bbag" id="bbag"></span></div>
       <div class="vport" id="vport">
+        <div class="guide" id="guide" hidden><i id="gico">👉</i><b id="gtxt"></b></div>
         <div class="track p" id="track">
-          <div class="view" id="vP"><span class="vlabel">จาน · ลากของมาวาง → ปรุงรส → ส่ง</span>
+          <div class="view" id="vP">
             <div class="platev">
               <div class="platedrop" id="plateDrop" data-drop="plate"></div>
               <div class="pside"><div class="tpanel" id="tpanel"></div>
@@ -2458,6 +2619,7 @@ function match(){
   const drawer=$('#drawer');const mobile=()=>innerWidth<=900;
   const setDrawer=open=>{drawer.classList.toggle('closed',!open);$('#dtab').textContent=open?'ปิด ▷':'วัตถุดิบ ◁'};setDrawer(!mobile());
   $('#dtab').onclick=()=>setDrawer(drawer.classList.contains('closed'));
+  if(DAY){const n=$('#fsnote');if(n)n.textContent=DAY.split&&M0.all.length>1?'ของที่ไม่มี อยู่ที่เพื่อน · แตะการ์ดวิธีทำเพื่อขอ แล้วรอเพื่อนส่งมา':'แตะของเพื่อหยิบ หรือแตะการ์ดวิธีทำด้านบน'}
   $('#back').onclick=()=>closeStation();
   $('#stgrid').querySelectorAll('.stblock').forEach(b=>b.onclick=()=>{if(dragJustEnded)return;toggleStation(b.dataset.st)});
   $('#sinkBtn').onclick=()=>toggleStation('sink');
@@ -2475,7 +2637,7 @@ function match(){
     onLeave(()=>{FX3.end();W3D.S.setPlate([]);W3D.unbind();W3D.toBg()})}
   const camBack=()=>{if(is3d)W3D.k.flyTo(plateShot(),650)};
   $('#serve').onclick=serve;
-  $('#clear').onclick=()=>{if(K.busy||!K.plateOn)return;if(K.plates){if(!K.plate.length)return;J.pdump(K.pi).then(r=>{if(r&&r.snap)applySnap(r.snap)});toast('เทจานทิ้งแล้ว');return}const dumped=K.plate.map(({ing,st,amt,q})=>({ing,st,amt,q}));if(K.mkt)dumped.forEach(x=>{if(x.st==='raw'&&!isStaple(x.ing))K.recv[x.ing]=Math.max(0,(K.recv[x.ing]||0)-1)});K.plate=[];K.season={};K.plateOn=false;if(!easy)K.dirty++;J.clear(dumped);renderPlate();renderHow();toast(easy?'เทจานทิ้งแล้ว':'เทจานทิ้งแล้ว จานไปรอที่อ่าง')};
+  $('#clear').onclick=()=>{if(K.busy||!K.plateOn)return;if(K.plates){if(!K.plate.length)return;J.pdump(K.pi).then(r=>{if(r&&r.snap)applySnap(r.snap)});toast('เทจานทิ้งแล้ว');return}const dumped=K.plate.map(({ing,st,amt,q})=>({ing,st,amt,q}));if(K.mkt)dumped.forEach(x=>{if(x.st==='raw'&&!isStaple(x.ing))K.recv[x.ing]=Math.max(0,(K.recv[x.ing]||0)-1)});K.plate=[];K.season={};K.plateOn=false;if(!noWash)K.dirty++;J.clear(dumped);renderPlate();renderHow();toast(easy?'เทจานทิ้งแล้ว':'เทจานทิ้งแล้ว จานไปรอที่อ่าง')};
   $('#trash').onclick=()=>{if(K.busy||!K.hand)return;toast(`ทิ้ง ${itemName(K.hand)} แล้ว`);dropRaw(K.hand);setHand(null)};
   $('#judge').onclick=()=>{$('#judge').hidden=true};
   $('#emoBtn').onclick=()=>{$('#emoList').hidden=!$('#emoList').hidden};
@@ -2487,7 +2649,7 @@ function match(){
   onLeave(S.room.onPeers(peers=>{S.peers=peers;renderScores(peers);followHost(peers,{toPlay:false})}));
   onLeave(()=>{KH=null});
   /* ----- everything the referee tells us ----- */
-  function applySnap(snap){if(!snap||snap.gen!==gen)return;S.lastSnap=snap;if(typeof snap.endIn==='number'&&online)K.end=performance.now()+snap.endIn;K.score=snap.score;K.served=snap.served;const now=performance.now();
+  function applySnap(snap){if(!snap||snap.gen!==gen)return;S.lastSnap=snap;if(typeof snap.endIn==='number'&&online)K.end=performance.now()+snap.endIn;K.score=snap.score;K.served=snap.served;if(snap.dq){const pred=meterNow();K.dq=snap.dq;K.dqAt=performance.now();if(pred!=null){const d=Math.round(snap.dq.meter-pred);if(Math.abs(d)>=4)meterPop(d)}if(snap.dq.result&&!K.done)setTimeout(endGame,300)}const now=performance.now();
     K.tickets=snap.tickets.filter(t=>MENU_BY_ID[t.id]).map(t=>({k:t.k,m:MENU_BY_ID[t.id],life:t.life,rush:t.rush,req:t.req||null,gold:!!t.gold,born:now-(t.life*1000-t.left)}));
     K.allOpen=!!snap.allOpen;K.judge=snap.judge||null;if(snap.ring){K.ring=snap.ring;if(snap.ring.block)K.blockEnd=performance.now()+snap.ring.block;renderRing()}if(snap.plates){K.plates=snap.plates;syncCoopPlate()}K.mkt=snap.market||null;K.recv=snap.recv||{};if(K.mkt)syncBelt(K.mkt);K.combo=snap.combo||0;K.comboEnd=now+(snap.comboLeft||0);K.card=snap.card||null;K.blockEnd=now+(snap.block||0);K.sets=snap.sets||null;K.round=snap.round||'normal';K.box=snap.box||null;
     if(!K.tickets.some(t=>t.k===K.selK))K.selK=K.tickets[0]&&K.tickets[0].k;
@@ -2498,7 +2660,7 @@ function match(){
   function onEvent(e){if(!e)return;
     if(e.type==='recv'&&(!e.to||e.to===myId)){SFX.play('join');K.inbox.push({...e.item,id:K.uid++,fromMate:true});if(K.inbox.length>6){K.inbox.shift();toast('ถาดรับของเต็ม ของชิ้นเก่าสุดหล่นไป')}renderInbox();renderHow();
       toast(`ได้รับ ${itemName(e.item)} จาก ${nameOf(e.from)}`);const ib=$('#inbox');if(ib&&!REDUCED)ib.animate([{transform:'scale(1)'},{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:350})}
-    else if(e.type==='ask'&&(!e.to||e.to===myId)){K.asked[e.ing]=performance.now()+8000;(K.askedBy=K.askedBy||{})[e.ing]=e.from;renderLocks();toast(`📣 ${nameOf(e.from)} ขอ ${ING[e.ing].th}${ring?(sideOf(e.from)==='l'?' (⬅ ซ้าย)':' (ขวา ➡)'):''} — แตะในตู้เพื่อส่งให้เลย`);if(!mobile())setDrawer(true)}
+    else if(e.type==='ask'&&(!e.to||e.to===myId)){K.asked[e.ing]=performance.now()+8000;say(`${nameOf(e.from)} ขอ${ING[e.ing].th}`);(K.askedBy=K.askedBy||{})[e.ing]=e.from;renderLocks();toast(`📣 ${nameOf(e.from)} ขอ ${ING[e.ing].th}${ring?(sideOf(e.from)==='l'?' (⬅ ซ้าย)':' (ขวา ➡)'):''} — แตะในตู้เพื่อส่งให้เลย`);if(!mobile())setDrawer(true)}
     else if(e.type==='boost'){const c=E.CO_CARDS.find(x=>x.id===e.card);if(!c)return;if(c.id==='cleanup'){K.dirty=0;K.clean=Math.max(K.clean,2);renderPlate()}SFX.play('fanfare');toast(`${e.from===myId?'คุณ':nameOf(e.from)} ใช้การ์ด ${c.icon} ${c.th}! ${c.desc}`)}
     else if(e.type==='prank'){const card=E.CARDS.find(c=>c.id===e.card);if(!card)return;const mine=(e.to||[]).includes(myId);
       if(mine)applyPrank(card,e.ms,e.from);else if(e.from!==myId)toast(`${nameOf(e.from)} ใช้การ์ด ${card.icon} ${card.th} ใส่ ${nameOf((e.to||[])[0])}`)}
@@ -2507,14 +2669,44 @@ function match(){
     else if(e.type==='coopbot'){if(e.act==='place')flashTab(e.pi,`${nameOf(e.by)} วาง ${itemName({ing:e.ing,st:e.st})}`);else if(e.act==='wash')toast(`${nameOf(e.by)} ล้างจานให้ 🧽`)}
     else if(e.type==='goldnew'){SFX.play('fanfare');toast(`🥇 ออร์เดอร์ทอง: ${e.th}! ใครเสิร์ฟก่อนได้ +${E.GOLD_BONUS}`);const t=$('#tickets');if(t&&!REDUCED)t.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:400})}
     else if(e.type==='gold'){if(e.by===myId)return;K.tickets=K.tickets.filter(t=>!t.gold);renderTickets();SFX.play('fail');toast(`${nameOf(e.by)} คว้าออร์เดอร์ทองไปก่อน!`)}
-    else if(e.type==='expired'&&(e.team==null||e.team===K.team))(e.list||[]).forEach(x=>{SFX.play('expire');toast(`ออร์เดอร์ ${x.th} หมดเวลา -10`)})}
+    else if(e.type==='expired'&&(e.team==null||e.team===K.team))(e.list||[]).forEach(x=>{SFX.play('expire');toast(DAY?`💢 ลูกค้าที่สั่ง${x.th}รอไม่ไหว เดินออก! คะแนนร้าน -${E.METER.miss}`:`ออร์เดอร์ ${x.th} หมดเวลา -10`)})}
   if(online){const f=(ev,d)=>{if(!d||d.code!==code)return;if(ev==='game:you')applySnap(d.snap);else if(ev==='game:recv')onEvent({type:'recv',...d});else if(ev==='game:ask')onEvent({type:'ask',...d});else if(ev==='game:expired')onEvent({type:'expired',...d});else if(ev==='game:prank')onEvent({...d,type:'prank'});else if(ev==='game:gold')onEvent({...d,type:'gold'});else if(ev==='game:goldnew')onEvent({...d,type:'goldnew'});else if(ev==='game:grab')onEvent({...d,type:'grab'})};
     NET.gameSubs.add(f);onLeave(()=>NET.gameSubs.delete(f));
     if(NET.you&&NET.you.code===code)applySnap(NET.you.snap);ask('game:sync',code).then(r=>{if(r&&r.ok)applySnap(r.snap)})}
   else applySnap(LM.snap(myId,Date.now()));
   // solo mode: the host's screen simulates its bots (team-mode bots live in the referee)
-  K.onEvent=onEvent;K.myId=myId;K.easy=easy;K.resnap=()=>{if(LM)applySnap(LM.snap(myId,Date.now()))};K.diff=diff;K.goals=starGoals(dur,diff,coop?M0.all.length:1);if(tut)$('#goal').hidden=true;
-  if(tut)coach();
+  K.onEvent=onEvent;K.myId=myId;K.easy=easy;K.resnap=()=>{if(LM)applySnap(LM.snap(myId,Date.now()))};K.diff=diff;K.day=dayN;K.goals=DAY?dayGoals(dayN,M0.all.length):starGoals(dur,diff,coop?M0.all.length:1);if(DAY){if(S.fromNext){S.fromNext=false;setTimeout(()=>{const m=mineTools();if(m)toast(m.replace(/<[^>]+>/g,''))},600)}else setTimeout(dayIntro,250)}if(tut)$('#goal').hidden=true;
+  if(tut)coach();else guide();
+  // the guide: ONE line that always says what to do right now, and makes that one thing glow (like Family Style's "do this next")
+  function guide(){let last='',lastEl=null;const TAP=DAY?'แตะการ์ดในวิธีทำ':'แตะขั้นที่กระพริบ',CUE=!DAY||DAY.n<=3;const box=$('#guide'),gi=$('#gico'),gt=$('#gtxt');box.hidden=false;
+    const side=id=>id?(sideOf(id)==='l'?'⬅ ทางซ้าย':'ทางขวา ➡'):'';
+    const want=()=>{const tk=selTicket(),now=performance.now(),T=id=>TOOLS.find(x=>x.id===id)||{th:id};
+      if((K.blockEnd||0)>now)return['🔌','ไฟดับ! รอแป๊บ…',null];
+      if(K.open&&K.busy)return['🔥','ทำให้เสร็จ: กดปุ่มด้านล่าง','#ctrl .btn:not([disabled])'];
+      if(K.open==='sink')return K.dirty?['🧽','ล้างจาน: กดปุ่มด้านล่าง','#washBtn']:['✅','จานสะอาดแล้ว · กด ← กลับ','#back'];
+      if(K.open==='season')return['🧂','เทเครื่องปรุงให้ถึงขีดเขียว แล้วกด ปรุงเสร็จ','#sdone'];
+      if(K.open){const u=$('#useHand');if(u&&!u.disabled)return['👆','กดปุ่มเขียวเพื่อเริ่มทำ','#useHand'];return K.hand&&K.hand.st!=='raw'?['✅',`ได้${itemName(K.hand)}แล้ว! กลับไปที่จาน…`,null]:['↩','ของในมือใช้ที่นี่ไม่ได้ · กด ← กลับ','#back']}
+      const ask=Object.keys(K.asked||{}).find(k=>K.asked[k]>now&&mine(k));
+      if(ask&&!K.hand)return['📣',`${nameOf((K.askedBy||{})[ask])||'เพื่อน'} ขอ${ING[ask].th} · แตะ${ING[ask].th}ในตู้เพื่อส่งให้`,`.ding[data-ing="${ask}"]`];
+      if(K.inbox&&K.inbox.length&&!K.hand)return['📦',`เพื่อนส่ง ${itemName(K.inbox[0])} มา · แตะที่ถาดรับ`,'#inbox .ibx'];
+      if(!K.plateOn&&!noWash&&K.clean<=0)return['🧽','ไม่มีจานสะอาด · ไปล้างจานก่อน','#sinkBtn'];
+      if(!tk)return['⏳','รอลูกค้าสั่งอาหาร…',null];
+      const need=tk.m.c.map(c=>c[0]+':'+c[1]);for(const x of K.plate){const j=need.indexOf(x.ing+':'+x.st);if(j>-1)need.splice(j,1)}
+      if(!need.length&&K.plate.length){if(!noTaste&&E.seasonHint(tk.m).length&&!Object.values(K.season||{}).some(v=>v>0))return['🧂',`${tk.m.th}ครบแล้ว! ปรุงรสก่อนส่ง`,'#seasBtn2'];return['🍽',`${tk.m.th}ครบแล้ว! กด ส่งอาหาร`,'#serve']}
+      if(K.hand){const h=K.hand;let rem=null;for(const c of tk.m.c){if(c[0]!==h.ing||!need.includes(c[0]+':'+c[1]))continue;rem=stepRemain(c[0],h.st,c[1]);if(rem)break}
+        if(rem&&!rem.length)return['🍽',`${TAP} เพื่อวาง${itemName(h)}ลงจาน`,$('.step.ready')?'.step.ready':'.step.next'];
+        if(rem){const t=rem[0];if(!toolMine(t)){const w=toolOwner(t);return['📤',`${T(t).th}อยู่ที่ ${w?nameOf(w.id):'เพื่อน'} · ส่ง${itemName(h)}ไป${side(w&&w.id)}`,w&&sideOf(w.id)==='l'?'#passL':'#passR']}
+          return['👉',`เอา${itemName(h)}ไป${T(t).th}: ${TAP}`,$('.step.ready')?'.step.ready':'.step.next']}
+        return passUI?['📤',`${tk.m.th}ไม่ใช้${itemName(h)} · ส่งให้เพื่อนหรือทิ้ง`,'#trash']:['🗑',`${tk.m.th}ไม่ใช้${itemName(h)} · ทิ้งได้`,'#trash']}
+      const [ing]=need[0].split(':');
+      if(passUI&&!mine(ing)&&!(K.mkt&&!isStaple(ing))){const o=ingOwner(ing);return['📣',`${ING[ing].th}อยู่ที่ ${o?nameOf(o.id):'เพื่อน'} ${o?side(o.id):''} · ${TAP}เพื่อขอ`,'.step.next']}
+      if(K.mkt&&avail(ing)<=0)return['🛒',`คว้า${ING[ing].th}จากสายพานด้านบน`,'#belt'];
+      return['👉',`${TAP} เพื่อหยิบ${ING[ing].th}`,'.step.next']};
+    const t=setInterval(()=>{if(S.k!==K||K.done){clearInterval(t);if(lastEl)lastEl.classList.remove('cue');return}
+      let w;try{w=want()}catch(e){return}const [ic,tx,sel]=w;
+      if(ic+tx!==last){last=ic+tx;gi.textContent=ic;gt.textContent=tx;box.classList.remove('pop');void box.offsetWidth;box.classList.add('pop')}
+      const el=sel&&CUE?document.querySelector(sel):null;if(el!==lastEl){if(lastEl)lastEl.classList.remove('cue');if(el)el.classList.add('cue');lastEl=el}},300);
+    onLeave(()=>clearInterval(t))}
   // the coach: every few hundred ms work out what the player should do next and spotlight it
   function coach(){const ov=document.createElement('div');ov.className='coach';ov.innerHTML='<i></i><p></p><button class="btn soft coachskip">ข้ามการสอน</button>';document.body.appendChild(ov);
     const hole=ov.querySelector('i'),tip=ov.querySelector('p');let lastSel='';
@@ -2524,8 +2716,8 @@ function match(){
       ov.classList.add('done');$('#tutgo').onclick=()=>leaveRoom()};
     const step=()=>{if(S.k!==K){clearInterval(t);ov.remove();return}if(K.served>=1){setTimeout(finish,1800);clearInterval(t);return}
       let sel,txt;const tk=selTicket();const allOn=tk&&K.plate.length>=tk.m.c.length;
-      if(K.open&&K.busy){sel='#ctrl';txt='ทำมินิเกม: กดปุ่มในกล่องนี้ (หรือ Space) ตามที่บอก จนเสร็จ'}
-      else if(K.open&&$('#useHand')){sel='#useHand';txt='กดปุ่มนี้ (หรือ Space) เพื่อเริ่มทำ'}
+      if(K.open&&K.busy){sel='#ctrl';txt='ทำมินิเกม: กดปุ่มในกล่องนี้ตามที่บอก จนเสร็จ'}
+      else if(K.open&&$('#useHand')){sel='#useHand';txt='กดปุ่มนี้เพื่อเริ่มทำ'}
       else if(allOn){sel='#serve';txt='ครบแล้ว! กด ส่งอาหาร'}
       else if(K.hand){sel='.step.next';txt='ได้ของแล้ว แตะขั้นนี้อีกครั้ง เพื่อวางลงจาน'}
       else{sel='.step.next';txt=K.plate.length?'ดีมาก! แตะขั้นต่อไป':'นี่คือวิธีทำ แตะขั้นที่มีป้าย 👉 เพื่อหยิบของ'}
@@ -2544,10 +2736,11 @@ function match(){
     {const cb=$('#comboBar');if(cb&&K.combo>=2){const f=Math.max(0,(K.comboEnd-now)/E.COMBO_MS);cb.style.width=f*100+'%';if(f<=0){K.combo=0;renderFun()}}
      const bo=$('#blackout'),bl=(K.blockEnd||0)-now;if(bo){bo.hidden=bl<=0;if(bl>0)$('#boN').textContent=Math.ceil(bl/1000)+' วิ'}
      const sm=$('#smoke');if(sm&&!sm.hidden){const l=(K.smokeEnd||0)-now;if(l<=0)sm.hidden=true;else sm.style.opacity=Math.min(1,l/1200)}}
-    const c=$('#clock');c.textContent=`${Math.floor(left/60)}:${String(Math.floor(left%60)).padStart(2,'0')}`;c.classList.toggle('low',left<20);
+    const c=$('#clock');if(c){c.textContent=`${Math.floor(left/60)}:${String(Math.floor(left%60)).padStart(2,'0')}`;c.classList.toggle('low',left<20)}
     K.tickets.forEach(tk=>{const f=Math.max(0,1-(now-tk.born)/(tk.life*1000));const bar=document.querySelector(`[data-tk="${tk.k}"] .pat i`);if(bar){bar.style.width=f*100+'%';bar.style.background=f>.5?'#4CAF50':f>.25?'#FFC933':'#F26B5E'}});
     lockAcc+=dt;if(lockAcc>.5){lockAcc=0;renderStagePill();renderLockTimes()}
     if(!online){tickAcc+=dt;if(tickAcc>.25){tickAcc=0;const r=LM.tick(Date.now());r.events.forEach(onEvent);if(r.changed)applySnap(LM.snap(myId,Date.now()))}}
+    if(DAY){renderGoal();return}
     const sec=Math.ceil(left);if(sec<=10&&sec>0&&sec!==K.lastBeep){K.lastBeep=sec;SFX.play('beep')}
     if(left<=0)endGame()});
   renderHand();renderInbox();renderPlate();setView(0);renderLocks();
@@ -2555,10 +2748,10 @@ function match(){
   /* ---------- stages: the kitchen opens up over time ---------- */
   function mmss(ms){const s=Math.max(0,Math.ceil(ms/1000));return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`}
   function renderStagePill(){const p=$('#stagepill');if(!p)return;const si=SI();const nx=K.nextAt!=null?` · ถัดไป ${mmss(K.nextAt-performance.now())}`:'';
-    p.className='stagepill'+(si.rush?' rush':'');p.textContent=`ช่วง ${K.stage+1}/${E.STAGES.length} · ${(K.allOpen?E.STAGE_INFO[K.stage]:si).th}${nx}`}
+    p.className='stagepill'+(si.rush?' rush':'');p.textContent=DAY?`📅 วัน ${DAY.n} · ${si.rush?'Rush! คะแนน ×1.5':DAY.th}`:`ช่วง ${K.stage+1}/${E.STAGES.length} · ${(K.allOpen?E.STAGE_INFO[K.stage]:si).th}${nx}`}
   function renderLockTimes(){document.querySelectorAll('#stgrid .stblock.locked .lock').forEach(l=>{const i=E.STAGES.findIndex(s=>s.tools.includes(l.parentElement.dataset.st));
     const at=K.nextAt!=null&&i===K.stage+1?mmss(K.nextAt-performance.now()):`ช่วง ${i+1}`;l.innerHTML=`🔒<span class="lkw"> เปิดใน</span> ${at}`})}
-  function renderLocks(){document.querySelectorAll('#stgrid .stblock').forEach(b=>{const lk=!toolOpen(b.dataset.st);b.classList.toggle('locked',lk);if(!lk)b.querySelector('.lock').textContent=''});
+  function renderLocks(){if(DAY)document.querySelectorAll('#stgrid .stblock').forEach(b=>b.classList.toggle('offday',!DAY.tools.includes(b.dataset.st)));document.querySelectorAll('#stgrid .stblock').forEach(b=>{const lk=!toolOpen(b.dataset.st);b.classList.toggle('locked',lk);if(!lk)b.querySelector('.lock').textContent=''});
     const now=performance.now();
     drawer.querySelectorAll('.ding').forEach(b=>{const k=b.dataset.ing;
       if(K.mkt&&!(ring&&isStaple(k)&&!mine(k))){const a=avail(k),lk=!ingOpen(k)&&!K.allOpen,st=isStaple(k);b.classList.toggle('locked',lk);b.classList.remove('mate','asked','nobox');b.classList.toggle('mk0',!st&&a<=0&&!lk);
@@ -2567,6 +2760,14 @@ function match(){
       b.classList.toggle('locked',lk);b.classList.toggle('mate',mt);b.classList.toggle('asked',!!as);b.classList.toggle('nobox',nobox);
       b.querySelector('.dl').innerHTML=nobox?'<i class="nb">ไม่มีในกล่อง</i>':lk?'🔒':mt?(ring?(o=>o?`${chef(chefOf(o.id),'mini')}<i>${sideOf(o.id)==='l'?'⬅':'➡'}</i>`:'')(ingOwner(k)):`${chef(chefOf(K.mate),'mini')}<i>เพื่อน</i>`):as?'<i>เพื่อนขอ!</i>':''});
     renderStagePill();renderLockTimes()}
+  function dayIntro(){const b=document.createElement('div');b.className='dayintro';const W=WORLDS[DAY.w];
+    const flags=[['split','🔁 แบ่งของ ส่งซ้าย/ขวา'],['wash','🧽 ล้างจาน'],['season','🧂 ปรุงรส'],['gold','🥇 ลูกค้า VIP'],['market','🛒 ตลาดสายพาน'],['rival','😈 ร้านคู่แข่ง'],['cards','🃏 การ์ดช่วยทีม']].filter(([k])=>DAY[k]);
+    b.innerHTML=`<div class="dic w-${W.id}"><small>${W.icon} ${W.th}</small><h2>วันที่ ${DAY.n} · ${esc(DAY.th)}</h2><p>${esc(DAY.news)}</p>
+      <div class="dim">${DAY.menus.slice(0,8).map(id=>`<span>${menuArt(MENU_BY_ID[id])}<small>${MENU_BY_ID[id].th}</small></span>`).join('')}</div>
+      ${flags.length?`<div class="dif">${flags.map(([,t])=>`<i>${t}</i>`).join('')}</div>`:''}
+      <div class="dig"><span>🍽 ส่งให้ครบ ${K.dq?K.dq.goal:DAY.goal} จาน</span><span>⭐ คะแนนร้านลดเรื่อย ๆ ส่งอาหารเพื่อเติม อย่าให้หมด!</span></div>${mineTools()}<div class="dibar"><div></div></div></div>`;
+    document.body.appendChild(b);const close=()=>{b.remove()};b.onclick=close;setTimeout(close,3200);onLeave(close)}
+  function mineTools(){const t=K.ring&&K.ring.tools;if(!t||!DAY||!DAY.split||M0.all.length<2)return'';return`<p class="dimine">วันนี้คุณดูแล: <b>${t.map(id=>{const x=TOOLS.find(y=>y.id===id);return x?x.th:id}).join(' · ')||'ส่งของ/จัดจาน'}</b></p>`}
   function roundIntro(){const b=$('#stagebanner');if(!b)return;const n=tour?tour.alive.length:0;
     const body=K.round==='mystery'&&K.box?`<p>กล่องปริศนา: ทำได้แค่ ${K.box.map(id=>MENU_BY_ID[id].th).join(' · ')}</p><p class="ni">${(K.pantry||[]).slice(0,10).map(k=>`<span title="${ING[k].th}">${icon(k+':raw')||art(k)}</span>`).join('')}</p>`
       :K.round==='final'?`<p>กรรมการ: ${esc(K.judge?K.judge.name+' '+K.judge.th:'')}</p><p>ทำเซ็ต จานหลัก + เครื่องเคียง + ของหวาน ได้โบนัส +${E.SET_BONUS} · เครื่องครัวเปิดครบ</p>`
@@ -2590,13 +2791,13 @@ function match(){
     if(c==='KeyS')openStation('season');
     if(c==='Enter')serve()}}}
   /* ---------- hand (one item) + amount ---------- */
-  function setHand(it){if(it&&it!==K.hand)SFX.play('pop');K.hand=it;renderHand();renderHow();markTargets(it)}
+  function setHand(it){if(it&&it!==K.hand)SFX.play('pop');K.hand=it;renderHand();renderHow();markTargets(it);if(coop){clearTimeout(K.holdT);K.holdT=setTimeout(()=>{if(S.k===K)S.room.presence({hold:K.hand?K.hand.ing+':'+K.hand.st:null})},250)}}
   function stepAmt(d){const it=K.hand;if(!it||it.st!=='raw')return;const o=ING[it.ing].opts;const i=Math.max(0,Math.min(o.length-1,o.indexOf(it.amt)+d));it.amt=o[i];renderHand()}
   function renderHand(){const el=$('#hand'),it=K.hand;el.classList.toggle('full',!!it);$('#trash').disabled=!it;
     el.removeAttribute('data-drag');
-    if(!it){el.innerHTML=`<span class="empty-h">มือว่าง · หยิบวัตถุดิบจากตู้ด้านซ้าย</span>`;renderPassbox();return}
+    if(!it){el.innerHTML=`<span class="empty-h">มือว่าง</span>`;renderPassbox();return}
     el.dataset.drag='hand';const g=ING[it.ing];const can=it.st==='raw'&&g.opts.length>1&&!it.fromMate;
-    el.innerHTML=`${itemArt(it)}${it.st!=='raw'?`<span class="q" style="background:${it.q>=80?'#4CAF50':it.q>=55?'#FFC933':'#F26B5E'}" title="คุณภาพ ${it.q}%"></span>`:''}<span class="hn">${itemName(it)}<small>${can?(easy?'แตะขั้นในวิธีทำ หรือลากไปวาง':'เลือกปริมาณแล้วลากไปวาง'):'ลากไปวางที่เครื่องครัวหรือจาน'}</small></span>
+    el.innerHTML=`${itemArt(it)}${it.st!=='raw'?`<span class="q" style="background:${it.q>=80?'#4CAF50':it.q>=55?'#FFC933':'#F26B5E'}" title="คุณภาพ ${it.q}%"></span>`:''}<span class="hn">${itemName(it)}</span>
       <span class="amt">${can?`<button data-a="-1" aria-label="ลดปริมาณ">−</button>`:''}<b>${amtText(it.ing,it.amt)}</b>${can?`<button data-a="1" aria-label="เพิ่มปริมาณ">+</button>`:''}</span>`;
     el.querySelectorAll('[data-a]').forEach(b=>b.onclick=e=>{e.stopPropagation();stepAmt(+b.dataset.a)});renderPassbox()}
   function renderRing(){if(!K.ring)return;const L=$('#passL'),Rb=$('#passR');
@@ -2654,7 +2855,7 @@ function match(){
     if(!take&&K.hand){toast('ในมือมีของอยู่แล้ว ถือได้ทีละ 1 อย่าง');return}
     if(K.open!==id)openStation(id);
     take&&take();setBusy(true);FX3.start(id,it);J.cookStart(id);
-    const game=id==='mortar'&&next==='somtam'?mgSomtam:MG[id];
+    const game=DAY?(x=>mgQuick(x,id,next)):id==='mortar'&&next==='somtam'?mgSomtam:MG[id];
     if(next==='somtam')$('#stTitle').textContent='ครก · ตำส้มตำ';
     game(it).then(q=>{if(S.screen!=='match'||S.k!==K)return;setBusy(false);setTimeout(()=>FX3.end(),450);
       const out={id:K.uid++,ing:it.ing,st:next,amt:it.amt,q:Math.round(it.st==='raw'?q:(it.q+q)/2),fromMate:it.fromMate};setHand(out);
@@ -2667,15 +2868,16 @@ function match(){
       J.wash().then(r=>{if(r&&typeof r.score==='number')K.score=r.score;report()});SFX.play('wash');toast('ล้างจานเสร็จ +3');renderPlate();openStation('sink')})}
   /* ---------- plate + taste ---------- */
   function renderTaste(){const tk=selTicket();const box=$('#tpanel');if(!box)return;if(!tk){box.innerHTML='';return}
+    if(noTaste){box.innerHTML=`<div class="tf"><span class="tfe">${K.plate.length?'😋':'🍽️'}</span><div><b>${K.plate.length?'วันนี้ไม่ต้องปรุงรส':'ยังไม่มีอะไรในจาน'}</b><small>${K.plate.length?'ครบสูตรแล้วกดส่งได้เลย':''}</small></div></div>`;return}
     const tgt=tgtOf(tk);const wish=[tk.req&&`ลูกค้าขอ "${tk.req.th}"`,K.judge&&`${K.judge.name} ${K.judge.th}`].filter(Boolean).join(' · ');
     if(!K.plate.length){box.innerHTML=`<div class="tf"><span class="tfe">🍽️</span><div><b>ยังไม่มีอะไรในจาน</b><small>ลากของมาวางตามวิธีทำ</small></div></div>${wish?`<p class="wish tpn">${esc(wish)}</p>`:''}`;return}
     const plan=seasonPlan(K.plate,tgt,tk.m,[tk.req,K.judge]),acc=tasteAccuracy(tasteOf(K.plate,K.season),tgt),[f,w]=face(acc);
     const need=plan.map(p=>{const v=K.season[p.k]||0;const g=v>=p.lo&&v<=p.hi;return`<span class="tneed ${g?'g':''}">${bottleArt(p.k)}${BOTTLE_SHORT[p.k]}${g?' ✓':''}</span>`}).join('');
     box.innerHTML=`<div class="tf"><span class="tfe">${f}</span><div><b>รสชาติ ${acc}%</b><small>${w}</small></div></div>${plan.length?`<div class="tneeds">${need}</div>`:'<p class="tpn">ไม่ต้องปรุงเพิ่ม 👍</p>'}${wish?`<p class="wish tpn">${esc(wish)}</p>`:''}`}
   function renderPlate(){const pd=$('#plateDrop');if(!pd)return;pd.classList.toggle('empty',!K.plateOn);
-    pd.innerHTML=K.plateOn?plateArt(K.plate)+(Object.keys(K.season).length?`<span class="seasoned">ปรุงแล้ว: ${Object.entries(K.season).map(([k,v])=>`${SEASON[k].th} ${v}`).join(' · ')}</span>`:''):`${art('plate')}<span class="ph">${K.clean>0||easy?'แตะขั้นในวิธีทำ หรือลากของมาวาง':'ไม่มีจานสะอาด ไปล้างจานก่อน'}</span>`;
+    pd.innerHTML=K.plateOn?plateArt(K.plate)+(Object.keys(K.season).length?`<span class="seasoned">ปรุงแล้ว: ${Object.entries(K.season).map(([k,v])=>`${SEASON[k].th} ${v}`).join(' · ')}</span>`:''):`${art('plate')}<span class="ph">${K.clean>0||easy?'วางของที่นี่':'ไม่มีจานสะอาด ไปล้างจานก่อน'}</span>`;
     $('#pcount').textContent=`จานสะอาด ${K.clean} · รอล้าง ${K.dirty}`;$('#sinkInfo').textContent=K.dirty?`รอล้าง ${K.dirty} ใบ`:'ไม่มีจานสกปรก';
-    $('#seasInfo').textContent=K.plateOn?'กด S หรือแตะเพื่อปรุง':'วางของลงจานก่อน';
+    $('#seasInfo').textContent=K.plateOn?'แตะเพื่อปรุง':'วางของลงจานก่อน';
     $('#serve').disabled=!K.plate.length||K.pending;renderTaste();
     if(is3d)W3D.S.setPlate(K.plateOn?K.plate:[])}
   /* ---------- co-op: three shared plates on the pass ---------- */
@@ -2698,7 +2900,7 @@ function match(){
     take&&take();K.pi=P;pl.items.push({ing:it.ing,st:it.st,amt:it.amt,q:it.q,by:myId});syncCoopPlate();SFX.play('place');renderPlate();renderHow();
     J.place(P,{ing:it.ing,st:it.st,amt:it.amt,q:it.q}).then(r=>{if(S.k!==K)return;if(r&&r.snap)applySnap(r.snap);if(!r||!r.ok){toast((r&&r.msg)||'วางไม่สำเร็จ');if(!K.hand&&it.st!=='raw')setHand(it)}});return true}
   function toPlate(it,take){if(K.busy||K.done||!it)return false;if(K.plates)return coopPlace(it,take);
-    if(!K.plateOn){if(K.clean<=0&&!easy){toast('ไม่มีจานสะอาด ไปล้างจานที่อ่างก่อน');return false}if(!easy)K.clean--;K.plateOn=true}
+    if(!K.plateOn){if(K.clean<=0&&!noWash){toast('ไม่มีจานสะอาด ไปล้างจานที่อ่างก่อน');return false}if(!noWash)K.clean--;K.plateOn=true}
     if(K.plate.length>=MAX_PLATE){toast('จานเต็มแล้ว');return false}
     take&&take();K.plate.push({...it,id:K.uid++});SFX.play('place');renderPlate();renderHow();return true}
   /* ---------- drag & drop ---------- */
@@ -2755,7 +2957,7 @@ function match(){
       if(onP>-1&&!used.includes('p'+onP)){used.push('p'+onP);cls='ok'}else if(handKey===key)cls='ready';
       const own2=ring?ingOwner(ing):null;const whose=teamMode&&!mine(ing)?`<em class="whose">${chef(chefOf(K.mate),'mini')}เพื่อนมี</em>`:ring&&!mine(ing)&&own2&&!(K.mkt&&!isStaple(ing))?`<em class="whose">${chef(chefOf(own2.id),'mini')}${esc(nameOf(own2.id))}</em>`:'';
       if(cls!=='ok'&&!nextDone){nextDone=true;cls+=' next'}
-      const path=pathTo(ing,st)||[];return`<div class="step ${cls}" data-si="${si}" role="button" tabindex="0">${whose}${itemArt({ing,st:'raw',q:100})}${path.map(t=>`<span class="arr">→</span>${toolIcon(t)}`).join('')}${path.length?`<span class="arr">→</span>${itemArt({ing,st,q:100})}`:''}<span>${itemName({ing,st})}<small>${amtText(ing,amt)}</small></span></div>`}).join('')}
+      const path=pathTo(ing,st)||[];if(DAY)return`<div class="step fsx ${cls}" data-si="${si}" role="button" tabindex="0">${whose}<span class="fsi">${itemArt({ing,st:'raw',q:100})}${path.length?`<span class="fsb">${path.map(t=>`<em class="fst">${toolArt(t)}</em>`).join('')}</span>`:''}</span><small>${itemName({ing,st})}</small></div>`;return`<div class="step ${cls}" data-si="${si}" role="button" tabindex="0">${whose}${itemArt({ing,st:'raw',q:100})}${path.map(t=>`<span class="arr">→</span>${toolIcon(t)}`).join('')}${path.length?`<span class="arr">→</span>${itemArt({ing,st,q:100})}`:''}<span>${itemName({ing,st})}<small>${amtText(ing,amt)}</small></span></div>`}).join('')}
       ${hint.length?`<div class="step seas" data-si="seas" role="button">${bottleArt(hint[0])}<span>ปรุงรส<small>${hint.map(k=>SEASON[k].th).join(' · ')}</small></span></div>`:''}</div>`;
     $('#howto').querySelectorAll('.step').forEach(b=>b.onclick=()=>stepClick(b.dataset.si));renderNeed()}
   // tap a recipe step: grab that ingredient and take it where it has to go next (station or plate)
@@ -2776,7 +2978,7 @@ function match(){
   // pantry helper: the raw ingredients the selected order needs, shown on top and glowing in the list
   // pantry helper: the raw ingredients the selected order needs glow orange in the list
   function renderNeed(){const tk=selTicket();const ings=tk?tk.m.c.map(([ing])=>ing):[];
-    if(easy){const all=new Set(K.tickets.flatMap(t=>t.m.c.map(([i])=>i)));drawer.querySelectorAll('.dbody>.dgrid').forEach(g=>{let n=0;g.querySelectorAll('.ding').forEach(b=>{const on=all.has(b.dataset.ing);b.classList.toggle('off',!on);if(on)n++});g.classList.toggle('off',!n);const h=g.previousElementSibling;if(h&&h.classList.contains('dcat'))h.classList.toggle('off',!n)})}
+    if(slim){const all=new Set(DAY?DAY.ings:K.tickets.flatMap(t=>t.m.c.map(([i])=>i)));drawer.querySelectorAll('.dbody>.dgrid').forEach(g=>{let n=0;g.querySelectorAll('.ding').forEach(b=>{const on=all.has(b.dataset.ing);b.classList.toggle('off',!on);if(on)n++});g.classList.toggle('off',!n);const h=g.previousElementSibling;if(h&&h.classList.contains('dcat'))h.classList.toggle('off',!n)})}
     drawer.querySelectorAll('.dbody>.dgrid .ding').forEach(b=>b.classList.toggle('need',ings.includes(b.dataset.ing)))}
   /* ---------- serve: the referee scores it ---------- */
   function serve(){if(K.done||K.busy||K.pending)return;if(!K.plate.length){toast('จานยังว่างอยู่');return}
@@ -2786,7 +2988,7 @@ function match(){
     K.pending=true;$('#serve').disabled=true;const tk=selTicket();
     J.serve({plate:K.plate.map(({ing,st,amt,q})=>({ing,st,amt,q})),season:K.season,sel:tk?tk.k:-1}).then(r=>{K.pending=false;if(S.k!==K)return;
       if(!r||!r.ok){SFX.play('fail');toast(r&&r.msg||'ส่งไม่สำเร็จ');renderPlate();if(!REDUCED)$('#plateDrop').animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:300});return}
-      SFX.play('serve');setTimeout(()=>SFX.play('coin'),350);K.plate=[];K.season={};K.plateOn=false;if(!easy)K.dirty++;applySnap(r.snap);reward(r);
+      SFX.play('serve');setTimeout(()=>SFX.play('coin'),350);K.plate=[];K.season={};K.plateOn=false;if(!noWash)K.dirty++;applySnap(r.snap);reward(r);
       if(r.events)r.events.forEach(e=>{if(e.type!=='gold')onEvent(e)})})}
   /* ---------- the fun layer: reward pop, combo, prank cards ---------- */
   function face(t){return t>=85?['😋','สุดยอด!']:t>=65?['🙂','อร่อย']:t>=45?['😐','พอกินได้']:['😖','ไม่ค่อยอร่อย']}
@@ -2800,7 +3002,14 @@ function match(){
   function coins(n){if(REDUCED)return;const from=$('#plateDrop').getBoundingClientRect(),me=document.querySelector('#plist .me')||$('#plist');if(!me)return;const to=me.getBoundingClientRect();
     for(let i=0;i<n;i++){const c=document.createElement('i');c.className='coinfly';document.body.appendChild(c);const x0=from.left+from.width/2+rand(-60,60),y0=from.top+from.height/2+rand(-40,40);
       c.animate([{transform:`translate(${x0}px,${y0}px) scale(.6)`,opacity:0},{transform:`translate(${x0+rand(-40,40)}px,${y0-rand(40,90)}px) scale(1.1)`,opacity:1,offset:.3},{transform:`translate(${to.left+to.width/2}px,${to.top+to.height/2}px) scale(.5)`,opacity:.9}],{duration:700+i*45,easing:'cubic-bezier(.5,0,.6,1)'}).onfinish=()=>c.remove()}}
-  function renderGoal(){const g=$('#goal');if(!g||tut||!K.goals)return;const G=K.goals;const f=Math.min(1,K.score/G[2]);$('#gfill').style.width=f*100+'%';
+  // the shop meter (Family Style): drains all the time, jumps up on a served dish, drops hard on a missed order
+  function meterNow(){const d=K.dq;if(!d||K.dqAt==null)return null;return Math.max(0,Math.min(d.max,d.meter-d.drain*(performance.now()-K.dqAt)/1000))}
+  function meterPop(d){const g=$('#goal');if(!g)return;const e=document.createElement('b');e.className='mpop '+(d>0?'up':'down');e.textContent=(d>0?'+':'')+d;g.appendChild(e);setTimeout(()=>e.remove(),1300);
+    if(d<0){SFX.play('expire');if(!REDUCED)g.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:320})}}
+  function renderGoal(){const g=$('#goal');if(!g||tut)return;
+    if(K.dq){const d=K.dq,v=meterNow()||0,f=v/d.max;const fill=$('#gfill');fill.style.width=f*100+'%';fill.style.background=f>.5?'linear-gradient(90deg,#7ED957,#3DAA48)':f>.25?'linear-gradient(90deg,#FFD84D,#FFB020)':'linear-gradient(90deg,#FF8A7A,#F2483A)';
+      g.classList.toggle('low',f<=.25&&!d.result);const mv=$('#mval');if(mv)mv.textContent=Math.ceil(v);const n=$('#dqn');if(n)n.textContent=`${Math.min(K.served,d.goal)}/${d.goal} จาน`;return}
+    if(!K.goals)return;const G=K.goals;const f=Math.min(1,K.score/G[2]);$('#gfill').style.width=f*100+'%';
     $('#gstars').innerHTML=G.map((v,i)=>`<span class="${K.score>=v?'on':''}" style="left:${v/G[2]*100}%">★<small>${v}</small></span>`).join('')}
   /* ---------- market: the shared belt ---------- */
   function isStaple(k){return E.STAPLES.includes(k)}
@@ -2837,7 +3046,7 @@ function match(){
   function showJudge(r){const b=r.br,el=$('#judge');const row=(l,v,m,sub)=>`<div class="jr"><span>${l}${sub?`<small>${sub}</small>`:''}</span><span class="jm"><i style="width:${v/m*100}%"></i></span><b>${v}<small>/${m}</small></b></div>`;
     el.innerHTML=`<div class="jcard"><div class="jh"><b>${esc(r.th)}</b><span>${'★'.repeat(r.tier)}</span></div>
       <div class="jtotal">${b.total}<small>/100</small></div>
-      ${row('สูตร (Recipe)',b.recipe,40,`ส่วนประกอบ ${b.parts.comp}/28 · ปริมาณ ${b.parts.amt}/8 · ลำดับจัดจาน ${b.parts.seq}/4`)}
+      ${row('สูตร (Recipe)',b.recipe,40,`ส่วนประกอบ ${b.parts.comp+b.parts.amt}/36 · ลำดับจัดจาน ${b.parts.seq}/4`)}
       ${row('ฝีมือ (Technique)',b.tech,25,'คุณภาพจากมินิเกม')}
       ${row('รสชาติ (Taste)',b.taste,20,`รสตรงเป้า ${b.acc}%`)}
       ${row('เวลา (Time)',b.time,15,'ส่งเร็วได้มาก')}
@@ -2849,16 +3058,18 @@ function match(){
   function vpop(text){const pd=$('#plateDrop');if(!pd)return;const e=document.createElement('div');e.className='spop g';e.textContent=text;e.style.left='50%';e.style.top='40%';pd.appendChild(e);setTimeout(()=>e.remove(),850)}
   function endGame(){if(K.done)return;K.done=true;KH=null;FX3.end();SFX.music(null);SFX.play('timeup');S.tot=(S.tot||0)+K.score;SAVED.touch({tot:S.tot});report();if(K.botEnd)K.botEnd();
     if(LM){const r=LM.tick(Date.now()+3000);applySnap(LM.snap(myId,Date.now()))}
-    const b=document.createElement('div');b.className='count';b.innerHTML='<b style="font-size:clamp(3rem,10vw,6rem)">หมดเวลา!</b>';document.body.appendChild(b);setTimeout(()=>{b.remove();go(results)},1600)}
+    const b=document.createElement('div');b.className='count';b.innerHTML=`<b style="font-size:clamp(3rem,10vw,6rem)">${K.dq?(K.dq.result==='clear'?'ครบแล้ว! 🎉':'ร้านปิด! 💔'):'หมดเวลา!'}</b>`;document.body.appendChild(b);setTimeout(()=>{b.remove();go(results)},1600)}
 }
 function renderTeams(box,K,peers,big){const M=members(peers);const nm=id=>{const m=M.all.find(x=>x.id===id);return m?(clean(m.p.nick,12)||'เชฟ')+(m.isMe?' (คุณ)':m.isBot?' 🤖':''):'—'};const ch=id=>{const m=M.all.find(x=>x.id===id);return chef(m?m.p.chef:0)};
   const T=[['ทีมแดง','#FF5A4E'],['ทีมฟ้า','#3E8EDE'],['ทีมเขียว','#3DAA48']];
   box.innerHTML=K.teams.map(t=>`<div class="pl team ${t.t===K.team?'me':''}" style="--tc:${T[t.t][1]}">${t.members.map(ch).join('')}<span class="nm">${T[t.t][0]}<small>${t.members.map(id=>esc(nm(id))).join(' + ')}</small></span><b>${t.score}</b></div>`).join('<span class="vs">VS</span>')}
 const EMOS=['👍 เยี่ยม!','😂 555','🔥 รีบ!','😱 ไม่นะ!','🏃 ตามมาให้ทัน','🙏 ขอโทษ'];
+// a short spoken call-out (if the device has a Thai voice); falls back silently
+function say(text){try{const sy=window.speechSynthesis;if(!sy||SFX.vol&&SFX.vol.master<=0)return;const u=new SpeechSynthesisUtterance(text);u.lang='th-TH';u.rate=1.15;const v=sy.getVoices().find(x=>/^th/i.test(x.lang));if(!v)return;u.voice=v;sy.cancel();sy.speak(u)}catch(e){}}
 function renderScores(peers){const box=$('#plist');if(!box||!S.k)return;const gen=S.k.gen;const M=members(peers);
   if(S.k.mode==='team'){renderTeams(box,S.k,peers);return}
   if(S.k.mode==='coop'){const who=(S.k.ring&&S.k.ring.who)||M.all.map(m=>({id:m.id,pts:0}));const top=Math.max(0,...who.map(w=>w.pts||0));
-    box.innerHTML=`<div class="pl coopsc"><span class="coopt">🤝 ร้านของเรา <b>${S.k.score}</b></span>${who.map(w=>{const m=M.all.find(x=>x.id===w.id);return`<span class="cseat ${m&&m.isMe?'me':''}">${top>0&&w.pts===top?'<i class="mcrown">👑</i>':''}${chef(m?m.p.chef:0)}<small>${w.pts||0}</small></span>`}).join('<i class="carr">→</i>')}</div>`;return}
+    box.innerHTML=`<div class="pl coopsc"><span class="coopt">🤝 ร้านของเรา <b>${S.k.score}</b></span>${who.map(w=>{const m=M.all.find(x=>x.id===w.id);const hd=m&&!m.isMe&&m.p.hold&&String(m.p.hold).split(':');return`<span class="cseat ${m&&m.isMe?'me':''}">${top>0&&w.pts===top?'<i class="mcrown">👑</i>':''}${chef(m?m.p.chef:0)}${hd&&ING[hd[0]]?`<em class="chold" title="ถืออยู่">${itemArt({ing:hd[0],st:hd[1],q:100})}</em>`:''}<small>${w.pts||0}</small></span>`}).join('<i class="carr">→</i>')}</div>`;return}
   const list=M.alive.map(m=>({m,...statOf(m,M.host,gen)})).sort((a,b)=>b.score-a.score);
   const now=Date.now();box.innerHTML=list.map((x,i)=>{const e=x.m.p.emo;const on=e&&e.at&&now-e.at<3000&&EMOS[e.i];return`<div class="pl ${x.m.isMe?'me':''}"><b>${i+1}</b>${chef(x.m.p.chef)}<span class="nm"></span><b>${x.score}</b>${on?`<span class="emob">${EMOS[e.i]}</span>`:''}</div>`}).join('');
   list.forEach(x=>{const e=x.m.p.emo;if(e&&e.at&&!x.m.isMe&&e.n!==(S.emoSeen||{})[x.m.id]&&now-e.at<3000){(S.emoSeen=S.emoSeen||{})[x.m.id]=e.n;SFX.play('pop')}});
@@ -2890,18 +3101,59 @@ function results(){
 }
 /* tournament results: rank the cooks still in, the host publishes who goes through, the last one standing wins */
 function resStars(K){if(!K.goals)return'';const n=starsOf(K.score,K.goals);
-  return`<div class="resstars">${[0,1,2].map(i=>`<i class="${i<n?'on':''}" style="animation-delay:${.3+i*.25}s">★</i>`).join('')}</div><p class="muted" style="text-align:center;margin:0">${['ยังไม่ได้ดาว ลองอีกรอบ!','ได้ 1 ดาว','ได้ 2 ดาว เก่งมาก!','3 ดาว สุดยอดเชฟ!'][n]} · เป้า ${K.goals.join(' / ')}</p>`}
-function resultsCoop(){const K=S.k,gen=K.gen;const M0=members(S.peers||[]);const G=starGoals(K.dur,K.diff||'normal',M0.all.length);const n=starsOf(K.score,G);
-  app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center">🤝 ร้านของเรา · ${Math.round(K.dur/60)} นาที</h2>
+  return`<div class="resstars">${[0,1,2].map(i=>`<i class="${i<n?'on':''}" style="animation-delay:${.3+i*.25}s">★</i>`).join('')}</div><p class="muted" style="text-align:center;margin:0">${['ยังไม่ได้ดาว ลองอีกรอบ!','ได้ 1 ดาว','ได้ 2 ดาว เก่งมาก!','3 ดาว สุดยอดเชฟ!'][n]+' · '} เป้า ${K.goals.join(' / ')}</p>`}
+function resultsCoop(){if(S.k.dq)return dayEnd();const K=S.k,gen=K.gen;const M0=members(S.peers||[]);const G=K.day?dayGoals(K.day,M0.all.length):starGoals(K.dur,K.diff||'normal',M0.all.length);const n=starsOf(K.score,G);
+  const D=K.day?DAYS[K.day-1]:null;if(D)saveDay(D.n,n);
+  // the run moves on (host's device keeps it): pass -> next day, no star -> back to day 1, day 12 passed -> the whole run is won
+  const amHost=M0.host&&M0.host.isMe;const R0=RUN.get();let res=D?(n>=1?(D.n>=DAYS.length?'won':'pass'):'fail'):'';
+  if(D&&amHost&&R0.gen!==gen){const best=Math.max(R0.best||0,n>=1?D.n:D.n-1);RUN.set(res==='pass'?{...R0,day:D.n+1,best,gen}:{day:1,best,runs:(R0.runs||1)+1,gen})}
+  const nxt=res==='pass'?D.n+1:res?1:0;
+  app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center">${D?`📅 วันที่ ${D.n} · ${esc(D.th)}`:`🤝 ร้านของเรา · ${Math.round(K.dur/60)} นาที`}</h2>
     <div class="resstars">${[0,1,2].map(i=>`<i class="${i<n?'on':''}" style="animation-delay:${.3+i*.25}s">★</i>`).join('')}</div>
     <p style="text-align:center;font-size:1.2rem;margin:4px 0">คะแนนรวม <b style="font-size:2.2rem">${K.score}</b> · ส่ง <b>${K.served}</b> จาน</p>
-    <p class="muted" style="text-align:center">${['ยังไม่ได้ดาว ช่วยกันใหม่อีกรอบ!','ได้ 1 ดาว','ได้ 2 ดาว ทีมเก่งมาก!','3 ดาว ร้านดังทั้งเมือง!'][n]} · เป้า ${G.join(' / ')} (คิดตามจำนวนเชฟ ${M0.all.length} คน)</p>
+    ${res==='fail'?`<p class="runend">🚪 ร้านปิดก่อน! ไม่ได้ดาวเลย · เริ่มใหม่วันที่ 1${RUN.get().best?` (ไกลสุด: วันที่ ${RUN.get().best})`:''}</p>`:res==='won'?'<p class="runend won">🎉 ผ่านครบ 12 วัน! ร้านดังทั้งประเทศ</p>':''}<p class="muted" style="text-align:center">${res==='fail'?'':['ยังไม่ได้ดาว ช่วยกันใหม่อีกรอบ!','ได้ 1 ดาว','ได้ 2 ดาว ทีมเก่งมาก!','3 ดาว ร้านดังทั้งเมือง!'][n]+' · '}เป้า ${G.join(' / ')} (คิดตามจำนวนเชฟ ${M0.all.length} คน)</p>
     <div class="coopmem">${(()=>{const who=(K.ring&&K.ring.who)||[];const top=Math.max(0,...who.map(w=>w.pts||0));return M0.all.map(m=>{const w=who.find(x=>x.id===m.id)||{pts:0,served:0};return`<div class="${top>0&&w.pts===top?'mchef':''}">${top>0&&w.pts===top?'<b class="mct">👑 Master Chef</b>':''}${chef(m.p.chef,'av')}<span>${esc(clean(m.p.nick,14)||'เชฟ')}${m.isMe?' (คุณ)':m.isBot?' 🤖':''}</span><small>${w.pts} คะแนน · ${w.served} จาน</small></div>`}).join('')})()}</div><p class="note" id="waitnote"></p></section>
     <section class="card"><h3>เล่นต่อ</h3><p class="muted">ทุกคนได้ดาวเท่ากัน · แต่ละคนมีของและเครื่องครัวไม่เหมือนกัน ตะโกนบอกกันว่าต้องการอะไร แล้วส่งต่อซ้าย/ขวา</p><div class="wait-actions" id="hostbtns" style="justify-content:flex-start;margin-top:14px"></div></section></div>`;
   onLeave(S.room.onPeers(peers=>{S.peers=peers;const M=members(peers);const iHost=M.host&&M.host.isMe;const hb=$('#hostbtns');
     if(iHost&&!hb.dataset.on){hb.dataset.on=1;hb.innerHTML=`<button class="btn red big" id="nextR">เล่นอีกรอบ</button><button class="btn soft" id="toWait">กลับห้องรอ</button>`;
-      $('#nextR').onclick=()=>S.room.presence({phase:'play',gen:Date.now(),dur:S.dur||K.dur});$('#toWait').onclick=()=>S.room.presence({phase:'wait'})}
+      if(D)hb.innerHTML=`<button class="btn red big" id="nextD">${res==='pass'?`วันถัดไป ▶ วันที่ ${nxt}`:res==='won'?'🍳 เปิดร้านใหม่ วันที่ 1':'🔁 เริ่มใหม่ วันที่ 1'}</button><button class="btn soft" id="toWait">กลับห้องรอ</button>`;
+      const go2=d=>{S.day=d;S.room.presence({phase:'play',gen:Date.now(),day:d,dur:d?DAYS[d-1].dur:S.dur||K.dur})};
+      const nr=$('#nextR');if(nr)nr.onclick=()=>go2(0);const nd=$('#nextD');if(nd)nd.onclick=()=>go2(nxt);$('#toWait').onclick=()=>S.room.presence({phase:'wait'})}
     if(!iHost)hb.innerHTML='<p class="muted">รอหัวห้องเริ่มรอบต่อไป</p>';followHost(peers,{toWait:true,toPlay:true})}))}
+/* Family Style flow: a cleared day rolls straight into a loading card and the next day; 3 angry customers close the shop -> back to day 1 */
+function dayEnd(){const K=S.k,gen=K.gen,M0=members(S.peers||[]),D=DAYS[K.day-1],res=K.dq.result==='clear'?(D.n>=DAYS.length?'won':'pass'):'fail';
+  const amHost=M0.host&&M0.host.isMe,R0=RUN.get();
+  if(amHost&&R0.gen!==gen){const best=Math.max(R0.best||0,res!=='fail'?D.n:D.n-1),dishes=(R0.dishes||0)+K.served;RUN.set(res==='pass'?{...R0,day:D.n+1,best,gen,dishes}:{day:1,best,runs:(R0.runs||1)+1,gen,dishes:0,last:{day:D.n,dishes}})}
+  const R=RUN.get(),N=res==='pass'?DAYS[D.n]:null;
+  const who=(K.ring&&K.ring.who)||[];const top=Math.max(0,...who.map(w=>w.pts||0));
+  const crew=M0.all.map(m=>{const w=who.find(x=>x.id===m.id)||{pts:0,served:0};return`<div class="${top>0&&w.pts===top?'mchef':''}">${top>0&&w.pts===top?'<b class="mct">👑 Master Chef</b>':''}${chef(m.p.chef,'av')}<span>${esc(clean(m.p.nick,14)||'เชฟ')}${m.isMe?' (คุณ)':m.isBot?' 🤖':''}</span><small>${w.served} จาน</small></div>`}).join('');
+  if(N){const P=DAYS[D.n-1],W=WORLDS[N.w],newW=N.w!==P.w;
+    const newMenus=N.menus.filter(id=>!P.menus.includes(id)),newTools=N.tools.filter(t=>!P.tools.includes(t));
+    const flags=[['split','🔁 แบ่งของ ส่งซ้าย/ขวา'],['wash','🧽 ล้างจาน'],['season','🧂 ปรุงรส'],['gold','🥇 ลูกค้า VIP'],['market','🛒 ตลาดสายพาน'],['rival','😈 ร้านคู่แข่ง'],['cards','🃏 การ์ดช่วยทีม']].filter(([k])=>N[k]&&!P[k]);
+    const goalN=N.goal+Math.floor((M0.all.length-1)*.75);
+    app.innerHTML=`<div class="nextday w-${W.id}"><div class="ndok">✅ วันที่ ${D.n} ผ่าน! ส่ง ${K.served} จาน · คะแนนร้านเหลือ ${Math.round(K.dq.meter)}</div>
+      <div class="dic"><small>${newW?'🎉 ร้านใหม่! ':''}${W.icon} ${W.th}</small><h2>วันที่ ${N.n} · ${esc(N.th)}</h2><p>${esc(N.news)}</p>
+        ${newMenus.length?`<p class="ndl">เมนูใหม่</p><div class="dim">${newMenus.slice(0,6).map(id=>`<span>${menuArt(MENU_BY_ID[id])}<small>${MENU_BY_ID[id].th}</small></span>`).join('')}</div>`:''}
+        ${newTools.length||flags.length?`<div class="dif">${newTools.map(t=>{const x=TOOLS.find(y=>y.id===t);return`<i>🆕 ${x?x.th:t}</i>`}).join('')}${flags.map(([,t])=>`<i>🆕 ${t}</i>`).join('')}</div>`:''}
+        <div class="dig"><span>🍽 ส่งให้ครบ ${goalN} จาน</span><span>⚡ ลูกค้าใจร้อนขึ้น หลอดลดเร็วขึ้น</span></div>
+        <p class="ndload">กำลังเปิดร้าน…</p><div class="dibar long"><div></div></div></div>
+      <div class="coopmem small">${crew}</div><div class="wait-actions" id="hostbtns"></div></div>`;
+    S.fromNext=true;let fired=false;
+    const t=setTimeout(()=>{if(fired||S.screen!=='results')return;const M=members(S.peers||[]);if(M.host&&M.host.isMe){fired=true;S.day=N.n;S.room.presence({phase:'play',gen:Date.now(),day:N.n,dur:N.dur})}},5200);
+    onLeave(()=>clearTimeout(t));
+    onLeave(S.room.onPeers(peers=>{S.peers=peers;const M=members(peers);const hb=$('#hostbtns');if(hb&&M.host&&M.host.isMe&&!hb.dataset.on){hb.dataset.on=1;hb.innerHTML='<button class="btn soft" id="toWait">⏸ พักก่อน (กลับห้องรอ)</button>';$('#toWait').onclick=()=>{fired=true;S.fromNext=false;S.room.presence({phase:'wait'})}}
+      followHost(peers,{toWait:true,toPlay:true})}));
+    return}
+  const last=R.last||{day:D.n,dishes:K.served};
+  app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center">${res==='won'?'🎉 ผ่านครบ 12 วัน! ร้านดังทั้งประเทศ':'💔 ร้านปิด!'}</h2>
+    <p class="runend ${res==='won'?'won':''}">${res==='won'?`ส่งอาหารรวม ${last.dishes} จาน`:`คะแนนร้านหมดหลอด · ไปถึงวันที่ ${D.n} · ส่งรวม ${last.dishes} จาน`}</p>
+    <p class="muted" style="text-align:center">ไกลสุดที่เคยไป: วันที่ ${R.best||0} / ${DAYS.length}</p>
+    <div class="coopmem">${crew}</div><p class="note" id="waitnote"></p></section>
+    <section class="card"><h3>เล่นอีกครั้ง</h3><p class="muted">ร้านเริ่มใหม่ที่วันที่ 1 · ทิป: ดูหลอดเวลาใต้ออร์เดอร์ ทำเมนูที่หลอดใกล้หมดก่อน และบอกเพื่อนว่าต้องการอะไร</p><div class="wait-actions" id="hostbtns" style="justify-content:flex-start;margin-top:14px"></div></section></div>`;
+  onLeave(S.room.onPeers(peers=>{S.peers=peers;const M=members(peers);const hb=$('#hostbtns');
+    if(M.host&&M.host.isMe&&!hb.dataset.on){hb.dataset.on=1;hb.innerHTML=`<button class="btn red big" id="nextD">🔁 เปิดร้านใหม่ วันที่ 1</button><button class="btn soft" id="toWait">กลับห้องรอ</button>`;
+      $('#nextD').onclick=()=>{S.day=1;S.room.presence({phase:'play',gen:Date.now(),day:1,dur:DAYS[0].dur})};$('#toWait').onclick=()=>S.room.presence({phase:'wait'})}
+    if(!(M.host&&M.host.isMe))hb.innerHTML='<p class="muted">รอหัวห้องเริ่มรอบต่อไป</p>';followHost(peers,{toWait:true,toPlay:true})}))}
 function resultsTour(){const K=S.k,gen=K.gen;const t0=performance.now();
   app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center" id="thead"></h2><div id="champ"></div><div id="ranks"></div><p class="note" id="waitnote"></p></section>
     <section class="card"><h3>เส้นทางทัวร์นาเมนต์</h3><div id="path" class="tpath"></div><div class="wait-actions" id="hostbtns" style="justify-content:flex-start;margin-top:14px"></div></section></div>`;
