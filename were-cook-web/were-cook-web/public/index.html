@@ -1571,6 +1571,25 @@ body.fsgame .fsheld .fsitem{filter:drop-shadow(0 16px 4px rgba(40,80,20,.28))!im
 body.fsgame .fsname,body.fsgame .fsplate3 .fsst-e{display:none}
 .rsub{margin:-4px 0 0;color:#C9C0EE;font-weight:800;font-size:1.05rem}
 .lockbtn.on{--c:#3a2233;--d:#000;color:#fff}
+/* Family Style polish: trash + pass arrows only while you hold something, tilted stations, order timer pie on the plate */
+body.fsgame .fsboard .fstrash{opacity:0!important;transition:opacity .2s;pointer-events:none}
+body.fsgame .fs.dragging .fsboard .fstrash,body.fsgame .fs.selecting .fsboard .fstrash{opacity:.6!important;pointer-events:auto}
+.fs.selecting .fsedge{opacity:1;pointer-events:auto}
+.fsst3 .fst3{transform:rotate(var(--rot,0deg))}
+.fspie{position:absolute;left:6%;top:6%;z-index:3;width:calc(52px*var(--sc,1));height:calc(52px*var(--sc,1));border-radius:50%;border:calc(4px*var(--sc,1)) solid #fff;background:conic-gradient(#9E1F33 var(--p,100%),rgba(255,255,255,.9) 0);box-shadow:0 2px 0 rgba(45,85,20,.25);pointer-events:none}
+.fspie.hurry{animation:pieb .5s ease-in-out infinite alternate}@keyframes pieb{to{transform:scale(1.15)}}
+body.fsgame .fsplate3 .fsready{bottom:auto;top:-8%;background:#43B649;font-size:calc(.9rem*var(--sc,1) + .2rem);padding:3px 12px;animation:upb .7s ease-in-out infinite alternate;pointer-events:none}@keyframes upb{to{transform:translateX(-50%) translateY(-6px)}}
+.mgrade{display:flex;align-items:center;gap:12px;margin:6px auto 10px;justify-content:center}.mgrade>b{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:2.4rem;color:#fff;background:#8a7a86;box-shadow:0 4px 0 rgba(0,0,0,.2)}
+.mgrade .g-A{background:#43B649}.mgrade .g-B{background:#7CB342}.mgrade .g-C{background:#FFB020}.mgrade .g-D{background:#F08A24}.mgrade .g-F{background:#D8344A}.mgrade span{display:grid;text-align:left;font-weight:700}.mgrade small{font-weight:500;opacity:.75;font-size:.78rem}
+.secbtn{position:fixed;left:10px;bottom:10px;z-index:60;width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 3px 0 rgba(0,0,0,.2);font-size:1.3rem;cursor:pointer;opacity:.85}
+.secbtn[hidden]{display:none}.secbtn i{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:999px;background:#D8344A;color:#fff;font-size:.7rem;font-style:normal;display:grid;place-items:center;padding:0 4px}.secbtn i[hidden]{display:none}
+.secpanel{position:fixed;left:10px;bottom:62px;z-index:61;width:min(420px,calc(100vw - 20px));max-height:min(75vh,640px);overflow:auto;background:#fff;color:#3a2233;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.3);padding:12px 14px}
+.secpanel[hidden]{display:none}.secpanel header{display:flex;justify-content:space-between;align-items:center;font-size:1.1rem}.secpanel header button{border:0;background:none;font-size:1.1rem;cursor:pointer}
+.secpanel p{font-size:.82rem;margin:4px 0 8px}.secpanel h4{margin:10px 0 4px}.secpanel .btn{width:100%}
+.secdemo,.seclog{list-style:none;padding:0;margin:6px 0;display:grid;gap:6px;font-size:.82rem}
+.secdemo li{display:grid;grid-template-columns:1fr auto;gap:2px 8px;background:#F6F1EC;border-radius:10px;padding:6px 8px}.secdemo li small{grid-column:1/-1;opacity:.75}
+.secdemo .no{color:#2E8B3A}.secdemo .ok{color:#D8344A}
+.seclog li{background:#FFF1F1;border-radius:10px;padding:6px 8px;display:grid;gap:2px}.seclog time{font-size:.7rem;opacity:.6}.seclog span{color:#B3263A}.seclog em{font-style:normal;background:#D8344A;color:#fff;border-radius:999px;padding:0 6px;font-size:.7rem}
 </style>
 </head>
 <body>
@@ -2087,6 +2106,7 @@ const NET={mode:'offline',lobbyPeers:[],lobbySubs:new Set(),lobbyP:{},you:null,g
         s.on('disconnect',()=>setConn('off'));
         s.on('lobby:peers',l=>this._lobby(l.map(x=>({id:x.id,isMe:x.id===s.id,p:x.p||{}}))));
         s.on('room:peers',({code,peers})=>{const rm=this.rooms[code];if(rm)rm._emit(peers.map(x=>({id:x.id,isMe:x.id===s.id,p:x.p||{}})))});
+        s.on('sec:log',d=>secAdd(d));
         s.on('room:full',code=>{const rm=this.rooms[code];if(rm)rm._full&&rm._full()});
         s.on('room:locked',code=>{delete this.rooms[code];if(S.room&&S.room.code===code){S.room=null;SAVED.set(null);go(lobby);setTimeout(()=>toast('🔒 ห้องนี้ล็อกอยู่ เข้าไม่ได้'),200)}});
         ['game:you','game:recv','game:ask','game:expired','game:stage','game:prank','game:gold','game:goldnew','game:grab'].forEach(ev=>s.on(ev,d=>{if(ev==='game:you')this.you=d;this.gameSubs.forEach(f=>f(ev,d))}));
@@ -2105,7 +2125,7 @@ const NET={mode:'offline',lobbyPeers:[],lobbySubs:new Set(),lobbyP:{},you:null,g
       await nr.presence(p).catch(()=>{});
       return{code,presence:patch=>nr.presence(patch).catch(()=>{}),onPeers(f){subs.add(f);f(last);return()=>subs.delete(f)},leave:()=>nr.leave().catch(()=>{})}}
     if(this.mode==='socket'){const s=this.s;const rm={code,p:{...p},subs:new Set(),last:[],
-        _emit(l){this.last=l;this.subs.forEach(f=>f(l))},
+        _emit(l){this.last=l;hostCarry(this,l);this.subs.forEach(f=>f(l))},
         presence(patch){this.p=mergePatch(this.p,patch);s.emit('room:set',{code,patch})},
         onPeers(f){this.subs.add(f);f(this.last);return()=>this.subs.delete(f)},
         leave(){s.emit('room:leave',code);delete NET.rooms[code]}};
@@ -2113,6 +2133,55 @@ const NET={mode:'offline',lobbyPeers:[],lobbySubs:new Set(),lobbyP:{},you:null,g
     return offlineRoom(code,p);
   }
 };
+// the host left (closed the tab, lost signal): the next cook in line becomes host and carries on with the same room settings
+// (mode, bots, tournament progress…) so the game does not get stuck waiting for someone who is gone
+const HOST_KEYS=['mode','tour','bots','dur','size','diff','day','locked','market','phase','gen'];
+function hostCarry(rm,l){const h=roomList(l)[0];if(!h)return;const prev=rm.lastHost;rm.lastHost={id:h.id,p:h.p};
+  if(!h.isMe||!prev||prev.id===h.id||l.some(x=>x.id===prev.id))return;
+  const c=prev.p;if(c.mode)S.mode=c.mode;if(+c.size)S.size=+c.size;if(+c.dur)S.dur=+c.dur;if(c.diff)S.diff=c.diff;S.market=!!c.market;S.locked=!!c.locked;if(Array.isArray(c.bots))S.bots=c.bots.map(b=>({...b}));   // the host screen re-sends these
+  const patch={};for(const k of HOST_KEYS)if(prev.p[k]!=null&&JSON.stringify(h.p[k])!==JSON.stringify(prev.p[k]))patch[k]=prev.p[k];
+  if(Object.keys(patch).length){rm.presence(patch);setTimeout(()=>toast('👑 หัวห้องหลุด คุณเป็นหัวห้องแทนแล้ว'),50)}}
+/* ================= 🛡️ SECURITY PANEL =================
+   the server refuses cheats (fake dishes, impossible cooking speed, items you never had, spam, editing your score…)
+   and reports every refusal to the whole room; this panel shows them live, and "ทดลองโกง" fires real cheat attempts at the server */
+const SEC={log:[],unseen:0,code:null};
+function secAdd(d){if(!d||!d.e||!S.room||d.code!==S.room.code)return;if(SEC.code!==d.code){SEC.code=d.code;SEC.log=[]}
+  const e=d.e,last=SEC.log[SEC.log.length-1];if(last&&last.who===e.who&&last.msg===e.msg&&last.act===e.act&&e.n>1)SEC.log[SEC.log.length-1]=e;else{SEC.log.push(e);if(SEC.log.length>40)SEC.log.shift();if(!document.body.classList.contains('secopen'))SEC.unseen++}
+  secRender()}
+function secUI(){if($('#secBtn'))return;document.body.insertAdjacentHTML('beforeend',`<button id="secBtn" class="secbtn" title="ระบบกันโกง (Security)">🛡️<i id="secN" hidden></i></button>
+  <aside id="secPanel" class="secpanel" hidden><header><b>🛡️ ระบบกันโกง</b><button id="secX" aria-label="ปิด">✕</button></header>
+    <p class="muted">เซิร์ฟเวอร์เป็นกรรมการ ตรวจทุกคำสั่งก่อนให้คะแนน การโกงที่ถูกปฏิเสธจะขึ้นที่นี่ให้ทุกคนในห้องเห็น</p>
+    <button class="btn red" id="secDemo">🧪 ทดลองโกง (ยิงคำสั่งปลอมใส่เซิร์ฟเวอร์)</button><ol id="secDemoOut" class="secdemo"></ol>
+    <h4>บันทึกการปฏิเสธในห้องนี้</h4><ul id="secLog" class="seclog"></ul></aside>`);
+  $('#secBtn').onclick=()=>{const open=$('#secPanel').hidden;$('#secPanel').hidden=!open;document.body.classList.toggle('secopen',open);if(open)SEC.unseen=0;secRender()};
+  $('#secX').onclick=()=>{$('#secPanel').hidden=true;document.body.classList.remove('secopen')};$('#secDemo').onclick=secDemo;
+  setInterval(()=>{const on=NET.mode==='socket'&&!!S.room;$('#secBtn').hidden=!on;if(!on){$('#secPanel').hidden=true;document.body.classList.remove('secopen')}},800)}
+function secRender(){const n=$('#secN');if(n){n.hidden=!SEC.unseen;n.textContent=SEC.unseen>9?'9+':SEC.unseen}const L=$('#secLog');if(!L)return;
+  const hm=t=>new Date(t).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  L.innerHTML=SEC.log.length?SEC.log.slice().reverse().map(e=>`<li><div><time>${hm(e.t)}</time> <b>${esc(e.who)}</b> · ${esc(e.act)}${e.n>1?` <em>×${e.n}</em>`:''}</div><span>❌ ${esc(e.msg)}</span></li>`).join(''):'<li class="muted">ยังไม่มีใครโกง 👍</li>'}
+async function secDemo(){const out=$('#secDemoOut');if(NET.mode!=='socket'||!S.room){toast('ต้องออนไลน์และอยู่ในห้องก่อน');return}
+  const b=$('#secDemo');b.disabled=true;out.innerHTML='';const code=S.room.code,sk=NET.s;
+  const call=(ev,d)=>new Promise(res=>{const t=setTimeout(()=>res({ok:false,msg:'(เซิร์ฟเวอร์ไม่ตอบ)'}),4000);sk.emit(ev,d,r=>{clearTimeout(t);res(r||{ok:false})})});
+  const line=(t,r,note)=>out.insertAdjacentHTML('beforeend',`<li><span>${t}</span>${r&&r.ok===false?`<b class="no">❌ เซิร์ฟเวอร์ปฏิเสธ</b>`:`<b class="ok">⚠️ ผ่าน</b>`}<small>${esc(note||(r&&r.msg)||'')}</small></li>`);
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));const sn=S.lastSnap&&S.k&&S.lastSnap.gen===S.k.gen?S.lastSnap:null;
+  try{
+    // 1) write my own score
+    const before=+(((S.peers||[]).find(x=>x.isMe)||{p:{}}).p.score)||0;sk.emit('room:set',{code,patch:{score:99999,served:999}});await wait(700);
+    const after=+(((S.peers||[]).find(x=>x.isMe)||{p:{}}).p.score)||0;line('1. แก้คะแนนตัวเองเป็น 99,999',{ok:after===99999},after===99999?'คะแนนเปลี่ยน!':`ข้อมูลถูกลบทิ้ง · คะแนนยังเป็น ${after}`);await wait(1100);
+    // 2) serve a dish that was never cooked
+    const tk=sn&&sn.tickets&&sn.tickets.find(t=>MENU_BY_ID[t.id]),m=tk&&MENU_BY_ID[tk.id];const comp=m?(sn.dq?E.fsComp(m):m.c):[['patty','sauteed'],['bun','raw']];
+    line('2. เสิร์ฟจาน'+(m?m.th:'')+'โดยไม่ได้ทำจริง',await call('game:serve',{code,plate:comp.map(c=>({ing:c[0],st:c[1],amt:1,q:100})),season:{},sel:tk?tk.k:0}));await wait(1100);
+    // 3) cook faster than humanly possible
+    const tools=(sn&&sn.ring&&sn.ring.tools)||Object.keys(TR);let tool='knife',ing='tomato';
+    for(const t of tools){const k=Object.keys(TR[t]||{}).find(x=>x.endsWith(':raw')&&(!sn||!sn.pantry||sn.pantry.includes(x.split(':')[0])));if(k){tool=t;ing=k.split(':')[0];break}}
+    await call('game:cookStart',{code,tool});line(`3. ${itemName({ing,st:'raw'})} → ${itemName({ing,st:TR[tool][ing+':raw']})} เสร็จในทันที (0 วินาที)`,await call('game:cook',{code,c:{tool,ing,st:'raw',to:TR[tool][ing+':raw'],amt:1,q:100}}));await wait(1100);
+    // 4) hand a friend food I never had
+    const fake={ing,st:TR[tool][ing+':raw']};line(`4. ส่ง${itemName(fake)}ที่ไม่เคยทำให้เพื่อน`,await call('game:pass',{code,item:{...fake,amt:1,q:100},dir:'r'}));await wait(1100);
+    // 5) flood the server
+    const rs=await Promise.all(Array.from({length:25},()=>call('game:ask',{code,ing:'x'})));const blocked=rs.filter(r=>/ถี่/.test(r.msg||'')).length;
+    line('5. ยิงคำสั่ง 25 ครั้งในเสี้ยววินาที',{ok:!blocked},`ถูกบล็อก ${blocked} ครั้ง (จำกัด 8 คำสั่ง/วินาที)`);
+  }catch(e){line('เกิดข้อผิดพลาด',{ok:false},String(e))}
+  b.disabled=false}
 function loadScript(src,ms){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);setTimeout(rej,ms)})}
 function setConn(state){const c=$('#conn');c.classList.toggle('on',state==='on');
   $('#connText').textContent=state==='on'?(NET.mode==='claude'?'ออนไลน์ในห้องนี้':'ออนไลน์'):state==='off'?'กำลังเชื่อมต่อใหม่…':'โหมดออฟไลน์ (บอท)'}
@@ -2709,7 +2778,8 @@ const BOTLV={easy:['ง่าย',.7],normal:['ปกติ',1],hard:['เก่
 const BOTNAMES=['บอทเบอร์เกอร์','บอทพาสต้า','บอทโดนัท','บอทพิซซ่า','บอททาโก้','บอทเฟรนช์ฟรายส์'];
 
 /* ================= ROOM MEMBERS (people + host's bots) ================= */
-function report(){const K=S.k;if(!K||!S.room)return;S.room.presence({gen:K.gen,score:K.score,served:K.served,done:!!K.done,tot:S.tot||0})}
+// online the server writes score/served/done itself (anything we send there is thrown away and logged as a cheat attempt)
+function report(){const K=S.k;if(!K||!S.room)return;if(NET.mode==='socket'){if(S.room.p&&S.room.p.gen!==K.gen)S.room.presence({gen:K.gen});return}S.room.presence({gen:K.gen,score:K.score,served:K.served,done:!!K.done,tot:S.tot||0})}
 /* host order: the room creator first; then the server's join order (seq) — never the players' own clocks, which can disagree between devices */
 function roomList(peers){const num=v=>typeof v==='number'&&isFinite(v);
   return peers.filter(p=>p.p&&p.p.joinedAt).sort((a,b)=>((b.p.creator?1:0)-(a.p.creator?1:0))||(num(a.p.seq)&&num(b.p.seq)?a.p.seq-b.p.seq:0)||(a.p.joinedAt-b.p.joinedAt)||(a.id<b.id?-1:1))}
@@ -2718,6 +2788,8 @@ function members(peers){const hum=roomList(peers),host=hum[0];const raw=host&&Ar
   const all=[...hum,...bots];all.forEach(m=>m.key=m.isBot?m.id:(m.p.pid||m.id));
   const tour=host&&host.p.mode==='tour'&&host.p.tour&&Array.isArray(host.p.tour.alive)?host.p.tour:null;
   return{hum,host,bots,all,size:Math.max(2,Math.min(6,(host&&+host.p.size)||4)),tour,alive:tour?all.filter(m=>tour.alive.includes(m.key)):all}}
+// the round's real kind: a 2v2 needs exactly 4 cooks; if someone left, the server plays that round solo (same rule)
+function tourKindLive(M){const t=M.tour;if(!t)return'';const k=E.tourKind(+t.round||1,tourN0(t));return k==='team'&&M.alive.length!==4?'normal':k}
 function statOf(m,host,gen){if(m.isBot){const bs=host&&host.p.bgen===gen&&host.p.bs&&host.p.bs[m.bid];return{score:bs?+bs[0]||0:0,served:bs?+bs[1]||0:0,done:bs?!!bs[2]:false,tot:bs?+bs[3]||0:0}}
   const ok=m.p.gen===gen;return{score:ok?+m.p.score||0:0,served:ok?+m.p.served||0:0,done:ok&&!!m.p.done,tot:+m.p.tot||0}}
 /* solo bots are run by the host's screen; their progress travels in the host's presence so every screen sees it */
@@ -2786,8 +2858,8 @@ function fsMatch(){
   const chefOf=id=>{const m=M0.all.find(x=>x.id===id);return m?m.p.chef:0};
   const K=S.k={gen,dur,mode:'coop',end:Infinity,tickets:[],score:0,served:0,done:false,uid:1,day:dayN,dq:null,dqAt:null,ring:null,pantry:null,fs:true};
   // the counter is a free board: everything has a position (0..1 of the board) and can be dragged anywhere
-  const ST={passed:0,trashed:0,lost:0,t0:performance.now()};K.stats=ST;
-  const F={items:[],st:{},pos:{},plates:[[]],sel:null,asked:{},spawnAt:performance.now()+1500};
+  const ST={passed:0,trashed:0,lost:0,cooked:0,placed:0,wrong:0,t0:performance.now()};K.stats=ST;
+  const F={items:[],st:{},pos:{},rot:{},plates:[[]],sel:null,asked:{},lockK:null,justServed:null,spawnAt:performance.now()+1500};
   const CAP=15+Math.min(6,Math.floor(dayN/2)),SPAWN=Math.max(1700,3200-dayN*110);   // how many loose pieces fit, how often new food lands
   report();NET.setLobby({playing:1});
   const online=NET.mode==='socket'&&NET.s&&S.room&&!S.room.offline;const code=S.room.code;
@@ -2829,7 +2901,15 @@ function fsMatch(){
   const itemHTML=(it,drag)=>`<div class="fsitem ${it.st!=='raw'?'done':''}" data-ing="${it.ing}" data-st="${it.st}" ${drag?`data-drag="${drag}"`:''}>${itemArt(it)}<small>${esc(itemName(it))}</small></div>`;
   const lastLeft={};
   // one order at a time (Family Style): the plate's order, else the one dealt to me; the rest wait in a small queue chip
-  const myTicket=()=>K.tickets.find(t=>t.own===myId)||(K.tickets.some(t=>t.own)?null:K.tickets[0])||null;   // every chef has their OWN order
+  // the plate is locked to ONE menu (Family Style): my most urgent order; it stays until served or the customer leaves, then a new plate drops in
+  const tLeft=t=>t.life*1000-(performance.now()-t.born);
+  const myOwn=()=>{const any=K.tickets.some(x=>x.own);return K.tickets.filter(t=>!any||t.own===myId)};
+  function myTicket(){const t=F.lockK!=null&&K.tickets.find(x=>x.k===F.lockK);if(t)return t;const c=myOwn().sort((a,b)=>tLeft(a)-tLeft(b))[0]||null;F.lockK=c?c.k:null;return c}
+  function checkLock(){if(F.lockK==null||K.tickets.some(x=>x.k===F.lockK))return;const gone=F.lockK,served=F.justServed===gone;F.lockK=null;F.justServed=null;
+    const p=F.plates[0];if(p.length&&!served){const pp=F.pos['plate:0']||{x:.78,y:.46};p.forEach((it,i)=>addLoose({...it,id:K.uid++},clamp01(pp.x-.06+i*.05,.05,.95),clamp01(pp.y+.16,.1,.85)));F.plates[0]=[]}
+    if(myTicket()){renderBoard();plateSwap()}}
+  function plateSwap(){if(REDUCED)return;const el=document.querySelector('#board .fsplate3');if(el)el.animate([{transform:'translate(-50%,-50%) translateY(-160px) scale(.8)',opacity:0},{transform:'translate(-50%,-50%) translateY(8px)',opacity:1,offset:.75},{transform:'translate(-50%,-50%)',opacity:1}],{duration:480,easing:'ease-out'})}
+  const plateReady=()=>{const t=myTicket(),p=F.plates[0];return t&&p.length===t.m.c.length&&fits(t,p)?t:null};
   function frontTicket(){return myTicket()}
   function renderOrders(){const box=$('#orders');const tg=plateTarget();const ft=frontTicket(tg);
     const sig=(ft?ft.k:'-')+'|'+K.tickets.length+'|'+myIngs().join(',')+'|'+myTools().join(',')+'|'+F.plates[0].map(x=>x.ing+':'+x.st).join(',')+'|'+(tg?tg.k:'');
@@ -2838,7 +2918,7 @@ function fsMatch(){
         const flip=lastLeft[t.k]!=null&&left.length<lastLeft[t.k];lastLeft[t.k]=left.length;
         let body;if(f){const path=pathTo(f.ing,f.st)||[];const mine=myIngs().includes(f.ing);
           body=`<div class="fsone ${mine?'':'away'}" ${mine?'':`data-ask="${f.ing}"`} title="${esc(itemName(f))}"><span class="fsbig">${itemArt({ing:f.ing,st:f.st,q:100})}</span>${path.map(x=>`<span class="fstool">${tArt(x)}</span>`).join('')}${mine?'':'<i class="fsaway">📣</i>'}</div>`}
-        else body=`<div class="fsone ok"><b>✓</b><span>ลากจานมาเสิร์ฟ</span></div>`;
+        else body=`<div class="fsone ok"><b>✓</b><span>ปัดจานขึ้นเสิร์ฟ</span></div>`;
         return`<div class="fsstack ${tg===t?'cur':''} ${f?'':'done'}" data-drop="tk:${t.k}" data-tk="${t.k}" title="${esc(t.m.th)}">${left.length>2?'<i class="fsback b3"></i>':''}${left.length>1?'<i class="fsback b2"></i>':''}
           <div class="fstk fscard ${flip?'flip':''}"><div class="fscin">${body}<small class="fscname">${esc(t.m.th)} · ${tot-left.length}/${tot}</small></div></div></div>`}).join('')+(ft?'':'<div class="fsqueue">รอออร์เดอร์ใหม่…</div>')}
     markSel()}
@@ -2856,17 +2936,17 @@ function fsMatch(){
   const SPOTS=[[.14,.42],[.34,.42],[.54,.42],[.14,.7],[.34,.7],[.54,.7],[.9,.55],[.12,.86],[.62,.86]];
   function layout(){F.plates.forEach((_,i)=>{if(!F.pos['plate:'+i])F.pos['plate:'+i]={x:.78,y:.46}});
     for(const id of tools()){const k='stn:'+id;if(F.pos[k])continue;const used=Object.entries(F.pos).filter(([kk])=>kk!==k).map(([,v])=>v);
-      const sp=SPOTS.find(([x,y])=>used.every(u=>Math.hypot(u.x-x,(u.y-y)*.6)>.13))||[.2+Math.random()*.5,.3+Math.random()*.4];F.pos[k]={x:sp[0],y:sp[1]}}}
+      const sp=SPOTS.find(([x,y])=>used.every(u=>Math.hypot(u.x-x,(u.y-y)*.6)>.13))||[.2+Math.random()*.5,.3+Math.random()*.4];F.pos[k]={x:sp[0],y:sp[1]};F.rot[id]=Math.round((Math.random()*2-1)*24)}}
   let dirty=false;
   let SC=1;const scaleNow=()=>{const r=$('#board').getBoundingClientRect();SC=Math.max(.5,Math.min(1.6,Math.min(r.width/1300,r.height/720)));$('#board').style.setProperty('--sc',SC)};
   function renderBoard(){if(drag&&drag.moved){dirty=true;return}dirty=false;layout();const bd=$('#board');if(!bd)return;scaleNow();
     bd.querySelectorAll('.fsobj').forEach(e=>e.remove());
     const at=k=>{const p=F.pos[k]||{x:.5,y:.5};return`left:${p.x*100}%;top:${p.y*100}%`};
     let html=tools().map(id=>{const s=F.st[id]||{};const it=s.item;const cook=it&&canUse(id,it);
-      return`<div class="fsobj fsst3 ${cook?'cook':''} ${s.pending?'busy':''}" style="${at('stn:'+id)};--sz:${Math.round((TSZ[id]||130)*1.75*SC)}px" data-drop="st:${id}" data-drag="stn:${id}" data-st="${id}"><div class="fst3">${tArt(id)}</div>
+      return`<div class="fsobj fsst3 ${cook?'cook':''} ${s.pending?'busy':''}" style="${at('stn:'+id)};--sz:${Math.round((TSZ[id]||130)*1.75*SC)}px;--rot:${F.rot[id]||0}deg" data-drop="st:${id}" data-drag="stn:${id}" data-st="${id}"><div class="fst3">${tArt(id)}</div>
         ${it?`<div class="fsst-i" style="--isz:${Math.round(isz(it.ing)*.7*SC)}px">${itemHTML(it,'st:'+id)}</div>`:''}<b class="fsname">${TI(id).th}</b>
         ${it?`<i class="spie ${cook?'':'full'}" style="--p:${cook?(s.taps||0)/TAPS*100:100}%"></i>`:''}${cook?`<span class="fstap">แตะ ${TAPS-(s.taps||0)}</span>`:''}</div>`}).join('');
-    html+=F.plates.map((p,i)=>{const t=p.length?plateMatch(p):null;return`<div class="fsobj fsplate fsplate3 ${t?'ready':''}" style="${at('plate:'+i)}" data-drop="plate:${i}" data-drag="plate:${i}">${p.length?plateArt(p):'<span class="fsst-e">จาน</span>'}${t?`<b class="fsready">✓ ${esc(t.m.th)} · ลากไปเสิร์ฟ</b>`:''}</div>`}).join('');
+    html+=F.plates.map((p,i)=>{const t=plateReady(),mt=myTicket();return`<div class="fsobj fsplate fsplate3 ${t?'ready':''}" style="${at('plate:'+i)}" data-drop="plate:${i}" data-drag="plate:${i}">${p.length?plateArt(p):'<span class="fsst-e">จาน</span>'}${mt?`<i class="fspie" data-tk="${mt.k}"></i>`:''}${t?`<b class="fsready">⬆ ปัดขึ้น / แตะ เพื่อเสิร์ฟ</b>`:''}</div>`}).join('');
     html+=F.items.map(it=>`<div class="fsobj fsloose ${drag&&drag.src==='it:'+it.id?'fsheld':''}" data-pid="${it.id}" style="left:${it.x*100}%;top:${it.y*100}%;--isz:${Math.round(isz(it.ing)*SC)}px">${itemHTML(it,'it:'+it.id)}</div>`).join('');
     bd.insertAdjacentHTML('beforeend',html);$('#full').hidden=F.items.length<CAP;markSel()}
   const renderStations=()=>renderBoard(),renderPlates=()=>renderBoard(),renderSlots=()=>renderBoard(),renderCrates=()=>{};
@@ -2882,7 +2962,7 @@ function fsMatch(){
   function sparkle(x,y){if(REDUCED)return;for(let i=0;i<3;i++){const st=document.createElement('i');st.className='fsspark';st.textContent='✦';Object.assign(st.style,{left:x+'px',top:(y-30+i*26)+'px',fontSize:(26+i*10)+'px'});document.body.appendChild(st);
       st.animate([{transform:'translate(-50%,-50%) scale(.2) rotate(0deg)',opacity:0},{transform:'translate(-50%,-50%) scale(1.1) rotate(25deg)',opacity:.9,offset:.35},{transform:'translate(-50%,-50%) scale(.9) rotate(40deg)',opacity:0}],{duration:650,delay:120+i*70,fill:'both'}).onfinish=()=>st.remove()}}
   function renderAll(){renderOrders();renderBoard();renderPass()}
-  function markSel(){document.querySelectorAll('#fs .fssel').forEach(e=>e.classList.remove('fssel'));if(!F.sel)return;const el=document.querySelector(`#fs [data-drag="${F.sel}"]`);if(el)el.classList.add('fssel');else F.sel=null}
+  function markSel(){document.querySelectorAll('#fs .fssel').forEach(e=>e.classList.remove('fssel'));const fe=$('#fs');if(fe)fe.classList.toggle('selecting',!!F.sel&&!/^(stn|plate):/.test(F.sel));if(!F.sel)return;const el=document.querySelector(`#fs [data-drag="${F.sel}"]`);if(el)el.classList.add('fssel');else F.sel=null}
   /* ---------- moving food ---------- */
   const findIt=id=>F.items.find(x=>String(x.id)===String(id));
   function addLoose(it,x,y){F.items.push({...it,vx:0,vy:0,x:x==null?.08+Math.random()*.84:x,y:y==null?.5+Math.random()*.3:y})}
@@ -2904,9 +2984,9 @@ function fsMatch(){
       return nope(dEl,'ลากจานไปวางที่ออร์เดอร์เพื่อเสิร์ฟ')}
     if(dk==='st'){const s=F.st[dv]||{};if(s.item)return nope(dEl,'เครื่องครัวนี้มีของอยู่แล้ว');if(!canUse(dv,it))return nope(dEl,`${itemName(it)} ใช้กับ${TI(dv).th}ไม่ได้`);F.st[dv]={item:it,taps:0};remove(src);renderStations();SFX.play('place');return}
     if(dk==='plate'){const p=F.plates[+dv];if(p.length>=MAX_PLATE)return nope(dEl,'จานเต็มแล้ว');
-      const mt=myTicket();if(!mt||!fits(mt,p.concat(it))){const pe=document.querySelector(`#board [data-drop="plate:${dv}"]`);if(pe){const x=document.createElement('b');x.className='fsx';x.textContent='✕';pe.appendChild(x);setTimeout(()=>x.remove(),800)}
+      const mt=myTicket();if(!mt||!fits(mt,p.concat(it))){ST.wrong++;const pe=document.querySelector(`#board [data-drop="plate:${dv}"]`);if(pe){const x=document.createElement('b');x.className='fsx';x.textContent='✕';pe.appendChild(x);setTimeout(()=>x.remove(),800)}
         return nope(pe,!mt?'ยังไม่มีออร์เดอร์':`ออร์เดอร์ของคุณไม่ใช้${itemName(it)} · ส่งให้เพื่อนดีกว่า`)}
-      p.push(it);remove(src);renderPlates();renderOrders();SFX.play('place');return}
+      p.push(it);ST.placed++;remove(src);renderPlates();renderOrders();SFX.play('place');if(plateReady())SFX.play('ding');return}
     if(dk==='trash'){remove(src);ST.trashed++;SFX.play('whoosh');return}
     if(dk==='pass'){const dir=dv;J.pass({ing:it.ing,st:it.st,amt:1,q:it.q},dir).then(r=>{if(S.k!==K)return;if(!r||!r.ok)return nope(dEl,(r&&r.msg)||'ส่งไม่สำเร็จ');flyOut(it,pt,dir);if(sk!=='crate'&&peek(src)===it)remove(src);ST.passed++;SFX.play('whoosh')});return}
     if(dk==='tk')return nope(dEl,'วางของลงจานก่อน แล้วลากจานมาที่ออร์เดอร์')}
@@ -2914,7 +2994,9 @@ function fsMatch(){
     const need=t.m.c.map(c=>c[0]+':'+c[1]);const extra=[];for(const x of items){const j=need.indexOf(x.ing+':'+x.st);if(j<0)extra.push(itemName(x));else need.splice(j,1)}
     if(need.length||extra.length)return nope(el,need.length?`ยังขาด: ${need.map(k=>{const [i,s]=k.split(':');return itemName({ing:i,st:s})}).join(', ')}`:`มีของเกิน: ${extra.join(', ')}`);
     J.serve({plate:items.map(({ing,st,q})=>({ing,st,amt:1,q})),season:{},sel:tk}).then(r=>{if(S.k!==K)return;if(!r||!r.ok)return nope(el,(r&&r.msg)||'เสิร์ฟไม่สำเร็จ');
-      F.plates[pi]=[];renderPlates();SFX.play('serve');setTimeout(()=>SFX.play('coin'),300);if(r.snap)applySnap(r.snap)})}
+      F.justServed=tk;F.plates[pi]=[];renderPlates();SFX.play('serve');setTimeout(()=>SFX.play('coin'),300);if(r.snap)applySnap(r.snap)})}
+  function serveUp(pi,el){const t=myTicket();if(!t)return nope(el,'ยังไม่มีออร์เดอร์');if(!plateReady())return nope(el,'ยังไม่ครบตามการ์ด');
+    if(el&&!REDUCED)el.animate([{transform:'translate(-50%,-50%)'},{transform:'translate(-50%,-50%) translateY(-120px) scale(.85)',opacity:0}],{duration:300,easing:'ease-in'});serve(pi,t.k,el)}
   /* ---------- cooking: tap the station 6 times (the referee checks the real minimum time) ---------- */
   function cookTap(id,el){const s=F.st[id];if(!s||!s.item||s.pending)return;const it=s.item;if(!canUse(id,it)){toast(`${itemName(it)} เสร็จแล้ว ลากไปวางต่อได้เลย`);return}
     if(!s.taps){s.t0=performance.now();s.start=J.cookStart(id)}
@@ -2924,7 +3006,7 @@ function fsMatch(){
     setTimeout(()=>{s.start.then(r0=>{if(r0&&r0.ok===false){s.pending=false;s.taps=0;renderStations();return nope(null,r0.msg||'ทำไม่ได้')}
       const to=TR[id][it.ing+':'+it.st];J.cook({tool:id,ing:it.ing,st:it.st,to,amt:1,q:95}).then(r=>{if(S.k!==K)return;s.pending=false;s.taps=0;
         if(!r||!r.ok){renderStations();return nope(null,(r&&r.msg)||'ทำไม่สำเร็จ')}
-        s.item={...it,st:to,q:r.q||95};SFX.play('ding');renderStations()})})},wait)}
+        s.item={...it,st:to,q:r.q||95};ST.cooked++;SFX.play('ding');renderStations()})})},wait)}
   /* ---------- pointer: drag, or tap-then-tap ---------- */
   let drag=null,ghost=null,hover=null;
   const fs=$('#fs');
@@ -2936,13 +3018,14 @@ function fsMatch(){
   function onMove(e){if(!drag||!drag.src)return;if(!drag.moved&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<8)return;
     if(!drag.moved&&drag.src.startsWith('it:')){const it=peek(drag.src);if(!it){drag=null;return}drag.moved=true;held=it;it.vx=it.vy=0;const pe=drag.el.closest('.fsloose');pe&&pe.classList.add('fsheld');drag.pe=pe;drag.ly=e.clientY;drag.vy=0}
     if(!drag.moved){drag.moved=true;const it=peek(drag.src);if(!it){drag=null;return}ghost=document.createElement('div');ghost.className='fsghost';ghost.innerHTML=it.stn?`<div class="fsgst">${tArt(it.stn)}</div>`:Array.isArray(it)?plateArt(it):itemArt(it);document.body.appendChild(ghost);drag.el.classList.add('fsdragging')}
-    const tn=performance.now();if(drag.lt){const dt=Math.max(8,tn-drag.lt);drag.vx=drag.vx*.4+.6*(e.clientX-drag.lx)/dt}drag.lt=tn;drag.lx=e.clientX;$('#fs').classList.add('dragging');
+    const tn=performance.now();if(drag.lt){const dt=Math.max(8,tn-drag.lt);drag.vx=drag.vx*.4+.6*(e.clientX-drag.lx)/dt;drag.gvy=(drag.gvy||0)*.4+.6*(e.clientY-drag.gly)/dt}drag.lt=tn;drag.lx=e.clientX;drag.gly=e.clientY;$('#fs').classList.add('dragging');
     if(held){const R=$('#board').getBoundingClientRect(),dt2=Math.max(8,performance.now()-(drag.mt||0));if(drag.mt){held.vx=held.vx*.3+.7*(e.clientX-drag.mx)/dt2*1000;held.vy=held.vy*.3+.7*(e.clientY-drag.my)/dt2*1000}drag.mt=performance.now();drag.mx=e.clientX;drag.my=e.clientY;
       held.x=Math.max(.01,Math.min(.99,(e.clientX-R.left)/R.width));held.y=Math.max(.01,Math.min(.99,(e.clientY-R.top)/R.height));if(drag.pe){drag.pe.style.left=held.x*100+'%';drag.pe.style.top=held.y*100+'%'}}
     else{ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px'}const t=dropAt(e.clientX,e.clientY);if(t!==hover){if(hover)hover.classList.remove('fshover');hover=t;if(t)t.classList.add('fshover')}}
   function onUp(e){if(!drag)return;const d=drag;drag=null;const wasHeld=held;held=null;if(d.pe)d.pe.classList.remove('fsheld');if(hover){hover.classList.remove('fshover')}const tgt=hover;hover=null;
     $('#fs')&&$('#fs').classList.remove('dragging');
     const BR=$('#board').getBoundingClientRect(),fx=(e.clientX-BR.left)/BR.width,toward=d.vx<0?fx<.3:fx>.7;const flick=d.moved&&toward&&Math.abs(d.vx||0)>1.1&&/^(it|st):/.test(d.src||'')&&K.ring&&K.ring.l&&(!tgt||tgt.dataset.drop==='board');
+    if(d.moved&&/^plate:/.test(d.src||'')&&(d.gvy||0)<-.7&&d.y-e.clientY>70&&(!tgt||!/^tk:/.test(tgt.dataset.drop))){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');return serveUp(+d.src.split(':')[1],d.el)}
     if(flick){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');move(d.src,'pass:'+(d.vx<0?'l':'r'),null,{x:e.clientX,y:e.clientY});return}
     if(wasHeld&&(!tgt||tgt.dataset.drop==='board')){wasHeld.vx=(wasHeld.vx||0)*.7;wasHeld.vy=(wasHeld.vy||0)*.7;if(dirty)renderBoard();return}   // let go on the table: it slides on
     if(wasHeld){wasHeld.vx=wasHeld.vy=0}
@@ -2954,7 +3037,7 @@ function fsMatch(){
     const stEl=d.target.closest('.fsst3,.fsst');
     if(stEl){const id=stEl.dataset.st;if(give(F.sel)){const s0=F.sel;F.sel=null;move(s0,'st:'+id,stEl);return markSel()}const s1=F.st[id];if(s1&&s1.item){if(canUse(id,s1.item))return cookTap(id,stEl);F.sel='st:'+id;return markSel()}return}
     const plEl=d.target.closest('.fsplate');
-    if(plEl){const pk=plEl.dataset.drop;if(give(F.sel)){const s0=F.sel;F.sel=null;move(s0,pk,plEl);return markSel()}F.sel=F.sel===pk?null:pk;return markSel()}
+    if(plEl){const pk=plEl.dataset.drop;if(!give(F.sel)&&plateReady())return serveUp(+pk.split(':')[1],plEl);if(give(F.sel)){const s0=F.sel;F.sel=null;move(s0,pk,plEl);return markSel()}F.sel=F.sel===pk?null:pk;return markSel()}
     if(src&&src.startsWith('it:')){F.sel=F.sel===src?null:src;return markSel()}
     if(dropEl&&F.sel){const s0=F.sel;F.sel=null;move(s0,dropEl.dataset.drop,dropEl,pt);return markSel()}}
   fs.addEventListener('click',e=>{const a=e.target.closest('[data-ask]');if(!a)return;const ing=a.dataset.ask;J.ask(ing).then(r=>{if(S.k!==K)return;const o=r&&r.owner;toast(r&&r.ok?`📣 ขอ${ING[ing].th}จาก ${nameOf(o)} (${sideTxt(o)}) แล้ว`:(r&&r.msg)||'ขอไม่สำเร็จ')})});
@@ -2972,7 +3055,7 @@ function fsMatch(){
     if(snap.day&&snap.day!==K.day&&DAYS[snap.day-1]){const P0=DAY;K.day=snap.day;DAY=DAYS[snap.day-1];W=WORLDS[DAY.w];nextRound(P0)}
     if(snap.ring)K.ring=snap.ring;K.pantry=snap.pantry||null;
     const rs=JSON.stringify([K.pantry,K.ring&&K.ring.tools,K.ring&&K.ring.l,K.ring&&K.ring.r]);if(rs!==ringSig){ringSig=rs;renderCrates();renderStations();renderPass()}
-    renderOrders();renderPlates();renderMeter();report();if(first){first=false;intro()}}
+    checkLock();renderOrders();renderPlates();renderMeter();report();if(first){first=false;intro()}}
   function onEvent(e){if(!e)return;
     if(e.type==='recv'&&(!e.to||e.to===myId)){const L=sideOf(e.from)==='l';const it={...e.item,id:K.uid++};F.items.push({...it,x:L?.07+Math.random()*.1:.76+Math.random()*.1,y:.45+Math.random()*.38});renderBoard();SFX.play('join');toast(`ได้รับ ${itemName(e.item)} จาก ${nameOf(e.from)} ${L?'⬅':'➡'}`);
       const el=document.querySelector(`#board [data-drag="it:${it.id}"]`);if(el&&!REDUCED){el.animate([{transform:`translateX(${L?-160:160}px)`,opacity:0},{transform:'translateX(0)',opacity:1}],{duration:420,easing:'cubic-bezier(.2,.8,.2,1)'});const bd=$('#board').getBoundingClientRect(),r=el.getBoundingClientRect();sparkle(L?bd.left+4:bd.right-4,r.top+r.height/2)}}
@@ -2993,7 +3076,7 @@ function fsMatch(){
   function intro(){if(S.fromNext){S.fromNext=false;const t=myTools().filter(x=>DAY.tools.includes(x));toast(`วันนี้คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}`);return}
     const b=document.createElement('div');b.className='dayintro';const t=myTools().filter(x=>DAY.tools.includes(x));const rows=roundRows(DAY,dayN>1?DAYS[dayN-2]:null);
     b.innerHTML=roundCard(`รอบที่ ${DAY.n}:`,`${W.icon} ${esc(DAY.th)} · ส่ง ${K.dq?K.dq.goal:DAY.goal} จาน`,rows,3.2,(rows.length?'':`<div class="rdish">${DAY.menus.slice(0,4).map(id=>menuArt(MENU_BY_ID[id])).join('')}</div>`)+(M0.all.length>1&&DAY.split?`<p class="rpun">คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}</p>`:''),'🧽 กำลังเช็ดโต๊ะ…');
-    if(DAY.n<=3){const how=`<ul class="rhow"><li>วัตถุดิบจะหล่นมาบนโต๊ะเรื่อย ๆ</li><li>ลากไป<b>เครื่องครัว</b> แล้ว<b>แตะ ${TAPS} ครั้ง</b></li><li>ทำตาม<b>การ์ดใบหน้า</b>ทีละชิ้น วางลงจาน ครบแล้ว<b>ลากจานไปที่การ์ด</b></li>${M0.all.length>1?'<li>ของที่ไม่ใช้ <b>ลาก/โยนไปขอบซ้าย-ขวา</b> ส่งให้เพื่อน</li>':'<li>ของที่ไม่ใช้ ลากไปถังขยะ</li>'}</ul>`;const rf=b.querySelector('.rfoot');if(rf)rf.insertAdjacentHTML('beforebegin',how);const pie=b.querySelector('.rpie');if(pie)pie.style.setProperty('--d','7s')}
+    if(DAY.n<=3){const how=`<ul class="rhow"><li>วัตถุดิบจะหล่นมาบนโต๊ะเรื่อย ๆ</li><li>ลากไป<b>เครื่องครัว</b> แล้ว<b>แตะ ${TAPS} ครั้ง</b></li><li>ทำตาม<b>การ์ดใบหน้า</b>ทีละชิ้น วางลงจาน (ของผิดเมนูใส่ไม่ได้) ครบแล้ว<b>ปัดจานขึ้น</b>เพื่อเสิร์ฟ</li>${M0.all.length>1?'<li>ของที่ไม่ใช้ <b>ลาก/โยนไปขอบซ้าย-ขวา</b> ส่งให้เพื่อน</li>':'<li>ของที่ไม่ใช้ ลากไปถังขยะ</li>'}</ul>`;const rf=b.querySelector('.rfoot');if(rf)rf.insertAdjacentHTML('beforebegin',how);const pie=b.querySelector('.rpie');if(pie)pie.style.setProperty('--d','7s')}
     document.body.appendChild(b);const close=()=>b.remove();b.onclick=close;setTimeout(close,DAY.n<=3?7000:3200);onLeave(close)}
   /* ---------- solid pieces: they shove each other, a hard bump sends them sliding, the table edge stops them
      (only YOUR drag or throw can pass something to a friend) ---------- */
@@ -3019,6 +3102,7 @@ function fsMatch(){
     const spare=own.filter(k=>lying(k)<3);const pool=others.length&&x<.5?others:mine.length&&x<.8?mine:spare;if(!pool.length)return;const ing=pool[Math.floor(Math.random()*pool.length)];
     const it={id:K.uid++,ing,st:'raw',q:100};addLoose(it);renderBoard();SFX.play('pop');const el=document.querySelector(`#board [data-drag="it:${it.id}"]`);if(el&&!REDUCED)el.animate([{transform:'translateY(-40px) scale(.6)',opacity:0},{transform:'translateY(0) scale(1)',opacity:1}],{duration:300,easing:'cubic-bezier(.34,1.56,.64,1)'})}
   stageLoop(dt=>{if(K.done)return;renderMeter();physics(Math.min(dt,.033));const now=performance.now();if(K.tickets.length&&now>=F.spawnAt&&!document.querySelector('.dayintro'))spawn(now);else if(document.querySelector('.dayintro'))F.spawnAt=Math.max(F.spawnAt,now+800);
+    {const pe=document.querySelector('#board .fspie');const mt=pe&&K.tickets.find(x=>String(x.k)===pe.dataset.tk);if(mt){const f=Math.max(0,1-(now-mt.born)/(mt.life*1000));pe.style.setProperty('--p',(f*100).toFixed(1)+'%');pe.classList.toggle('hurry',f<=.25)}}
     K.tickets.forEach(t=>{const f=Math.max(0,1-(now-t.born)/(t.life*1000));const cd=document.querySelector(`#orders [data-tk="${t.k}"]`);if(cd){cd.style.setProperty('--bc',f>.5?'#A99BE0':f>.25?'#E07AA8':'#D8344A');cd.classList.toggle('hurry',f<=.25)}});
     if(!online){tickAcc+=dt;if(tickAcc>.25){tickAcc=0;const r=LM.tick(Date.now());r.events.forEach(onEvent);if(r.changed)applySnap(LM.snap(myId,Date.now()))}}});
   K.onEvent=onEvent;K.myId=myId;
@@ -3031,7 +3115,7 @@ function match(){
   SFX.music('play');setTimeout(rotateHint,300);
   S.screen='match';document.body.classList.add('in-game');KH=null;
   const M0=members(S.peers||[]);const h=M0.host;const dayN=h&&h.p.mode==='coop'&&+h.p.day||0;const DAY=dayN?DAYS[dayN-1]:null;if(DAY)return fsMatch();const dur=DAY?DAY.dur:(h&&+h.p.dur)||S.dur||180;const gen=S.lastGen;const iHost=h&&h.isMe;
-  const tourT=M0.tour,tourKindNow=tourT?E.tourKind(+tourT.round||1,tourN0(tourT)):'';
+  const tourT=M0.tour,tourKindNow=tourT?tourKindLive(M0):'';
   const teamMode=!!(h&&((h.p.mode==='team'&&[4,6].includes(M0.all.length))||tourKindNow==='team'));
   const coop=!!(h&&h.p.mode==='coop');const ring=coop;const passUI=teamMode||ring;
   const myId=(M0.all.find(m=>m.isMe)||{id:'me'}).id;const meM=M0.all.find(m=>m.isMe);
@@ -3685,9 +3769,13 @@ function dayEnd(){S.flat=true;const K=S.k,gen=K.gen,M0=members(S.peers||[]),D=DA
     return}
   const st=K.stats||{passed:0,trashed:0,lost:0,time:0};const meW=who.find(w=>M0.all.some(m=>m.isMe&&m.id===w.id))||{pts:0,served:0};
   const mc=M0.all.map(m=>({m,w:who.find(x=>x.id===m.id)||{pts:0,served:0}})).sort((a,b)=>b.w.pts-a.w.pts)[0];
+  // tool-use grade (Family Style's end card): useful moves vs waste (trash, wrong piece, customers lost)
+  const good=(st.cooked||0)+(st.placed||0)+(st.passed||0),bad=(st.trashed||0)+(st.wrong||0)+2*(st.lost||0),eff=good?good/(good+bad):0;
+  const gr=!good?'F':eff>=.9?'A':eff>=.8?'B':eff>=.65?'C':eff>=.5?'D':'F';
   const mmss=ms=>{const t=Math.round((ms||0)/1000);return`${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`};
   app.innerHTML=`<div class="rstage"><div class="rcard mcard"><h2>${res==='won'?'🎉 ผ่านครบ 12 รอบ!':'ร้านปิด!'}</h2>
       ${mc&&M0.all.length>1?`<div class="mchead">${chef(mc.m.p.chef,'av')}<div><b>👑 Master Chef</b><span>${esc(clean(mc.m.p.nick,14)||'เชฟ')}${mc.m.isMe?' (คุณ)':mc.m.isBot?' 🤖':''} · ทำคะแนนให้ทีมมากที่สุด!</span></div></div>`:''}
+      <div class="mgrade"><b class="g-${gr}">${gr}</b><span>เกรดการใช้เครื่องครัว<small>ทำ ${st.cooked||0} · วางจาน ${st.placed||0} · ส่งต่อ ${st.passed} · ทิ้ง ${st.trashed} · ใส่ผิด ${st.wrong||0}</small></span></div>
       <div class="mcols"><div><h4>คุณ</h4><p>ส่ง: ${meW.served}</p><p>คะแนน: ${meW.pts}</p><p>ส่งต่อ: ${st.passed}</p><p>ทิ้ง: ${st.trashed}</p></div>
         <div><h4>ทีม</h4><p>ส่ง: ${K.served}</p><p>คะแนน: ${K.score}</p><p>ลูกค้าเดินออก: ${st.lost}</p></div>
         <div><h4>ร้าน</h4><p>เชฟ: ${M0.all.length}</p><p>ถึงรอบ: ${D.n}</p><p>เวลา: ${mmss(st.time)}</p></div></div>
@@ -3700,7 +3788,7 @@ function resultsTour(){const K=S.k,gen=K.gen;const t0=performance.now();
   app.innerHTML=`<div class="res-grid"><section class="card"><h2 style="text-align:center" id="thead"></h2><div id="champ"></div><div id="ranks"></div><p class="note" id="waitnote"></p></section>
     <section class="card"><h3>เส้นทางทัวร์นาเมนต์</h3><div id="path" class="tpath"></div><div class="wait-actions" id="hostbtns" style="justify-content:flex-start;margin-top:14px"></div></section></div>`;
   let published=false;
-  const draw=peers=>{const M=members(peers),tour=M.tour;if(!tour)return;const n0=tourN0(tour),keepN=E.tourKeep(+tour.round,n0),kind=E.tourKind(+tour.round,n0),isTeam=kind==='team';
+  const draw=peers=>{const M=members(peers),tour=M.tour;if(!tour)return;const n0=tourN0(tour),keepN=E.tourKeep(+tour.round,n0),kind=tourKindLive(M),isTeam=kind==='team';
     $('#thead').textContent=`ทัวร์นาเมนต์ · รอบที่ ${tour.round} · ${ROUND_TH[kind]}`;
     // team round: each cook's score = their team's total (the server's snapshot), so the whole pair goes through together
     const sn=S.lastSnap&&S.lastSnap.gen===gen?S.lastSnap:null,teams=isTeam?((sn&&sn.teams)||K.teams||[]):[];
@@ -3720,11 +3808,17 @@ function resultsTour(){const K=S.k,gen=K.gen;const t0=performance.now();
     $('#waitnote').textContent=keep?(keep.length===1?'จบทัวร์นาเมนต์!':`ผ่านเข้ารอบต่อไป ${keep.length} คน`):allDone?'กำลังสรุปผล…':`รออีก ${list.filter(x=>!x.done).length} คนหมดเวลา…`;
     const iHost=M.host&&M.host.isMe;const hb=$('#hostbtns');
     // the host decides who goes through once everyone has finished (scores come from the server)
-    if(iHost&&!res&&allDone&&!published){published=true;let kept=list.slice(0,keepN).map(x=>x.m.key);
-      if(E.tourKind(+tour.round+1,n0)==='team'&&kept.length===4)kept=[kept[0],kept[3],kept[1],kept[2]];S.room.presence({tour:{...tour,res:{round:tour.round,keep:kept}}})}
+    // a cook who left the room is simply out (only the people still here are in "list")
+    if(iHost&&!res&&allDone&&!published){published=true;let kept=isTeam&&list.length?list.filter(x=>x.tt===list[0].tt).map(x=>x.m.key).slice(0,keepN):list.slice(0,keepN).map(x=>x.m.key);
+      if(E.tourKind(+tour.round+1,n0)==='team'&&kept.length===4)kept=[kept[0],kept[3],kept[1],kept[2]];S.room.presence({tour:{...tour,res:{round:tour.round,keep:kept,rank:list.map(x=>x.m.key),team:isTeam}}})}
     if(iHost&&res&&hb.dataset.on!==String(tour.round)){hb.dataset.on=tour.round;
       hb.innerHTML=keep.length>1?`<button class="btn red big" id="nextR">เริ่มรอบที่ ${+tour.round+1}</button><button class="btn soft" id="toWait">ยกเลิกทัวร์นาเมนต์</button>`:`<button class="btn red big" id="toWait">กลับห้องรอ</button>`;
-      const nx=$('#nextR');if(nx)nx.onclick=()=>S.room.presence({phase:'play',gen:Date.now(),dur:S.dur||K.dur,tour:{round:+tour.round+1,n0,alive:keep,out:outs,res:null}});
+      const nx=$('#nextR');if(nx)nx.onclick=()=>{const here=k=>members(S.peers||[]).all.some(m=>m.key===k);
+        // someone left after the results: the next best cook still here takes the seat (the server checks the same rule)
+        let al=keep.filter(here);if(!(res.team&&al.length)&&al.length<keepN)al=(res.rank||keep).filter(here).slice(0,keepN);
+        if(!al.length)return toast('ไม่มีผู้เล่นเหลือในรอบต่อไป');if(al.length===1&&keep.length>1){S.room.presence({tour:{...tour,res:{...res,keep:al}}});return}
+        if(E.tourKind(+tour.round+1,n0)==='team'&&al.length===4&&al.join()!==keep.join()){const r=(res.rank||al).filter(k=>al.includes(k));al=[r[0],r[3],r[1],r[2]]}
+        S.room.presence({phase:'play',gen:Date.now(),dur:S.dur||K.dur,tour:{round:+tour.round+1,n0,alive:al,out:outs,res:null}})};
       $('#toWait').onclick=()=>S.room.presence({phase:'wait',tour:null})}
     if(!iHost)hb.innerHTML='<p class="muted">รอหัวห้องเริ่มรอบต่อไป</p>';
     if(keep&&keep.length===1&&!K.champSfx){K.champSfx=1;SFX.play('fanfare')}};
@@ -3766,7 +3860,7 @@ W3D.init().finally(()=>{W3D.loading=false;W3D._done&&W3D._done()});
 document.addEventListener('pointerdown',e=>{if(e.target.closest('.btn,.ding,.ticket,.chefpick,.palette button,.durpick button'))SFX.play('click')});
 {const b=$('#gq');b.onclick=()=>{const v=!(W3D.k&&W3D.k.low);store('wc_low',v);W3D.setLow(v);toast(v?'ภาพเบา: ลื่นขึ้น แต่ละเอียดน้อยลง':'ภาพสวย: เต็มความละเอียด')}}
 {const b=$('#v3d');b.textContent=W3D.off()?'ภาพ 2D':'ภาพ 3D';b.onclick=()=>{try{sessionStorage.setItem('wc_2d',W3D.off()?'0':'1')}catch(e){}store('wc_2d',null);if(/[?&]2d\b/.test(location.search))location.search='';else location.reload()}}
-NET.init().then(()=>{const sv=SAVED.get();if(sv&&Array.isArray(sv.digits)&&sv.digits.length===4){enterRoom(sv.digits,sv.creator,sv);return}
+NET.init().then(()=>{secUI();const sv=SAVED.get();if(sv&&Array.isArray(sv.digits)&&sv.digits.length===4){enterRoom(sv.digits,sv.creator,sv);return}
   if(S.screen==='lobby'){NET.setLobby({nick:S.name,chef:S.chef,hosting:null});go(lobby)}});
 </script>
 </body>

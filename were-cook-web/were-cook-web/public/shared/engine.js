@@ -435,7 +435,7 @@
       let req = null; const x = rq();
       if (!opt.easy && (g.stage(born) >= 1 || opt.allOpen) && x < .4) { const tgt = targetOf(m); const opts = REQS.filter(q => !q.need || tgt[q.k] >= q.need); req = opts[Math.floor(rq() * opts.length)] || null } else rq();
       let own = null; if (opt.owners && opt.owners.length) { const cnt = id => g.tickets.filter(t => t.own === id).length; own = opt.owners.slice().sort((a, b) => cnt(a) - cnt(b) || ((g.rr = (g.rr || 0) + 1) % 2 ? -1 : 1))[0] }
-      g.tickets.push({ own, k: g.next, id: m.id, born, life: Math.round(LIFE[m.tier] * (rush ? RUSH_LIFE : 1) * (opt.lifeX || 1)), rush, req });
+      g.tickets.push({ own, k: (g.kseq = (g.kseq || 0) + 1), id: m.id, born, life: Math.round(LIFE[m.tier] * (rush ? RUSH_LIFE : 1) * (opt.lifeX || 1)), rush, req });
     };
     g.add = add;
     const cap = now => { const c = g.info(now).cap + (opt.capAdd || 0); return opt.capMax ? Math.min(opt.capMax, c) : c };
