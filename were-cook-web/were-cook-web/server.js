@@ -112,6 +112,7 @@ function dispatch(gm, events) {
     if (e.type === 'recv' || e.type === 'ask') io.to(e.to).emit('game:' + e.type, { code: gm.code, from: e.from, item: e.item, ing: e.ing });
     else if (e.type === 'expired') for (const p of humans(gm)) { if (gm.M.players.find(q => q.id === p.id).team === e.team) io.to(p.id).emit('game:expired', { code: gm.code, list: e.list }); }
     else if (e.type === 'stage') io.to(gm.code).emit('game:stage', { code: gm.code, i: e.i });
+    else if (e.type === 'prank' || e.type === 'gold' || e.type === 'goldnew' || e.type === 'grab' || e.type === 'coopserve' || e.type === 'coopbot' || e.type === 'boost') io.to(gm.code).emit('game:' + e.type, { code: gm.code, ...e });
   }
 }
 const tours = new Map();              // code -> { round, alive: [ids] }  (tournament progress, checked by the server)
@@ -131,7 +132,7 @@ function checkTour(code, tour, players) {
   if (kept.length && cut.length && Math.max(...cut) > Math.min(...kept)) return null;
   tours.set(code, { round, alive }); return tours.get(code);
 }
-function startGame(code, gen, dur, mode, tour) {
+function startGame(code, gen, dur, mode, tour, diff, market) {
   stopGame(code);
   if (!rooms.get(code)) return;
   let players = seatOrder(code), round = 'normal';
@@ -143,7 +144,8 @@ function startGame(code, gen, dur, mode, tour) {
   const t0 = Date.now() + COUNTDOWN_MS;
   const team = mode === 'team' && [4, 6].includes(players.length);
   // solo / tournament: only people play in the referee (solo bots are simulated by the host's screen)
-  const M = E.createMatch({ gen, dur, t0, mode: team ? 'team' : 'solo', players: team ? players : players.filter(p => !p.bot), round });
+  const coop = mode === 'coop';
+  const M = E.createMatch({ gen, dur, t0, mode: team ? 'team' : coop ? 'coop' : 'solo', players: team || coop ? players : players.filter(p => !p.bot), round, diff: ['easy', 'normal', 'chef'].includes(diff) ? diff : 'normal', market: !!market });
   const gm = { code, gen, M, keys: Object.fromEntries(players.map(p => [p.id, p.key])), tour: mode === 'tour' };
   for (const p of humans(gm)) setServerFields(code, p.id, { done: false });
   pushAll(gm);
@@ -195,7 +197,7 @@ io.on('connection', socket => {
       const gm = games.get(code);
       if (clean.phase === 'play' && typeof clean.gen === 'number' && (!gm || gm.gen !== clean.gen)) {
         const dur = [120, 180, 300].includes(+clean.dur) ? +clean.dur : 180;
-        const hp = m.get(socket.id); startGame(code, clean.gen, dur, ['team', 'tour'].includes(hp.mode) ? hp.mode : 'solo', hp.tour);
+        const hp = m.get(socket.id); startGame(code, clean.gen, dur, ['team', 'tour', 'coop'].includes(hp.mode) ? hp.mode : 'solo', hp.tour, hp.diff, hp.market);
       } else if (clean.phase === 'wait') stopGame(code);
     }
     sendRoom(code);
@@ -211,15 +213,15 @@ io.on('connection', socket => {
     if (bad(msg)) return reply(ack, { ok: false, msg: 'ข้อมูลไม่ถูกต้อง' });
     const gm = myGame(msg.code); if (!gm) return reply(ack, { ok: false, msg: 'ไม่ได้อยู่ในเกม' });
     const now = Date.now(); const res = gm.M.serve(socket.id, { plate: msg.plate, season: msg.season, sel: +msg.sel }, now);
-    if (res.ok) pushAll(gm);
-    reply(ack, { ...res, snap: gm.M.snap(socket.id, now) });
+    if (res.ok) { pushAll(gm); if (res.events) dispatch(gm, res.events) }
+    const { events, ...out } = res; reply(ack, { ...out, snap: gm.M.snap(socket.id, now) });
   });
   // pass an item to your teammate (team mode only — the match refuses anyone else)
   socket.on('game:pass', (msg, ack) => {
     if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' });
     if (bad(msg)) return reply(ack, { ok: false, msg: 'ข้อมูลไม่ถูกต้อง' });
     const gm = myGame(msg.code); if (!gm) return reply(ack, { ok: false, msg: 'ไม่ได้อยู่ในเกม' });
-    const r = gm.M.pass(socket.id, msg.item, Date.now()); if (r.ok) dispatch(gm, r.events);
+    const r = gm.M.pass(socket.id, msg.item, Date.now(), msg.dir === 'l' ? 'l' : 'r'); if (r.ok) { dispatch(gm, r.events); if (gm.M.mode === 'coop') pushAll(gm) }
     reply(ack, { ok: r.ok, msg: r.msg });
   });
   socket.on('game:ask', (msg, ack) => {
@@ -227,12 +229,38 @@ io.on('connection', socket => {
     if (bad(msg)) return reply(ack, { ok: false });
     const gm = myGame(msg.code); if (!gm) return reply(ack, { ok: false });
     const r = gm.M.ask(socket.id, String(msg.ing), Date.now()); if (r.ok) dispatch(gm, r.events);
-    reply(ack, { ok: r.ok, msg: r.msg });
+    reply(ack, { ok: r.ok, msg: r.msg, owner: r.owner });
   });
   socket.on('game:clear', (msg, ack) => { if (!allow()) return reply(ack, { ok: false }); const code = msg && typeof msg === 'object' ? msg.code : msg; const gm = myGame(code); reply(ack, gm ? gm.M.clear(socket.id, msg && msg.plate) : { ok: false }); });
   // cooking is reported in two steps (start / done); the server times it and keeps the cooked food in a ledger
   socket.on('game:cookStart', (msg, ack) => { if (!allow()) return reply(ack, { ok: false }); if (bad(msg)) return reply(ack, { ok: false }); const gm = myGame(msg.code); reply(ack, gm ? gm.M.cookStart(socket.id, String(msg.tool), Date.now()) : { ok: false }); });
   socket.on('game:cook', (msg, ack) => { if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' }); if (bad(msg)) return reply(ack, { ok: false, msg: 'ข้อมูลไม่ถูกต้อง' }); const gm = myGame(msg.code); reply(ack, gm ? gm.M.cook(socket.id, msg.c, Date.now()) : { ok: false, msg: 'ไม่ได้อยู่ในเกม' }); });
+  // prank card: the referee picks the target (whoever is ahead) and applies the effect
+  socket.on('game:prank', (code, ack) => {
+    if (!allow()) return reply(ack, { ok: false });
+    const gm = myGame(code); if (!gm) return reply(ack, { ok: false });
+    const r = gm.M.prank(socket.id, Date.now()); if (r.ok) { dispatch(gm, r.events); pushAll(gm) }
+    reply(ack, { ok: r.ok, msg: r.msg, card: r.card, none: r.none });
+  });
+  // market: grab from the shared belt / throw a grabbed item away
+  socket.on('game:grab', (msg, ack) => {
+    if (!allow()) return reply(ack, { ok: false, msg: 'ช้าหน่อย' }); if (bad(msg)) return reply(ack, { ok: false });
+    const gm = myGame(msg.code); if (!gm) return reply(ack, { ok: false });
+    const now = Date.now(); const r = gm.M.grab(socket.id, msg.id, now); if (r.ok) { dispatch(gm, r.events); pushAll(gm) }
+    reply(ack, { ok: r.ok, msg: r.msg, ing: r.ing, gone: r.gone, snap: gm.M.snap(socket.id, now) });
+  });
+  socket.on('game:drop', (msg, ack) => { if (!allow()) return reply(ack, { ok: false }); if (bad(msg)) return reply(ack, { ok: false }); const gm = myGame(msg.code); reply(ack, gm ? gm.M.drop(socket.id, String(msg.ing)) : { ok: false }); });
+  // co-op: shared plates (place / season / dump / serve) — everyone in the kitchen sees the change
+  const coopAct = (ev, fn) => socket.on(ev, (msg, ack) => {
+    if (!allow()) return reply(ack, { ok: false, msg: 'ช้าหน่อย' }); if (bad(msg)) return reply(ack, { ok: false });
+    const gm = myGame(msg.code); if (!gm || !gm.M.plates) return reply(ack, { ok: false });
+    const now = Date.now(); const r = fn(gm.M, msg, now); if (r.ok) { pushAll(gm); if (r.events) dispatch(gm, r.events) }
+    const { events, ...out } = r; reply(ack, { ...out, snap: gm.M.snap(socket.id, now) });
+  });
+  coopAct('game:place', (M, m, now) => M.place(socket.id, +m.pi, m.item, now));
+  coopAct('game:pseason', (M, m) => M.seasonPlate(socket.id, +m.pi, m.season));
+  coopAct('game:pdump', (M, m) => M.dumpPlate(socket.id, +m.pi));
+  coopAct('game:pserve', (M, m, now) => M.servePlate(socket.id, +m.pi, +m.sel, now));
   socket.on('game:wash', (code, ack) => {
     if (!allow()) return reply(ack, { ok: false });
     const gm = myGame(code); if (!gm) return reply(ack, { ok: false });

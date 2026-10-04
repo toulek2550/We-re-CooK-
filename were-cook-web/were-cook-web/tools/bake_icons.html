@@ -26,6 +26,10 @@
   for (const m of E.MENUS) jobs.push({ key: 'menu:' + m.id, menu: m.c.map(([ing, st, amt]) => ({ ing, st, amt, q: 100 })) });
   for (const b of ['fish', 'oyster', 'salt', 'sugar', 'lime', 'chili']) jobs.push({ key: 'bottle:' + b, model: 'b_' + b });
   jobs.push({ key: 'plate', model: 'plate' });
+  // the cooking stations (their tool, without the counter / table under it)
+  const KEEP = { knife: /cuttingboard|^knife|tomato|onion/, mortar: /mortar|pestle|chili|garlic/, pan: /pan_A|ham/, fryer: /fryer|basket|water_disc|fries/, pot: /pot_A|water_disc/,
+    oven: /oven/, grill: /anglo|skewer/, steamer: /steam|sticky/, sink: /sink_backsplash|dishrack/, season: /b_fish|b_sugar|b_lime|b_chili/ };
+  for (const id of Object.keys(KEEP)) jobs.push({ key: 'tool:' + id, group: id, keep: KEEP[id] });
   // render one job: put the objects in an empty scene, aim the camera so they fill the frame
   const atlas = document.createElement('canvas'); const rows = Math.ceil(jobs.length / COLS);
   atlas.width = COLS * CELL; atlas.height = rows * CELL; const ctx = atlas.getContext('2d'); ctx.imageSmoothingQuality = 'high';
@@ -34,6 +38,7 @@
   jobs.forEach((job, n) => {
     k.clear();
     if (job.menu) { k.inst.push(plate); S.setPlate(job.menu, 1.35) }
+    else if (job.group) { for (const it of (S.groups[job.group] || [])) if (job.keep.test(it.name)) k.inst.push(it); if (!k.inst.length) { miss.push(job.key); return } }
     else if (job.model) { k.add(job.model, [0, 0, 0], 0, 1) }
     else { const md = S.modelFor(job.items[0]); if (!md) { miss.push(job.key); return } k.add(md.name, [0, 0, 0], -20, 1, md.tint ? { tint: md.tint } : {}) }
     let lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9];

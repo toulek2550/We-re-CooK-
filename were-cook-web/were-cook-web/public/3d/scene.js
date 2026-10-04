@@ -178,7 +178,8 @@
         const cooked = [1, .72, .45, .35 * d], burnt = [.3, .22, .2, .85];
         f.tint = b > 0 ? cooked.map((v, i) => lerp(v, burnt[i], b)) : base[3] ? base.map((v, i) => lerp(v, cooked[i], d)) : cooked }
       if (tool === 'knife') { const kn = T.knife, b = cook.base[kn.name + tool]; const y = at < .18 ? Math.sin(at / .18 * Math.PI) : 0;
-        kn.pos = [sp.p[0] + .35, sp.p[1] + .25 - y * .22, sp.p[2] + .05]; kn.rz = -1.2 + y * .5; kn.ry = 0 }
+        // the knife model stands upright: lay it down (tip left, edge down), hover above the food, chop straight down
+        kn.pos = [sp.p[0] + .36, sp.p[1] + .55 - y * .34, sp.p[2] + .06]; kn.rz = Math.PI / 2 - .14 * (1 - y); kn.rx = 0; kn.ry = 0 }
       if (tool === 'mortar') { const pe = T.pestle, b = cook.base[pe.name + tool]; const y = at < .14 ? Math.sin(at / .14 * Math.PI) : 0;
         if (a && a.kind === 'mix' && at < .3) { pe.ry = b.ry + Math.sin(at / .3 * Math.PI * 2) * .8; if (f) { f.pos[1] = f.y0 + Math.sin(at / .3 * Math.PI) * .25; f.ry += dt * 9 } }
         pe.pos = [b.pos[0] - y * .18, b.pos[1] - y * .25, b.pos[2]]; pe.rz = b.rz + y * .3;
