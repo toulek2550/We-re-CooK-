@@ -2360,7 +2360,7 @@ function saveDay(n,stars){const d=dayStars();if((d[n]||0)<stars){d[n]=stars;stor
 const RUN={get(){const r=S.runMem;return r&&r.day>=1&&r.day<=DAYS.length?r:{day:1,best:0,runs:1,gen:0}},set(r){S.runMem=r},reset(){const r=this.get();S.runMem={day:1,best:r.best||0,runs:(r.runs||1)+1,gen:0}}};
 const curDay=()=>S.mode==='coop'?1:0;   // co-op always starts at round 1 and plays on continuously
 const MODE_INFO={
-  coop:['🍳 ครัวโกลาหล · ช่วยกันทำ','ทุกคนมีออร์เดอร์ของตัวเอง แต่ของที่ต้องใช้มักไปตกอยู่บนโต๊ะเพื่อน → ลากหรือโยนส่งให้กัน · ทุกเกมสุ่มไม่ซ้ำ: เครื่องครัวกับเมนูใหม่โผล่มาเรื่อย ๆ จานใหญ่ขึ้นทุกรอบ · ทิ้งของบนกระทะ/หม้อทอดนานไป = 🔥 ไหม้ · ⭐ คะแนนร้านลดตลอด ส่งอาหารเพื่อเติม · <b>หมดหลอด = ร้านปิด</b>'],
+  coop:['🍳 ครัวโกลาหล · ช่วยกันทำ','ทุกคนมีออร์เดอร์ของตัวเอง แต่ของที่ต้องใช้มักไปตกอยู่บนโต๊ะเพื่อน → ลากหรือโยนส่งให้กัน · ทุกเกมสุ่มไม่ซ้ำ: เครื่องครัวกับเมนูใหม่โผล่มาเรื่อย ๆ จานใหญ่ขึ้นทุกรอบ · ⭐ คะแนนร้านลดตลอด ส่งอาหารเพื่อเติม · <b>หมดหลอด = ร้านปิด</b>'],
   solo:['⚔️ เดี่ยว · แข่งกัน','ทุกคนมีครัวของตัวเอง ทำออร์เดอร์ให้ได้คะแนนมากที่สุดก่อนหมดเวลา · ทำมินิเกมให้ดีและปรุงรสให้ตรงเป้า = คะแนนสูง · <b>คะแนนสูงสุดชนะ</b>'],
   team:['👥 ทีม 2 ต่อ 2','จับคู่เป็นทีม (4 คน = 2v2 · 6 คน = 2v2v2) วัตถุดิบถูกแบ่งให้คู่ ต้องส่งของให้คู่ของตัวเอง · <b>ทีมที่คะแนนรวมสูงสุดชนะ</b>'],
   tour:['🏆 ทัวร์นาเมนต์ · Thai Kitchen Battle','เล่นได้ 4 หรือ 6 คน (รวมบอท) · 6 คน: รอบคัดเลือก (เหลือ 4) → รอบวัตถุดิบปริศนา → รอบทีม 2v2 (ทีมชนะไปต่อ) → รอบชิง 1v1 เซ็ตเมนู + กรรมการปรับรส · 4 คน: เริ่มที่รอบปริศนา · <b>เหลือคนสุดท้ายเป็นแชมป์</b>']};
@@ -3049,7 +3049,10 @@ function fsMatch(){
         J.cook({tool:id,ing:it.ing,st:it.st,to,amt:1,q}).then(r=>{if(S.k!==K)return;s.pending=false;
           if(!r||!r.ok){renderStations();return nope(null,(r&&r.msg)||'ทำไม่สำเร็จ')}
           if(F.st[id]!==s||s.item!==it){renderStations();return}   // (the piece was moved away meanwhile)
-          s.item={...it,st:to,q:r.q||q};s.doneAt=performance.now();ST.cooked++;SFX.play('ding');renderStations()})})},wait)})}
+          // done: the cooked piece pops out of the station onto the table (no extra tap, nothing to burn)
+          const p=F.pos['stn:'+id]||{x:.5,y:.5},ang=Math.random()*Math.PI*2,bw=$('#board').offsetWidth||1280;F.st[id]={};ST.cooked++;SFX.play('ding');
+          addLoose({...it,id:K.uid++,st:to,q:r.q||q},p.x,p.y);const o=F.items[F.items.length-1];o.vx=Math.cos(ang)*bw*.55;o.vy=Math.sin(ang)*bw*.35;renderBoard();
+          const el=F.els['it:'+o.id];if(el&&!REDUCED)el.animate([{transform:'translate(-50%,-50%) scale(.6)'},{transform:'translate(-50%,-50%) scale(1.15)',offset:.5},{transform:'translate(-50%,-50%) scale(1)'}],{duration:320,easing:'ease-out'})})})},wait)})}
   /* ---------- pointer: drag, or tap-then-tap ---------- */
   let drag=null,ghost=null,hover=null;
   const fs=$('#fs');
@@ -3127,11 +3130,11 @@ function fsMatch(){
     const b=document.createElement('div');b.className='dayintro';const n=M0.all.length,goal=DAY.goal+Math.floor((n-1)*.75);
     b.innerHTML=roundCard(`รอบที่ ${P0.n} ผ่าน!`,`ส่งครบแล้ว · ⭐ +15`,[],2.4,`<p class="rpun">${PUNS[(P0.n*3+K.served)%PUNS.length]}</p>`,'🍽 กำลังเก็บจาน…').replace('class="rcard"','class="rcard done"');document.body.appendChild(b);
     const t1=setTimeout(()=>{const rows=roundRows(DAY,P0);const t=tools();const nw=DAY.w!==P0.w;
-      b.innerHTML=roundCard(`รอบที่ ${DAY.n}:`,`${nw?'🎉 ร้านใหม่! ':''}${W.icon} ${esc(DAY.th)} · ส่ง ${goal} จาน`,rows,3,(rows.length?'':`<div class="rdish">${DAY.menus.filter(id=>!P0.menus.includes(id)).concat(DAY.menus).slice(0,4).map(id=>menuArt(MENU_BY_ID[id])).join('')}</div>`)+(n>1&&DAY.split?`<p class="rpun">คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}</p>`:'')+(HOT.includes(DAY.newTool)?'<p class="rpun">🔥 ทำเสร็จแล้วรีบเอาออก ทิ้งไว้นานจะไหม้!</p>':''),'🧽 กำลังเช็ดโต๊ะ…')},2400);
+      b.innerHTML=roundCard(`รอบที่ ${DAY.n}:`,`${nw?'🎉 ร้านใหม่! ':''}${W.icon} ${esc(DAY.th)} · ส่ง ${goal} จาน`,rows,3,(rows.length?'':`<div class="rdish">${DAY.menus.filter(id=>!P0.menus.includes(id)).concat(DAY.menus).slice(0,4).map(id=>menuArt(MENU_BY_ID[id])).join('')}</div>`)+(n>1&&DAY.split?`<p class="rpun">คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}</p>`:''),'🧽 กำลังเช็ดโต๊ะ…')},2400);
     const t2=setTimeout(()=>b.remove(),5500);onLeave(()=>{clearTimeout(t1);clearTimeout(t2);b.remove()})}
   function intro(){if(S.fromNext){S.fromNext=false;const t=myTools().filter(x=>DAY.tools.includes(x));toast(`วันนี้คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}`);return}
     const b=document.createElement('div');b.className='dayintro';const t=myTools().filter(x=>DAY.tools.includes(x));const rows=roundRows(DAY,dayN>1?RD[dayN-2]:null);
-    b.innerHTML=roundCard(`รอบที่ ${DAY.n}:`,`${W.icon} ${esc(DAY.th)} · ส่ง ${K.dq?K.dq.goal:DAY.goal} จาน`,rows,3.2,(rows.length?'':`<div class="rdish">${DAY.menus.slice(0,4).map(id=>menuArt(MENU_BY_ID[id])).join('')}</div>`)+(M0.all.length>1&&DAY.split?`<p class="rpun">คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}</p>`:'')+(HOT.includes(DAY.newTool)?'<p class="rpun">🔥 ทำเสร็จแล้วรีบเอาออก ทิ้งไว้นานจะไหม้!</p>':''),'🧽 กำลังเช็ดโต๊ะ…');
+    b.innerHTML=roundCard(`รอบที่ ${DAY.n}:`,`${W.icon} ${esc(DAY.th)} · ส่ง ${K.dq?K.dq.goal:DAY.goal} จาน`,rows,3.2,(rows.length?'':`<div class="rdish">${DAY.menus.slice(0,4).map(id=>menuArt(MENU_BY_ID[id])).join('')}</div>`)+(M0.all.length>1&&DAY.split?`<p class="rpun">คุณดูแล: ${t.map(x=>TI(x).th).join(' · ')||'ส่งของ/จัดจาน'}</p>`:''),'🧽 กำลังเช็ดโต๊ะ…');
     if(DAY.n<=3){const how=`<ul class="rhow"><li>วัตถุดิบจะหล่นมาบนโต๊ะเรื่อย ๆ</li><li>ลากไป<b>เครื่องครัว</b> แล้ว<b>แตะ ${TAPS} ครั้ง</b></li><li>ทำตาม<b>การ์ดใบหน้า</b>ทีละชิ้น วางลงจาน (ของผิดเมนูใส่ไม่ได้) ครบแล้ว<b>ปัดจานขึ้น</b>เพื่อเสิร์ฟ</li>${M0.all.length>1?'<li>ของที่ไม่ใช้ <b>ลาก/โยนไปขอบซ้าย-ขวา</b> ส่งให้เพื่อน</li>':'<li>ของที่ไม่ใช้ ลากไปถังขยะ</li>'}</ul>`;const rf=b.querySelector('.rfoot');if(rf)rf.insertAdjacentHTML('beforebegin',how);const pie=b.querySelector('.rpie');if(pie)pie.style.setProperty('--d','7s')}
     document.body.appendChild(b);const close=()=>b.remove();b.onclick=close;setTimeout(close,DAY.n<=3?7000:3200);onLeave(close)}
   /* ---------- solid pieces: they shove each other, a hard bump sends them sliding, the table edge stops them
@@ -3150,7 +3153,7 @@ function fsMatch(){
     for(let it2=0;it2<2;it2++){
       for(let i=0;i<bodies.length;i++)for(let j=i+1;j<bodies.length;j++){const a=bodies[i],b=bodies[j];let dx=b.x-a.x,dy=b.y-a.y;const m=a.r+b.r;if(Math.abs(dx)>=m||Math.abs(dy)>=m)continue;let d=Math.hypot(dx,dy);if(d>=m)continue;if(d<.01){dx=Math.random()-.5;dy=Math.random()-.5;d=Math.hypot(dx,dy)}
         const nx=dx/d,ny=dy/d,ov=m-d;busy=true;
-        if(a.kin||b.kin){if(a.kin&&b.kin)continue;const k=a.kin?a:b,o=a.kin?b:a,sg=a.kin?1:-1;o.x+=nx*ov*sg;o.y+=ny*ov*sg;const rel=(k.vx-o.vx)*nx*sg+(k.vy-o.vy)*ny*sg;if(rel>0){const push=1.25/Math.sqrt(o.m);o.vx+=nx*sg*rel*push;o.vy+=ny*sg*rel*push}continue}
+        if(a.kin||b.kin){if(a.kin&&b.kin)continue;const k=a.kin?a:b,o=a.kin?b:a,sg=a.kin?1:-1;if(k.m===1&&o.m>1)continue;/* food in your hand passes over the plate / a station (so you can drop it in); it only shoves other food */o.x+=nx*ov*sg;o.y+=ny*ov*sg;const rel=(k.vx-o.vx)*nx*sg+(k.vy-o.vy)*ny*sg;if(rel>0){const push=1.25/Math.sqrt(o.m);o.vx+=nx*sg*rel*push;o.vy+=ny*sg*rel*push}continue}
         // a light piece moves away more than a heavy station (mass ratio)
         const wa=b.m/(a.m+b.m),wb=a.m/(a.m+b.m);a.x-=nx*ov*wa;a.y-=ny*ov*wa;b.x+=nx*ov*wb;b.y+=ny*ov*wb;
         const rel=(a.vx-b.vx)*nx+(a.vy-b.vy)*ny;if(rel>0){const jimp=1.6*rel/(1/a.m+1/b.m);a.vx-=nx*jimp/a.m;a.vy-=ny*jimp/a.m;b.vx+=nx*jimp/b.m;b.vy+=ny*jimp/b.m}}
@@ -3170,9 +3173,6 @@ function fsMatch(){
     const spare=own.filter(k=>lying(k)<3);const pool=others.length&&x<.5?others:mine.length&&x<.8?mine:spare;if(!pool.length)return;const ing=pool[Math.floor(Math.random()*pool.length)];
     const it={id:K.uid++,ing,st:'raw',q:100};addLoose(it);renderBoard();SFX.play('pop');const el=document.querySelector(`#board [data-drag="it:${it.id}"]`);if(el&&!REDUCED)el.animate([{transform:'translateY(-40px) scale(.6)',opacity:0},{transform:'translateY(0) scale(1)',opacity:1}],{duration:300,easing:'cubic-bezier(.34,1.56,.64,1)'})}
   stageLoop(dt=>{if(K.done)return;renderMeter();physics(Math.min(dt,.033));const now=performance.now();if(K.tickets.length&&now>=F.spawnAt&&!document.querySelector('.dayintro'))spawn(now);else if(document.querySelector('.dayintro'))F.spawnAt=Math.max(F.spawnAt,now+800);
-    for(const id of HOT){const s=F.st[id];if(!s||!s.item||s.pending||s.item.burnt||canUse(id,s.item)||!tools().includes(id))continue;if(!s.doneAt)s.doneAt=now;const t=now-s.doneAt;
-      const el=document.querySelector(`#board .fsst3[data-st="${id}"]`);if(el){el.classList.toggle('smoke',t>BURN_WARN);const sp=el.querySelector('.spie');if(sp&&t>BURN_WARN){sp.classList.add('burnp');sp.style.setProperty('--p',Math.max(0,100-(t-BURN_WARN)/(BURN-BURN_WARN)*100)+'%')}}
-      if(t>BURN){s.item={...s.item,q:20,burnt:true};ST.burnt=(ST.burnt||0)+1;SFX.play('fail');toast(`🔥 ${itemName(s.item)}ไหม้แล้ว! ลากไปทิ้งถังขยะ`);renderStations()}}
     {const pe=document.querySelector('#board .fspie');const mt=pe&&K.tickets.find(x=>String(x.k)===pe.dataset.tk);if(mt){const f=Math.max(0,1-(now-mt.born)/(mt.life*1000));pe.style.setProperty('--p',(f*100).toFixed(1)+'%');pe.classList.toggle('hurry',f<=.25)}}
     K.tickets.forEach(t=>{const f=Math.max(0,1-(now-t.born)/(t.life*1000));const cd=document.querySelector(`#orders [data-tk="${t.k}"]`);if(cd){cd.style.setProperty('--bc',f>.5?'#A99BE0':f>.25?'#E07AA8':'#D8344A');cd.classList.toggle('hurry',f<=.25)}});
     if(!online){tickAcc+=dt;if(tickAcc>.25){tickAcc=0;const r=LM.tick(Date.now());r.events.forEach(onEvent);if(r.changed)applySnap(LM.snap(myId,Date.now()))}}});
@@ -3846,7 +3846,7 @@ function dayEnd(){S.flat=true;const K=S.k,gen=K.gen,M0=members(S.peers||[]),RD=K
   const mmss=ms=>{const t=Math.round((ms||0)/1000);return`${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`};
   app.innerHTML=`<div class="rstage"><div class="rcard mcard"><h2>${res==='won'?'🎉 ผ่านครบ 12 รอบ!':'ร้านปิด!'}</h2>
       ${mc&&M0.all.length>1?`<div class="mchead">${chef(mc.m.p.chef,'av')}<div><b>👑 Master Chef</b><span>${esc(clean(mc.m.p.nick,14)||'เชฟ')}${mc.m.isMe?' (คุณ)':mc.m.isBot?' 🤖':''} · ทำคะแนนให้ทีมมากที่สุด!</span></div></div>`:''}
-      <div class="mgrade"><b class="g-${gr}">${gr}</b><span>เกรดการใช้เครื่องครัว<small>ทำ ${st.cooked||0} · วางจาน ${st.placed||0} · ส่งต่อ ${st.passed} · ทิ้ง ${st.trashed} · ใส่ผิด ${st.wrong||0} · ไหม้ ${st.burnt||0}</small></span></div>
+      <div class="mgrade"><b class="g-${gr}">${gr}</b><span>เกรดการใช้เครื่องครัว<small>ทำ ${st.cooked||0} · วางจาน ${st.placed||0} · ส่งต่อ ${st.passed} · ทิ้ง ${st.trashed} · ใส่ผิด ${st.wrong||0}</small></span></div>
       <div class="mcols"><div><h4>คุณ</h4><p>ส่ง: ${meW.served}</p><p>คะแนน: ${meW.pts}</p><p>ส่งต่อ: ${st.passed}</p><p>ทิ้ง: ${st.trashed}</p></div>
         <div><h4>ทีม</h4><p>ส่ง: ${K.served}</p><p>คะแนน: ${K.score}</p><p>ลูกค้าเดินออก: ${st.lost}</p></div>
         <div><h4>ร้าน</h4><p>เชฟ: ${M0.all.length}</p><p>ถึงรอบ: ${D.n}</p><p>เวลา: ${mmss(st.time)}</p></div></div>
