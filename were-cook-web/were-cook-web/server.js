@@ -109,7 +109,7 @@ function pushAll(gm, extra) {
 }
 function dispatch(gm, events) {
   for (const e of events || []) {
-    if (e.type === 'recv' || e.type === 'ask') io.to(e.to).emit('game:' + e.type, { code: gm.code, from: e.from, item: e.item, ing: e.ing });
+    if (e.type === 'recv' || e.type === 'ask') io.to(e.to).emit('game:' + e.type, { code: gm.code, from: e.from, item: e.item, ing: e.ing, dir: e.dir, fx: e.fx });
     else if (e.type === 'expired') for (const p of humans(gm)) { if (gm.M.players.find(q => q.id === p.id).team === e.team) io.to(p.id).emit('game:expired', { code: gm.code, list: e.list }); }
     else if (e.type === 'stage') io.to(gm.code).emit('game:stage', { code: gm.code, i: e.i });
     else if (e.type === 'prank' || e.type === 'gold' || e.type === 'goldnew' || e.type === 'grab' || e.type === 'coopserve' || e.type === 'coopbot' || e.type === 'boost') io.to(gm.code).emit('game:' + e.type, { code: gm.code, ...e });
@@ -264,7 +264,7 @@ io.on('connection', socket => {
     if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' });
     if (bad(msg)) return reply(ack, { ok: false, msg: 'ข้อมูลไม่ถูกต้อง' });
     const gm = myGame(msg.code); if (!gm) return reply(ack, { ok: false, msg: 'ไม่ได้อยู่ในเกม' });
-    const r = gm.M.pass(socket.id, msg.item, Date.now(), msg.dir === 'l' ? 'l' : 'r'); if (r.ok) { dispatch(gm, r.events); if (gm.M.mode === 'coop') pushAll(gm) }
+    const r = gm.M.pass(socket.id, msg.item, Date.now(), msg.dir === 'l' ? 'l' : 'r', msg.fx); if (r.ok) { dispatch(gm, r.events); if (gm.M.mode === 'coop') pushAll(gm) }
     reply(ack, { ok: r.ok, msg: r.msg });
   });
   socket.on('game:ask', (msg, ack) => {

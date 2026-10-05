@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>We're CooK?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1376,17 +1376,17 @@ kbd,.stblock .num,.vlabel,.dhint,#howto h3 small,#stHow,.idlehint{display:none!i
 .fsghost{position:fixed;z-index:300;pointer-events:none;width:84px;height:84px;transform:translate(-50%,-60%) scale(1.1);filter:drop-shadow(0 10px 8px rgba(0,0,0,.35))}
 .fsghost>*{width:100%!important;height:100%!important}.fsghost .ico3d{width:84px!important;height:84px!important}
 @media (max-width:760px){
-  .fstable{grid-template-columns:58px minmax(0,1fr) 58px;gap:6px}.fspass small,.fsptools{display:none}.fspass svg{width:34px;height:34px}.fspass b{font-size:.7rem}
-  .fscounter{padding:10px;gap:10px;border-radius:20px}.fsst{width:112px;min-height:120px}.fsst .fsitem{width:76px;height:76px}.fsst .fsitem .ico3d{width:44px!important;height:44px!important}
-  .fsplate{width:120px;height:110px}.fsplate .dish{width:96px;height:96px}
-  .fsslots{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.fsrow{gap:10px}.fsitem .ia,.fsitem .ico3d,.fsitem>svg{width:46px!important;height:46px!important}
-  .fscrate{width:84px;height:84px}.fscrate .ico3d{width:50px!important;height:50px!important}.fstrash{width:64px}
-  .fstk{min-width:160px;padding:8px}.fsc{width:46px;height:46px}.fsc>.ico3d{width:38px!important;height:38px!important}
-  .fsday{font-size:.8rem}.fsmeter{order:5;flex-basis:100%}
-  .fstable{grid-template-columns:44px minmax(0,1fr) 44px}.fspass{border-radius:14px;padding:6px 2px}.fspass b{display:none}.fspass svg{width:30px;height:30px}
-  .fsrow{flex-direction:column;gap:10px}.fsstations{flex-wrap:nowrap;gap:6px;width:100%}.fsst{flex:1 1 0;width:auto;min-width:0;min-height:112px}
-  .fsplates{flex-wrap:nowrap;gap:10px}.fsplate{width:118px;height:104px}
-  .fsslots{grid-template-columns:repeat(3,minmax(0,1fr));justify-content:stretch;width:100%}
+  body:not(.fsstage) .fstable{grid-template-columns:58px minmax(0,1fr) 58px;gap:6px}body:not(.fsstage) .fspass small,body:not(.fsstage) .fsptools{display:none}body:not(.fsstage) .fspass svg{width:34px;height:34px}body:not(.fsstage) .fspass b{font-size:.7rem}
+  body:not(.fsstage) .fscounter{padding:10px;gap:10px;border-radius:20px}body:not(.fsstage) .fsst{width:112px;min-height:120px}body:not(.fsstage) .fsst .fsitem{width:76px;height:76px}body:not(.fsstage) .fsst .fsitem .ico3d{width:44px!important;height:44px!important}
+  body:not(.fsstage) .fsplate{width:120px;height:110px}body:not(.fsstage) .fsplate .dish{width:96px;height:96px}
+  body:not(.fsstage) .fsslots{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}body:not(.fsstage) .fsrow{gap:10px}body:not(.fsstage) .fsitem .ia,body:not(.fsstage) .fsitem .ico3d,body:not(.fsstage) .fsitem>svg{width:46px!important;height:46px!important}
+  body:not(.fsstage) .fscrate{width:84px;height:84px}body:not(.fsstage) .fscrate .ico3d{width:50px!important;height:50px!important}body:not(.fsstage) .fstrash{width:64px}
+  body:not(.fsstage) .fstk{min-width:160px;padding:8px}body:not(.fsstage) .fsc{width:46px;height:46px}body:not(.fsstage) .fsc>.ico3d{width:38px!important;height:38px!important}
+  body:not(.fsstage) .fsday{font-size:.8rem}body:not(.fsstage) .fsmeter{order:5;flex-basis:100%}
+  body:not(.fsstage) .fstable{grid-template-columns:44px minmax(0,1fr) 44px}body:not(.fsstage) .fspass{border-radius:14px;padding:6px 2px}body:not(.fsstage) .fspass b{display:none}body:not(.fsstage) .fspass svg{width:30px;height:30px}
+  body:not(.fsstage) .fsrow{flex-direction:column;gap:10px}body:not(.fsstage) .fsstations{flex-wrap:nowrap;gap:6px;width:100%}body:not(.fsstage) .fsst{flex:1 1 0;width:auto;min-width:0;min-height:112px}
+  body:not(.fsstage) .fsplates{flex-wrap:nowrap;gap:10px}body:not(.fsstage) .fsplate{width:118px;height:104px}
+  body:not(.fsstage) .fsslots{grid-template-columns:repeat(3,minmax(0,1fr));justify-content:stretch;width:100%}
 }
 
 /* ===== free board (Family Style counter) ===== */
@@ -1401,9 +1401,9 @@ kbd,.stblock .num,.vlabel,.dhint,#howto h3 small,#stHow,.idlehint{display:none!i
 .fsobj{z-index:1}
 .fsfull{position:absolute;left:50%;top:8px;transform:translateX(-50%);z-index:5;background:#F2483A;color:#fff;font-weight:800;border-radius:999px;padding:4px 14px;font-size:.85rem;animation:canpulse 1s ease-in-out infinite;white-space:nowrap}
 .fsgst{width:84px;height:84px;background:#FFF8EE;border-radius:20px;display:grid;place-items:center}.fsgst .ico3d,.fsgst svg{width:64px!important;height:64px!important}
-@media (max-width:760px){.fsboard{height:62vh;border-radius:18px}.fsboard .fsst{width:96px;min-height:96px;padding:4px}.fsboard .fsst .fsitem{width:62px;height:62px}.fsboard .fsst-t b{font-size:.7rem}.fsboard .fsst-t .ico3d{width:24px;height:24px}
-  .fsboard .fsplate{width:100px;height:92px}.fsboard .fsplate .dish{width:80px;height:80px}.fsloose .fsitem{width:62px;height:62px}.fsloose .fsitem .ico3d{width:38px!important;height:38px!important}.fsloose .fsitem small{display:none}
-  .fsboard .fstrash{width:56px;height:56px;font-size:1.3rem}.fstap{font-size:.7rem}}
+@media (max-width:760px){body:not(.fsstage) .fsboard{height:62vh;border-radius:18px}body:not(.fsstage) .fsboard .fsst{width:96px;min-height:96px;padding:4px}body:not(.fsstage) .fsboard .fsst .fsitem{width:62px;height:62px}body:not(.fsstage) .fsboard .fsst-t b{font-size:.7rem}body:not(.fsstage) .fsboard .fsst-t .ico3d{width:24px;height:24px}
+  body:not(.fsstage) .fsboard .fsplate{width:100px;height:92px}body:not(.fsstage) .fsboard .fsplate .dish{width:80px;height:80px}body:not(.fsstage) .fsloose .fsitem{width:62px;height:62px}body:not(.fsstage) .fsloose .fsitem .ico3d{width:38px!important;height:38px!important}body:not(.fsstage) .fsloose .fsitem small{display:none}
+  body:not(.fsstage) .fsboard .fstrash{width:56px;height:56px;font-size:1.3rem}body:not(.fsstage) .fstap{font-size:.7rem}}
 
 /* ===== 3D pieces without frames, each with its own size ===== */
 .fsloose .fsitem,.fsst3 .fsitem{background:none!important;box-shadow:none!important;border-radius:0;padding:0;width:var(--isz)!important;height:var(--isz)!important;filter:drop-shadow(0 6px 4px rgba(70,35,10,.45))}
@@ -1421,8 +1421,8 @@ kbd,.stblock .num,.vlabel,.dhint,#howto h3 small,#stHow,.idlehint{display:none!i
 .fsplate3{background:none!important;box-shadow:none!important;width:170px!important;height:150px!important;filter:drop-shadow(0 8px 6px rgba(70,35,10,.4))}
 .fsplate3 .dish{width:150px!important;height:150px!important}.fsplate3:not(:has(.dish)){background:radial-gradient(circle,#fff 52%,#EFE5D8 53%,#fff 68%,transparent 70%)!important}
 .fsplate3.ready{filter:drop-shadow(0 0 8px #43B649) drop-shadow(0 8px 6px rgba(70,35,10,.4))}
-@media (max-width:760px){.fsboard{--m:.7}.fsst3{width:calc(var(--sz)*.68);height:calc(var(--sz)*.68)}.fsloose .fsitem{width:calc(var(--isz)*.75)!important;height:calc(var(--isz)*.75)!important}
-  .fsst3 .fsitem{width:calc(var(--isz)*.7)!important;height:calc(var(--isz)*.7)!important}.fsplate3{width:118px!important;height:104px!important}.fsplate3 .dish{width:104px!important;height:104px!important}}
+@media (max-width:760px){body:not(.fsstage) .fsboard{--m:.7}body:not(.fsstage) .fsst3{width:calc(var(--sz)*.68);height:calc(var(--sz)*.68)}body:not(.fsstage) .fsloose .fsitem{width:calc(var(--isz)*.75)!important;height:calc(var(--isz)*.75)!important}
+  body:not(.fsstage) .fsst3 .fsitem{width:calc(var(--isz)*.7)!important;height:calc(var(--isz)*.7)!important}body:not(.fsstage) .fsplate3{width:118px!important;height:104px!important}body:not(.fsstage) .fsplate3 .dish{width:104px!important;height:104px!important}}
 
 /* ===== Family Style look: round cards, pie timers, green table ===== */
 @property --p{syntax:'<percentage>';inherits:false;initial-value:0%}
@@ -1466,13 +1466,13 @@ kbd,.stblock .num,.vlabel,.dhint,#howto h3 small,#stHow,.idlehint{display:none!i
 .mcols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left}.mcols h4{margin:0 0 4px;color:#fff;font-size:1.1rem}.mcols p{margin:0;color:#C9C0EE;font-weight:700;font-size:.9rem}
 .mcard .wait-actions{justify-content:center}.mcard .muted{color:#C9C0EE}
 @media (orientation:landscape) and (max-height:560px){
-  body.fsgame .top{display:none}body.fsgame .shell{padding-top:2px}
-  .fs{gap:4px;padding:2px 6px}.fstop{position:fixed;top:4px;right:8px;z-index:30;gap:4px;flex-wrap:nowrap}.fsday,.fsdish,.fsquit{padding:3px 8px;font-size:.72rem}.fsorders{padding-right:250px}
-  .fshint{display:none}.fsorders{min-height:0;padding:0 2px 2px;gap:6px}.fstk{padding:4px 30px 4px 6px;gap:3px;min-width:0;border-radius:12px}.fstkh b{font-size:.75rem}.fstkh .dish{width:30px;height:30px}
-  .fsc{width:32px;height:32px;border-radius:9px}.fsc>.ico3d,.fsc>svg{width:26px!important;height:26px!important}.fsc .fsb em{width:18px;height:18px}.fsc .fsb em .ico3d{width:14px!important;height:14px!important}.tpie{width:20px;height:20px;top:4px;right:4px}
-  .fsboard{height:calc(100vh - 112px)!important;min-height:200px}.fstable{grid-template-columns:44px minmax(0,1fr) 44px}.fspass small,.fsptools,.fspass b{display:none}.fspass svg{width:30px;height:30px}
-  .fsst3{width:calc(var(--sz)*.62);height:calc(var(--sz)*.62)}.fsloose .fsitem{width:calc(var(--isz)*.72)!important;height:calc(var(--isz)*.72)!important}
-  .fsplate3{width:110px!important;height:96px!important}.fsplate3 .dish{width:96px!important;height:96px!important}.fsm2{bottom:4px;padding:2px 10px 4px!important}
+  body.fsgame:not(.fsstage) .top{display:none}body.fsgame:not(.fsstage) .shell{padding-top:2px}
+  body:not(.fsstage) .fs{gap:4px;padding:2px 6px}body:not(.fsstage) .fstop{position:fixed;top:4px;right:8px;z-index:30;gap:4px;flex-wrap:nowrap}body:not(.fsstage) .fsday,body:not(.fsstage) .fsdish,body:not(.fsstage) .fsquit{padding:3px 8px;font-size:.72rem}body:not(.fsstage) .fsorders{padding-right:250px}
+  body:not(.fsstage) .fshint{display:none}body:not(.fsstage) .fsorders{min-height:0;padding:0 2px 2px;gap:6px}body:not(.fsstage) .fstk{padding:4px 30px 4px 6px;gap:3px;min-width:0;border-radius:12px}body:not(.fsstage) .fstkh b{font-size:.75rem}body:not(.fsstage) .fstkh .dish{width:30px;height:30px}
+  body:not(.fsstage) .fsc{width:32px;height:32px;border-radius:9px}body:not(.fsstage) .fsc>.ico3d,body:not(.fsstage) .fsc>svg{width:26px!important;height:26px!important}body:not(.fsstage) .fsc .fsb em{width:18px;height:18px}body:not(.fsstage) .fsc .fsb em .ico3d{width:14px!important;height:14px!important}.tpie{width:20px;height:20px;top:4px;right:4px}
+  body:not(.fsstage) .fsboard{height:calc(100vh - 112px)!important;min-height:200px}body:not(.fsstage) .fstable{grid-template-columns:44px minmax(0,1fr) 44px}body:not(.fsstage) .fspass small,body:not(.fsstage) .fsptools,body:not(.fsstage) .fspass b{display:none}body:not(.fsstage) .fspass svg{width:30px;height:30px}
+  body:not(.fsstage) .fsst3{width:calc(var(--sz)*.62);height:calc(var(--sz)*.62)}body:not(.fsstage) .fsloose .fsitem{width:calc(var(--isz)*.72)!important;height:calc(var(--isz)*.72)!important}
+  body:not(.fsstage) .fsplate3{width:110px!important;height:96px!important}body:not(.fsstage) .fsplate3 .dish{width:96px!important;height:96px!important}body:not(.fsstage) .fsm2{bottom:4px;padding:2px 10px 4px!important}
 }
 
 /* ===== order cards like Family Style: white tickets hanging from the top of the table, notch at the bottom ===== */
@@ -1486,9 +1486,9 @@ kbd,.stblock .num,.vlabel,.dhint,#howto h3 small,#stHow,.idlehint{display:none!i
 .fscard.hurry{animation:hurry .5s ease-in-out infinite}@keyframes hurry{50%{transform:translateY(3px)}}
 .fscard.fshover{outline:none!important;filter:drop-shadow(0 0 8px #43B649)}
 .fsboard .fsfull{top:auto;bottom:62px}
-@media (orientation:landscape) and (max-height:560px){.fsord2{padding:0 60px!important;gap:8px}.fscard .fsc{width:36px;height:36px}.fscard .fsc .ia,.fscard .fsc>.ico3d{width:32px!important;height:32px!important}.fscard .fscin{padding:3px 8px 12px}.fscard .fscname{display:none}
-  .fsboard{height:calc(100vh - 46px)!important}}
-@media (max-width:760px){.fsord2{padding:0 8px!important;gap:6px}.fscard .fsc{width:38px;height:38px}.fscard .fsc .ia,.fscard .fsc>.ico3d{width:34px!important;height:34px!important}}
+@media (orientation:landscape) and (max-height:560px){body:not(.fsstage) .fsord2{padding:0 60px!important;gap:8px}body:not(.fsstage) .fscard .fsc{width:36px;height:36px}body:not(.fsstage) .fscard .fsc .ia,body:not(.fsstage) .fscard .fsc>.ico3d{width:32px!important;height:32px!important}body:not(.fsstage) .fscard .fscin{padding:3px 8px 12px}body:not(.fsstage) .fscard .fscname{display:none}
+  body:not(.fsstage) .fsboard{height:calc(100vh - 46px)!important}}
+@media (max-width:760px){body:not(.fsstage) .fsord2{padding:0 8px!important;gap:6px}body:not(.fsstage) .fscard .fsc{width:38px;height:38px}body:not(.fsstage) .fscard .fsc .ia,body:not(.fsstage) .fscard .fsc>.ico3d{width:34px!important;height:34px!important}}
 
 /* ===== order = stack of cards, one piece each (Family Style) ===== */
 .fsstack{position:relative;pointer-events:auto;transition:transform .2s}.fsstack .fscard{position:relative;z-index:2}
@@ -1504,7 +1504,7 @@ kbd,.stblock .num,.vlabel,.dhint,#howto h3 small,#stHow,.idlehint{display:none!i
 .fsstack.fshover{outline:none!important}.fsstack.fshover .fscard{filter:drop-shadow(0 0 10px #43B649)}
 .fsstack.hurry{animation:hurry .5s ease-in-out infinite}
 .fsx{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:4rem;color:#fff;background:#3a2233;border-radius:50%;width:72px;height:72px;display:grid;place-items:center;z-index:5;animation:rpop .3s}
-@media (orientation:landscape) and (max-height:560px){.fsone{min-width:60px;min-height:40px}.fsone .fsbig{width:40px;height:40px}.fsone .fsbig .ico3d,.fsone .fsbig .ia{width:38px!important;height:38px!important}.fsone .fstool{width:28px;height:28px}.fsone .fstool .ico3d{width:22px!important;height:22px!important}}
+@media (orientation:landscape) and (max-height:560px){body:not(.fsstage) .fsone{min-width:60px;min-height:40px}body:not(.fsstage) .fsone .fsbig{width:40px;height:40px}body:not(.fsstage) .fsone .fsbig .ico3d,body:not(.fsstage) .fsone .fsbig .ia{width:38px!important;height:38px!important}body:not(.fsstage) .fsone .fstool{width:28px;height:28px}body:not(.fsstage) .fsone .fstool .ico3d{width:22px!important;height:22px!important}}
 
 /* other modes: recipe as a card stack (one step shows, the others are cards behind it) */
 .v2 .steps.stack{gap:0;padding-right:20px}
@@ -1547,8 +1547,8 @@ body.fsgame .fsord2{padding:0 230px!important}
 .fsm2{width:min(46%,560px)!important}
 .fsheld{z-index:20!important}.fsheld .fsitem{transform:scale(1.12);filter:drop-shadow(0 14px 6px rgba(40,80,20,.35))!important;cursor:grabbing}
 .fsedge{width:7%}
-@media (orientation:landscape) and (max-height:560px){body.fsgame .fsord2{padding:0 200px!important}}
-@media (max-width:760px){body.fsgame .fsord2{padding:34px 8px 0!important}}
+@media (orientation:landscape) and (max-height:560px){body.fsgame:not(.fsstage) .fsord2{padding:0 200px!important}}
+@media (max-width:760px){body.fsgame:not(.fsstage) .fsord2{padding:34px 8px 0!important}}
 
 /* bigger, chunkier pieces (Family Style flat-shadow look) */
 .fsboard .fsplate3{width:calc(250px*var(--sc))!important;height:calc(225px*var(--sc))!important}.fsboard .fsplate3 .dish{width:calc(225px*var(--sc))!important;height:calc(225px*var(--sc))!important}
@@ -1595,6 +1595,20 @@ body.fsgame .fsplate3 .fsready{bottom:auto;top:-8%;background:#43B649;font-size:
 .spie.burnp{background:conic-gradient(#F2483A var(--p),#fff 0)!important;border-color:#F2483A!important;animation:pieb .35s ease-in-out infinite alternate}
 .fsitem.burnt small{color:#B3263A}
 .spie.burntp{background:#3a2233!important;border-color:#3a2233!important}
+/* phones: the table never scrolls, zooms or opens a long-press menu while you play */
+body.fsgame{overflow:hidden;overscroll-behavior:none;touch-action:none}
+body.fsgame .fs,body.fsgame .fsboard{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+/* ครัวโกลาหล = one fixed 1280×720 stage, scaled to fit any screen (computer or phone): the same picture everywhere, a phone just shows it smaller */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+body.fsstage{background:#B9E08F}
+body.fsstage .fs{inset:auto;left:50%;top:50%;width:1280px;height:720px;transform:translate(-50%,-50%) scale(var(--ks,1));transform-origin:50% 50%;overflow:hidden;box-shadow:0 0 0 400vmax #B9E08F}
+body.fsstage .fsboard{height:720px!important;border-radius:0}
+.fsghost{scale:var(--ks,1)}
+.fsmg{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:40;width:560px;animation:mgin .22s cubic-bezier(.2,.8,.2,1)}.fsmg.out{animation:mgout .2s forwards}
+@keyframes mgin{from{transform:translate(-50%,-44%) scale(.92);opacity:0}}@keyframes mgout{to{transform:translate(-50%,-56%) scale(.95);opacity:0}}
+.fsmgbox{background:#3e2437;border-radius:22px;overflow:hidden;box-shadow:0 18px 40px -10px rgba(30,60,10,.55),0 0 0 4px #fff}
+.fsmgh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px;background:#FFFDF7;color:#3a2233}.fsmgh b{display:flex;align-items:center;gap:8px;font-size:1.05rem}.fsmgh b svg,.fsmgh b .ico3d{width:34px!important;height:34px!important}.fsmgh small{font-weight:700;color:#86697a}
+.fsmg .scene{width:100%!important;border-radius:0}.fsmg .ctrl{width:100%!important;background:#FFFDF7;color:#3a2233}
 </style>
 </head>
 <body>
@@ -2608,7 +2622,7 @@ function mgFryer(it){return new Promise(res=>{
   freshScene().innerHTML=obj('fryer','left:22%;top:22%;width:56%')+
     `<div class="basketwrap" id="bk" style="left:30%;top:2%;width:34%">${art('basket')}<div class="food" style="left:44%;top:46%">${itemArt(it)}</div></div>
      <div class="oil" id="oil" style="left:32.2%;top:41.2%;width:35.6%;height:19.5%"></div><div id="bubs"></div>`;
-  $('#ctrl').innerHTML=`<div><div class="mlabel"><span>ความสุก</span><span class="state y" id="fs">ยังไม่สุก</span></div>
+  $('#ctrl').innerHTML=`<div><div class="mlabel"><span>ความสุก</span><span class="state y" id="fryst">ยังไม่สุก</span></div>
       <div class="meter"><i style="left:0;width:65%;background:#FFE69A;border-radius:0"></i><i style="left:65%;width:20%;background:#A6DDA0;border-radius:0"></i><i style="left:85%;width:15%;background:#F6A79E;border-radius:0"></i><i id="db" style="width:0;background:#E0A412;opacity:.9"></i><b class="nd" id="fn"></b></div></div>
     <div class="row"><button class="btn big" id="act">จุ่มตะแกรงลง ↓ <kbd>Space</kbd></button></div>
     <p class="muted kbhint" style="text-align:center;font-size:.85rem">กดเพื่อจุ่ม กดอีกครั้งเพื่อยกขึ้น ยกขึ้นตอนเข็มอยู่ในแถบเขียว</p>`;
@@ -2618,7 +2632,7 @@ function mgFryer(it){return new Promise(res=>{
   const toggle=()=>set(!down);
   const stop=stageLoop(dt=>{t+=dt;if(down)dn+=42*dt;const disp=Math.min(100,dn);FX3.set({done:dn/75,burn:Math.max(0,(dn-85)/20)});
     $('#db').style.width=disp+'%';$('#fn').style.left=disp+'%';
-    const z=dn<65?'y':dn<=85?'g':'r';const fs=$('#fs');fs.className='state '+z;fs.textContent=z==='y'?'ยังไม่สุก':z==='g'?'สุกกำลังดี ยกได้!':'จะไหม้แล้ว!';
+    const z=dn<65?'y':dn<=85?'g':'r';const fs=$('#fryst');fs.className='state '+z;fs.textContent=z==='y'?'ยังไม่สุก':z==='g'?'สุกกำลังดี ยกได้!':'จะไหม้แล้ว!';
     bk.querySelector('.food').style.filter=`sepia(${Math.min(.7,dn/130)}) saturate(${1+dn/140}) brightness(${1-Math.max(0,dn-85)/90})`;
     if(down){bt-=dt;if(bt<=0){bt=.06;const b=document.createElement('span');b.className='bub';const z2=rand(6,14);b.style.width=b.style.height=z2+'px';b.style.background='rgba(255,236,170,.9)';b.style.left=rand(34,66)+'%';b.style.top=rand(42,58)+'%';$('#bubs').appendChild(b);setTimeout(()=>b.remove(),900)}}
     if(!down&&dn>=65&&dn<=85){okT+=dt;if(okT>.25)finish()}else okT=0;
@@ -2871,7 +2885,7 @@ function fsMatch(){
   const K=S.k={gen,dur,mode:'coop',end:Infinity,tickets:[],score:0,served:0,done:false,uid:1,day:dayN,dq:null,dqAt:null,ring:null,pantry:null,fs:true,run:RD};
   // the counter is a free board: everything has a position (0..1 of the board) and can be dragged anywhere
   const ST={passed:0,trashed:0,lost:0,cooked:0,placed:0,wrong:0,t0:performance.now()};K.stats=ST;
-  const F={items:[],st:{},pos:{},rot:{},plates:[[]],sel:null,asked:{},lockK:null,justServed:null,spawnAt:performance.now()+1500};
+  const F={items:[],st:{},pos:{},rot:{},els:{},rad:{},plates:[[]],sel:null,asked:{},lockK:null,justServed:null,spawnAt:performance.now()+1500};
   const CAP=15+Math.min(6,Math.floor(dayN/2)),SPAWN=Math.max(1700,3200-dayN*110);   // how many loose pieces fit, how often new food lands
   report();NET.setLobby({playing:1});
   const online=NET.mode==='socket'&&NET.s&&S.room&&!S.room.offline;const code=S.room.code;
@@ -2883,7 +2897,7 @@ function fsMatch(){
     serve:p=>online?ask('game:serve',{code,...p}):local(now=>LM.serve(myId,p,now)),
     cookStart:tool=>online?ask('game:cookStart',{code,tool}):local(now=>LM.cookStart(myId,tool,now)),
     cook:c=>online?ask('game:cook',{code,c}):local(now=>LM.cook(myId,c,now)),
-    pass:(item,dir)=>online?ask('game:pass',{code,item,dir}):local(now=>LM.pass(myId,item,now,dir)),
+    pass:(item,dir,fx)=>online?ask('game:pass',{code,item,dir,fx}):local(now=>LM.pass(myId,item,now,dir,fx)),
     ask:ing=>online?ask('game:ask',{code,ing}):local(now=>LM.ask(myId,ing,now)),
   };
   const TI=id=>TOOLS.find(t=>t.id===id)||{th:id,verb:''};
@@ -2947,32 +2961,38 @@ function fsMatch(){
   const isz=k=>Math.round((ISZ[k]||(ING[k]&&ING[k].cat==='sauce'?54:62))*2.05);
   const TSZ={knife:150,pan:128,fryer:132,pot:138,oven:168,mortar:104,grill:156,steamer:124};
   // new stations (a new round can add some) go to the first free spot on the board
-  const SPOTS=[[.14,.42],[.34,.42],[.54,.42],[.14,.7],[.34,.7],[.54,.7],[.9,.55],[.12,.86],[.62,.86]];
+  const SPOTS=[[.25,.42],[.45,.4],[.25,.72],[.45,.72],[.62,.76],[.6,.3],[.35,.57],[.55,.58],[.72,.22]];   // away from the left/right edges, where friends' food slides in
   function layout(){F.plates.forEach((_,i)=>{if(!F.pos['plate:'+i])F.pos['plate:'+i]={x:.78,y:.46}});
     for(const id of tools()){const k='stn:'+id;if(F.pos[k])continue;const used=Object.entries(F.pos).filter(([kk])=>kk!==k).map(([,v])=>v);
       const sp=SPOTS.find(([x,y])=>used.every(u=>Math.hypot(u.x-x,(u.y-y)*.6)>.13))||[.2+Math.random()*.5,.3+Math.random()*.4];F.pos[k]={x:sp[0],y:sp[1]};F.rot[id]=Math.round((Math.random()*2-1)*24)}}
   let dirty=false;
-  let SC=1;const scaleNow=()=>{const r=$('#board').getBoundingClientRect();SC=Math.max(.5,Math.min(1.6,Math.min(r.width/1300,r.height/720)));$('#board').style.setProperty('--sc',SC)};
+  // the stage: KS = how much the 1280×720 table is scaled on this screen; SC = object size inside it (layout px, not screen px)
+  let KS=1;const DW=1280,DH=720;const fitStage=()=>{KS=Math.max(.2,Math.min(1.6,Math.min(innerWidth/DW,innerHeight/DH)));document.body.style.setProperty('--ks',KS)};
+  document.body.classList.add('fsstage');onLeave(()=>{document.body.classList.remove('fsstage');document.body.style.removeProperty('--ks')});fitStage();
+  let SC=1;const scaleNow=()=>{const b=$('#board');SC=Math.max(.5,Math.min(1.6,Math.min(b.offsetWidth/1300,b.offsetHeight/720)));b.style.setProperty('--sc',SC)};
   function renderBoard(){if(drag&&drag.moved){dirty=true;return}dirty=false;layout();const bd=$('#board');if(!bd)return;scaleNow();
     bd.querySelectorAll('.fsobj').forEach(e=>e.remove());
     const at=k=>{const p=F.pos[k]||{x:.5,y:.5};return`left:${p.x*100}%;top:${p.y*100}%`};
     let html=tools().map(id=>{const s=F.st[id]||{};const it=s.item;const cook=it&&canUse(id,it);
       return`<div class="fsobj fsst3 ${cook?'cook':''} ${s.pending?'busy':''}" style="${at('stn:'+id)};--sz:${Math.round((TSZ[id]||130)*1.75*SC)}px;--rot:${F.rot[id]||0}deg" data-drop="st:${id}" data-drag="stn:${id}" data-st="${id}"><div class="fst3">${tArt(id)}</div>
         ${it?`<div class="fsst-i" style="--isz:${Math.round(isz(it.ing)*.7*SC)}px">${itemHTML(it,'st:'+id)}</div>`:''}<b class="fsname">${TI(id).th}</b>
-        ${it?`<i class="spie ${it.burnt?'burntp':cook?'':'full'}" style="--p:${cook?(s.taps||0)/TAPS*100:100}%"></i>`:''}${cook?`<span class="fstap">แตะ ${TAPS-(s.taps||0)}</span>`:''}</div>`}).join('');
+        ${it?`<i class="spie ${it.burnt?'burntp':cook?'':'full'}" style="--p:${cook?0:100}%"></i>`:''}${cook&&!s.pending?`<span class="fstap">แตะเพื่อ${QUICK_VERB[id]||'ทำ'}</span>`:''}</div>`}).join('');
     html+=F.plates.map((p,i)=>{const t=plateReady(),mt=myTicket();return`<div class="fsobj fsplate fsplate3 ${t?'ready':''}" style="${at('plate:'+i)}" data-drop="plate:${i}" data-drag="plate:${i}">${p.length?plateArt(p):'<span class="fsst-e">จาน</span>'}${mt?`<i class="fspie" data-tk="${mt.k}"></i>`:''}${t?`<b class="fsready">⬆ ปัดขึ้น / แตะ เพื่อเสิร์ฟ</b>`:''}</div>`}).join('');
     html+=F.items.map(it=>`<div class="fsobj fsloose ${drag&&drag.src==='it:'+it.id?'fsheld':''}" data-pid="${it.id}" style="left:${it.x*100}%;top:${it.y*100}%;--isz:${Math.round(isz(it.ing)*SC)}px">${itemHTML(it,'it:'+it.id)}</div>`).join('');
-    bd.insertAdjacentHTML('beforeend',html);$('#full').hidden=F.items.length<CAP;markSel()}
+    bd.insertAdjacentHTML('beforeend',html);$('#full').hidden=F.items.length<CAP;
+    F.els={};for(const el of bd.querySelectorAll('.fsobj')){const k=el.dataset.pid!=null?'it:'+el.dataset.pid:el.dataset.drag;if(!k)continue;F.els[k]=el;
+      if(!k.startsWith('it:')){const r=el.getBoundingClientRect();if(r.width)F.rad[k]=Math.min(r.width,r.height)/KS*(k.startsWith('plate:')?.44:.38)}}
+    markSel()}
   const renderStations=()=>renderBoard(),renderPlates=()=>renderBoard(),renderSlots=()=>renderBoard(),renderCrates=()=>{};
   function renderPass(){const r=K.ring;for(const [sel,id,arrow] of [['#passL',r&&r.l,'⇦'],['#passR',r&&r.r,'⇨']]){const b=$(sel);if(!b)continue;b.hidden=!id;if(!id)continue;
       b.innerHTML=`<span class="fsarr">${arrow}</span>`}
     $('#fs').classList.toggle('nopass',!r||!r.l)}
   // passing: the piece flies off that edge with a fading trail, and a few sparkles pop at the table edge (like Family Style)
-  function flyOut(it,pt,dir){if(!it||REDUCED)return;const bd=$('#board').getBoundingClientRect();const x=pt?pt.x:bd.left+bd.width/2,y=pt?pt.y:bd.top+bd.height/2,sz=70;
-    const dx=(dir==='l'?bd.left-x:bd.right-x)+(dir==='l'?-90:90);
-    for(let i=0;i<4;i++){const c=document.createElement('div');c.className='fsfly';c.innerHTML=itemArt(it);Object.assign(c.style,{left:(x-sz/2)+'px',top:(y-sz/2)+'px',width:sz+'px',height:sz+'px'});document.body.appendChild(c);
-      c.animate([{transform:'translate(0,0) scale(1)',opacity:i?.5-i*.12:1},{transform:`translate(${dx}px,-14px) scale(.75)`,opacity:0}],{duration:340,delay:i*40,easing:'cubic-bezier(.3,0,.7,.6)',fill:'both'}).onfinish=()=>c.remove()}
-    sparkle(dir==='l'?bd.left+6:bd.right-6,y)}
+  function flyOut(it,pt,dir,fx){if(!it||REDUCED)return;const bd=$('#board').getBoundingClientRect();const x=pt?pt.x:bd.left+bd.width/2,y=pt?pt.y:bd.top+bd.height/2,sz=Math.round(isz(it.ing)*SC*.9*KS);
+    const dx=(dir==='l'?bd.left-x:bd.right-x)+(dir==='l'?-sz:sz),v=Math.max(.5,Math.min(2.5,(fx&&fx.v)||.9)),ms=Math.max(140,Math.min(420,Math.abs(dx)/(v*bd.width)*1000*1.6)),spin=(dir==='l'?-1:1)*(90+v*120);
+    for(let i=0;i<3;i++){const c=document.createElement('div');c.className='fsfly';c.innerHTML=itemArt(it);Object.assign(c.style,{left:(x-sz/2)+'px',top:(y-sz/2)+'px',width:sz+'px',height:sz+'px'});document.body.appendChild(c);
+      c.animate([{transform:'translate(0,0) rotate(0deg)',opacity:i?.35-i*.12:1},{transform:`translate(${dx}px,0) rotate(${spin}deg)`,opacity:i?0:.9}],{duration:ms,delay:i*35,easing:'cubic-bezier(.15,.5,.6,1)',fill:'both'}).onfinish=()=>c.remove()}
+    setTimeout(()=>sparkle(dir==='l'?bd.left+6:bd.right-6,y),ms*.8)}
   function sparkle(x,y){if(REDUCED)return;for(let i=0;i<3;i++){const st=document.createElement('i');st.className='fsspark';st.textContent='✦';Object.assign(st.style,{left:x+'px',top:(y-30+i*26)+'px',fontSize:(26+i*10)+'px'});document.body.appendChild(st);
       st.animate([{transform:'translate(-50%,-50%) scale(.2) rotate(0deg)',opacity:0},{transform:'translate(-50%,-50%) scale(1.1) rotate(25deg)',opacity:.9,offset:.35},{transform:'translate(-50%,-50%) scale(.9) rotate(40deg)',opacity:0}],{duration:650,delay:120+i*70,fill:'both'}).onfinish=()=>st.remove()}}
   function renderAll(){renderOrders();renderBoard();renderPass()}
@@ -2984,7 +3004,7 @@ function fsMatch(){
   function remove(src){const [k,v]=src.split(':');if(k==='it')F.items=F.items.filter(x=>String(x.id)!==v);else if(k==='st')F.st[v]={};else if(k==='plate')F.plates[+v]=[];renderBoard()}
   const clamp01=(v,a,b)=>Math.max(a,Math.min(b,v));
   const nope=(el,msg)=>{if(msg)toast(msg);SFX.play('fail');if(el&&!REDUCED)el.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:260})};
-  function move(src,dst,dEl,pt){if(K.done||!src||!dst||src===dst)return;const [sk,sv]=src.split(':'),[dk,dv]=dst.split(':');const it=peek(src);if(!it)return;
+  function move(src,dst,dEl,pt,fxp){if(K.done||!src||!dst||src===dst)return;const [sk,sv]=src.split(':'),[dk,dv]=dst.split(':');const it=peek(src);if(!it)return;
     // dropped on the bare board: just put it there (food, a plate or a whole station)
     if(dk==='board'||(sk==='stn'&&dk!=='trash')||(sk==='plate'&&dk==='plate')){if(!pt)return;const r=$('#board').getBoundingClientRect();const x=clamp01((pt.x-r.left)/r.width,.05,.95),y=clamp01((pt.y-r.top)/r.height,.08,.92);
       if(sk==='it'){it.x=x;it.y=y;F.items=F.items.filter(o=>o!==it).concat(it);renderBoard();return}
@@ -2996,14 +3016,16 @@ function fsMatch(){
       if(dk==='tk')return serve(+src.split(':')[1],+dv,dEl);
       if(dk==='trash'){remove(src);SFX.play('whoosh');return}
       return nope(dEl,'ลากจานไปวางที่ออร์เดอร์เพื่อเสิร์ฟ')}
-    if(dk==='st'){const s=F.st[dv]||{};if(s.item)return nope(dEl,'เครื่องครัวนี้มีของอยู่แล้ว');if(!canUse(dv,it))return nope(dEl,`${itemName(it)} ใช้กับ${TI(dv).th}ไม่ได้`);F.st[dv]={item:it,taps:0};remove(src);renderStations();SFX.play('place');return}
+    if(dk==='st'){const s=F.st[dv]||{};if(s.item)return nope(dEl,'เครื่องครัวนี้มีของอยู่แล้ว');if(!canUse(dv,it))return nope(dEl,`${itemName(it)} ใช้กับ${TI(dv).th}ไม่ได้`);F.st[dv]={item:it,taps:0};remove(src);renderStations();SFX.play('place');if(canUse(dv,it))setTimeout(()=>cookTap(dv),120);return}
     if(it.burnt&&dk!=='trash')return nope(dEl,'ไหม้แล้ว ใช้ไม่ได้ · ลากไปทิ้งถังขยะ');
     if(dk==='plate'){const p=F.plates[+dv];if(p.length>=MAX_PLATE)return nope(dEl,'จานเต็มแล้ว');
       const mt=myTicket();if(!mt||!fits(mt,p.concat(it))){ST.wrong++;const pe=document.querySelector(`#board [data-drop="plate:${dv}"]`);if(pe){const x=document.createElement('b');x.className='fsx';x.textContent='✕';pe.appendChild(x);setTimeout(()=>x.remove(),800)}
         return nope(pe,!mt?'ยังไม่มีออร์เดอร์':`ออร์เดอร์ของคุณไม่ใช้${itemName(it)} · ส่งให้เพื่อนดีกว่า`)}
       p.push(it);ST.placed++;remove(src);renderPlates();renderOrders();SFX.play('place');if(plateReady())SFX.play('ding');return}
     if(dk==='trash'){remove(src);ST.trashed++;SFX.play('whoosh');return}
-    if(dk==='pass'){const dir=dv;J.pass({ing:it.ing,st:it.st,amt:1,q:it.q},dir).then(r=>{if(S.k!==K)return;if(!r||!r.ok)return nope(dEl,(r&&r.msg)||'ส่งไม่สำเร็จ');flyOut(it,pt,dir);if(sk!=='crate'&&peek(src)===it)remove(src);ST.passed++;SFX.play('whoosh')});return}
+    if(dk==='pass'){const dir=dv;const bR=$('#board').getBoundingClientRect();const fx=fxp||{y:pt?(pt.y-bR.top)/bR.height:(it.y!=null?it.y:.5),v:.9};
+      if(it.burnt)return nope(dEl,'ไหม้แล้ว ส่งไม่ได้');
+      J.pass({ing:it.ing,st:it.st,amt:1,q:it.q},dir,fx).then(r=>{if(S.k!==K)return;if(!r||!r.ok)return nope(dEl,(r&&r.msg)||'ส่งไม่สำเร็จ');flyOut(it,pt,dir,fx);if(sk!=='crate'&&peek(src)===it)remove(src);ST.passed++;SFX.play('whoosh')});return}
     if(dk==='tk')return nope(dEl,'วางของลงจานก่อน แล้วลากจานมาที่ออร์เดอร์')}
   function serve(pi,tk,el){const items=F.plates[pi],t=K.tickets.find(x=>x.k===tk);if(!t||F.serving)return;   // one serve at a time (a double tap must not send the same plate twice)
     const need=t.m.c.map(c=>c[0]+':'+c[1]);const extra=[];for(const x of items){const j=need.indexOf(x.ing+':'+x.st);if(j<0)extra.push(itemName(x));else need.splice(j,1)}
@@ -3013,39 +3035,53 @@ function fsMatch(){
   function serveUp(pi,el){const t=myTicket();if(!t)return nope(el,'ยังไม่มีออร์เดอร์');if(!plateReady())return nope(el,'ยังไม่ครบตามการ์ด');
     if(el&&!REDUCED)el.animate([{transform:'translate(-50%,-50%)'},{transform:'translate(-50%,-50%) translateY(-120px) scale(.85)',opacity:0}],{duration:300,easing:'ease-in'});serve(pi,t.k,el)}
   /* ---------- cooking: tap the station 6 times (the referee checks the real minimum time) ---------- */
-  function cookTap(id,el){const s=F.st[id];if(!s||!s.item||s.pending)return;const it=s.item;if(!canUse(id,it)){toast(`${itemName(it)} เสร็จแล้ว ลากไปวางต่อได้เลย`);return}
-    if(!s.taps){s.t0=performance.now();s.start=J.cookStart(id)}
-    s.taps=(s.taps||0)+1;SFX.play('chop');if(el&&!REDUCED)el.animate([{transform:'scale(1)'},{transform:'scale(.94)'},{transform:'scale(1)'}],{duration:140});
-    if(s.taps<TAPS){renderStations();return}
-    s.pending=true;renderStations();const kind=id==='mortar'&&TR[id][it.ing+':'+it.st]==='somtam'?'somtam':id;const wait=Math.max(0,(E.MIN_COOK[kind]||400)+150-(performance.now()-s.t0));
-    setTimeout(()=>{s.start.then(r0=>{if(r0&&r0.ok===false){s.pending=false;s.taps=0;renderStations();return nope(null,r0.msg||'ทำไม่ได้')}
-      const to=TR[id][it.ing+':'+it.st];J.cook({tool:id,ing:it.ing,st:it.st,to,amt:1,q:95}).then(r=>{if(S.k!==K)return;s.pending=false;s.taps=0;
-        if(!r||!r.ok){renderStations();return nope(null,(r&&r.msg)||'ทำไม่สำเร็จ')}
-        s.item={...it,st:to,q:r.q||95};s.doneAt=performance.now();ST.cooked++;SFX.play('ding');renderStations()})})},wait)}
+  /* ---------- cooking: the same mini-games as the other modes (chop on the board, pound in the mortar, toss the pan…),
+     in a panel over the table. The table keeps going meanwhile — be quick! (the referee still checks the real cooking time) ---------- */
+  function openMini(id,it,next){return new Promise(res=>{const t=TI(id);const box=document.createElement('div');box.className='fsmg';box.id='fsmg';
+      box.innerHTML=`<div class="fsmgbox"><div class="fsmgh"><b>${tArt(id)}<span>${esc(t.th)}</span></b><small>${esc(itemName(it))} → ${esc(itemName({...it,st:next}))}</small></div><div class="scene" id="scene"></div><div class="ctrl" id="ctrl"></div></div>`;
+      $('#fs').appendChild(box);box.addEventListener('pointerdown',e=>e.stopPropagation());   // the table underneath does not see these taps
+      const game=id==='mortar'&&next==='somtam'?mgSomtam:MG[id]||(x=>mgQuick(x,id,next));
+      game(it).then(q=>{KH=null;box.classList.add('out');setTimeout(()=>box.remove(),220);res(q)})})}
+  function cookTap(id,el){const s=F.st[id];if(!s||!s.item||s.pending||F.mg||K.done)return;const it=s.item;if(!canUse(id,it)){toast(`${itemName(it)} เสร็จแล้ว ลากไปวางต่อได้เลย`);return}
+    const to=TR[id][it.ing+':'+it.st];s.pending=true;F.mg=id;renderStations();const t0=performance.now(),kind=id==='mortar'&&to==='somtam'?'somtam':id;const start=J.cookStart(id);
+    openMini(id,it,to).then(q=>{F.mg=null;if(S.k!==K)return;const wait=Math.max(0,(E.MIN_COOK[kind]||400)+150-(performance.now()-t0));
+      setTimeout(()=>{start.then(r0=>{if(r0&&r0.ok===false){s.pending=false;renderStations();return nope(null,r0.msg||'ทำไม่ได้')}
+        J.cook({tool:id,ing:it.ing,st:it.st,to,amt:1,q}).then(r=>{if(S.k!==K)return;s.pending=false;
+          if(!r||!r.ok){renderStations();return nope(null,(r&&r.msg)||'ทำไม่สำเร็จ')}
+          if(F.st[id]!==s||s.item!==it){renderStations();return}   // (the piece was moved away meanwhile)
+          s.item={...it,st:to,q:r.q||q};s.doneAt=performance.now();ST.cooked++;SFX.play('ding');renderStations()})})},wait)})}
   /* ---------- pointer: drag, or tap-then-tap ---------- */
   let drag=null,ghost=null,hover=null;
   const fs=$('#fs');
-  fs.addEventListener('pointerdown',e=>{if(K.done||e.button>0)return;const d=e.target.closest('[data-drag]');const ask2=e.target.closest('[data-ask]');if(ask2)return;
-    drag={src:d?d.dataset.drag:null,el:d,x:e.clientX,y:e.clientY,moved:false,target:e.target,vx:0,lt:0,lx:e.clientX}});
-  window.addEventListener('pointermove',onMove);window.addEventListener('pointerup',onUp);onLeave(()=>{window.removeEventListener('pointermove',onMove);window.removeEventListener('pointerup',onUp);if(ghost)ghost.remove()});
+  fs.addEventListener('pointerdown',e=>{if(K.done||e.button>0||drag)return;const d=e.target.closest('[data-drag]');const ask2=e.target.closest('[data-ask]');if(ask2)return;   // one finger at a time (a second touch is ignored)
+    drag={id:e.pointerId,src:d?d.dataset.drag:null,el:d,x:e.clientX,y:e.clientY,moved:false,target:e.target,vx:0,lt:0,lx:e.clientX}});
+  const onCancel=e=>{if(drag&&e.pointerId===drag.id)onUp(e)};   // phones cancel a touch now and then (system gesture, notification…): treat it as letting go
+  const onResize=()=>{fitStage();clearTimeout(F.rz);F.rz=setTimeout(()=>{if(!drag)renderBoard()},150)};
+  window.addEventListener('pointermove',onMove);window.addEventListener('pointerup',onUp);window.addEventListener('pointercancel',onCancel);window.addEventListener('resize',onResize);
+  onLeave(()=>{window.removeEventListener('pointermove',onMove);window.removeEventListener('pointerup',onUp);window.removeEventListener('pointercancel',onCancel);window.removeEventListener('resize',onResize);if(ghost)ghost.remove()});
   // drop target under the finger: a station/plate/order/edge wins over the bare board even when loose food lies on top of it
   function dropAt(x,y){const els=document.elementsFromPoint(x,y);let board=null;for(const el of els){if(el.closest('.fsdragging,.fsheld'))continue;const d=el.closest('#fs [data-drop]');if(!d)continue;if(d.dataset.drop==='board'){board=board||d;continue}return d}return board}
-  function onMove(e){if(!drag||!drag.src)return;if(!drag.moved&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<8)return;
-    if(!drag.moved&&drag.src.startsWith('it:')){const it=peek(drag.src);if(!it){drag=null;return}drag.moved=true;held=it;it.vx=it.vy=0;const pe=drag.el.closest('.fsloose');pe&&pe.classList.add('fsheld');drag.pe=pe;drag.ly=e.clientY;drag.vy=0}
+  function onMove(e){if(!drag||!drag.src||e.pointerId!==drag.id)return;if(!drag.moved&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<8)return;
+    // loose food, stations and the plate are all real objects on the table: they follow the finger (where you grabbed them) and push things aside
+    if(!drag.moved&&/^(it|stn|plate):/.test(drag.src)){const o=drag.src.startsWith('it:')?peek(drag.src):F.pos[drag.src];if(!o){drag=null;return}drag.moved=true;held=o;o.vx=o.vy=0;
+      const pe=drag.el.closest('.fsobj');pe&&pe.classList.add('fsheld');drag.pe=pe;drag.fixed=!drag.src.startsWith('it:');drag.p0={x:o.x,y:o.y};
+      const R=$('#board').getBoundingClientRect();drag.ox=o.x-(drag.x-R.left)/R.width;drag.oy=o.y-(drag.y-R.top)/R.height}
     if(!drag.moved){drag.moved=true;const it=peek(drag.src);if(!it){drag=null;return}ghost=document.createElement('div');ghost.className='fsghost';ghost.innerHTML=it.stn?`<div class="fsgst">${tArt(it.stn)}</div>`:Array.isArray(it)?plateArt(it):itemArt(it);document.body.appendChild(ghost);drag.el.classList.add('fsdragging')}
-    const tn=performance.now();if(drag.lt){const dt=Math.max(8,tn-drag.lt);drag.vx=drag.vx*.4+.6*(e.clientX-drag.lx)/dt;drag.gvy=(drag.gvy||0)*.4+.6*(e.clientY-drag.gly)/dt}drag.lt=tn;drag.lx=e.clientX;drag.gly=e.clientY;$('#fs').classList.add('dragging');
-    if(held){const R=$('#board').getBoundingClientRect(),dt2=Math.max(8,performance.now()-(drag.mt||0));if(drag.mt){held.vx=held.vx*.3+.7*(e.clientX-drag.mx)/dt2*1000;held.vy=held.vy*.3+.7*(e.clientY-drag.my)/dt2*1000}drag.mt=performance.now();drag.mx=e.clientX;drag.my=e.clientY;
-      held.x=Math.max(.01,Math.min(.99,(e.clientX-R.left)/R.width));held.y=Math.max(.01,Math.min(.99,(e.clientY-R.top)/R.height));if(drag.pe){drag.pe.style.left=held.x*100+'%';drag.pe.style.top=held.y*100+'%'}}
+    const tn=performance.now();if(drag.lt){const dt=Math.max(8,tn-drag.lt);drag.vx=drag.vx*.4+.6*(e.clientX-drag.lx)/dt;drag.gvy=(drag.gvy||0)*.4+.6*(e.clientY-drag.gly)/dt}drag.lt=tn;drag.lx=e.clientX;drag.gly=e.clientY;if(!drag.fixed)$('#fs').classList.add('dragging');
+    if(held){const R=$('#board').getBoundingClientRect(),dt2=Math.max(8,performance.now()-(drag.mt||0));if(drag.mt){held.vx=held.vx*.3+.7*(e.clientX-drag.mx)/dt2*1000/KS;held.vy=held.vy*.3+.7*(e.clientY-drag.my)/dt2*1000/KS}drag.mt=performance.now();drag.mx=e.clientX;drag.my=e.clientY;
+      held.x=Math.max(.01,Math.min(.99,(e.clientX-R.left)/R.width+(drag.ox||0)));held.y=Math.max(.01,Math.min(.99,(e.clientY-R.top)/R.height+(drag.oy||0)));if(drag.pe){drag.pe.style.left=held.x*100+'%';drag.pe.style.top=held.y*100+'%'}}
     else{ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px'}const t=dropAt(e.clientX,e.clientY);if(t!==hover){if(hover)hover.classList.remove('fshover');hover=t;if(t)t.classList.add('fshover')}}
-  function onUp(e){if(!drag)return;const d=drag;drag=null;const wasHeld=held;held=null;if(d.pe)d.pe.classList.remove('fsheld');if(hover){hover.classList.remove('fshover')}const tgt=hover;hover=null;
+  function onUp(e){if(!drag||(e.pointerId!=null&&e.pointerId!==drag.id))return;const d=drag;drag=null;const wasHeld=held;held=null;if(d.pe)d.pe.classList.remove('fsheld');if(hover){hover.classList.remove('fshover')}const tgt=hover;hover=null;
     $('#fs')&&$('#fs').classList.remove('dragging');
     const BR=$('#board').getBoundingClientRect(),fx=(e.clientX-BR.left)/BR.width,toward=d.vx<0?fx<.3:fx>.7;const flick=d.moved&&toward&&Math.abs(d.vx||0)>1.1&&/^(it|st):/.test(d.src||'')&&K.ring&&K.ring.l&&(!tgt||tgt.dataset.drop==='board');
     // serving: a finished plate pushed upward (any speed, mostly up) is served; an unfinished one only moves with a real flick
     const upY=d.y-e.clientY,upX=Math.abs(e.clientX-d.x),upOK=upY>70&&upY>upX&&(plateReady()||(d.gvy||0)<-.7);
-    if(d.moved&&/^plate:/.test(d.src||'')&&upOK&&(!tgt||!/^tk:/.test(tgt.dataset.drop))){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');return serveUp(+d.src.split(':')[1],d.el)}
-    if(flick){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');move(d.src,'pass:'+(d.vx<0?'l':'r'),null,{x:e.clientX,y:e.clientY});return}
-    if(wasHeld&&(!tgt||tgt.dataset.drop==='board')){wasHeld.vx=(wasHeld.vx||0)*.7;wasHeld.vy=(wasHeld.vy||0)*.7;if(dirty)renderBoard();return}   // let go on the table: it slides on
-    if(wasHeld){wasHeld.vx=wasHeld.vy=0}
+    // the plate goes back where it was picked up when it is served / tipped out (it is not thrown across the table)
+    const back=()=>{if(d.fixed&&d.p0&&wasHeld){wasHeld.x=d.p0.x;wasHeld.y=d.p0.y;wasHeld.vx=wasHeld.vy=0}};
+    if(d.moved&&/^plate:/.test(d.src||'')&&upOK&&(!tgt||!/^tk:/.test(tgt.dataset.drop))){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');back();renderBoard();return serveUp(+d.src.split(':')[1],document.querySelector(`#board [data-drag="${d.src}"]`))}
+    if(flick){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');move(d.src,'pass:'+(d.vx<0?'l':'r'),null,{x:e.clientX,y:e.clientY},{y:wasHeld?wasHeld.y:(e.clientY-BR.top)/BR.height,v:Math.abs(d.vx)*1000/BR.width});return}
+    if(wasHeld&&(d.fixed?!(tgt&&/^(tk|trash):/.test(tgt.dataset.drop)&&d.src.startsWith('plate:')):(!tgt||tgt.dataset.drop==='board'))){wasHeld.vx=(wasHeld.vx||0)*(d.fixed?.5:.7);wasHeld.vy=(wasHeld.vy||0)*(d.fixed?.5:.7);if(dirty)renderBoard();return}   // let go on the table: it slides on (stations and the plate are heavier)
+    if(wasHeld){wasHeld.vx=wasHeld.vy=0;if(d.fixed){back();if(tgt)move(d.src,tgt.dataset.drop,tgt,{x:e.clientX,y:e.clientY});renderBoard();return}}
     if(d.moved){if(ghost){ghost.remove();ghost=null}d.el&&d.el.classList.remove('fsdragging');if(tgt)move(d.src,tgt.dataset.drop,tgt,{x:e.clientX,y:e.clientY});if(dirty)renderBoard();return}
     tap(d,e)}
   function tap(d,e){const dropEl=d.target.closest('#fs [data-drop]');const src=d.src;const pt={x:e.clientX,y:e.clientY};
@@ -3074,8 +3110,11 @@ function fsMatch(){
     const rs=JSON.stringify([K.pantry,K.ring&&K.ring.tools,K.ring&&K.ring.l,K.ring&&K.ring.r]);if(rs!==ringSig){ringSig=rs;renderCrates();renderStations();renderPass()}
     checkLock();renderOrders();renderPlates();renderMeter();report();if(first){first=false;intro()}}
   function onEvent(e){if(!e)return;
-    if(e.type==='recv'&&(!e.to||e.to===myId)){const L=sideOf(e.from)==='l';const it={...e.item,id:K.uid++};F.items.push({...it,x:L?.07+Math.random()*.1:.76+Math.random()*.1,y:.45+Math.random()*.38});renderBoard();SFX.play('join');toast(`ได้รับ ${itemName(e.item)} จาก ${nameOf(e.from)} ${L?'⬅':'➡'}`);
-      const el=document.querySelector(`#board [data-drag="it:${it.id}"]`);if(el&&!REDUCED){el.animate([{transform:`translateX(${L?-160:160}px)`,opacity:0},{transform:'translateX(0)',opacity:1}],{duration:420,easing:'cubic-bezier(.2,.8,.2,1)'});const bd=$('#board').getBoundingClientRect(),r=el.getBoundingClientRect();sparkle(L?bd.left+4:bd.right-4,r.top+r.height/2)}}
+    if(e.type==='recv'&&(!e.to||e.to===myId)){
+      // round-table logic: a friend who passes to THEIR right sits on my left, so it comes in from my left (and the other way round) — also with only 2 cooks
+      const L=e.dir?e.dir==='r':sideOf(e.from)==='l';const bd=$('#board').getBoundingClientRect();const fx=e.fx||{},v=Math.max(.4,Math.min(1.4,+fx.v||.9));
+      const it={...e.item,id:K.uid++};const r0=isz(it.ing)*SC*.44*KS/Math.max(1,bd.width);F.items.push({...it,x:L?r0:1-r0,y:Math.max(.12,Math.min(.82,fx.y!=null?+fx.y:.4+Math.random()*.3)),vx:(L?1:-1)*v*bd.width/KS*.95,vy:(Math.random()-.5)*60});renderBoard();SFX.play('join');toast(`ได้รับ ${itemName(e.item)} จาก ${nameOf(e.from)} ${L?'⬅':'➡'}`);
+      const el=document.querySelector(`#board .fsloose[data-pid="${it.id}"]`);if(el&&!REDUCED){el.animate([{transform:`translate(-50%,-50%) translateX(${L?-120:120}px) rotate(${L?-40:40}deg)`},{transform:'translate(-50%,-50%)'}],{duration:180,easing:'ease-out'});const r=el.getBoundingClientRect();sparkle(L?bd.left+4:bd.right-4,r.top+r.height/2)}}
     else if(e.type==='ask'&&(!e.to||e.to===myId)){F.asked[e.ing]=performance.now()+8000;if(myIngs().includes(e.ing)&&!F.items.some(x=>x.ing===e.ing&&x.st==='raw')){addLoose({id:K.uid++,ing:e.ing,st:'raw',q:100},sideOf(e.from)==='l'?.12:.82,.6);renderBoard()}say(`${nameOf(e.from)} ขอ${ING[e.ing].th}`);toast(`📣 ${nameOf(e.from)} ขอ${ING[e.ing].th} (${sideTxt(e.from)}) — ลาก${ING[e.ing].th}บนโต๊ะไปที่ขอบ${sideOf(e.from)==='l'?'ซ้าย':'ขวา'}`)}
     else if(e.type==='coopserve'){if(e.by===myId)return;SFX.play('coin');toast(`${nameOf(e.by)} เสิร์ฟ ${e.th}!`)}
     else if(e.type==='expired'&&(e.team==null||e.team===0))(e.list||[]).forEach(x=>{ST.lost++;SFX.play('expire');toast(`💢 ลูกค้าที่สั่ง${x.th}รอไม่ไหว เดินออก! คะแนนร้าน -${E.METER.miss}`)})}
@@ -3098,19 +3137,28 @@ function fsMatch(){
   /* ---------- solid pieces: they shove each other, a hard bump sends them sliding, the table edge stops them
      (only YOUR drag or throw can pass something to a friend) ---------- */
   let held=null;
-  function physics(dt){const bd=$('#board');if(!bd||!F.items.length)return;const R=bd.getBoundingClientRect(),W=R.width,H=R.height;if(!W)return;
-    const bodies=F.items.map(it=>({it,x:it.x*W,y:it.y*H,r:isz(it.ing)*SC*.42,vx:it.vx||0,vy:it.vy||0,kin:held===it}));
-    const stat=[...tools().map(id=>({k:'stn:'+id,r:(TSZ[id]||130)*1.75*SC*.36})),...F.plates.map((_,i)=>({k:'plate:'+i,r:92*SC}))].map(o=>{const p=F.pos[o.k]||{x:.5,y:.5};return{x:p.x*W,y:p.y*H,r:o.r}});
-    for(const b of bodies)if(!b.kin){const f=Math.exp(-3.2*dt);b.vx*=f;b.vy*=f;if(Math.abs(b.vx)<4)b.vx=0;if(Math.abs(b.vy)<4)b.vy=0;b.x+=b.vx*dt;b.y+=b.vy*dt}
+  // everything on the table is a solid body: food (light), the plate (heavier) and the stations (heaviest).
+  // They shove each other, a hard throw makes things slide and bump, the table edge stops them.
+  const MASS={it:1,plate:3,stn:5};
+  function physics(dt){const bd=$('#board');if(!bd)return;const W=bd.offsetWidth,H=bd.offsetHeight;if(!W)return;
+    const bodies=F.items.map(it=>({o:it,k:'it:'+it.id,x:it.x*W,y:it.y*H,r:isz(it.ing)*SC*.42,m:1,vx:it.vx||0,vy:it.vy||0,kin:held===it}));
+    for(const k of [...tools().map(id=>'stn:'+id),...F.plates.map((_,i)=>'plate:'+i)]){const p=F.pos[k];if(!p)continue;
+      bodies.push({o:p,k,x:p.x*W,y:p.y*H,r:F.rad[k]||(k[0]==='p'?100:70)*SC,m:MASS[k.split(':')[0]],vx:p.vx||0,vy:p.vy||0,kin:held===p})}
+    let busy=false;
+    for(const b of bodies)if(!b.kin){const f=Math.exp(-(b.m>1?4.5:3.2)*dt);b.vx*=f;b.vy*=f;if(Math.abs(b.vx)<4)b.vx=0;if(Math.abs(b.vy)<4)b.vy=0;if(b.vx||b.vy)busy=true;b.x+=b.vx*dt;b.y+=b.vy*dt}else busy=true;
+    const floor=H-62*SC;
     for(let it2=0;it2<2;it2++){
-      for(let i=0;i<bodies.length;i++)for(let j=i+1;j<bodies.length;j++){const a=bodies[i],b=bodies[j];let dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),m=a.r+b.r;if(d>=m)continue;if(d<.01){dx=Math.random()-.5;dy=Math.random()-.5;d=Math.hypot(dx,dy)}
-        const nx=dx/d,ny=dy/d,ov=m-d;
-        if(a.kin||b.kin){const k=a.kin?a:b,o=a.kin?b:a,sg=a.kin?1:-1;o.x+=nx*ov*sg;o.y+=ny*ov*sg;const rel=(k.vx-o.vx)*nx*sg+(k.vy-o.vy)*ny*sg;if(rel>0){o.vx+=nx*sg*rel*1.25;o.vy+=ny*sg*rel*1.25}continue}
-        a.x-=nx*ov/2;a.y-=ny*ov/2;b.x+=nx*ov/2;b.y+=ny*ov/2;const rel=(a.vx-b.vx)*nx+(a.vy-b.vy)*ny;if(rel>0){const imp=rel*.8;a.vx-=nx*imp;a.vy-=ny*imp;b.vx+=nx*imp;b.vy+=ny*imp}}
-      for(const b of bodies){if(b.kin)continue;for(const o of stat){let dx=b.x-o.x,dy=b.y-o.y,d=Math.hypot(dx,dy),m=b.r+o.r;if(d>=m||d<.01)continue;const nx=dx/d,ny=dy/d;b.x+=nx*(m-d);b.y+=ny*(m-d);const vn=b.vx*nx+b.vy*ny;if(vn<0){b.vx-=1.5*vn*nx;b.vy-=1.5*vn*ny}}
-        if(b.x<b.r){b.x=b.r;b.vx=Math.abs(b.vx)*.45}if(b.x>W-b.r){b.x=W-b.r;b.vx=-Math.abs(b.vx)*.45}if(b.y<b.r){b.y=b.r;b.vy=Math.abs(b.vy)*.45}if(b.y>H-b.r-62*SC){b.y=H-b.r-62*SC;b.vy=-Math.abs(b.vy)*.45}}}
-    for(const b of bodies){const it=b.it;if(b.kin)continue;const nx=b.x/W,ny=b.y/H;if(Math.abs(nx-it.x)<1e-5&&Math.abs(ny-it.y)<1e-5&&!b.vx&&!b.vy)continue;it.x=nx;it.y=ny;it.vx=b.vx;it.vy=b.vy;
-      const el=bd.querySelector(`.fsloose[data-pid="${it.id}"]`);if(el){el.style.left=nx*100+'%';el.style.top=ny*100+'%'}}}
+      for(let i=0;i<bodies.length;i++)for(let j=i+1;j<bodies.length;j++){const a=bodies[i],b=bodies[j];let dx=b.x-a.x,dy=b.y-a.y;const m=a.r+b.r;if(Math.abs(dx)>=m||Math.abs(dy)>=m)continue;let d=Math.hypot(dx,dy);if(d>=m)continue;if(d<.01){dx=Math.random()-.5;dy=Math.random()-.5;d=Math.hypot(dx,dy)}
+        const nx=dx/d,ny=dy/d,ov=m-d;busy=true;
+        if(a.kin||b.kin){if(a.kin&&b.kin)continue;const k=a.kin?a:b,o=a.kin?b:a,sg=a.kin?1:-1;o.x+=nx*ov*sg;o.y+=ny*ov*sg;const rel=(k.vx-o.vx)*nx*sg+(k.vy-o.vy)*ny*sg;if(rel>0){const push=1.25/Math.sqrt(o.m);o.vx+=nx*sg*rel*push;o.vy+=ny*sg*rel*push}continue}
+        // a light piece moves away more than a heavy station (mass ratio)
+        const wa=b.m/(a.m+b.m),wb=a.m/(a.m+b.m);a.x-=nx*ov*wa;a.y-=ny*ov*wa;b.x+=nx*ov*wb;b.y+=ny*ov*wb;
+        const rel=(a.vx-b.vx)*nx+(a.vy-b.vy)*ny;if(rel>0){const jimp=1.6*rel/(1/a.m+1/b.m);a.vx-=nx*jimp/a.m;a.vy-=ny*jimp/a.m;b.vx+=nx*jimp/b.m;b.vy+=ny*jimp/b.m}}
+      for(const b of bodies){if(b.kin)continue;const r=b.m>1?b.r*.7:b.r;   // big objects may overhang the table edge a little
+        if(b.x<r){b.x=r;b.vx=Math.abs(b.vx)*.45}if(b.x>W-r){b.x=W-r;b.vx=-Math.abs(b.vx)*.45}if(b.y<r){b.y=r;b.vy=Math.abs(b.vy)*.45}if(b.y>floor-r*.6){b.y=floor-r*.6;b.vy=-Math.abs(b.vy)*.45}}}
+    if(!busy)return;
+    for(const b of bodies){if(b.kin)continue;const o=b.o,nx=b.x/W,ny=b.y/H;if(Math.abs(nx-o.x)<1e-5&&Math.abs(ny-o.y)<1e-5&&!b.vx&&!b.vy)continue;o.x=nx;o.y=ny;o.vx=b.vx;o.vy=b.vy;
+      const el=F.els[b.k];if(el&&el.isConnected){el.style.left=nx*100+'%';el.style.top=ny*100+'%'}}}
   /* ---------- the clock ---------- */
   let tickAcc=0;
   function spawn(now){F.spawnAt=now+SPAWN*(.8+Math.random()*.4);const own=myIngs();if(!own.length)return;
@@ -3167,7 +3215,7 @@ function match(){
     clear:plate=>online?ask('game:clear',{code,plate}):local(()=>LM.clear(myId,plate)),
     cookStart:tool=>online?ask('game:cookStart',{code,tool}):local(now=>LM.cookStart(myId,tool,now)),
     cook:c=>online?ask('game:cook',{code,c}):local(now=>LM.cook(myId,c,now)),
-    pass:(item,dir)=>online?ask('game:pass',{code,item,dir}):local(now=>LM.pass(myId,item,now,dir)),
+    pass:(item,dir,fx)=>online?ask('game:pass',{code,item,dir,fx}):local(now=>LM.pass(myId,item,now,dir,fx)),
     ask:ing=>online?ask('game:ask',{code,ing}):local(now=>LM.ask(myId,ing,now)),
     prank:()=>online?ask('game:prank',code):local(now=>LM.prank(myId,now)),
     grab:id=>online?ask('game:grab',{code,id}):local(now=>LM.grab(myId,id,now)),
@@ -3883,6 +3931,9 @@ W3D.init().finally(()=>{W3D.loading=false;W3D._done&&W3D._done()});
 document.addEventListener('pointerdown',e=>{if(e.target.closest('.btn,.ding,.ticket,.chefpick,.palette button,.durpick button'))SFX.play('click')});
 {const b=$('#gq');b.onclick=()=>{const v=!(W3D.k&&W3D.k.low);store('wc_low',v);W3D.setLow(v);toast(v?'ภาพเบา: ลื่นขึ้น แต่ละเอียดน้อยลง':'ภาพสวย: เต็มความละเอียด')}}
 {const b=$('#v3d');b.textContent=W3D.off()?'ภาพ 2D':'ภาพ 3D';b.onclick=()=>{try{sessionStorage.setItem('wc_2d',W3D.off()?'0':'1')}catch(e){}store('wc_2d',null);if(/[?&]2d\b/.test(location.search))location.search='';else location.reload()}}
+// no pinch / double-tap zoom on phones (iPhone ignores user-scalable=no, so stop its gestures here too)
+['gesturestart','gesturechange'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
+document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
 NET.init().then(()=>{secUI();const sv=SAVED.get();if(sv&&Array.isArray(sv.digits)&&sv.digits.length===4){enterRoom(sv.digits,sv.creator,sv);return}
   if(S.screen==='lobby'){NET.setLobby({nick:S.name,chef:S.chef,hosting:null});go(lobby)}});
 </script>

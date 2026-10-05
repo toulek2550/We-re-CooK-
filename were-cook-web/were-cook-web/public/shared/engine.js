@@ -9,6 +9,7 @@
   else root.WCEngine = factory();
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
+  const clamp01 = v => Math.max(0, Math.min(1, Number.isFinite(v) ? v : .5));
 
   /* ---------- taste ---------- */
   // sw = หวาน, sa = เค็ม, so = เปรี้ยว, sp = เผ็ด, um = อูมามิ (0–100 each)
@@ -679,7 +680,7 @@
         if (r.goldK != null) { for (const g of Object.values(M.games)) g.tickets = g.tickets.filter(t => !t.gold); r.events = [{ type: 'gold', by: p.id, th: r.th, pts: r.gold }] } }
       return r;
     };
-    M.pass = (id, item, now, dir) => {
+    M.pass = (id, item, now, dir, fx) => {
       const p = P(id); const mate = p && (coop ? (n > 1 ? ringOf(p)[dir === 'l' ? 'l' : 'r'] : null) : mateOf(p)); if (!p || !mate || mate === p) return { ok: false, msg: coop ? 'ส่งได้แค่เพื่อนข้าง ๆ' : 'ส่งได้เฉพาะเพื่อนร่วมทีม' };
       if (M.games[p.team].over(now)) return { ok: false, msg: 'หมดเวลาแล้ว' };
       const it = cleanPlate([item]); if (!it) return { ok: false, msg: 'ของไม่ถูกต้อง' };
@@ -688,7 +689,9 @@
       if (thing.st === 'raw') { if (own(p, [thing.ing], true)) return { ok: false, msg: `คุณไม่มี ${ING[thing.ing].th}` }; mate.recv[thing.ing] = (mate.recv[thing.ing] || 0) + 1 }
       else { const pr = proven(p, [thing], true); if (pr.miss) return { ok: false, msg: 'ของชิ้นนี้ยังไม่ได้ทำจริง' }; thing = pr.plate[0]; L(mate, thing.ing + ':' + thing.st).push(thing.q) }
       mate.from = mate.from || {}; mate.from[thing.ing] = p.id;
-      return { ok: true, events: [{ type: 'recv', to: mate.id, from: p.id, item: thing, dir }] };
+      // fx: where the piece left the sender's table and how fast (only for the look: it slides in at that height with that speed)
+      const f = fx && typeof fx === 'object' ? { y: Math.round(clamp01(+fx.y || .5) * 100) / 100, v: Math.round(Math.max(.3, Math.min(2.5, +fx.v || 1)) * 100) / 100 } : null;
+      return { ok: true, events: [{ type: 'recv', to: mate.id, from: p.id, item: thing, dir: dir === 'l' ? 'l' : 'r', fx: f }] };
     };
     M.ask = (id, ing, now) => {
       const p = P(id); if (!p || !ING[ing]) return { ok: false };
