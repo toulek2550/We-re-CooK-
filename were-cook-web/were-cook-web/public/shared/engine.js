@@ -32,6 +32,7 @@
     sausage: I('ไส้กรอก', 'meat', 'ชิ้น', [1, 2], 1, { sa: 10, um: 10 }),
     steak: I('สเต๊กเนื้อ', 'meat', 'g', [150, 200, 250], 200, { um: 26, sa: 2 }),
     salmon: I('แซลมอน', 'meat', 'g', [100, 150, 200], 150, { um: 18, sa: 4 }),
+    tofu: I('เต้าหู้', 'meat', 'ก้อน', [1], 1, { um: 4 }),
     // rice, bread, dough
     rice: I('ข้าวสวย', 'carb', 'จาน', [1], 1, { sw: 6 }),
     sticky: I('ข้าวเหนียว', 'carb', 'กำ', [1, 2], 1, { sw: 8 }),
@@ -44,6 +45,8 @@
     pizza: I('แป้งพิซซ่า', 'carb', 'แผ่น', [1], 1, { sw: 3, sa: 3 }),
     croissant: I('แป้งครัวซองต์', 'carb', 'ชิ้น', [1, 2], 1, { sw: 8, sa: 3 }),
     donut: I('แป้งโดนัท', 'carb', 'ชิ้น', [1, 2], 1, { sw: 10 }),
+    ramen: I('เส้นราเมง', 'carb', 'ก้อน', [1], 1, { sa: 2 }),
+    dumpling: I('เกี๊ยว', 'carb', 'ชิ้น', [1], 1, { um: 8, sa: 3 }),
     // vegetables, herbs & fruit
     chili: I('พริกขี้หนู', 'veg', 'เม็ด', [1, 2, 3, 4, 5], 3, { sp: 30 }),
     garlic: I('กระเทียม', 'veg', 'กลีบ', [2, 4, 6], 4, { sp: 4, um: 4 }),
@@ -63,6 +66,8 @@
     banana: I('กล้วย', 'veg', 'ลูก', [1], 1, { sw: 20 }),
     strawberry: I('สตรอว์เบอร์รี', 'veg', 'ลูก', [1], 1, { sw: 14, so: 6 }),
     lemon: I('เลมอน', 'veg', 'ลูก', [1], 1, { so: 26 }),
+    nori: I('สาหร่ายโนริ', 'veg', 'แผ่น', [1], 1, { sa: 4, um: 6 }),
+    kimchi: I('กิมจิ', 'veg', 'ถ้วย', [1], 1, { so: 12, sp: 10, sa: 4 }),
     // dairy & coconut
     coconut: I('กะทิ', 'dairy', 'ช้อน', [2, 3, 4], 3, { sw: 6, sa: 3, um: 4 }),
     cheese: I('เชดดาร์ชีส', 'dairy', 'แผ่น', [1, 2], 1, { sa: 10, um: 8 }),
@@ -74,6 +79,8 @@
     ketchup: I('ซอสมะเขือเทศ', 'sauce', 'ช้อน', [1, 2, 3], 2, { sw: 10, so: 8, sa: 6 }),
     mustard: I('มัสตาร์ด', 'sauce', 'ช้อน', [1, 2], 1, { so: 8, sp: 6, sa: 4 }),
     mayo: I('มายองเนส', 'sauce', 'ช้อน', [1, 2, 3], 2, { sw: 4, so: 4, um: 4 }),
+    soysauce: I('ซีอิ๊วญี่ปุ่น', 'sauce', 'ช้อน', [1], 1, { sa: 18, um: 8 }),
+    gochujang: I('โคชูจัง', 'sauce', 'ช้อน', [1], 1, { sp: 16, sw: 8, sa: 6 }),
   };
   const CATS = [['meat', 'เนื้อสัตว์และไข่'], ['carb', 'ข้าวและแป้ง'], ['veg', 'ผัก สมุนไพร ผลไม้'], ['dairy', 'กะทิ นม ชีส'], ['sauce', 'ซอส']];
 
@@ -96,12 +103,12 @@
   const TR = {
     knife: { 'potato:raw': 'chopped', 'lettuce:raw': 'chopped', 'tomato:raw': 'chopped', 'onion:raw': 'chopped', 'garlic:raw': 'chopped', 'mushroom:raw': 'chopped', 'pork:raw': 'chopped', 'chili:raw': 'chopped', 'papaya:raw': 'chopped', 'mango:raw': 'chopped', 'carrot:raw': 'chopped', 'cucumber:raw': 'chopped', 'bellpepper:raw': 'chopped', 'apple:raw': 'chopped', 'banana:raw': 'chopped', 'strawberry:raw': 'chopped', 'lemon:raw': 'chopped' },
     mortar: { 'avocado:raw': 'mashed', 'tomato:raw': 'mashed', 'potato:boiled': 'mashed', 'chili:raw': 'mashed', 'garlic:raw': 'mashed', 'papaya:chopped': 'somtam' },
-    pan: { 'sausage:raw': 'sauteed', 'eggraw:raw': 'sauteed', 'bacon:raw': 'sauteed', 'patty:raw': 'sauteed', 'steak:raw': 'sauteed', 'salmon:raw': 'sauteed', 'mushroom:chopped': 'sauteed', 'pork:chopped': 'sauteed', 'bellpepper:chopped': 'sauteed' },
-    fryer: { 'potato:chopped': 'fries', 'chicken:raw': 'deepfried', 'donut:raw': 'deepfried', 'shrimp:raw': 'deepfried', 'eggraw:raw': 'deepfried', 'banana:raw': 'deepfried' },
-    pot: { 'pasta:raw': 'boiled', 'potato:raw': 'boiled', 'shrimp:raw': 'boiled', 'mushroom:raw': 'boiled', 'coconut:raw': 'boiled', 'carrot:chopped': 'boiled' },
+    pan: { 'sausage:raw': 'sauteed', 'eggraw:raw': 'sauteed', 'bacon:raw': 'sauteed', 'patty:raw': 'sauteed', 'steak:raw': 'sauteed', 'salmon:raw': 'sauteed', 'mushroom:chopped': 'sauteed', 'pork:chopped': 'sauteed', 'bellpepper:chopped': 'sauteed', 'rice:raw': 'sauteed', 'tofu:raw': 'sauteed', 'kimchi:raw': 'sauteed' },
+    fryer: { 'potato:chopped': 'fries', 'chicken:raw': 'deepfried', 'donut:raw': 'deepfried', 'shrimp:raw': 'deepfried', 'eggraw:raw': 'deepfried', 'banana:raw': 'deepfried', 'tofu:raw': 'deepfried', 'dumpling:raw': 'deepfried' },
+    pot: { 'pasta:raw': 'boiled', 'potato:raw': 'boiled', 'shrimp:raw': 'boiled', 'mushroom:raw': 'boiled', 'coconut:raw': 'boiled', 'carrot:chopped': 'boiled', 'ramen:raw': 'boiled' },
     oven: { 'pizza:raw': 'baked', 'croissant:raw': 'baked', 'toast:raw': 'baked', 'apple:chopped': 'baked' },
     grill: { 'chicken:raw': 'grilled', 'pork:raw': 'grilled', 'shrimp:raw': 'grilled', 'bellpepper:raw': 'grilled', 'mushroom:raw': 'grilled' },
-    steamer: { 'sticky:raw': 'steamed', 'fish:raw': 'steamed' },
+    steamer: { 'sticky:raw': 'steamed', 'fish:raw': 'steamed', 'dumpling:raw': 'steamed' },
   };
 
   /* ---------- menus ----------
@@ -118,6 +125,19 @@
     M('kaidao', 'ข้าวไข่ดาวน้ำปลาพริก', 'th', 1, [['rice', 'raw', 1], ['eggraw', 'deepfried', 1], ['chili', 'chopped', 1]], { fish: 1.5, lime: .5 }),
     M('plamanao', 'ปลานึ่งมะนาว', 'th', 3, [['fish', 'steamed', 1], ['garlic', 'chopped', 4], ['chili', 'chopped', 3]], { lime: 3.5, fish: 2, sugar: 1 }),
     M('mangosticky', 'ข้าวเหนียวมะม่วง', 'th', 2, [['sticky', 'steamed', 1], ['mango', 'chopped', 1], ['coconut', 'boiled', 3]], { sugar: 1, salt: .5 }),
+    // Chinese 🇨🇳
+    M('friedrice', 'ข้าวผัดหมูใส่ไข่', 'cn', 2, [['rice', 'sauteed', 1], ['pork', 'sauteed', 150], ['eggraw', 'sauteed', 1]], { oyster: 1, salt: .5 }),
+    M('dimsum', 'เกี๊ยวนึ่งจิ้มซีอิ๊ว', 'cn', 1, [['dumpling', 'steamed', 1], ['soysauce', 'raw', 1]]),
+    M('mapotofu', 'เต้าหู้ผัดพริก', 'cn', 2, [['tofu', 'sauteed', 1], ['pork', 'sauteed', 150], ['chili', 'chopped', 2]], { oyster: 1, chili: 1 }),
+    // Japanese 🇯🇵
+    M('sushi', 'ซูชิแซลมอน', 'jp', 2, [['rice', 'raw', 1], ['salmon', 'raw', 150], ['nori', 'raw', 1], ['soysauce', 'raw', 1]], { sugar: .5 }),
+    M('ramen', 'ราเมงหมูย่าง', 'jp', 3, [['ramen', 'boiled', 1], ['pork', 'grilled', 100], ['eggraw', 'sauteed', 1], ['nori', 'raw', 1]], { salt: 1 }),
+    M('gyoza', 'เกี๊ยวซ่า', 'jp', 1, [['dumpling', 'deepfried', 1], ['soysauce', 'raw', 1]]),
+    M('tempura', 'เทมปุระกุ้ง', 'jp', 1, [['shrimp', 'deepfried', 5], ['soysauce', 'raw', 1]]),
+    // Korean 🇰🇷
+    M('kchicken', 'ไก่ทอดเกาหลี', 'kr', 1, [['chicken', 'deepfried', 1], ['gochujang', 'raw', 1]], { sugar: 1 }),
+    M('bibimbap', 'บิบิมบับ', 'kr', 3, [['rice', 'raw', 1], ['eggraw', 'sauteed', 1], ['carrot', 'chopped', 1], ['kimchi', 'raw', 1], ['gochujang', 'raw', 1]]),
+    M('kimchipork', 'หมูผัดกิมจิ', 'kr', 2, [['pork', 'sauteed', 150], ['kimchi', 'sauteed', 1]], { sugar: .5 }),
     // Western (kept from the earlier version)
     M('hotdog', 'ฮอทดอก', 'west', 1, [['hbun', 'raw', 1], ['sausage', 'sauteed', 1], ['mustard', 'raw', 1]]),
     M('fries', 'เฟรนช์ฟรายส์', 'west', 1, [['potato', 'fries', 1], ['ketchup', 'raw', 2]], { salt: .5 }),
@@ -180,6 +200,16 @@
     M('fs_lemonchicken', 'ไก่ย่างเลมอน', 'fs', 2, [R('chicken', 'grilled'), R('lemon', 'chopped')]),
     M('fs_applebake', 'แอปเปิ้ลอบไอศกรีม', 'fs', 2, [R('apple', 'baked'), R('icecream', 'raw')]),
     M('fs_carrotsoup', 'แครอทต้มกับขนมปัง', 'fs', 1, [R('carrot', 'boiled'), R('toast', 'raw')]),
+    // Asia: Chinese / Japanese / Korean small plates
+    M('fs_sushi', 'ซูชิแซลมอน', 'fs', 2, [R('rice', 'raw'), R('salmon', 'raw'), R('nori', 'raw')]),
+    M('fs_onigiri', 'ข้าวปั้นสาหร่าย', 'fs', 1, [R('rice', 'raw'), R('nori', 'raw')]),
+    M('fs_ramen', 'ราเมง', 'fs', 2, [R('ramen', 'boiled'), R('eggraw', 'sauteed'), R('nori', 'raw')]),
+    M('fs_gyoza', 'เกี๊ยวซ่า', 'fs', 1, [R('dumpling', 'deepfried')]),
+    M('fs_dimsum', 'เกี๊ยวนึ่ง', 'fs', 1, [R('dumpling', 'steamed')]),
+    M('fs_friedrice', 'ข้าวผัดไข่', 'fs', 1, [R('rice', 'sauteed'), R('eggraw', 'sauteed')]),
+    M('fs_tofu', 'เต้าหู้ทอด', 'fs', 1, [R('tofu', 'deepfried')]),
+    M('fs_kchicken', 'ไก่ทอดเกาหลีกับกิมจิ', 'fs', 1, [R('chicken', 'deepfried'), R('kimchi', 'raw')]),
+    M('fs_bibimbap', 'บิบิมบับ', 'fs', 2, [R('rice', 'raw'), R('eggraw', 'sauteed'), R('carrot', 'chopped'), R('kimchi', 'raw')]),
   ];
   const MENU_BY_ID = Object.fromEntries(MENUS.concat(FS_MENUS).map(m => [m.id, m]));
   const LIFE = { 1: 70, 2: 90, 3: 110 };            // seconds before an order walks out
@@ -195,6 +225,7 @@
     'fish:steamed': 'ปลานึ่ง', 'papaya:chopped': 'มะละกอสับ', 'papaya:somtam': 'ส้มตำ', 'chili:mashed': 'พริกตำ', 'chili:chopped': 'พริกซอย', 'garlic:mashed': 'กระเทียมตำ',
     'coconut:boiled': 'กะทิเคี่ยว', 'mango:chopped': 'มะม่วงหั่น', 'shrimp:boiled': 'กุ้งต้ม', 'mushroom:boiled': 'เห็ดต้ม',
     'banana:deepfried': 'กล้วยทอด', 'apple:baked': 'แอปเปิ้ลอบ', 'bellpepper:grilled': 'พริกหยวกย่าง', 'mushroom:grilled': 'เห็ดย่าง', 'carrot:boiled': 'แครอทต้ม', 'lemon:chopped': 'เลมอนฝาน', 'bellpepper:sauteed': 'พริกหยวกผัด',
+    'rice:sauteed': 'ข้าวผัด', 'tofu:deepfried': 'เต้าหู้ทอด', 'tofu:sauteed': 'เต้าหู้ผัด', 'kimchi:sauteed': 'กิมจิผัด', 'dumpling:deepfried': 'เกี๊ยวซ่า', 'dumpling:steamed': 'เกี๊ยวนึ่ง', 'ramen:boiled': 'เส้นราเมงต้ม', 'salmon:raw': 'แซลมอนสด',
   };
   const SUFFIX = { raw: '', chopped: 'หั่น', sauteed: 'ผัด', deepfried: 'ทอด', boiled: 'ต้ม', mashed: 'บด', baked: 'อบ', grilled: 'ย่าง', steamed: 'นึ่ง', somtam: 'ตำ', fries: 'ทอด' };
   const itemName = it => SPECIAL[it.ing + ':' + it.st] || (ING[it.ing] ? ING[it.ing].th : it.ing) + (SUFFIX[it.st] || '');
@@ -256,6 +287,13 @@
   const courseOf = id => COURSE[id] || 'main';
   const COURSE_TH = { main: 'จานหลัก', side: 'เครื่องเคียง', dessert: 'ของหวาน' };
   const SET_BONUS = 60;
+  // Hell's Kitchen table: a table orders 2-3 courses (appetizer -> main -> dessert) that must go out IN ORDER;
+  // the head chef at the pass sends back any course below standard, and a table served well tips extra
+  const HK_COURSE = { side: 'ออเดิร์ฟ', main: 'จานหลัก', dessert: 'ของหวาน' };
+  const HK_MIN = 45, HK_GOOD = 70;
+  // MasterChef-style challenges inside a normal match
+  const CHAL = { pressure: { th: 'Pressure Test', ms: 60000 }, speed: { th: 'รอบเร่งความเร็ว ×1.5', ms: 40000 } };
+  const DUEL_MS = 60000, DUEL_WIN = 100, DUEL_LOSE = 40;
   /* ---------- DAYS: the co-op campaign. Short rounds, 1-3 stars, ONE new thing per day ----------
      tools = the stations in the kitchen that day; menus = what customers order;
      split = ingredients/stations shared out round the table (pass left/right); wash / season / gold / market / rival / cards = that day's event */
@@ -267,13 +305,13 @@
   // Family Style rules for a day: a shop meter (0–100) drains all the time, a served dish fills it up,
   // an order that runs out of patience knocks a big chunk off; empty meter = the shop closes. Serve `goal` dishes to clear the day.
   // the days get harder: more dishes, more orders at once, less patience, a faster drain
-  const HEARTS = 3, METER = { start: 60, max: 100, miss: 25 };
-  const DAY_RAMP = [[3, 1, 1.6, .5], [4, 2, 1.5, .55], [4, 2, 1.5, .55], [5, 2, 1.4, .6], [5, 2, 1.3, .65], [6, 3, 1.25, .7], [6, 3, 1.2, .75], [7, 3, 1.15, .8], [7, 3, 1.1, .85], [8, 3, 1.05, .9], [8, 4, 1, .95], [10, 4, .95, 1]].map(([goal, cap, px, drain]) => ({ goal, cap, px: Math.round((px - .1) * 100) / 100, drain: Math.round(drain * 1.2 * 100) / 100 }));   // a notch harder
+  const HEARTS = 3, METER = { start: 60, max: 100, miss: 12 };   // a missed order costs about as much as ~10 s of waiting (it used to be ~40 s)
+  const DAY_RAMP = [[3, 1, 1.6, .5], [4, 2, 1.5, .55], [4, 2, 1.5, .55], [5, 2, 1.4, .6], [5, 2, 1.3, .65], [6, 3, 1.25, .7], [6, 3, 1.2, .75], [7, 3, 1.15, .8], [7, 3, 1.1, .85], [8, 3, 1.05, .9], [8, 4, 1, .95], [10, 4, .95, 1]].map(([goal, cap, px, drain]) => ({ goal, cap, px: Math.round((px - .1) * 100) / 100, drain: Math.round(drain * 1.9 * 100) / 100 }));   // the shop drains steadily (faster than before) so every order matters, while a miss stings less
   // co-op table (Family Style): no sauce bottles — a dish is just its solid pieces
   const fsComp = m => { const c = m.c.filter(x => ING[x[0]] && ING[x[0]].cat !== 'sauce'); return c.length ? c : m.c };
   const DAY_INGS = D => [...new Set(D.menus.map(id => MENU_BY_ID[id]).filter(Boolean).flatMap(m => fsComp(m).map(c => c[0])))];
-  const ROUND_PAUSE = 5600, ROUND_BONUS = 15;   // continuous co-op: the round card pause, and a little meter boost for clearing a round
-  const meterGain = pts => Math.min(28, 8 + Math.round(pts / 6));
+  const ROUND_PAUSE = 5600, ROUND_BONUS = 20;   // continuous co-op: the round card pause, and a little meter boost for clearing a round
+  const meterGain = pts => Math.min(30, 10 + Math.round(pts / 5));
   /* Family Style: no fixed campaign. Every game draws its OWN run from the seed (same seed = same run on every screen and on the server):
      round 1 opens ONE random station (plus dishes that need none), most rounds add another random station, dishes get bigger
      (more pieces on the plate) as the rounds go on, and the last round throws in everything that was opened. */
@@ -300,7 +338,7 @@
         const none = n <= 2 ? shuffle(feas.filter(m => !fsToolsOf(m).length && !fresh.includes(m))).slice(0, 1) : [];
         // bigger plates later on: the rest are drawn with a lean toward more pieces
         const rest = feas.filter(m => !fresh.includes(m) && !none.includes(m)).map(m => ({ m, k: r() + (n >= 6 ? pieces(m) * .25 : 0) })).sort((a, b) => b.k - a.k).map(x => x.m);
-        const want = Math.min(feas.length, 3 + Math.floor(n / 3));
+        const want = Math.min(feas.length, 4 + Math.floor(n / 2));   // enough dishes that a full table doesn't keep getting the same ones
         menus = [...new Set(fresh.concat(none, rest))].slice(0, want).map(m => m.id);
       }
       const th = n === 1 ? `เปิดร้าน: ${TOOL_TH[nt] || 'มือเปล่า'}` : n === 12 ? 'งานเลี้ยงใหญ่' : nt ? `${TOOL_TH[nt]}มาแล้ว!` : RUN_MOOD[Math.floor(r() * RUN_MOOD.length)];
@@ -485,24 +523,35 @@
     g.info = now => { const si = g.stage(now); if (opt.day) { const s2 = STAGE_INFO[si]; return { ...s2, cap: Q ? Q.cap : s2.cap, rush: Q ? false : s2.rush, tools: opt.day.tools, menus: opt.day.menus, ings: opt.day.ings } } const st = STAGE_INFO[opt.allOpen ? Math.max(si, 2) : si]; return opt.allOpen ? { ...st, rush: STAGE_INFO[si].rush, cap: opt.easy ? STAGE_INFO[si].cap : Math.max(3, STAGE_INFO[si].cap) } : st };
     const add = born => {
       const st = g.info(born); let m = null; const ok = id => st.menus.includes(id) && (!opt.allowed || opt.allowed.includes(id));
-      if (opt.day) { const pool = opt.day.menus.filter(ok), cur = g.tickets.map(t => t.id), fresh = pool.filter(id => !cur.includes(id)), L = fresh.length ? fresh : pool; if (L.length) m = MENU_BY_ID[L[Math.floor(rq() * L.length)]] }
+      // co-op table: whose order is next (the cook with the fewest orders)
+      let own = null; if (opt.owners && opt.owners.length) { const cnt = id => g.tickets.filter(t => t.own === id).length; own = opt.owners.slice().sort((a, b) => cnt(a) - cnt(b) || ((g.rr = (g.rr || 0) + 1) % 2 ? -1 : 1))[0] }
+      // no repeats: avoid what is already hanging and what this cook just had (the last 3); still random among the rest
+      if (opt.day) { const pool = opt.day.menus.filter(ok), cur = g.tickets.map(t => t.id), hist = ((g.hist = g.hist || {})[own || '_'] = g.hist[own || '_'] || []);
+        const score = id => cur.filter(x => x === id).length * 8 + (hist[hist.length - 1] === id ? 5 : 0) + (hist.includes(id) ? 2 : 0) + rq() * 1.5;
+        const L = pool.map(id => [id, score(id)]).sort((a, b) => a[1] - b[1]); if (L.length) { m = MENU_BY_ID[L[0][0]]; hist.push(m.id); if (hist.length > 3) hist.shift() } }
       if (!m) for (let n = 0; n < g.seq.length; n++) { const c = g.seq[g.next % g.seq.length]; g.next++; if (ok(c.id)) { m = c; break } }
       if (!m) m = MENU_BY_ID[(opt.allowed || st.menus).find(ok) || st.menus[0]];
       const rush = st.rush;
       // from stage 2 on (or always in the final) some customers ask for a different taste
       let req = null; const x = rq();
       if (!opt.easy && (g.stage(born) >= 1 || opt.allOpen) && x < .4) { const tgt = targetOf(m); const opts = REQS.filter(q => !q.need || tgt[q.k] >= q.need); req = opts[Math.floor(rq() * opts.length)] || null } else rq();
-      let own = null; if (opt.owners && opt.owners.length) { const cnt = id => g.tickets.filter(t => t.own === id).length; own = opt.owners.slice().sort((a, b) => cnt(a) - cnt(b) || ((g.rr = (g.rr || 0) + 1) % 2 ? -1 : 1))[0] }
+      // Hell's Kitchen table order: 2-3 courses for one table, served appetizer -> main -> dessert
+      if (opt.hell && g.stage(born) >= 1 && born < g.end - 90000 && !g.tickets.some(t => t.set) && rq() < .5) {
+        const free = cap(born) - g.tickets.filter(t => !t.gold && !t.chal).length, pool = st.menus.filter(ok), by = c => pool.filter(id => courseOf(id) === c), pick = L => L.length ? L[Math.floor(rq() * L.length)] : null;
+        const m1 = courseOf(m.id) === 'main' ? m.id : pick(by('main')) || m.id, m2 = pick(by('side').filter(id => id !== m1)) || pick(pool.filter(id => id !== m1)), m3 = free >= 2 ? pick(by('dessert').filter(id => id !== m1 && id !== m2)) : null; const ids = [m2, m1, m3].filter(Boolean);
+        if (free >= 1 && ids.length >= 2) { const sg = (g.sid = (g.sid || 0) + 1), life = Math.round(ids.reduce((a, id) => a + LIFE[MENU_BY_ID[id].tier], 0) * .75 * (opt.lifeX || 1));
+          ids.forEach((id, i) => g.tickets.push({ own: null, k: (g.kseq = (g.kseq || 0) + 1), id, born, life, rush: false, req: null, set: { g: sg, i: i + 1, n: ids.length, th: `โต๊ะ ${sg}`, course: i === 0 && ids.length > 1 && courseOf(id) !== 'main' ? HK_COURSE.side : HK_COURSE[courseOf(id)] || HK_COURSE.main } })); return }
+      }
       g.tickets.push({ own, k: (g.kseq = (g.kseq || 0) + 1), id: m.id, born, life: Math.round(LIFE[m.tier] * (rush ? RUSH_LIFE : 1) * (opt.lifeX || 1)), rush, req });
     };
     g.add = add;
     const cap = now => { const c = g.info(now).cap + (opt.capAdd || 0); return opt.capMax ? Math.min(opt.capMax, c) : c };
-    const refill = now => { if (now < g.pauseUntil) return; while (g.tickets.filter(t => !t.gold).length < cap(now)) add(now) };
+    const refill = now => { if (now < g.pauseUntil) return; while (g.tickets.filter(t => !t.gold && !t.chal).length < cap(now)) add(now) };
     refill(t0);
     g.over = now => Q ? (!!g.result && now > g.doneAt + 900) || now > t0 + 15 * 60000 : now > g.end + 1500;
     g.tick = now => {
       const out = [];
-      for (const tk of g.tickets) if (now > tk.born + tk.life * 1000) { out.push({ k: tk.k, th: MENU_BY_ID[tk.id].th, gold: !!tk.gold }); if (!tk.gold) { g.score = Math.max(0, g.score - 10); g.combo = 0; if (Q && !g.result) { g.hearts--; bump(now, -METER.miss) } } }
+      for (const tk of g.tickets) if (now > tk.born + tk.life * 1000) { out.push({ k: tk.k, th: MENU_BY_ID[tk.id].th, gold: !!(tk.gold || tk.chal) }); if (!tk.gold && !tk.chal) { g.score = Math.max(0, g.score - (tk.set ? 5 : 10)); g.combo = 0; if (Q && !g.result) { g.hearts--; bump(now, -METER.miss) } } }
       if (Q && !g.result && now > t0 && meterAt(now) <= 0) { finish('fail', now); g.changed = true }
       if (out.length && !g.result) g.tickets = g.tickets.filter(t => !out.some(o => o.k === t.k));
       // the kitchen gets busier: more orders hang at once as the stages go on
@@ -517,13 +566,20 @@
       const season = cleanSeason(payload.season); g.tick(now);
       const sel = payload.sel;
       let best = null;
+      const waiting = tk => tk.set && g.tickets.some(t => t.set && t.set.g === tk.set.g && t.set.i < tk.set.i);   // Hell's Kitchen: an earlier course of this table is still out
+      let early = null;
       for (const tk of g.tickets) {
         if (opt.owners && payload.by && tk.own && tk.own !== payload.by) continue;     // you plate YOUR order (Family Style)
+        if (waiting(tk)) { if (!early) { const r0 = judgeDish(MENU_BY_ID[tk.id], plate, season, 1); if (r0.comp >= .9) early = tk } continue }
         const m0 = MENU_BY_ID[tk.id], m = opt.noSauce ? { ...m0, c: fsComp(m0) } : m0; const lifeF = 1 - (now - tk.born) / (tk.life * 1000);
         const tg = targetFor(m, tk.req, opt.judge); const r = judgeDish(m, plate, opt.noTaste ? idealSeason(plate, tg).season : season, lifeF, tg, opt.easy);
         const rank = r.comp * 1000 + (tk.k === sel ? 1 : 0) * 500 + r.total;
         if (!best || rank > best.rank) best = { rank, tk, m, r };
       }
+      if ((!best || best.r.comp < .5) && early) { const first = g.tickets.filter(t => t.set && t.set.g === early.set.g).sort((a, b) => a.set.i - b.set.i)[0];
+        return { ok: false, hk: true, msg: `👨‍🍳 ${early.set.th}: ต้องส่ง${first.set.course} (${MENU_BY_ID[first.id].th}) ก่อน ห้ามข้ามคอร์ส!` } }
+      const cookedQ = (() => { const L = plate.filter(it => it.st !== 'raw'); return L.length ? Math.round(L.reduce((a, it) => a + (+it.q || 0), 0) / L.length) : 100 })();
+      if (best && best.tk.set && best.r.comp >= .5 && (best.r.total < HK_MIN || cookedQ < 40)) return { ok: false, hk: true, msg: `👨‍🍳 เชฟหัวหน้าตีกลับ! ${MENU_BY_ID[best.tk.id].th} ของ${best.tk.set.th}${cookedQ < 40 ? ` ทำไม่ได้มาตรฐาน (ฝีมือ ${cookedQ}%)` : ` ได้แค่ ${best.r.total}/100`} · โต๊ะคอร์สต้องผ่านมาตรฐาน ทำใหม่!` };
       if (!best || best.r.comp < .5) {
         const tk0 = g.tickets.find(t => t.k === sel) || g.tickets[0]; if (!tk0) return { ok: false, msg: 'ยังไม่มีออร์เดอร์' }; const m = MENU_BY_ID[tk0.id];
         const r = judgeDish(m, plate, season, 1);
@@ -536,17 +592,27 @@
         if (g.courses.main && g.courses.side && g.courses.dessert) { ['main', 'side', 'dessert'].forEach(k => g.courses[k]--); g.sets++; bonus = SET_BONUS } }
       // combo: good dishes served one after another (within COMBO_MS) multiply the score
       const good = best.r.comp >= .9 && best.r.total >= 55;
-      g.combo = good && now - g.lastServe <= COMBO_MS ? g.combo + 1 : good ? 1 : 0; if (good) g.lastServe = now;
+      g.combo = good && now - g.lastServe <= (opt.comboMs || COMBO_MS) ? g.combo + 1 : good ? 1 : 0; if (good) g.lastServe = now;
       const cx = 1 + Math.min(.5, Math.max(0, g.combo - 1) * .1);
-      pts = Math.round(pts * cx);
+      // the score report: where every point of this dish came from (the dish's 100-point judging × the menu's tier, then the extras)
+      const why = { recipe: Math.round(best.r.recipe * x), tech: Math.round(best.r.tech * x), taste: Math.round(best.r.taste * x), time: Math.round(best.r.time * x) };
+      const base = pts; pts = Math.round(pts * cx); why.combo = pts - base; why.round = base - why.recipe - why.tech - why.taste - why.time;
       // the gold order: first cook to serve it wins the bonus
       let gold = 0; if (best.tk.gold) gold = GOLD_BONUS;
+      // challenges: the Pressure Test dish pays for quality, the speed round pays half again
+      if (best.tk.chal) why.chal = Math.round(30 + best.r.total * .7);
+      if (now < (g.boostUntil || 0)) why.chal = (why.chal || 0) + Math.round(pts * .5);
+      pts += why.chal || 0;
+      // a set order is done when its last dish goes out
+      let setDone = null; if (best.tk.set) { const S2 = best.tk.set; g.setQ = g.setQ || {}; const q = g.setQ[S2.g] = (g.setQ[S2.g] || 0) + best.r.total;
+        if (!g.tickets.some(t => t !== best.tk && t.set && t.set.g === S2.g)) { const avg = Math.round(q / S2.n), wow = avg >= HK_GOOD; bonus += SET_BONUS + 15 * S2.n + (wow ? 40 : 0); g.sets++; setDone = { n: S2.n, th: S2.th, avg, wow } } }
       pts += bonus + gold; g.score += pts; g.served++; bump(now, meterGain(pts)); if (Q && g.served >= g.goal) goalHit(now); if (!opt.noWash) g.dirty++;
       // every 3rd combo step earns a prank card (one at a time)
-      if (g.tips > 0) { pts = Math.round(pts * 1.5); g.tips-- }
+      why.set = bonus; why.gold = gold;
+      if (g.tips > 0) { const tip = Math.round(pts * .5); pts += tip; g.score += tip; why.tip = tip; g.tips-- }
       let card = null; const deck = opt.coop ? CO_CARDS : CARDS; if (!opt.noCards && g.combo >= 3 && g.combo % 3 === 0 && !g.card) { card = deck[(g.cards++ * 7 + g.served) % deck.length].id; g.card = card }
       g.tickets = g.tickets.filter(t => t !== best.tk); refill(now);
-      return { ok: true, pts, bonus, gold, combo: g.combo, cx: Math.round(cx * 100) / 100, card, k: best.tk.k, id: best.m.id, th: best.m.th, tier: best.m.tier, x: Math.round(x * 100) / 100, rush: best.tk.rush, req: best.tk.req, br: best.r, plate, goldK: best.tk.gold ? best.tk.k : null };
+      return { ok: true, pts, why, bonus, gold, setDone, chal: best.tk.chal || null, combo: g.combo, cx: Math.round(cx * 100) / 100, card, k: best.tk.k, id: best.m.id, th: best.m.th, tier: best.m.tier, x: Math.round(x * 100) / 100, rush: best.tk.rush, req: best.tk.req, br: best.r, plate, goldK: best.tk.gold ? best.tk.k : null };
     };
     g.clear = () => { g.dirty++; return { ok: true } };
     g.wash = now => { if (g.over(now)) return { ok: false }; if (g.dirty <= 0) return { ok: false, msg: 'ยังไม่มีจานสกปรก' }; g.dirty--; g.washed++; g.score += 3; return { ok: true } };
@@ -556,7 +622,7 @@
       return { gen: g.gen, score: g.score, served: g.served, stage: si, dq: Q ? { goal: g.goal - g.base, served: g.served - g.base, round: opt.roundNo || 0, pause: Math.max(0, g.pauseUntil - now), meter: Math.round(meterAt(now) * 10) / 10, drain: g.result || now < t0 ? 0 : Q.drain, max: METER.max, result: g.result } : null, allOpen: !!opt.allOpen, endIn: Math.round(g.end - now), nextIn: nx == null ? null : Math.max(0, Math.round(t0 + nx - now)),
         judge: opt.judge || null, sets: opt.sets ? { n: g.sets, have: { ...g.courses } } : null,
         combo: g.combo, comboLeft: g.combo ? Math.max(0, Math.round(g.lastServe + COMBO_MS - now)) : 0, card: g.card, block: Math.max(0, Math.round(g.block - now)),
-        tickets: g.tickets.map(t => ({ own: t.own || null, k: t.k, id: t.id, life: t.life, rush: t.rush, req: t.req, gold: !!t.gold, left: Math.round(Math.min(t.life * 1000, t.born + t.life * 1000 - now)) })) };
+        boost: Math.max(0, Math.round((g.boostUntil || 0) - now)), tickets: g.tickets.map(t => ({ own: t.own || null, set: t.set || null, chal: t.chal || null, k: t.k, id: t.id, life: t.life, rush: t.rush, req: t.req, gold: !!t.gold, left: Math.round(Math.min(t.life * 1000, t.born + t.life * 1000 - now)) })) };
     };
     return g;
   }
@@ -566,6 +632,16 @@
      so you must pass ingredients to your teammate (and only to your teammate).
      The match keeps a ledger of what each player received, so nobody can use an
      ingredient that neither their pantry nor their teammate gave them.          */
+  /* ---------- chef skills: every chef avatar has one, applied here by the referee (so nobody can fake it) ---------- */
+  const SKILLS = [
+    { id: 'taste', th: 'ลิ้นทอง', d: 'คะแนนรสชาติทุกจาน +25%' },
+    { id: 'knife', th: 'มือมีดเทพ', d: 'หั่น / ตำ ได้คุณภาพอย่างน้อย 85%' },
+    { id: 'heat', th: 'เจ้าแห่งไฟ', d: 'ผัด / ทอด / ย่าง คุณภาพ +10' },
+    { id: 'calm', th: 'ลูกค้ารักรอ', d: 'ลูกค้ารอนานขึ้น 20% (เดี่ยว/ทีม)' },
+    { id: 'charm', th: 'เสน่ห์ปลายจวัก', d: 'ได้ทิปทุกจาน +10%' },
+    { id: 'combo', th: 'มือไวคอมโบ', d: 'ต่อคอมโบได้นานขึ้น 10 วินาที' },
+  ];
+  const skillOf = chef => SKILLS[Number.isInteger(+chef) && +chef >= 0 && +chef < SKILLS.length ? +chef : 0].id;
   function splitPantry(gen) {
     const r = mulberry((Math.floor(gen) % 2147483647) ^ 0x5eed);
     const keys = Object.keys(ING).sort();
@@ -584,12 +660,16 @@
     const D = DIFFS[diff] ? diff : 'normal'; M.diff = D;
     const dopt = { lifeX: DIFFS[D].lifeX * (coop && players.length > 1 ? 1.25 : 1), capMax: DIFFS[D].capMax ? DIFFS[D].capMax + (coop ? Math.floor(players.length / 2) : 0) : 0, capAdd: (DIFFS[D].capAdd || 0) + (coop ? Math.floor((players.length - 1) / 2) + (players.length > 1 ? 1 : 0) : 0), easy: D === 'easy', noCards: D === 'easy', coop };
     const gopt = tut ? { easy: true, noCards: true, allOpen: true, allowed: ['hotdog'], capMax: 1, lifeX: 20 } : { ...dopt, ...(M.round === 'mystery' ? { allowed: box.menus, allOpen: true } : M.round === 'final' ? { allOpen: true, judge, sets: true } : D === 'easy' ? { allowed: EASY_MENUS, allOpen: true } : {}) };
-    if (DAY) { const n = players.length; Object.assign(gopt, { owners: coop ? players.map(p => p.id) : null, noSauce: true, quota: { goal: DAY.goal + Math.floor((n - 1) * .75), cap: n, drain: DAY.drain }, lifeX: DAY.px * (n > 1 ? 1.15 : 1), capAdd: 0, capMax: 0, allowed: DAY.menus, day: { tools: DAY.tools, menus: DAY.menus, ings: DAY.ings }, noWash: !DAY.wash, noTaste: !DAY.season, noCards: !DAY.cards, easy: false }); delete gopt.allOpen; delete gopt.capMax }
-    if (coop && players.length >= 4 && !gopt.allowed) gopt.allOpen = true;   // big kitchens: every station open from the start, so nobody stands idle
-    M.players = players.map((p, i) => ({ id: p.id, bot: p.bot || null, sk: p.sk || 1, team: coop ? 0 : team ? Math.floor(i / 2) : i, slot: team ? i % 2 : coop ? i : 0, recv: {}, served: 0, next: 0, ledger: {}, cooking: null }));
+    if (DAY) { const n = players.length; Object.assign(gopt, { owners: coop ? players.map(p => p.id) : null, noSauce: true, quota: { goal: DAY.goal + Math.floor((n - 1) * .75), cap: n, drain: DAY.drain * (n > 1 ? 1 : .8) }, lifeX: DAY.px * (n > 1 ? 1.15 : 1), capAdd: 0, capMax: 0, allowed: DAY.menus, day: { tools: DAY.tools, menus: DAY.menus, ings: DAY.ings }, noWash: !DAY.wash, noTaste: !DAY.season, noCards: !DAY.cards, easy: false }); delete gopt.allOpen; delete gopt.capMax }
+    if (coop && players.length >= 4 && !gopt.allowed) gopt.allOpen = true;
+    if (!tut && !DAY && !coop) gopt.hell = true;   // Hell's Kitchen table orders (courses in order) show up in normal / team / tournament kitchens
+    // MasterChef-style challenges at fixed points of the match (the same for everyone); ท้าชิง (duel) is started by a player
+    M.chal = !tut && !DAY && !coop ? (dur >= 600 ? [{ at: t0 + dur * 1000 * .2, type: 'pressure' }, { at: t0 + dur * 1000 * .42, type: 'speed' }, { at: t0 + dur * 1000 * .64, type: 'pressure' }, { at: t0 + dur * 1000 * .85, type: 'speed' }] : dur <= 120 ? [{ at: t0 + dur * 1000 * .4, type: 'pressure' }] : [{ at: t0 + dur * 1000 * .3, type: 'pressure' }, { at: t0 + dur * 1000 * .62, type: 'speed' }]) : []; M.chalN = 0; M.chalUntil = 0; M.chalNow = null; M.duels = [];   // big kitchens: every station open from the start, so nobody stands idle
+    M.players = players.map((p, i) => ({ id: p.id, bot: p.bot || null, sk: p.sk || 1, chef: Number.isInteger(+p.chef) ? +p.chef : 0, skill: skillOf(p.chef), team: coop ? 0 : team ? Math.floor(i / 2) : i, slot: team ? i % 2 : coop ? i : 0, recv: {}, served: 0, next: 0, ledger: {}, cooking: null }));
     const split = team ? splitPantry(gen) : null;
     M.market = !!(market && !team && !box && !tut && diff !== 'easy');
-    M.plates = null;
+    // plate holders on the pass: a team shares 3 plates (and one pantry + one set of stations), a solo cook has 2. Co-op / tutorial keep the old single plate
+    M.plates = !coop && !tut && !DAY ? {} : null;
     // co-op (Family Style): everyone has DIFFERENT ingredients and DIFFERENT stations; pass only to the cook on your left or right
     const n = players.length;
     const splitN = (keys, seed) => { const r = mulberry((Math.floor(gen) % 2147483647) ^ seed); const k = keys.slice().sort(); for (let i = k.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [k[i], k[j]] = [k[j], k[i]] } return Array.from({ length: n }, (_, s) => k.filter((_, i) => i % n === s)) };
@@ -602,7 +682,10 @@
     if (coop) { M.nextChaos = !tut && D !== 'easy' && (!DAY || DAY.rival) ? t0 + dur * 1000 * .3 : Infinity }
     if (DAY && !DAY.gold) M.nextGold = Infinity; if (DAY && DAY.gold) M.nextGold = t0 + dur * 1000 * .25;
     if (M.market) { M.belt = []; M.beltId = 0; M.beltNext = t0 }
-    M.players.forEach(p => { p.pts = 0; p.block = 0; p.tools = ringTools ? ringTools[p.slot] : null; p.pantry = team ? split[p.slot] : ringPantry ? ringPantry[p.slot] : box ? box.pantry : M.market ? STAPLES.slice() : null; if (!M.games[p.team]) M.games[p.team] = createGame(gen, dur, t0, gopt) });
+    M.players.forEach(p => { p.pts = 0; p.block = 0; p.tools = ringTools ? ringTools[p.slot] : null; p.pantry = team ? (box ? box.pantry : null) : ringPantry ? ringPantry[p.slot] : box ? box.pantry : M.market ? STAPLES.slice() : null; if (!M.games[p.team]) { const mates = M.players.filter(q => q.team === p.team && !q.bot);
+      // skills that change the whole kitchen (only where the kitchen belongs to you or your team; the co-op table keeps its shared rules)
+      const o = DAY || coop ? gopt : { ...gopt, lifeX: (gopt.lifeX || 1) * (mates.some(q => q.skill === 'calm') ? 1.2 : 1), comboMs: mates.some(q => q.skill === 'combo') ? COMBO_MS + 10000 : 0 };
+      M.games[p.team] = createGame(gen, dur, t0, o); if (M.plates) M.plates[p.team] = Array.from({ length: team ? 3 : 2 }, () => ({ items: [], season: {}, dirty: false })) } });
     const P = id => M.players.find(p => p.id === id);
     // ---- continuous co-op (Family Style): clearing a round's dishes opens the next round in the SAME match:
     //      new menus and stations, a fresh deal of ingredients/stations round the table, a short pause for the round card
@@ -613,10 +696,10 @@
       gopt.onGoal = now => {
         const g0 = M.games[M.players[0].team], nx = RUN[M.day]; if (!nx) { g0.finish('clear', now); return }
         const Q = gopt.quota, v = Math.min(METER.max, g0.meterAt(now) + ROUND_BONUS);
-        M.day = nx.n; gopt.roundNo = nx.n; Q.goal = nx.goal + Math.floor((n - 1) * .75); Q.cap = n; Q.drain = nx.drain;
+        M.day = nx.n; gopt.roundNo = nx.n; Q.goal = nx.goal + Math.floor((n - 1) * .75); Q.cap = n; Q.drain = nx.drain * (n > 1 ? 1 : .8);
         gopt.lifeX = nx.px * (n > 1 ? 1.15 : 1); gopt.allowed = nx.menus; gopt.day = { tools: nx.tools, menus: nx.menus, ings: nx.ings };
         g0.base = g0.served; g0.goal = g0.served + Q.goal; g0.meter = v; g0.mt = now + ROUND_PAUSE; g0.pauseUntil = now + ROUND_PAUSE; g0.tickets = []; g0.changed = true;
-        deal(nx); M.roundEv = { type: 'round', day: nx.n } };
+        deal(nx); M.lastDeal = now; M.roundEv = { type: 'round', day: nx.n } };   // (lastDeal: refusals right after a re-deal are honest races, not cheating)
     }
     const mateOf = p => team ? M.players.find(q => q.team === p.team && q !== p) : null;
     const ringOf = p => { const i = M.players.indexOf(p); return { l: M.players[(i - 1 + n) % n], r: M.players[(i + 1) % n] } };
@@ -634,7 +717,7 @@
     const openTools = now => M.games[M.players[0].team].info(now).tools;
     /* ---- cooking ledger: the server remembers every cooked item, so a plate can only hold food that was really cooked ---- */
     const L = (p, key) => (p.ledger[key] = p.ledger[key] || []);
-    M.cookStart = (id, tool, now) => { const p = P(id); if (!p || p.bot || !MIN_COOK[tool]) return { ok: false }; if (p.tools && !p.tools.includes(tool)) return { ok: false, msg: 'เครื่องครัวนี้อยู่ที่สเตชันของเพื่อน' }; if (M.games[p.team].block > now || p.block > now) return { ok: false, msg: 'ไฟดับ! รอแป๊บ' }; p.cooking = { tool, t: now }; return { ok: true } };
+    M.cookStart = (id, tool, now) => { const p = P(id); if (!p || p.bot || !MIN_COOK[tool]) return { ok: false }; if (p.tools && !p.tools.includes(tool)) return { ok: false, msg: 'เครื่องครัวนี้อยู่ที่สเตชันของเพื่อน' }; if (M.games[p.team].block > now || p.block > now) return { ok: false, msg: 'ไฟดับ! รอแป๊บ' }; if (team && M.players.some(q => q.team === p.team && q !== p && q.cooking && q.cooking.tool === tool && now - q.cooking.t < 25000)) return { ok: false, busy: true, msg: 'เพื่อนร่วมทีมกำลังใช้เครื่องครัวนี้อยู่' }; p.cooking = { tool, t: now }; return { ok: true } };
     M.cook = (id, c, now) => {
       const p = P(id); if (!p || p.bot) return { ok: false, msg: 'ไม่ได้อยู่ในเกม' };
       if (M.games[p.team].over(now)) return { ok: false, msg: 'หมดเวลาแล้ว' };
@@ -643,12 +726,15 @@
       if (!openTools(now).includes(c.tool)) return { ok: false, msg: 'เครื่องครัวยังไม่เปิด' };
       if (p.tools && !p.tools.includes(c.tool)) return { ok: false, msg: 'เครื่องครัวนี้อยู่ที่สเตชันของเพื่อน' };  // (a power cut only stops new cooking; food already on the fire finishes)
       const kind = c.tool === 'mortar' && to === 'somtam' ? 'somtam' : c.tool;
-      if (!p.cooking || p.cooking.tool !== c.tool || now - p.cooking.t < MIN_COOK[kind]) return { ok: false, msg: 'ทำเร็วเกินจริง' };
+      if (!p.cooking || p.cooking.tool !== c.tool || now - p.cooking.t < MIN_COOK[kind] * .8) return { ok: false, msg: 'ทำเร็วเกินจริง' };   // 20% slack for network jitter
       p.cooking = null;
       let inQ = 100;
       if (c.st === 'raw') { if (own(p, [c.ing], true)) return { ok: false, msg: `คุณไม่มี ${ING[c.ing].th}` } }
       else { const l = L(p, c.ing + ':' + c.st); if (!l.length) return { ok: false, msg: 'ไม่มีของชิ้นนี้' }; l.sort((a, b) => b - a); inQ = l.shift() }
-      const q = Math.round(clamp(+c.q || 0)); const out = c.st === 'raw' ? q : Math.round((inQ + q) / 2);
+      let q = Math.round(clamp(+c.q || 0));
+      if (p.skill === 'knife' && (c.tool === 'knife' || c.tool === 'mortar')) q = Math.max(q, 85);
+      if (p.skill === 'heat' && ['pan', 'fryer', 'grill'].includes(c.tool)) q = Math.min(100, q + 10);
+      const out = c.st === 'raw' ? q : Math.round((inQ + q) / 2);
       L(p, c.ing + ':' + to).push(out);
       return { ok: true, q: out };
     };
@@ -664,10 +750,23 @@
       if (take) for (const [key, n] of Object.entries(used)) { const l = p.ledger[key].sort((a, b) => b - a); l.splice(0, n) }
       return { plate: out };
     }
+    /* ---- ท้าชิง: challenge someone above you for 60 s; whoever earns more in that time wins the bonus ----
+       a person is judged on their real score; a bot (simulated on the host's screen) is given a weaker result by the referee */
+    M.duel = (id, target, now) => {
+      const p = P(id); if (!p || p.bot || M.mode !== 'solo' || tut) return { ok: false, msg: 'ท้าชิงได้ในโหมดเดี่ยว' };
+      const g = M.games[p.team]; if (g.over(now) || now < t0) return { ok: false, msg: 'หมดเวลาแล้ว' };
+      if (M.stage(now) < 1) return { ok: false, msg: 'ท้าชิงได้ตั้งแต่ช่วงที่ 2' }; if ((p.dueled || 0) >= (dur >= 600 ? 2 : 1)) return { ok: false, msg: dur >= 600 ? 'ท้าชิงได้เกมละ 2 ครั้ง' : 'ท้าชิงได้เกมละครั้ง' };
+      if (now > g.end - DUEL_MS) return { ok: false, msg: 'เหลือเวลาไม่พอท้าชิงแล้ว' };
+      const b = typeof target === 'string' ? target.slice(0, 40) : ''; const q = P(b); if (!b || q === p) return { ok: false, msg: 'เลือกคู่ท้าชิงไม่ถูกต้อง' };
+      if (M.duels.some(d => !d.done && [d.a, d.b].some(x => x === id || x === b))) return { ok: false, msg: 'คนนี้กำลังท้าชิงอยู่' };
+      p.dueled = (p.dueled || 0) + 1; const d = { a: id, b, human: !!q, t0: now, t1: now + DUEL_MS, sa: g.score, sb: q ? M.games[q.team].score : 0, bot: q ? 0 : Math.round(30 + rand() * 50), done: false };
+      M.duels.push(d); return { ok: true, events: [{ type: 'duel', st: 'start', a: id, b, ms: DUEL_MS, human: !!q }] };
+    };
+    const duelOf = (id, now) => { const d = M.duels.find(x => !x.done && (x.a === id || x.b === id)); if (!d) return null; const ga = M.games[P(d.a).team].score - d.sa, gb = d.human ? M.games[P(d.b).team].score - d.sb : null; return { a: d.a, b: d.b, left: Math.max(0, d.t1 - now), ga, gb } };
     M.teams = () => Object.entries(M.games).map(([t, g]) => ({ t: +t, score: g.score, served: g.served, members: M.players.filter(p => p.team === +t).map(p => p.id) }));
     M.snap = (id, now) => {
       const p = P(id); if (!p) return null; const g = M.games[p.team]; const s = g.snap(now); const mate = mateOf(p);
-      return { ...s, mode: M.mode, day: M.day, noWash: !!g.opt.noWash, noTaste: !!g.opt.noTaste, round: M.round, diff: M.diff, plates: null, cooks: M.players.length, ring: coop ? { l: n > 1 ? ringOf(p).l.id : null, r: n > 1 ? ringOf(p).r.id : null, tools: p.tools, block: Math.max(0, p.block - now), who: M.players.map(q => ({ id: q.id, pts: q.pts, served: q.served, tools: q.tools, pantry: q.pantry })) } : null, tips: g.tips || 0, market: M.market ? { belt: M.belt.map(b => ({ id: b.id, ing: b.ing, left: Math.max(0, Math.round(b.at + BELT.life - now)) })), life: BELT.life, hold: BELT.hold } : null, box: box ? box.menus : null, team: p.team, slot: p.slot, mate: mate ? mate.id : null, pantry: p.pantry, recv: { ...p.recv }, teams: M.teams() };
+      return { ...s, mode: M.mode, day: M.day, noWash: !!g.opt.noWash, noTaste: !!g.opt.noTaste, round: M.round, diff: M.diff, plates: M.plates ? M.plates[p.team].map(x => ({ items: x.items.map(i => ({ ...i })), season: { ...x.season }, dirty: x.dirty })) : null, busyT: team ? Object.fromEntries(M.players.filter(q => q.team === p.team && q !== p && q.cooking && now - q.cooking.t < 25000).map(q => [q.cooking.tool, q.id])) : null, cooks: M.players.length, ring: coop ? { l: n > 1 ? ringOf(p).l.id : null, r: n > 1 ? ringOf(p).r.id : null, tools: p.tools, block: Math.max(0, p.block - now), who: M.players.map(q => ({ id: q.id, pts: q.pts, served: q.served, tools: q.tools, pantry: q.pantry })) } : null, tips: g.tips || 0, market: M.market ? { belt: M.belt.map(b => ({ id: b.id, ing: b.ing, left: Math.max(0, Math.round(b.at + BELT.life - now)) })), life: BELT.life, hold: BELT.hold } : null, box: box ? box.menus : null, chal: M.chalNow && M.chalUntil > now ? { ...M.chalNow, left: M.chalUntil - now } : null, duel: duelOf(p.id, now), dueled: (p.dueled || 0) >= (dur >= 600 ? 2 : 1), team: p.team, slot: p.slot, mate: mate ? mate.id : null, pantry: p.pantry, recv: { ...p.recv }, teams: M.teams() };
     };
     M.serve = (id, payload, now) => {
       const p = P(id); if (!p || p.bot) return { ok: false, msg: 'ไม่ได้อยู่ในเกม' };
@@ -676,10 +775,15 @@
       const miss = own(p, raws, false); if (miss) return { ok: false, msg: `${ING[miss].th} ไม่ได้มาจากตู้ของคุณหรือเพื่อนร่วมทีม` };
       const pr = proven(p, plate, false); if (pr.miss) return { ok: false, msg: `${itemName(pr.miss)} ยังไม่ได้ทำจริง` };
       const r = M.games[p.team].serve({ ...payload, plate: pr.plate, by: p.id }, now);
-      if (r.ok) { own(p, raws, true); proven(p, plate, true); p.served++; p.pts += r.pts;
-        if (r.goldK != null) { for (const g of Object.values(M.games)) g.tickets = g.tickets.filter(t => !t.gold); r.events = [{ type: 'gold', by: p.id, th: r.th, pts: r.gold }] } }
+      if (r.ok) { own(p, raws, true); proven(p, plate, true); afterServe(p, r) }
       return r;
     };
+    // skills + the gold order, for any kind of serve
+    function afterServe(p, r) { let extra = 0;
+      if (p.skill === 'taste') extra = Math.round((r.why ? r.why.taste : 0) * .25); else if (p.skill === 'charm') extra = Math.round(r.pts * .1);
+      if (extra) { M.games[p.team].score += extra; r.pts += extra; r.why = { ...(r.why || {}), skill: extra } }
+      p.served++; p.pts += r.pts;
+      if (r.goldK != null) { for (const g of Object.values(M.games)) g.tickets = g.tickets.filter(t => !t.gold); r.events = [{ type: 'gold', by: p.id, th: r.th, pts: r.gold }] } }
     M.pass = (id, item, now, dir, fx) => {
       const p = P(id); const mate = p && (coop ? (n > 1 ? ringOf(p)[dir === 'l' ? 'l' : 'r'] : null) : mateOf(p)); if (!p || !mate || mate === p) return { ok: false, msg: coop ? 'ส่งได้แค่เพื่อนข้าง ๆ' : 'ส่งได้เฉพาะเพื่อนร่วมทีม' };
       if (M.games[p.team].over(now)) return { ok: false, msg: 'หมดเวลาแล้ว' };
@@ -688,7 +792,7 @@
       let thing = it[0];
       if (thing.st === 'raw') { if (own(p, [thing.ing], true)) return { ok: false, msg: `คุณไม่มี ${ING[thing.ing].th}` }; mate.recv[thing.ing] = (mate.recv[thing.ing] || 0) + 1 }
       else { const pr = proven(p, [thing], true); if (pr.miss) return { ok: false, msg: 'ของชิ้นนี้ยังไม่ได้ทำจริง' }; thing = pr.plate[0]; L(mate, thing.ing + ':' + thing.st).push(thing.q) }
-      mate.from = mate.from || {}; mate.from[thing.ing] = p.id;
+      mate.from = mate.from || {}; mate.from[thing.ing] = p.id; if (mate.bot && coop) mate.next = Math.min(mate.next || Infinity, now + 900 + rand() * 700);
       // fx: where the piece left the sender's table and how fast (only for the look: it slides in at that height with that speed)
       const f = fx && typeof fx === 'object' ? { y: Math.round(clamp01(+fx.y || .5) * 100) / 100, v: Math.round(Math.max(.3, Math.min(2.5, +fx.v || 1)) * 100) / 100 } : null;
       return { ok: true, events: [{ type: 'recv', to: mate.id, from: p.id, item: thing, dir: dir === 'l' ? 'l' : 'r', fx: f }] };
@@ -733,9 +837,10 @@
     // throw away a raw market item you were holding
     M.drop = (id, ing) => { const p = P(id); if (!p || !M.market || STAPLES.includes(ing)) return { ok: false }; if ((p.recv[ing] || 0) > 0) p.recv[ing]--; return { ok: true } };
     /* ---- co-op: shared plates on the pass ---- */
-    const PL = i => M.plates && M.plates[+i];
+    const PL = (p, i) => p && M.plates && M.plates[p.team] && M.plates[p.team][+i];
+    const dirtyOK = g => !g.opt.easy && !g.opt.noWash;
     M.place = (id, pi, item, now) => {
-      const p = P(id), pl = PL(pi); if (!p || !pl) return { ok: false }; const g = M.games[p.team]; if (g.over(now)) return { ok: false, msg: 'หมดเวลาแล้ว' };
+      const p = P(id), pl = PL(p, pi); if (!p || !pl) return { ok: false }; const g = M.games[p.team]; if (g.over(now)) return { ok: false, msg: 'หมดเวลาแล้ว' };
       if (pl.dirty) return { ok: false, msg: 'จานนี้สกปรก ล้างก่อน' }; if (pl.items.length >= MAX_PLATE) return { ok: false, msg: 'จานเต็มแล้ว' };
       const it = cleanPlate([item]); if (!it) return { ok: false, msg: 'ของไม่ถูกต้อง' };
       const open = g.info(now).tools; if (itemTools(it[0]).some(t => !open.includes(t))) return { ok: false, msg: 'ใช้เครื่องครัวที่ยังไม่เปิด' };
@@ -744,19 +849,19 @@
       else { const pr = proven(p, [thing], true); if (pr.miss) return { ok: false, msg: `${itemName(thing)} ยังไม่ได้ทำจริง` }; thing = pr.plate[0] }
       pl.items.push({ ...thing, by: id }); return { ok: true };
     };
-    M.seasonPlate = (id, pi, season) => { const pl = PL(pi); if (!P(id) || !pl || pl.dirty) return { ok: false }; pl.season = cleanSeason(season); return { ok: true } };
-    M.dumpPlate = (id, pi) => { const p = P(id), pl = PL(pi); if (!p || !pl || !pl.items.length) return { ok: false }; pl.items = []; pl.season = {}; if (!M.games[p.team].opt.easy) pl.dirty = true; return { ok: true } };
+    M.seasonPlate = (id, pi, season) => { const pl = PL(P(id), pi); if (!P(id) || !pl || pl.dirty) return { ok: false }; pl.season = cleanSeason(season); return { ok: true } };
+    M.dumpPlate = (id, pi) => { const p = P(id), pl = PL(p, pi); if (!p || !pl || !pl.items.length) return { ok: false }; pl.items = []; pl.season = {}; if (dirtyOK(M.games[p.team])) pl.dirty = true; return { ok: true } };
     M.servePlate = (id, pi, sel, now) => {
-      const p = P(id), pl = PL(pi); if (!p || !pl) return { ok: false }; if (!pl.items.length) return { ok: false, msg: 'จานยังว่างอยู่' };
-      const g = M.games[p.team]; const r = g.serve({ plate: pl.items.map(({ ing, st, amt, q }) => ({ ing, st, amt, q })), season: pl.season, sel }, now);
+      const p = P(id), pl = PL(p, pi); if (!p || !pl) return { ok: false }; if (!pl.items.length) return { ok: false, msg: 'จานยังว่างอยู่' };
+      const g = M.games[p.team]; const r = g.serve({ plate: pl.items.map(({ ing, st, amt, q }) => ({ ing, st, amt, q })), season: pl.season, sel, by: p.id }, now);
       if (!r.ok) return r;
       const helpers = [...new Set(pl.items.map(x => x.by))];
-      pl.items = []; pl.season = {}; if (!g.opt.easy) pl.dirty = true; p.served++;
-      return { ...r, helpers, events: [{ type: 'coopserve', by: id, th: r.th, pts: r.pts, helpers }] };
+      pl.items = []; pl.season = {}; if (dirtyOK(g)) pl.dirty = true; afterServe(p, r);
+      return { ...r, helpers, events: [...(r.events || []), ...(coop ? [{ type: 'coopserve', by: id, th: r.th, pts: r.pts, helpers }] : [])] };
     };
     M.wash = (id, now) => {
       const p = P(id); if (!p) return { ok: false };
-      if (M.plates) { const g = M.games[p.team]; if (g.over(now)) return { ok: false }; const pl = M.plates.find(x => x.dirty); if (!pl) return { ok: false, msg: 'ยังไม่มีจานสกปรก' }; pl.dirty = false; g.washed++; g.score += 3; return { ok: true } }
+      if (M.plates) { const g = M.games[p.team]; if (g.over(now)) return { ok: false }; const pl = M.plates[p.team].find(x => x.dirty); if (!pl) return { ok: false, msg: 'ยังไม่มีจานสกปรก' }; pl.dirty = false; g.washed++; g.score += 3; return { ok: true } }
       return M.games[p.team].wash(now) };
     M.washOld = (id, now) => { const p = P(id); return p ? M.games[p.team].wash(now) : { ok: false } };
     // dumping a plate throws its cooked food away for real
@@ -787,6 +892,17 @@
         }
       }
       const si = M.stage(now); if (si !== M.lastStage) { M.lastStage = si; changed = true; events.push({ type: 'stage', i: si }) }
+      for (const c of M.chal) if (!c.done && now >= c.at && !M.over(now)) { c.done = true; changed = true; const ms = CHAL[c.type].ms; M.chalUntil = now + ms;
+        if (c.type === 'pressure') { const g0 = Object.values(M.games)[0]; const st = g0.info(now); const all = st.menus.filter(id => !g0.opt.allowed || g0.opt.allowed.includes(id)).map(id => MENU_BY_ID[id]); const hard = all.filter(m => m.tier >= 2);
+          const L2 = hard.length ? hard : all; const m = L2[(Math.floor(gen) + 7 * ++M.chalN) % L2.length]; if (!m) continue;
+          for (const g of Object.values(M.games)) g.tickets.push({ k: 8000 + M.chalN, id: m.id, born: now, life: ms / 1000, rush: false, req: null, chal: 'pressure' });
+          M.chalNow = { kind: 'pressure', th: CHAL.pressure.th, dish: m.th }; events.push({ type: 'chal', kind: 'pressure', th: CHAL.pressure.th, dish: m.th, ms }) }
+        if (c.type === 'speed') { for (const g of Object.values(M.games)) g.boostUntil = now + ms; M.chalNow = { kind: 'speed', th: CHAL.speed.th }; events.push({ type: 'chal', kind: 'speed', th: CHAL.speed.th, ms }) } }
+      for (const d of M.duels) if (!d.done && (now >= d.t1 || M.over(now))) { d.done = true; changed = true;
+        const pa = P(d.a), pb = P(d.b), ga = M.games[pa.team].score - d.sa, gb = d.human ? M.games[pb.team].score - d.sb : d.bot;
+        const win = ga > gb ? d.a : gb > ga ? d.b : null, lose = win === d.a ? d.b : win === d.b ? d.a : null;
+        if (win && P(win)) M.games[P(win).team].score += DUEL_WIN; if (lose && P(lose)) { const gl = M.games[P(lose).team]; gl.score = Math.max(0, gl.score - DUEL_LOSE) }
+        events.push({ type: 'duel', st: 'end', a: d.a, b: d.b, ga, gb, win, bonus: DUEL_WIN, lose: DUEL_LOSE, human: d.human }) }
       if (coop && !M.over(now)) {
         const g = Object.values(M.games)[0];
         // the rival shop: from 30% of the round, every 40-55 s a prank lands on one cook (Family Style chaos)
@@ -796,40 +912,57 @@
         M.queue = M.queue.filter(q => { if (now < q.at) return true; const from = P(q.from), to = P(q.to); if (!from || !to) return false;
           const r = M.pass(q.from, { ing: q.ing, st: 'raw', amt: ING[q.ing].d, q: 100 }, now, toward(from, to)); if (r.ok) { changed = true; events.push(...r.events) } return false });
         const humans = M.players.filter(q => !q.bot);
+        // bots at the co-op table really cook: they work their own order step by step at their own stations, ask people for what
+        // they don't have, hand food that needs someone else's station to that person (and wait for it back), and help people's orders
+        const toolOwner = tool => M.players.find(q => !q.tools || q.tools.includes(tool));
+        const ingOwner = ing => M.players.find(q => q.pantry ? q.pantry.includes(ing) : true);
         for (const p of M.players) {
-          if (!p.bot || !humans.length) continue; if (!p.next) p.next = now + (3500 + rand() * 2500) / p.sk; if (now < p.next) continue;
-          p.next = now + (g.opt.owners ? 7000 + rand() * 4000 : 4500 + rand() * 3500) / p.sk;   // table co-op: bots help, but the people do most of the cooking
+          if (!p.bot || !humans.length) continue; if (!p.next) p.next = now + (2500 + rand() * 1500) / p.sk; if (now < p.next) continue;
+          p.next = now + (2600 + rand() * 1800) / p.sk;
           const near = humans.slice().sort((a, b) => { const d = x => { const i = M.players.indexOf(p), j = M.players.indexOf(x); const k = (j - i + n) % n; return Math.min(k, n - k) }; return d(a) - d(b) })[0];
-          const dir0 = toward(p, near), dir = dir0;
-          const load = humans.reduce((a, h) => a + Object.values(h.recv).reduce((x, y) => x + Math.max(0, y), 0) + Object.values(h.ledger).reduce((x, l) => x + l.length, 0), 0);
-          const onward = ing => { const f = p.from && P(p.from[ing]); if (!f || f.bot) return dir; const rg = ringOf(p); return rg.l === f ? 'r' : 'l' };   // keep it moving round the table, away from whoever handed it over
-          // 1) anything handed to this bot: cook it if the bot has the station, then pass it on toward a person
-          const got = Object.entries(p.recv).find(([, v]) => v > 0); const cookedKey = Object.keys(p.ledger).find(k => p.ledger[k].length);
-          if (got) { const ing = got[0]; const tool = p.tools ? p.tools.find(t => TR[t][ing + ':raw']) : null;
-            if (tool && g.tickets.some(t => MENU_BY_ID[t.id].c.some(c => c[0] === ing && c[1] !== 'raw' && (pathTo(ing, c[1]) || [])[0] === tool))) {
-              p.recv[ing]--; const st = TR[tool][ing + ':raw']; L(p, ing + ':' + st).push(Math.round(72 + rand() * 24 * Math.min(1, p.sk)));
-              const back = p.from && P(p.from[ing]); const d2 = back && !back.bot ? toward(p, back) : dir; const r = M.pass(p.id, { ing, st, amt: ING[ing].d, q: 90 }, now, d2); if (r.ok) { changed = true; events.push(...r.events, { type: 'coopbot', by: p.id, act: 'cook', ing, st }) } continue }
-            const r = M.pass(p.id, { ing, st: 'raw', amt: ING[ing].d, q: 100 }, now, onward(ing)); if (r.ok) { changed = true; events.push(...r.events) } continue }
-          if (cookedKey) { const [ing, st] = cookedKey.split(':');
-            // half-done food handed over (e.g. chopped potato): if this bot has the next station, do that step and send it back
-            const tool = p.tools ? p.tools.find(t => TR[t][cookedKey]) : null;
-            if (tool && g.tickets.some(t => (g.opt.noSauce ? fsComp(MENU_BY_ID[t.id]) : MENU_BY_ID[t.id].c).some(c => c[0] === ing && (pathTo(ing, c[1]) || []).includes(tool)))) {
-              const q0 = p.ledger[cookedKey].shift(); const s2 = TR[tool][cookedKey]; L(p, ing + ':' + s2).push(Math.round(((q0 || 80) + 72 + rand() * 24) / 2));
-              const back = p.from && P(p.from[ing]); const d2 = back && !back.bot ? toward(p, back) : dir; const r = M.pass(p.id, { ing, st: s2, amt: ING[ing].d, q: 90 }, now, d2); if (r.ok) { changed = true; events.push(...r.events, { type: 'coopbot', by: p.id, act: 'cook', ing, st: s2 }) } continue }
-            const r = M.pass(p.id, { ing, st, amt: ING[ing].d, q: 90 }, now, dir); if (r.ok) { changed = true; events.push(...r.events) } continue }
-          // 2) send what the open orders need and only this bot has (cooked first if its station can do it)
+          const dir = toward(p, near);
+          const myTk = g.tickets.find(t => t.own === p.id && !t.gold), comps = myTk ? (g.opt.noSauce ? fsComp(MENU_BY_ID[myTk.id]) : MENU_BY_ID[myTk.id].c) : [];
+          const needOwn = ing => comps.some(c => c[0] === ing);
+          const stock = k => (p.ledger[k] || []).length, rawHave = ing => has(p, ing) || (p.recv[ing] || 0) > 0;
+          const useRaw = ing => { if (!has(p, ing)) p.recv[ing]--; };
+          const cookAt = (who, ing, s0, tool) => { const s1 = TR[tool][ing + ':' + s0]; if (!s1) return false; let q0 = 100; if (s0 === 'raw') useRaw(ing); else { const l = p.ledger[ing + ':' + s0]; l.sort((a, b) => b - a); q0 = l.shift() }
+            L(p, ing + ':' + s1).push(Math.round((q0 + 70 + rand() * 26 * Math.min(1, p.sk)) / 2)); changed = true; events.push({ type: 'coopbot', by: who.id, act: 'cook', ing, st: s1 }); return true };
+          // 1) something handed over that isn't for this bot's own order: cook it if a waiting order needs this bot's station, else pass it on
+          const back = ing => { const b = p.from && P(p.from[ing]); return b && !b.bot ? toward(p, b) : dir };
+          const stepFor = (ing, s0) => { for (const t of g.tickets) { if (t.own === p.id) continue; for (const [i2, st] of (g.opt.noSauce ? fsComp(MENU_BY_ID[t.id]) : MENU_BY_ID[t.id].c)) { if (i2 !== ing || st === s0) continue; const path = pathTo(ing, st) || []; let s = 'raw'; for (const tool of path) { if (s === s0) return tool; s = TR[tool][ing + ':' + s] } } } return null };
+          const forPeople = (ing, s0) => { const t = stepFor(ing, s0); const f = p.from && P(p.from[ing]); return t && (!p.tools || p.tools.includes(t)) && f && !f.bot };   // a person handed it over to use this bot's station
+          const got = Object.entries(p.recv).find(([ing, v]) => v > 0 && (!needOwn(ing) || forPeople(ing, 'raw'))), cookedKey = Object.keys(p.ledger).find(k => p.ledger[k].length && (!needOwn(k.split(':')[0]) || forPeople(...k.split(':'))));
+          if (got || cookedKey) { const [ing, s0] = got ? [got[0], 'raw'] : cookedKey.split(':'); const tool = stepFor(ing, s0);
+            if (tool && (!p.tools || p.tools.includes(tool))) { cookAt(p, ing, s0, tool); const s1 = TR[tool][ing + ':' + s0]; const r = M.pass(p.id, { ing, st: s1, amt: ING[ing].d, q: 90 }, now, back(ing)); if (r.ok) events.push(...r.events); continue }
+            const r = M.pass(p.id, { ing, st: s0, amt: ING[ing].d, q: s0 === 'raw' ? 100 : 90 }, now, got ? (p.from && P(p.from[ing]) && !P(p.from[ing]).bot ? (toward(p, P(p.from[ing])) === 'l' ? 'r' : 'l') : dir) : back(ing)); if (r.ok) { changed = true; events.push(...r.events) } continue }
+          // 2) help a person's order: send what only this bot has (cooked first when this bot owns the first station)
           const st0 = g.info(now); const want = [];
-          for (const t of g.tickets) { const ow = t.own && P(t.own); if (ow && ow.bot) continue; for (const [ing, st] of (g.opt.noSauce ? fsComp(MENU_BY_ID[t.id]) : MENU_BY_ID[t.id].c)) if (has(p, ing) && !(ow && has(ow, ing)) && st0.ings.includes(ing) && !(M.market && !STAPLES.includes(ing))) want.push([ing, st, ow]) }
-          const fresh = load >= 2 * humans.length + 1 ? [] : want.filter(([ing, st]) => !(p.sent && p.sent[ing] > now - 20000) && humans.every(h => (h.recv[ing] || 0) < 1 && !((h.ledger[ing + ':' + st] || []).length)));
-          if (fresh.length && rand() < .7) { const [ing, st, ow] = fresh[Math.floor(rand() * fresh.length)]; const dir = ow ? toward(p, ow) : dir0; (p.sent = p.sent || {})[ing] = now; const path = pathTo(ing, st) || [];
-            if (path.length && p.tools && p.tools.includes(path[0])) { const s1 = TR[path[0]][ing + ':raw']; L(p, ing + ':' + s1).push(Math.round(72 + rand() * 24 * Math.min(1, p.sk))); const r = M.pass(p.id, { ing, st: s1, amt: ING[ing].d, q: 90 }, now, dir); if (r.ok) { changed = true; events.push(...r.events, { type: 'coopbot', by: p.id, act: 'cook', ing, st: s1 }) } }   // a multi-step piece: the bot does the first step it can (e.g. chops the potato) and hands it on
-            else { const r = M.pass(p.id, { ing, st: 'raw', amt: ING[ing].d, q: 100 }, now, dir); if (r.ok) { changed = true; events.push(...r.events) } }
+          for (const t of g.tickets) { const ow = t.own && P(t.own); if (!ow || ow.bot) continue; for (const [ing, st] of (g.opt.noSauce ? fsComp(MENU_BY_ID[t.id]) : MENU_BY_ID[t.id].c)) if (has(p, ing) && !has(ow, ing) && st0.ings.includes(ing) && !(M.market && !STAPLES.includes(ing))) want.push([ing, st, ow]) }
+          const fresh = want.filter(([ing, st, ow]) => !(p.sent && p.sent[ing + ow.id] > now - 15000) && (ow.recv[ing] || 0) < 1 && !(ow.ledger[ing + ':' + st] || []).length);
+          if (fresh.length && rand() < (myTk ? .8 : .95)) { const [ing, st, ow] = fresh[Math.floor(rand() * fresh.length)]; (p.sent = p.sent || {})[ing + ow.id] = now; const path = pathTo(ing, st) || [];
+            if (path.length && (!p.tools || p.tools.includes(path[0]))) { cookAt(p, ing, 'raw', path[0]); const s1 = TR[path[0]][ing + ':raw']; const r = M.pass(p.id, { ing, st: s1, amt: ING[ing].d, q: 90 }, now, toward(p, ow)); if (r.ok) events.push(...r.events) }
+            else { const r = M.pass(p.id, { ing, st: 'raw', amt: ING[ing].d, q: 100 }, now, toward(p, ow)); if (r.ok) { changed = true; events.push(...r.events) } }
             continue }
-          // 3) nothing to send: the bot plates an order by itself now and then
-          const myTk = g.opt.owners ? g.tickets.find(t => t.own === p.id) : (g.tickets.find(t => !t.gold) || g.tickets[0]);
-          if (rand() < (g.opt.owners ? .14 : .55) && myTk) { const tk = myTk; const m = MENU_BY_ID[tk.id];
-            const pts = Math.round((50 + rand() * 35) * TIER_X[m.tier] * (tk.rush ? RUSH_X : 1) * Math.min(p.sk, 1.15)); g.botServe(pts, now, g.opt.owners ? p.id : null); p.pts += pts; p.served++; changed = true;
-            events.push({ type: 'coopserve', by: p.id, th: m.th, pts, helpers: [p.id] }) }
+          // 3) its own order: the next missing piece, one station step at a time
+          if (!myTk) continue;
+          const left = {}; for (const [ing, st] of comps) { const k = ing + ':' + st; left[k] = (left[k] || 0) + 1 }
+          let missing = null; for (const [k, c] of Object.entries(left)) { const [ing, st] = k.split(':'); const have = st === 'raw' ? (has(p, ing) ? 99 : (p.recv[ing] || 0)) : stock(k); if (have < c) { missing = [ing, st]; break } }
+          if (!missing) {   // everything is ready: plate it and serve
+            let qs = []; for (const [ing, st] of comps) { if (st === 'raw') { useRaw(ing); qs.push(100) } else { const l = p.ledger[ing + ':' + st]; l.sort((a, b) => b - a); qs.push(l.shift()) } }
+            const m = MENU_BY_ID[myTk.id]; const avg = qs.reduce((a, b) => a + b, 0) / qs.length; const pts = Math.round((35 + avg * .45) * TIER_X[m.tier]);
+            g.botServe(pts, now, p.id); p.pts += pts; p.served++; changed = true; events.push({ type: 'coopserve', by: p.id, th: m.th, pts, helpers: [p.id] }); continue }
+          const [ing, st] = missing; const path = pathTo(ing, st) || [];
+          let k = -1, s = 'raw', states = ['raw']; for (const tool of path) { s = TR[tool][ing + ':' + s]; states.push(s) }
+          for (let x = states.length - 2; x >= 0; x--) { const sx = states[x]; if (sx === 'raw' ? rawHave(ing) : stock(ing + ':' + sx) > 0) { k = x; break } }
+          if (k < 0) {   // the raw ingredient is on someone else's table
+            const o = ingOwner(ing); if (!o) continue; if (o.bot) { p.recv[ing] = (p.recv[ing] || 0) + 1; continue }
+            if (!(p.askT && p.askT[ing] > now - 14000)) { (p.askT = p.askT || {})[ing] = now; changed = true; events.push({ type: 'ask', to: o.id, from: p.id, ing }) } continue }
+          const tool = path[k], o = toolOwner(tool);
+          if (!p.tools || p.tools.includes(tool) || (o && o.bot)) { cookAt(o && o.bot && p.tools && !p.tools.includes(tool) ? o : p, ing, states[k], tool); continue }
+          // the station belongs to a person: hand it over and ask them to cook it and send it back
+          if (o && !(p.handT && p.handT[ing + ':' + states[k]] > now - 20000)) { (p.handT = p.handT || {})[ing + ':' + states[k]] = now;
+            const r = M.pass(p.id, { ing, st: states[k], amt: ING[ing].d, q: states[k] === 'raw' ? 100 : 90 }, now, toward(p, o));
+            if (r.ok) { changed = true; events.push(...r.events, { type: 'botneed', to: o.id, from: p.id, ing, st: states[k + 1], tool }) } }
         }
       }
       if (team && !M.over(now)) {
@@ -839,17 +972,18 @@
           if (!p.bot) continue; if (!p.next) p.next = now + (6000 + rand() * 4000) / p.sk;
           if (now < p.next) continue;
           const mate = mateOf(p); const g = M.games[p.team]; const st = g.info(now);
+          const weak = M.chalUntil > now ? 1.7 : 1;   // during a challenge the bots slow down, so people can win it
           if (mate && !mate.bot) {
-            // bot teammate: pass something the team's orders need that only the bot has
-            const need = [...new Set(g.tickets.flatMap(t => MENU_BY_ID[t.id].c.map(c => c[0])))].filter(ing => has(p, ing) && !has(mate, ing) && st.ings.includes(ing) && (mate.recv[ing] || 0) < 2);
-            if (need.length) { const ing = need[Math.floor(rand() * need.length)]; const r = M.pass(p.id, { ing, st: 'raw', amt: ING[ing].d, q: 100 }, now); if (r.ok) { changed = true; events.push(...r.events) } }
-            p.next = now + (8000 + rand() * 5000) / p.sk;
+            // bot teammate (same kitchen, nothing to pass): cooks the newest order now and then, the person does most of the work
+            const tk = g.tickets.filter(t => !t.gold && !t.chal && !t.set).sort((a, b) => b.born - a.born)[0];
+            if (tk && now > t0 + 15000) { const m = MENU_BY_ID[tk.id]; const pts = Math.round((45 + rand() * 30) * TIER_X[m.tier] * Math.min(p.sk, 1.1)); g.score += pts; g.served++; g.tickets = g.tickets.filter(t => t !== tk); p.pts += pts; p.served++; changed = true; events.push({ type: 'matecook', by: p.id, th: m.th, pts }) }
+            p.next = now + (26000 + rand() * 12000) * weak / p.sk;
           } else if (p.slot === 0) {
             // an all-bot team cooks on its own (one bot of the pair keeps the score)
             const tk = g.tickets[0]; const m = MENU_BY_ID[tk.id];
             const pts = Math.round((55 + rand() * 35) * TIER_X[m.tier] * (tk.rush ? RUSH_X : 1) * Math.min(p.sk, 1.15));
             g.botServe(pts, now);
-            p.next = now + (30000 + rand() * 12000) / p.sk; changed = true;
+            p.next = now + (30000 + rand() * 12000) * weak / p.sk; changed = true;
           } else p.next = now + 60000;
         }
       }
@@ -863,6 +997,6 @@
   return {
     TASTE, TK, ING, CATS, SEASON, SEASON_KEYS, COOK_TOOLS, TR, MENUS, MENU_BY_ID, LIFE, TIER_X, MAX_PLATE, SPECIAL,
     itemName, amtText, keyOf, mulberry, pathTo, buildSeq, tasteOf, targetOf, tasteAccuracy, seasonHint, judgeDish, cleanPlate, cleanSeason, createGame, createMatch, splitPantry, HEARTS, METER, fsComp, FS_MENUS, STAGES, STAGE_INFO, stageAt, RUSH_X,
-    REQS, JUDGES, targetFor, tourNext, tourKind, tourKeep, tourOk, TOUR_PLANS, COURSE_TH, courseOf, SET_BONUS, MIN_COOK, ROUNDS, mysteryBox, idealSeason, CARDS, CO_CARDS, DAYS, WORLDS, fsRun, TOOL_TH, COMBO_MS, GOLD_BONUS, EASY_MENUS, DIFFS, STAPLES, BELT,
+    REQS, JUDGES, targetFor, tourNext, tourKind, tourKeep, tourOk, TOUR_PLANS, COURSE_TH, courseOf, SET_BONUS, MIN_COOK, ROUNDS, mysteryBox, idealSeason, CARDS, CO_CARDS, DAYS, WORLDS, fsRun, TOOL_TH, SKILLS, skillOf, HK_COURSE, HK_MIN, HK_GOOD, CHAL, DUEL_MS, DUEL_WIN, DUEL_LOSE, COMBO_MS, GOLD_BONUS, EASY_MENUS, DIFFS, STAPLES, BELT,
   };
 });

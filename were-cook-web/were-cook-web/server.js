@@ -89,11 +89,11 @@ function reclaim(code, pid, socket, m) {
 function seatOrder(code) {
   const m = rooms.get(code); if (!m) return [];
   const hum = [...m].filter(([, p]) => p && p.joinedAt).sort(([ia, a], [ib, b]) =>
-    ((b.creator ? 1 : 0) - (a.creator ? 1 : 0)) || ((a.seq || 0) - (b.seq || 0)) || (ia < ib ? -1 : 1)).map(([id, p]) => ({ id, key: validPid(p.pid) ? p.pid : id }));
+    ((b.creator ? 1 : 0) - (a.creator ? 1 : 0)) || ((a.seq || 0) - (b.seq || 0)) || (ia < ib ? -1 : 1)).map(([id, p]) => ({ id, key: validPid(p.pid) ? p.pid : id, chef: Number.isInteger(+p.chef) ? +p.chef : 0 }));
   const host = hum[0] && m.get(hum[0].id);
   const LV = { easy: .7, normal: 1, hard: 1.35 };
   const bots = (host && Array.isArray(host.bots) ? host.bots.slice(0, 5) : []).filter(b => b && typeof b.id === 'string')
-    .map(b => ({ id: 'bot:' + b.id, key: 'bot:' + b.id, bot: LV[b.lvl] ? b.lvl : 'normal', sk: LV[b.lvl] || 1 }));
+    .map(b => ({ id: 'bot:' + b.id, key: 'bot:' + b.id, bot: LV[b.lvl] ? b.lvl : 'normal', sk: LV[b.lvl] || 1, chef: Number.isInteger(+b.chef) ? +b.chef : 0 }));
   return [...hum, ...bots];
 }
 function stopGame(code) { const gm = games.get(code); if (gm) { clearInterval(gm.timer); games.delete(code); } }
@@ -110,9 +110,10 @@ function pushAll(gm, extra) {
 function dispatch(gm, events) {
   for (const e of events || []) {
     if (e.type === 'recv' || e.type === 'ask') io.to(e.to).emit('game:' + e.type, { code: gm.code, from: e.from, item: e.item, ing: e.ing, dir: e.dir, fx: e.fx });
+    else if (e.type === 'botneed') io.to(e.to).emit('game:botneed', { code: gm.code, from: e.from, to: e.to, ing: e.ing, st: e.st, tool: e.tool });
     else if (e.type === 'expired') for (const p of humans(gm)) { if (gm.M.players.find(q => q.id === p.id).team === e.team) io.to(p.id).emit('game:expired', { code: gm.code, list: e.list }); }
     else if (e.type === 'stage') io.to(gm.code).emit('game:stage', { code: gm.code, i: e.i });
-    else if (e.type === 'prank' || e.type === 'gold' || e.type === 'goldnew' || e.type === 'grab' || e.type === 'coopserve' || e.type === 'coopbot' || e.type === 'boost') io.to(gm.code).emit('game:' + e.type, { code: gm.code, ...e });
+    else if (e.type === 'prank' || e.type === 'gold' || e.type === 'goldnew' || e.type === 'grab' || e.type === 'coopserve' || e.type === 'coopbot' || e.type === 'boost' || e.type === 'chal' || e.type === 'duel' || e.type === 'matecook') io.to(gm.code).emit('game:' + e.type, { code: gm.code, ...e });
   }
 }
 const tours = new Map();              // code -> { round, alive: [ids] }  (tournament progress, checked by the server)
@@ -150,6 +151,7 @@ function startGame(code, gen, dur, mode, tour, diff, market, day) {
     if (round === 'team' && players.length !== 4) round = 'normal';   // someone left: no fair 2v2 with 3 cooks, play it solo instead
     t.ranTeam = round === 'team';
   } else tours.delete(code);
+  if (mode === 'team' && ![4, 6].includes(players.length)) { secLog(code, nickOf(code, hostId(code)), 'room:set', 'โหมดทีมต้องมี 4 หรือ 6 คน (จำนวนคู่)'); return; }   // team: even rooms only
   const t0 = Date.now() + COUNTDOWN_MS;
   const team = (mode === 'team' || round === 'team') && [4, 6].includes(players.length);
   // solo / tournament: only people play in the referee (solo bots are simulated by the host's screen)
@@ -164,6 +166,7 @@ function startGame(code, gen, dur, mode, tour, diff, market, day) {
     dispatch(gm, r.events);
     if (r.events.some(e => e.type === 'end')) {
       for (const p of humans(gm)) { const snap = M.snap(p.id, now); const pr = rooms.get(code).get(p.id); setServerFields(code, p.id, { done: true, score: snap.score, served: snap.served, tot: ((pr && +pr.tot) || 0) + snap.score }); }
+      try { recordRanks(code, gm, now) } catch (e) { console.warn('rank', e.message) }
       if (gm.tour && tours.get(code) && M.mode === 'team') { const best = M.teams().sort((a, b) => b.score - a.score)[0]; tours.get(code).win = best ? best.members.map(id => gm.keys[id] || id) : []; }
       if (gm.tour && tours.get(code)) { const sc = {}; for (const p of humans(gm)) { const pr = rooms.get(code).get(p.id); sc[(pr && validPid(pr.pid)) ? pr.pid : (gm.keys[p.id] || p.id)] = M.snap(p.id, now).score; } tours.get(code).scores = sc; }
       clearInterval(gm.timer); pushAll(gm); return;
@@ -173,11 +176,32 @@ function startGame(code, gen, dur, mode, tour, diff, market, day) {
   games.set(code, gm);
 }
 
+/* ---------------- ranking: best scores, written only by the referee at the end of a match ---------------- */
+const fs = require('fs');
+const RANK_FILE = process.env.RANK_FILE || __dirname + '/data/rank.json';
+// one board per mode AND match length (a 10-minute game always scores more than a 3-minute one): solo_3 / solo_5 / solo_10, team_*, and coop
+const BOARD_OK = b => typeof b === 'string' && /^((solo|team)_(3|5|10)|coop)$/.test(b);
+let RANK = {};
+try { const j = JSON.parse(fs.readFileSync(RANK_FILE, 'utf8')); for (const b of Object.keys(j)) if (BOARD_OK(b) && Array.isArray(j[b])) RANK[b] = j[b].slice(0, 50); } catch (e) { }
+let rankSave = null;
+function addRank(board, e) {
+  if (!BOARD_OK(board) || !(e.score > 0)) return;
+  const L = RANK[board] = RANK[board] || []; const i = L.findIndex(x => x.pid === e.pid);
+  if (i > -1) { if (L[i].score >= e.score) { L[i].games = (L[i].games || 1) + 1; return } e.games = (L[i].games || 1) + 1; L.splice(i, 1) }
+  L.push(e); L.sort((a, b) => b.score - a.score); L.length = Math.min(L.length, 50);
+  clearTimeout(rankSave); rankSave = setTimeout(() => { try { fs.mkdirSync(require('path').dirname(RANK_FILE), { recursive: true }); fs.writeFileSync(RANK_FILE, JSON.stringify(RANK)) } catch (err) { console.warn('rank save', err.message) } }, 1000);
+}
+function recordRanks(code, gm, now) {
+  const M = gm.M; const board = M.mode === 'coop' ? 'coop' : (M.mode === 'team' ? 'team' : 'solo') + '_' + Math.round(M.dur / 60); const r = rooms.get(code); if (!r) return;
+  for (const p of humans(gm)) { const pr = r.get(p.id); const sn = M.snap(p.id, now); if (!pr || !validPid(pr.pid)) continue;
+    addRank(board, { pid: pr.pid, nick: String(pr.nick || 'เชฟ').slice(0, 16), chef: Number.isInteger(+pr.chef) ? +pr.chef : 0, score: sn.score, served: sn.served, round: M.day || 0, at: now }) }
+}
+
 /* ---------------- security log ----------------
    every refused cheat-like action is written to the server console (Render "Logs") and shown live to the room (🛡️ panel) */
 const secLogs = new Map();            // code -> last 40 entries
 const SUS = /ส่งถี่|สเตชันของเพื่อน|ไม่ถูกต้อง|ยังไม่ได้ทำจริง|ทำเร็วเกินจริง|ไม่ได้มาจากตู้|คุณไม่มี|ไม่มีของชิ้นนี้|ทำแบบนี้ไม่ได้|ยังไม่เปิด|ไม่ได้อยู่ในเกม|ยังไม่ใช่|ยังไม่ตรง/;
-const ACT_TH = { 'game:serve': 'เสิร์ฟ', 'game:cook': 'ทำอาหาร', 'game:cookStart': 'เริ่มทำอาหาร', 'game:pass': 'ส่งของ', 'game:ask': 'ขอของ', 'game:grab': 'คว้าของ', 'game:place': 'วางของ', 'game:pserve': 'เสิร์ฟ', 'game:wash': 'ล้างจาน', 'game:prank': 'การ์ด', 'game:drop': 'ทิ้งของ', 'game:clear': 'เคลียร์จาน', 'room:join': 'เข้าห้อง', 'room:set': 'แก้ข้อมูล', tour: 'ทัวร์นาเมนต์' };
+const ACT_TH = { 'game:serve': 'เสิร์ฟ', 'game:cook': 'ทำอาหาร', 'game:cookStart': 'เริ่มทำอาหาร', 'game:pass': 'ส่งของ', 'game:ask': 'ขอของ', 'game:grab': 'คว้าของ', 'game:place': 'วางของ', 'game:pserve': 'เสิร์ฟ', 'game:duel': 'ท้าชิง', 'game:wash': 'ล้างจาน', 'game:prank': 'การ์ด', 'game:drop': 'ทิ้งของ', 'game:clear': 'เคลียร์จาน', 'room:join': 'เข้าห้อง', 'room:set': 'แก้ข้อมูล', tour: 'ทัวร์นาเมนต์' };
 function secLog(code, who, act, msg) {
   if (!code || !rooms.get(code)) return;
   const now = Date.now(); let L = secLogs.get(code); if (!L) secLogs.set(code, (L = []));
@@ -191,11 +215,15 @@ function secLog(code, who, act, msg) {
 const nickOf = (code, id) => { const m = rooms.get(code); const p = m && m.get(id); return p ? String(p.nick || 'เชฟ').slice(0, 16) : 'ไม่ทราบชื่อ'; };
 function secNote(code, socket, act, r) {
   if (typeof code !== 'string' || !r || r.ok !== false || typeof r.msg !== 'string' || !SUS.test(r.msg)) return;
+  // honest races are not cheating: right after a co-op round re-deals stations and ingredients, or a single refused burst of taps
+  const gm = games.get(code); if (gm && gm.M.lastDeal && Date.now() - gm.M.lastDeal < 8000) return;
+  if (/ส่งถี่|ช้าหน่อย/.test(r.msg)) { const k = socket.id; const c = (burst.get(k) || []).filter(t => Date.now() - t < 5000); c.push(Date.now()); burst.set(k, c); if (c.length < 15) return; }
   secLog(code, nickOf(code, socket.id), act, r.msg);
 }
 
-// simple rate limit for game actions: 8 per second per socket
-function limiter() { let tokens = 8, last = Date.now(); return () => { const now = Date.now(); tokens = Math.min(8, tokens + (now - last) / 125); last = now; if (tokens < 1) return false; tokens--; return true; }; }
+// simple rate limit for game actions: about 12 per second per socket (bursts of 16)
+const burst = new Map();   // socket -> recent refused-for-speed times
+function limiter() { let tokens = 16, last = Date.now(); return () => { const now = Date.now(); tokens = Math.min(16, tokens + (now - last) / 80); last = now; if (tokens < 1) return false; tokens--; return true; }; }
 
 io.on('connection', socket => {
   lobby.set(socket.id, {});
@@ -239,8 +267,8 @@ io.on('connection', socket => {
     if (hostId(code) === socket.id && clean.phase) {
       const gm = games.get(code);
       if (clean.phase === 'play' && typeof clean.gen === 'number' && (!gm || gm.gen !== clean.gen)) {
-        const dur = [120, 180, 300].includes(+clean.dur) ? +clean.dur : 180;
-        const hp = m.get(socket.id); startGame(code, clean.gen, dur, ['team', 'tour', 'coop'].includes(hp.mode) ? hp.mode : 'solo', hp.tour, hp.diff, hp.market, hp.day);
+        const dur = [180, 300, 600].includes(+clean.dur) ? +clean.dur : 600;
+        const hp = m.get(socket.id); startGame(code, clean.gen, hp.mode === 'tour' ? Math.min(dur, 300) : dur, ['team', 'tour', 'coop'].includes(hp.mode) ? hp.mode : 'solo', hp.tour, hp.diff, hp.market, hp.day);
       } else if (clean.phase === 'wait') stopGame(code);
     }
     sendRoom(code);
@@ -276,8 +304,8 @@ io.on('connection', socket => {
   });
   socket.on('game:clear', (msg, ack) => { if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' }); const code = msg && typeof msg === 'object' ? msg.code : msg; const gm = myGame(code); reply(ack, gm ? gm.M.clear(socket.id, msg && msg.plate) : { ok: false }); });
   // cooking is reported in two steps (start / done); the server times it and keeps the cooked food in a ledger
-  socket.on('game:cookStart', (msg, ack) => { if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' }); if (bad(msg)) return reply(ack, { ok: false }); const gm = myGame(msg.code); reply(ack, gm ? gm.M.cookStart(socket.id, String(msg.tool), Date.now()) : { ok: false }); });
-  socket.on('game:cook', (msg, ack) => { if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' }); if (bad(msg)) return reply(ack, { ok: false, msg: 'ข้อมูลไม่ถูกต้อง' }); const gm = myGame(msg.code); reply(ack, gm ? gm.M.cook(socket.id, msg.c, Date.now()) : { ok: false, msg: 'ไม่ได้อยู่ในเกม' }); });
+  socket.on('game:cookStart', (msg, ack) => { if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' }); if (bad(msg)) return reply(ack, { ok: false }); const gm = myGame(msg.code); const r = gm ? gm.M.cookStart(socket.id, String(msg.tool), Date.now()) : { ok: false }; if (r.ok && gm.M.mode === 'team') pushAll(gm); reply(ack, r); });
+  socket.on('game:cook', (msg, ack) => { if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' }); if (bad(msg)) return reply(ack, { ok: false, msg: 'ข้อมูลไม่ถูกต้อง' }); const gm = myGame(msg.code); const r = gm ? gm.M.cook(socket.id, msg.c, Date.now()) : { ok: false, msg: 'ไม่ได้อยู่ในเกม' }; if (gm && gm.M.mode === 'team') pushAll(gm); reply(ack, r); });
   // prank card: the referee picks the target (whoever is ahead) and applies the effect
   socket.on('game:prank', (code, ack) => {
     if (!allow()) return reply(ack, { ok: false, msg: 'ส่งถี่เกินไป' });
@@ -300,6 +328,13 @@ io.on('connection', socket => {
     const now = Date.now(); const r = fn(gm.M, msg, now); if (r.ok) { pushAll(gm); if (r.events) dispatch(gm, r.events) }
     const { events, ...out } = r; reply(ack, { ...out, snap: gm.M.snap(socket.id, now) });
   });
+  // ท้าชิง: challenge someone above you (the referee keeps both scores and pays the winner)
+  socket.on('game:duel', (msg, ack) => {
+    if (!allow()) return reply(ack, { ok: false, msg: 'ช้าหน่อย' }); if (bad(msg)) return reply(ack, { ok: false });
+    const gm = myGame(msg.code); if (!gm) return reply(ack, { ok: false });
+    const now = Date.now(); const r = gm.M.duel(socket.id, String(msg.target || ''), now); if (r.ok) { pushAll(gm); dispatch(gm, r.events) }
+    const { events, ...out } = r; reply(ack, { ...out, snap: gm.M.snap(socket.id, now) });
+  });
   coopAct('game:place', (M, m, now) => M.place(socket.id, +m.pi, m.item, now));
   coopAct('game:pseason', (M, m) => M.seasonPlate(socket.id, +m.pi, m.season));
   coopAct('game:pdump', (M, m) => M.dumpPlate(socket.id, +m.pi));
@@ -311,6 +346,12 @@ io.on('connection', socket => {
     reply(ack, { ...r, score: gm.M.snap(socket.id, Date.now()).score });
   });
 
+  // ranking: top 20 of a board, plus where this player stands
+  socket.on('rank:get', (msg, ack) => {
+    if (!allow()) return reply(ack, { ok: false }); const board = msg && BOARD_OK(msg.board) ? msg.board : 'solo_10'; const pid = msg && validPid(msg.pid) ? msg.pid : null;
+    const L = RANK[board] || []; const me = pid ? L.findIndex(x => x.pid === pid) : -1;
+    reply(ack, { ok: true, board, top: L.slice(0, 20).map(({ pid: q, ...x }) => ({ ...x, me: q === pid })), mine: me > -1 ? { pos: me + 1, ...L[me], pid: undefined } : null, n: L.length });
+  });
   socket.on('room:leave', code => leave(socket, code));
 
   socket.on('disconnect', () => {
