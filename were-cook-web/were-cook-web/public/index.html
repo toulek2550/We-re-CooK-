@@ -2497,7 +2497,7 @@ function lobby(){
     const open=list.filter(x=>!x.isMe&&x.p&&x.p.hosting&&/^wc[0-5]{4}$/.test(x.p.hosting));
     if(NET.mode==='offline'){box.innerHTML=`<div class="empty">โหมดออฟไลน์: กดสร้างห้องเพื่อลองเล่นกับบอท<br>เปิดจากลิงก์ที่เผยแพร่หรือเซิร์ฟเวอร์ของคุณเพื่อเล่นกับเพื่อนจริง</div>`;return}
     box.innerHTML=open.length?open.map(x=>`<div class="room-row"><span class="host">${chef(x.p.chef)}</span>
-        <div><b>${esc(clean(x.p.nick,14)||'เชฟ')}</b><div class="code">${codeIcons(codeDigits(x.p.hosting))}</div></div>
+        <div><b>ห้องของ ${esc(clean(x.p.nick,14)||'เชฟ')}</b><div class="muted rmode">${({coop:'🍳 ครัวโกลาหล',solo:'⚔️ เดี่ยว',team:'👥 ทีม 2v2',tour:'🏆 ทัวร์นาเมนต์'})[x.p.rmode]||'🍳 ครัวโกลาหล'}</div></div>
         <span class="muted">${+x.p.count||1}/${+x.p.size||4}${x.p.playing?' กำลังเล่น':''}</span>
         <button class="btn green" data-code="${esc(x.p.hosting)}" ${(+x.p.count>=(+x.p.size||4))?'disabled':''}>เข้า</button></div>`).join('')
       :`<div class="empty">ยังไม่มีห้องเปิดอยู่ สร้างห้องแล้วส่งรหัสให้เพื่อนได้เลย</div>`;
@@ -2638,7 +2638,7 @@ function waitRoom(){
     const others=hum.filter(p=>p!==host);const allReady=others.every(p=>p.p.ready);
     $('#start').hidden=!iAmHost;$('#ready').hidden=!!iAmHost;$('#start').disabled=!allReady||(team&&![4,6].includes(all.length))||(host&&host.p.mode==='tour'&&!E.tourOk(all.length));
     $('#note').textContent=iAmHost&&host.p.mode==='tour'?(!E.tourOk(all.length)?`ทัวร์นาเมนต์ต้องมี 4 หรือ 6 คน (จำนวนคู่) ตอนนี้ ${all.length} คน · เพิ่มบอทหรือเอาบอทออกได้`:`ทัวร์นาเมนต์ ${all.length} คน: ${tourPlan(all.length)}`):iAmHost&&team&&![4,6].includes(all.length)?`โหมดทีมต้องมี 4 คน (2v2) หรือ 6 คน (2v2v2) ตอนนี้ ${all.length} คน เพิ่มบอทได้`:iAmHost?(all.length===1?'เล่นคนเดียวได้ หรือเพิ่มบอท/รอเพื่อน':allReady?'ทุกคนพร้อมแล้ว กดเริ่มได้เลย':'รอให้ทุกคนกดพร้อม'):'รอหัวห้องกดเริ่มเกม';
-    NET.setLobby(iAmHost&&!S.locked?{hosting:codeName(d),count:all.length,size,playing:null}:{hosting:null});
+    NET.setLobby(iAmHost&&!S.locked?{hosting:codeName(d),count:all.length,size,playing:null,rmode:S.mode}:{hosting:null});
     if(host&&host.p.phase==='play'&&host.p.gen&&host.p.gen!==S.lastGen){S.lastGen=host.p.gen;S.dur=+host.p.dur||S.dur;countdown(()=>go(match))}
   }
   onLeave(room.onPeers(render));
