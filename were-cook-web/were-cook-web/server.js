@@ -346,6 +346,9 @@ io.on('connection', socket => {
     reply(ack, { ...r, score: gm.M.snap(socket.id, Date.now()).score });
   });
 
+  // joining by code: is there really a room with this code? (joining never creates one)
+  socket.on('room:exists', (code, ack) => { if (!allow()) return reply(ack, { ok: false }); const m = validCode(code) && rooms.get(code); const g = validCode(code) && ghosts.get(code);
+    reply(ack, { ok: true, exists: !!((m && m.size) || (g && g.size)), full: !!(m && m.size >= MAX_PLAYERS) }); });
   // ranking: top 20 of a board, plus where this player stands
   socket.on('rank:get', (msg, ack) => {
     if (!allow()) return reply(ack, { ok: false }); const board = msg && BOARD_OK(msg.board) ? msg.board : 'solo_10'; const pid = msg && validPid(msg.pid) ? msg.pid : null;

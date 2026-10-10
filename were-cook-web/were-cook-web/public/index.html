@@ -2497,7 +2497,14 @@ function lobby(){
   drawSlots();
   app.querySelectorAll('.palette [data-d]').forEach(b=>b.onclick=()=>{if(joinDigits.length<4){joinDigits.push(+b.dataset.d);drawSlots(true)}});
   $('#back').onclick=()=>{joinDigits.pop();drawSlots()};
-  $('#joinBtn').onclick=()=>{const d=joinDigits.slice();joinDigits=[];enterRoom(d)};
+  // join by code: only a room that really exists (never make a new one by mistake)
+  $('#joinBtn').onclick=async()=>{const d=joinDigits.slice();if(d.length<4)return;const code=codeName(d);
+    if(NET.mode!=='socket'||!NET.s||!NET.s.connected){toast('โหมดออฟไลน์: เข้าห้องเพื่อนด้วยรหัสไม่ได้ ต้องต่อเซิร์ฟเวอร์ก่อน');return}
+    $('#joinBtn').disabled=true;const r=await new Promise(res=>{const t=setTimeout(()=>res(null),4000);NET.s.emit('room:exists',code,x=>{clearTimeout(t);res(x)})});
+    if(!r||!r.ok){toast('เช็กห้องไม่สำเร็จ ลองใหม่อีกครั้ง');$('#joinBtn').disabled=false;return}
+    if(!r.exists){toast('❌ ไม่มีห้องรหัสนี้ เช็กรหัสอีกที หรือกด "เริ่มเกม" เพื่อสร้างห้องใหม่');SFX.play('fail');joinDigits=[];const sl=$('#slots');if(sl&&!REDUCED)sl.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:300});drawSlots&&drawSlots();return}
+    if(r.full){toast('ห้องนี้เต็มแล้ว');$('#joinBtn').disabled=false;return}
+    joinDigits=[];enterRoom(d)};
   onLeave(NET.onLobby(list=>{
     const box=$('#rooms');if(!box)return;
     const open=list.filter(x=>!x.isMe&&x.p&&x.p.hosting&&/^wc[0-5]{4}$/.test(x.p.hosting));
@@ -3517,6 +3524,12 @@ function match(){
     W3D.bind(()=>{const h=hot();if(sg.classList.contains('hot')!==h){sg.classList.toggle('hot',h);if(!h)sg.querySelectorAll('.stblock').forEach(b=>b.style.cssText=b.style.cssText.replace(/(left|top|width|height):[^;]*;?/g,''))}return hot()?[...sg.querySelectorAll('.stblock')].map(b=>[b,b.dataset.st]):[]});
     onLeave(()=>{FX3.end();W3D.S.setPlate([]);W3D.unbind();W3D.toBg()})}
   const camBack=()=>{if(is3d)W3D.k.flyTo(plateShot(),650)};
+  // a station close-up that keeps the whole station (and a bit around it) in the free left part of the scene, not a huge zoom
+  function stationShot(id){const g=W3D.S.groups[id];if(!g||!g.length||upright())return null;const p=g[0].pos;
+    const vp=$('#vport'),W=vp.clientWidth||innerWidth,H=vp.clientHeight||innerHeight,cs=getComputedStyle($('#play')),ft=parseFloat(cs.getPropertyValue('--ft'))||170,fb=parseFloat(cs.getPropertyValue('--fb'))||76;
+    const L=innerWidth>900?$('#drawer').getBoundingClientRect().right:0,Rr=$('#pass').getBoundingClientRect().left||W,cook=COOK_TOOLS.includes(id);
+    const colW=Math.max(160,(Rr-L)*(cook?.48:.45)),cx=L+colW/2+8,cy=(ft+H-fb)/2+20,u=Math.max(4.6/colW,3.8/Math.max(120,H-ft-fb));
+    const x=p[0]-(cx-W/2)*u,z=p[2]-(cy-H/2)*u*1.3;return{eye:[x,p[1]+7.5,z+8.5],target:[x,p[1]+.8,z],fov:16,minW:u*W}}
   K.reframe=()=>{if(is3d&&!K.open)W3D.k.setCam(plateShot())};
   $('#serve').onclick=serve;
   $('#clear').onclick=()=>{if(K.busy||!K.plateOn)return;if(K.plates){if(!K.plate.length)return;J.pdump(K.pi).then(r=>{if(r&&r.snap)applySnap(r.snap)});toast('เทจานทิ้งแล้ว');return}const dumped=K.plate.map(({ing,st,amt,q})=>({ing,st,amt,q}));if(K.mkt)dumped.forEach(x=>{if(x.st==='raw'&&!isStaple(x.ing))K.recv[x.ing]=Math.max(0,(K.recv[x.ing]||0)-1)});K.plate=[];K.season={};K.plateOn=false;if(!noWash)K.dirty++;J.clear(dumped);renderPlate();renderHow();toast(easy?'เทจานทิ้งแล้ว':'เทจานทิ้งแล้ว จานไปรอที่อ่าง')};
@@ -3744,7 +3757,7 @@ function match(){
     if(COOK_TOOLS.includes(id)&&!toolOpen(id)){toast(`${t.th} ยังไม่เปิด รออีกนิด`);return}
     if(id==='season'&&!K.plateOn){toast('วางของลงจานก่อน แล้วค่อยปรุงรส');return}
     if(id==='season'){const tk0=selTicket();if(tk0&&!seasonPlan(K.plate,tgtOf(tk0),tk0.m,[tk0.req,K.judge]).length){toast('จานนี้ไม่ต้องปรุงเพิ่ม เสิร์ฟได้เลย 👍');return}}
-    K.open=id;document.querySelectorAll('.play .stblock').forEach(b=>b.classList.toggle('active',b.dataset.st===id||(id==='sink'&&b.id==='sinkBtn')));if(mobile())setDrawer(false);if(is3d){W3D.shot('st:'+id,upright()?0:1.3,upright()?1.6:0);$('#vport').classList.add('stopen');$('#vport').classList.toggle('cook3d',COOK_TOOLS.includes(id))}
+    K.open=id;document.querySelectorAll('.play .stblock').forEach(b=>b.classList.toggle('active',b.dataset.st===id||(id==='sink'&&b.id==='sinkBtn')));if(mobile())setDrawer(false);if(is3d){(()=>{const sh=stationShot(id);if(sh)W3D.k.flyTo(sh,650);else W3D.shot('st:'+id,0,0)})();$('#vport').classList.add('stopen');$('#vport').classList.toggle('cook3d',COOK_TOOLS.includes(id))}
     const sv=$('#sview');sv.hidden=false;$('#rib').style.setProperty('--c',t.c);$('#stTitle').textContent=t.th;
     const sc=freshScene();sc.dataset.drop=COOK_TOOLS.includes(id)?'st:'+id:'';
     if(id==='season'){const tk=selTicket();const tgt=tk?tgtOf(tk):{sw:0,sa:0,so:0,sp:0,um:0};
@@ -4207,7 +4220,7 @@ document.addEventListener('pointerdown',e=>{if(e.target.closest('.btn,.ding,.tic
 // no pinch / double-tap zoom on phones (iPhone ignores user-scalable=no, so stop its gestures here too)
 ['gesturestart','gesturechange'].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
-NET.init().then(()=>{secUI();const sv=SAVED.get();if(sv&&Array.isArray(sv.digits)&&sv.digits.length===4){enterRoom(sv.digits,sv.creator,sv);return}
+NET.init().then(()=>{secUI();const sv=SAVED.get();if(sv&&Array.isArray(sv.digits)&&sv.digits.length===4){if(!sv.creator&&NET.mode==='socket'&&NET.s){NET.s.emit('room:exists',codeName(sv.digits),r=>{if(r&&r.ok&&!r.exists){SAVED.set(null);go(lobby);toast('ห้องเดิมปิดไปแล้ว')}else enterRoom(sv.digits,sv.creator,sv)});return}enterRoom(sv.digits,sv.creator,sv);return}
   if(S.screen==='lobby'){NET.setLobby({nick:S.name,chef:S.chef,hosting:null});go(lobby)}});
 </script>
 </body>
