@@ -119,15 +119,15 @@ body.in-game .top{margin-bottom:6px}
 .bigcode span:nth-child(2){animation-delay:.08s}.bigcode span:nth-child(3){animation-delay:.16s}.bigcode span:nth-child(4){animation-delay:.24s}
 .bigcode svg{width:48px;height:48px}
 .codetext{font-size:.9rem;color:var(--muted)}
-.tablewrap{position:relative;width:min(100%,500px);aspect-ratio:1;margin:34px auto 56px}
+.tablewrap{position:relative;width:max(240px,min(100%,500px,calc(100vh - 250px)));aspect-ratio:1;margin:34px auto 56px}
 .rtable{position:absolute;inset:20%;border-radius:50%;background:radial-gradient(circle at 40% 35%,#6b4560,#4a2c42 70%);box-shadow:inset 0 -12px 0 rgba(0,0,0,.25),0 20px 40px -10px rgba(0,0,0,.5)}
 .rtable .plate{position:absolute;inset:30%;filter:drop-shadow(0 8px 6px rgba(0,0,0,.35))}
-.seat{position:absolute;width:27%;display:grid;justify-items:center;text-align:center;transform:translate(-50%,-50%);gap:2px}
+.seat{position:absolute;width:27%;min-width:104px;display:grid;justify-items:center;text-align:center;transform:translate(-50%,-50%);gap:2px}
 .seat .av{width:78%;aspect-ratio:1;position:relative}
 .seat .av svg{width:100%;height:100%;filter:drop-shadow(0 8px 8px rgba(0,0,0,.3))}
 .seat.join .av{animation:seatpop .6s cubic-bezier(.34,1.56,.64,1)}
 @keyframes seatpop{0%{transform:scale(0) rotate(-20deg)}}
-.seat .nm{font-weight:600;background:var(--glass);padding:2px 10px;border-radius:999px;font-size:.92rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.seat .nm{font-weight:600;background:var(--glass);padding:3px 10px;line-height:1.5;border-radius:999px;font-size:.92rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .seat .st{font-size:.8rem;padding:1px 8px;border-radius:999px;background:var(--cream2);color:var(--muted)}
 .seat .st.ready{background:var(--basil);color:#fff;animation:readybounce .45s cubic-bezier(.34,1.56,.64,1)}
 @keyframes readybounce{0%{transform:scale(.5)}}
@@ -1646,6 +1646,8 @@ body.fsstage .fsboard{height:720px!important;border-radius:0}
 body.fxon .secbtn{left:auto;right:322px;bottom:86px;width:36px;height:36px;font-size:1.05rem}
 body.fxon .secpanel{left:auto;right:322px;bottom:128px}
 @media (max-width:900px){body.fxon .secbtn{right:248px;bottom:58px;width:32px;height:32px}body.fxon .secpanel{right:248px;bottom:96px}}
+/* Thai text needs room above/below the line: tight one-line labels clipped vowels and tone marks */
+.ptab .ptw,.ptab .ptn,.ticket .tn,.ticket .stag,.chalpill,.pl .nm,.pl .nm small,.rklist li span,.stblock b,.guide b,.hand .hn{line-height:1.45}
 /* ================= full-screen kitchen (fx): the whole screen is the kitchen; stations sit in the scene, the pass (plates) is always on the right ================= */
 body.fxon{overflow:hidden}
 body.fxon .shell>.top{display:none}
@@ -1653,6 +1655,9 @@ body.fxon .shell>.top{display:none}
 .fx .ptop{position:absolute;left:var(--g);right:var(--g);top:var(--g);z-index:14;padding:8px 10px;gap:6px;background:rgba(255,247,236,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .fx .pcenter{position:absolute;inset:0;display:block;padding:0;background:none;box-shadow:none;border-radius:0;backdrop-filter:none;-webkit-backdrop-filter:none}
 .fx .vport{position:absolute;inset:0;height:auto;border-radius:0;box-shadow:none}
+.fx .pcenter:has(.belt:not([hidden])) .vport{height:auto}
+.fx .belt:not([hidden])~.vport .sview{top:calc(var(--ft) + 66px)}
+.fx .belt:not([hidden])~.vport .guide,.fx .belt:not([hidden])~.vport .chalpill{top:calc(var(--ft) + 70px)}
 .fx .vport:not(.k3d){background:linear-gradient(180deg,#F6E2C4 0,#F1D6B0 calc(var(--ft) + 30%),#B67A4C calc(var(--ft) + 30%),#9A6238 calc(var(--ft) + 31.5%),transparent calc(var(--ft) + 31.5%)),repeating-conic-gradient(#f4efe9 0 25%,#d9cfc6 0 50%) 0 0/72px 72px}
 .fx .track{pointer-events:none;position:absolute;inset:0}.fx .track .judge{pointer-events:auto}
 .fx .view{padding:0}
@@ -1679,7 +1684,7 @@ body.fxon .shell>.top{display:none}
 .fx .prow3 .btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 6px;font-weight:700;width:100%;flex-wrap:wrap;line-height:1.1}
 .fx .prow3 .btn small{flex-basis:100%;text-align:center;font-size:.64rem;font-weight:600;opacity:.75}
 .fx .prow3 .sgi{width:26px;height:26px;display:block;margin:-4px 0}.fx .prow3 .sgi svg,.fx .prow3 .sgi>*{width:100%;height:100%}
-.fx #seasBtn{display:flex;background:#FFB36B;color:#3a2233;--d:#d98a3e}
+.fx #seasBtn{display:none!important;background:#FFB36B;color:#3a2233;--d:#d98a3e}
 .fx #sinkBtn{background:#8CD0F2;color:#3a2233;--d:#5a9fc2}
 .fx .play.notaste #seasBtn,.play.fx.notaste #seasBtn{display:none}
 .play.fx.notaste .prow3,.play.fx.nowash .prow3,.play.fx.easy .prow3{grid-template-columns:1fr}
@@ -1694,7 +1699,7 @@ body.fxon .shell>.top{display:none}
 .fx #stgrid .stblock .stico>*{height:100%;width:auto;max-width:100%;max-height:96px;aspect-ratio:1}
 .fx .vport.stopen~#stgrid.hot{opacity:0;pointer-events:none}.fx .vport.stopen~#stgrid.hot .stblock{pointer-events:none}
 .fx #stgrid.hot{inset:0;display:block;padding:0;z-index:4;pointer-events:none}
-.fx #stgrid.hot .stblock{pointer-events:auto;position:absolute;display:block;padding:0;margin:0;background:transparent;box-shadow:none;border-radius:18px;transform:none!important;animation:none;opacity:1;filter:none;min-height:0;height:auto}
+.fx #stgrid.hot .stblock{overflow:visible;pointer-events:auto;position:absolute;display:block;padding:0;margin:0;background:transparent;box-shadow:none;border-radius:18px;transform:none!important;animation:none;opacity:1;filter:none;min-height:0;height:auto}
 .fx #stgrid.hot .stblock .stico,.fx #stgrid.hot .stblock .acc,.fx #stgrid.hot .stblock small,.fx #stgrid.hot .stblock .num{display:none}
 .fx #stgrid.hot .stblock b{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);background:var(--c);color:#3a2233;font-size:.9rem;padding:2px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.28);transition:transform .15s}
 .fx #stgrid.hot .stblock:hover b{transform:translateX(-50%) scale(1.1)}
@@ -1727,7 +1732,7 @@ body.fxon .shell>.top{display:none}
   .fx .handbar{padding:4px 8px}
 }
 /* phones held upright: orders on top, kitchen in the middle, the pass along the bottom */
-@media (max-width:900px) and (orientation:portrait){
+@media (max-width:900px) and (orientation:portrait) and (pointer:coarse){
   .play.fx{--pr:0px;--ph:150px}
   .fx .pass{left:var(--g);right:var(--g);top:auto;bottom:var(--fb);width:auto;height:var(--ph);display:grid;grid-template-columns:var(--ph) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);gap:4px 8px}
   .fx .pass .ptabs{grid-column:1/-1}
@@ -1744,7 +1749,8 @@ body.fxon .shell>.top{display:none}
   .fx .ptop{display:flex;align-items:stretch;gap:6px;padding:4px 6px;border-radius:14px;top:4px;left:4px;right:4px}
   .fx .phead{display:grid;grid-template-columns:auto auto auto;grid-auto-rows:auto;align-content:start;gap:3px;flex:0 0 auto;max-width:190px}
   .fx .phead>*{grid-column:auto}
-  .fx .phead .plist{grid-column:1/-1;grid-row:2;flex-direction:column;gap:2px;max-height:64px;overflow-y:auto}
+  .fx .phead .plist{grid-column:1/-1;grid-row:2;flex-direction:column;gap:2px;max-height:80px;overflow-y:auto}
+  .fx .phead .plist .nm small{display:none}
   .fx .phead .stagepill,.fx .phead .goal,.fx .phead .combo{display:none}
   .fx .ptimer{padding:1px 8px;border-radius:10px}.fx .ptimer span{display:none}.fx .ptimer b{font-size:1rem}
   .fx .phead .quit{padding:2px 10px;font-size:.8rem}.fx .emobtn{width:30px;height:30px;font-size:1rem}
@@ -2715,33 +2721,21 @@ const onScene=fn=>$('#scene').addEventListener('pointerdown',e=>{if(e.target.clo
 
 /* ================= MINI-GAMES (3–5 s each) ================= */
 function mgKnife(it){return new Promise(res=>{
-  /* Cooking Mama style: dotted cut lines across the food; a ring closes in on the line — tap ("สับ!") when it meets the circle.
-     every cut drops the knife and splits the food into another slice that slides apart */
-  const N=4;let cut=0,qs=[],done=false,t0=performance.now(),T=1.05;const lines=[.24,.43,.62,.8];
-  const W=34,L=33,TOP=26;   // the food's box on the board (percent of the scene)
-  freshScene().innerHTML=obj('board','left:12%;top:30%;width:76%')+
-    `<div id="chopf" style="position:absolute;left:${L}%;top:${TOP}%;width:${W}%;aspect-ratio:1">${Array.from({length:N+1},(_,k)=>{const a=k?lines[k-1]:0,b=k<N?lines[k]:1;return`<div class="cslice" data-k="${k}" style="clip-path:inset(0 ${((1-b)*100).toFixed(1)}% 0 ${(a*100).toFixed(1)}%)">${itemArt(it)}</div>`}).join('')}
-      ${lines.map((x,k)=>`<i class="cline" data-k="${k}" style="left:${x*100}%"></i>`).join('')}<b class="cring" id="cring"></b><b class="ctarget" id="ctarget"></b></div>`+
-    `<div class="cknife" id="cknife">${art('cleaver')}</div>`;
-  $('#ctrl').innerHTML=`<div class="mlabel"><span>สับตอนวงเขียวมาทับวงขาวบนเส้นประ</span><span class="state y" id="cst">สับ ${N} ครั้ง</span></div>
-    <div class="row"><div class="pips" id="pips">${'<i></i>'.repeat(N)}</div><button class="btn big" id="act">สับ! <kbd>Space</kbd></button></div>`;
-  const ring=$('#cring'),tgt=$('#ctarget'),kn=$('#cknife');
-  const place=()=>{const x=lines[cut];for(const e of [ring,tgt]){e.style.left=x*100+'%'}kn.style.left=`calc(${L}% + ${x*W}% - 4%)`;
-    document.querySelectorAll('#chopf .cline').forEach(e=>e.classList.toggle('on',+e.dataset.k===cut));t0=performance.now()};
-  place();
-  const sc=()=>Math.max(.45,2.4-(performance.now()-t0)/1000/T*1.6);   // 2.4 → 0.8 over T seconds (1.0 = on the white circle)
-  const stop=stageLoop(()=>{if(done)return;const v=sc();ring.style.transform=`translate(-50%,-50%) scale(${v})`;const d=Math.abs(v-1);ring.className='cring '+(d<.18?'g':d<.42?'y':'');if(v<=.46)act(true)});
-  function act(miss){if(done)return;const v=sc(),d=Math.abs(v-1);const g=miss?'r':d<.18?'g':d<.42?'y':'r';qs.push({g:100,y:75,r:45}[g]);$('#pips').children[cut].className=g;FX3.hit('chop');
-    if(!REDUCED)kn.animate([{transform:'translateY(0) rotate(0deg)'},{transform:'translateY(48%) rotate(-4deg)'},{transform:'translateY(0) rotate(0deg)'}],{duration:170,easing:'ease-in'});
-    // the food splits at this line: every slice right of the cut slides a little further away
-    document.querySelectorAll('#chopf .cslice').forEach(e=>{const k=+e.dataset.k;const off=[...Array(cut+1).keys()].filter(j=>k>j).length;e.style.transform=`translateX(${off*7}%) rotate(${g==='r'&&k===cut+1?rand(-12,12):0}deg)`});
-    const ln=document.querySelector(`#chopf .cline[data-k="${cut}"]`);if(ln)ln.classList.add('cut');
-    const x=L+lines[cut]*W+cut*2.4,y=TOP+W*.55;sburst(x,y,['#fff','#FFE8A0'],g==='g'?9:4,45);spop({g:'สับ! สวย',y:'สับ!',r:miss?'ช้าไป':'เบี้ยว'}[g],g,x,TOP-4);
-    cut++;T=Math.max(.6,T-.1);$('#cst').textContent=cut<N?`อีก ${N-cut} ครั้ง`:'เสร็จ!';
-    if(cut>=N){done=true;stop();ring.style.display=tgt.style.display='none';
-      if(!REDUCED)document.querySelectorAll('#chopf .cslice').forEach(e=>{const k=+e.dataset.k;e.animate([{},{transform:`translateX(${k*7+ (k-N/2)*4}%) translateY(${(k%2?-1:1)*4}%) rotate(${(k-N/2)*6}deg)`}],{duration:380,fill:'forwards',easing:'cubic-bezier(.2,.8,.2,1)'})});
-      setTimeout(()=>res(Math.round(qs.reduce((a,b)=>a+b,0)/N)),520)}else place()}
-  $('#act').addEventListener('pointerdown',e=>{e.preventDefault();act()});onScene(()=>act());KH={down:c=>{if(c==='Space'||c==='Enter')act()}};
+  const N=2;let cut=0,qs=[],pos=0,dir=1,speed=1.15,zc=.5,done=false;const r=mulberry(Date.now()%99991);
+  freshScene().innerHTML=obj('board','left:14%;top:30%;width:72%')+`<div class="obj" id="ingr" style="left:20%;top:30%;width:24%">${itemArt(it)}</div><div id="slices"></div>`+obj('cleaver','left:40%;top:1%;width:25%','','knife');
+  $('#ctrl').innerHTML=`<div class="swing"><i class="zy" id="zy"></i><i class="zg" id="zg"></i><b class="needle" id="nd"></b></div>
+    <div class="row"><div class="pips" id="pips">${'<i></i>'.repeat(N)}</div><button class="btn big" id="act">หั่น! <kbd>Space</kbd></button></div>`;
+  const place=()=>{zc=.2+r()*.6;$('#zy').style.left=(zc-.15)*100+'%';$('#zy').style.width='30%';$('#zg').style.left=(zc-.07)*100+'%';$('#zg').style.width='14%'};place();
+  const knife=$('#knife');
+  const stop=stageLoop(dt=>{pos+=dir*speed*dt;if(pos>1){pos=1;dir=-1}if(pos<0){pos=0;dir=1};$('#nd').style.left=pos*100+'%'});
+  function act(){if(done)return;FX3.hit('chop');const d=Math.abs(pos-zc),g=d<=.07?'g':d<=.15?'y':'r';qs.push({g:100,y:75,r:45}[g]);$('#pips').children[cut].className=g;
+    if(!REDUCED)knife.animate([{transform:'translateY(0)'},{transform:'translateY(80%) rotate(-3deg)'},{transform:'translateY(0)'}],{duration:180,easing:'ease-in'});
+    const x=52+cut*10,y=60+(g==='r'?rand(-8,8):0);const p=document.createElement('div');p.className='piece';p.style.left=x+'%';p.style.top=y+'%';p.style.width='12%';
+    p.style.transform=`translate(-50%,-50%) rotate(${g==='g'?0:g==='y'?rand(-15,15):rand(-50,50)}deg) scale(${g==='r'?rand(.7,1.3):1})`;p.innerHTML=art(it.ing);$('#slices').appendChild(p);
+    sburst(x,y,['#fff','#FFE8A0'],g==='g'?8:4,50);spop({g:'สวย!',y:'พอได้',r:'เบี้ยว'}[g],g,x,y-14);
+    cut++;$('#ingr').style.clipPath=`inset(0 ${cut/N*55}% 0 0)`;speed+=.15;
+    if(cut>=N){done=true;stop();setTimeout(()=>res(Math.round(qs.reduce((a,b)=>a+b,0)/N)),300)}else place()}
+  $('#act').addEventListener('pointerdown',e=>{e.preventDefault();act()});onScene(act);KH={down:c=>{if(c==='Space'||c==='Enter')act()}};
 })}
 function mgMortar(it){return new Promise(res=>{
   const T=3;let p=0,t=0,done=false;const col=MASHC[it.ing]||'#D9B98A';
@@ -2850,8 +2844,7 @@ function mgWash(){return new Promise(res=>{
   const spots=Array.from({length:7},()=>[rand(40,60),rand(32,60),rand(5,9)]);
   $('#grime').innerHTML=spots.map(([x,y,s])=>`<i class="grime" style="left:${x}%;top:${y}%;width:${s}%;aspect-ratio:1"></i>`).join('');
   $('#ctrl').innerHTML=`<div><div class="mlabel"><span>ความสะอาด</span><span id="wv">0%</span></div><div class="meter"><i id="wb" style="width:0;background:#7CC6FF"></i></div></div>
-    <div class="row"><button class="btn big" id="act" style="--c:#8CD0F2;--d:#3F86B8">ถูจาน! <kbd>Space</kbd></button></div>
-    <p class="muted" style="text-align:center;font-size:.85rem">ลากถูไปมาบนจาน หรือกดรัว ๆ</p>`;
+    <p class="muted" style="text-align:center;font-size:.9rem">🧽 ใช้นิ้วหรือเมาส์ ลากถูไปมาบนจานจนสะอาด</p>`;
   const grime=[...document.querySelectorAll('.grime')];
   function add(v,x,y){if(fin)return;if(Math.random()<.45)SFX.play('scrub');p=Math.min(100,p+v);$('#wb').style.width=p+'%';$('#wv').textContent=Math.round(p)+'%';grime.forEach((g,i)=>g.style.opacity=Math.max(0,1-p/100*(1+i*.15)));
     sudT-=v;if(sudT<=0){sudT=6;const s=document.createElement('i');s.className='suds';const z=rand(3,6);s.style.width=z+'%';s.style.aspectRatio='1';s.style.left=(x??rand(38,62))+'%';s.style.top=(y??rand(30,60))+'%';$('#suds').appendChild(s);setTimeout(()=>s.remove(),1400)}
@@ -2861,7 +2854,7 @@ function mgWash(){return new Promise(res=>{
   sc.addEventListener('pointerdown',e=>{e.preventDefault();lx=e.clientX;add(6)});
   sc.addEventListener('pointermove',e=>{if(lx==null)return;const r=sc.getBoundingClientRect();const d=Math.abs(e.clientX-lx);if(d>4){add(d/r.width*55,(e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100);lx=e.clientX}});
   addEventListener('pointerup',()=>lx=null);
-  $('#act').addEventListener('pointerdown',e=>{e.preventDefault();add(9)});KH={down:c=>{if(c==='Space'||c==='Enter'||c==='ArrowLeft'||c==='ArrowRight')add(9)}};
+  KH={down:c=>{if(c==='ArrowLeft'||c==='ArrowRight')add(9)}};
 })}
 /* shared look for "a meter with yellow / green / red zones" */
 const zoneMeter=(id,g0,g1,label,stateId)=>`<div><div class="mlabel"><span>${label}</span>${stateId?`<span class="state y" id="${stateId}">…</span>`:''}</div>
@@ -2929,8 +2922,9 @@ function tasteBars(actual,target,small){const mx=Math.max(30,...TASTE.map(([k])=
    When every bottle is on its line the dish is done by itself. The 5-taste engine still scores it behind the scenes. */
 // which bottles: the ones the recipe uses + the one for the customer's / judge's wish (never a pile of tiny pours)
 const WISH_BOTTLE={sa:'salt',sw:'sugar',so:'lime',sp:'chili',um:'oyster'};
+const SEASON_OK=85;   // taste at or above this = good enough, no more seasoning asked
 function seasonPlan(plate,target,m,wishes){const cand=new Set(m?seasonHint(m):[]);(wishes||[]).forEach(w=>{if(w&&w.d>0&&WISH_BOTTLE[w.k])cand.add(WISH_BOTTLE[w.k])});
-  if(!cand.size)return[];const base=tasteAccuracy(tasteOf(plate,{}),target);if(base>=95)return[];const id=E.idealSeason(plate,target,[...cand]).season;const keys=SEASON_KEYS.filter(k=>id[k]>=.5);
+  if(!cand.size)return[];const base=tasteAccuracy(tasteOf(plate,{}),target);if(base>=SEASON_OK)return[];const id=E.idealSeason(plate,target,[...cand]).season;const keys=SEASON_KEYS.filter(k=>id[k]>=.5);
   return keys.map(k=>{const v=id[k];const tol=Math.max(.5,v*.2);return{k,v,lo:Math.max(.1,v-tol),hi:v+tol,max:Math.max(v*1.7,v+1.5)}})}
 function mgSeason(plate,season,target,onChange,info){return new Promise(res=>{
   const plan=seasonPlan(plate,target,info&&info.m,info&&info.wishes);if(!plan.length){res();return}
@@ -3497,7 +3491,7 @@ function match(){
   $('#stgrid').querySelectorAll('.stblock').forEach(b=>b.onclick=()=>{if(dragJustEnded)return;toggleStation(b.dataset.st)});
   $('#plateDrop').addEventListener('click',()=>{if(dragJustEnded||K.busy||K.done||!K.hand)return;const it=K.hand;toPlate(it,()=>setHand(null))});
   $('#sinkBtn').onclick=()=>toggleStation('sink');
-  $('#seasBtn').onclick=()=>toggleStation('season');
+  $('#seasBtn').onclick=()=>toggleStation('season');$('#tpanel').onclick=()=>{if(!noTaste&&K.plate.length)toggleStation('season')};
   drawer.querySelectorAll('.ding').forEach(b=>b.onclick=e=>{if(e.detail===0)tapDrawer(b)});
   {const q=$('#dsearch');q.addEventListener('input',()=>{const t=q.value.trim();drawer.querySelectorAll('.dbody>.dgrid').forEach(g=>{let n=0;
       g.querySelectorAll('.ding').forEach(b=>{const ok=!t||ING[b.dataset.ing].th.includes(t);b.hidden=!ok;if(ok)n++});g.hidden=!n;const h=g.previousElementSibling;if(h&&h.classList.contains('dcat'))h.hidden=!n})});
@@ -3507,7 +3501,7 @@ function match(){
   const is3d=W3D.toVport($('#vport'));
   // full screen: the whole kitchen is the scene. Wide screens: the camera shows every station and the station buttons sit on the 3D models
   document.body.classList.add('fxon');onLeave(()=>document.body.classList.remove('fxon'));
-  const upright=()=>innerWidth<=900&&innerHeight>innerWidth;
+  const upright=()=>innerWidth<=900&&innerHeight>innerWidth&&matchMedia('(pointer:coarse)').matches;
   {const pl=$('#play'),fit=()=>{if(!pl.isConnected)return;const top=$('.ptop').getBoundingClientRect(),hb=$('.handbar').getBoundingClientRect(),g=parseFloat(getComputedStyle(pl).getPropertyValue('--g'))||10;
       pl.style.setProperty('--ft',Math.round(top.bottom+g)+'px');pl.style.setProperty('--fb',Math.round(innerHeight-hb.top+g)+'px');
       if(upright())pl.style.setProperty('--ph',Math.round(Math.min(170,Math.max(120,innerHeight*.2)))+'px');if(K.reframe)K.reframe()};
@@ -3580,8 +3574,9 @@ function match(){
     const side=id=>id?(sideOf(id)==='l'?'⬅ ทางซ้าย':'ทางขวา ➡'):'';
     const want=()=>{const tk=selTicket(),now=performance.now(),T=id=>TOOLS.find(x=>x.id===id)||{th:id};
       if((K.blockEnd||0)>now)return['🔌','ไฟดับ! รอแป๊บ…',null];
+      if(K.open==='sink'&&K.busy)return['🧽','ลากถูไปมาบนจานให้สะอาด',null];
       if(K.open&&K.busy)return['🔥','ทำให้เสร็จ: กดปุ่มด้านล่าง','#ctrl .btn:not([disabled])'];
-      if(K.open==='sink')return K.dirty?['🧽','ล้างจาน: กดปุ่มด้านล่าง','#washBtn']:['✅','จานสะอาดแล้ว · กด ← กลับ','#back'];
+      if(K.open==='sink')return K.dirty?['🧽','ล้างจาน: ลากถูไปมาบนจาน',null]:['✅','จานสะอาดแล้ว · กด ← กลับ','#back'];
       if(K.open==='season')return['🧂','เทเครื่องปรุงให้ถึงขีดเขียว แล้วกด ปรุงเสร็จ','#sdone'];
       if(K.open){const u=$('#useHand');if(u&&!u.disabled)return['👆','กดปุ่มเขียวเพื่อเริ่มทำ','#useHand'];return K.hand&&K.hand.st!=='raw'?['✅',`ได้${itemName(K.hand)}แล้ว! กลับไปที่จาน…`,null]:['↩','ของในมือใช้ที่นี่ไม่ได้ · กด ← กลับ','#back']}
       const ask=Object.keys(K.asked||{}).find(k=>K.asked[k]>now&&mine(k));
@@ -3590,7 +3585,7 @@ function match(){
       if(!K.plateOn&&!noWash&&K.clean<=0)return['🧽','ไม่มีจานสะอาด · ไปล้างจานก่อน','#sinkBtn'];
       if(!tk)return['⏳','รอลูกค้าสั่งอาหาร…',null];
       const need=tk.m.c.map(c=>c[0]+':'+c[1]);for(const x of K.plate){const j=need.indexOf(x.ing+':'+x.st);if(j>-1)need.splice(j,1)}
-      if(!need.length&&K.plate.length){if(!noTaste&&E.seasonHint(tk.m).length&&!Object.values(K.season||{}).some(v=>v>0))return['🧂',`${tk.m.th}ครบแล้ว! ปรุงรสก่อนส่ง`,'#seasBtn'];return['🍽',`${tk.m.th}ครบแล้ว! กด ส่งอาหาร`,'#serve']}
+      if(!need.length&&K.plate.length){if(!noTaste&&needSeason(tk).length)return['🧂',`${tk.m.th}ครบแล้ว! ปรุงรสให้พอดีก่อนส่ง`,'#tpanel'];return['🍽',`${tk.m.th}ครบแล้ว! กด ส่งอาหาร`,'#serve']}
       if(K.hand){const h=K.hand;let rem=null;for(const c of tk.m.c){if(c[0]!==h.ing||!need.includes(c[0]+':'+c[1]))continue;rem=stepRemain(c[0],h.st,c[1]);if(rem)break}
         if(rem&&!rem.length)return['🍽',`แตะจาน (หรือลากไป) เพื่อวาง${itemName(h)}`,'#plateDrop'];
         if(rem){const t=rem[0];if(!toolMine(t)){const w=toolOwner(t);return['📤',`${T(t).th}อยู่ที่ ${w?nameOf(w.id):'เพื่อน'} · ส่ง${itemName(h)}ไป${side(w&&w.id)}`,w&&sideOf(w.id)==='l'?'#passL':'#passR']}
@@ -3758,8 +3753,8 @@ function match(){
     if(id==='sink'){$('#stHow').textContent='ล้างจานสกปรกให้มีจานสะอาดไว้ใช้';
       sc.innerHTML=obj('sink','left:10%;top:18%;width:80%')+(K.dirty?Array.from({length:Math.min(4,K.dirty)},(_,i)=>`<div class="obj" style="left:${36-i*1.5}%;top:${24-i*4}%;width:28%;filter:sepia(.5) brightness(.85)">${art('plate')}</div>`).join(''):'')+
         `<div class="platecount">จานสะอาด ${K.clean} · รอล้าง ${K.dirty}</div><div class="idlehint">${K.dirty?'แตะที่อ่างหรือกด Space เพื่อล้างจาน':'ยังไม่มีจานสกปรก'}</div>`;
-      $('#ctrl').innerHTML=`<div class="row"><button class="btn big" id="washBtn" style="--c:#8CD0F2;--d:#3F86B8" ${K.dirty?'':'disabled'}>ล้างจาน 1 ใบ <kbd>Space</kbd></button></div>`;
-      $('#washBtn').onclick=wash;sc.addEventListener('pointerdown',e=>{e.preventDefault();wash()});KH=baseKH();return}
+      $('#ctrl').innerHTML=`<p class="muted" style="text-align:center">${K.dirty?'🧽 ถูจานไปมาเพื่อล้าง':'ไม่มีจานสกปรกแล้ว · กด ← กลับ'}</p>`;
+      KH=baseKH();if(K.dirty)setTimeout(()=>{if(S.k===K&&K.open==='sink'&&!K.busy)wash()},250);return}
     const acc=accOf(id);$('#stHow').textContent=`${t.verb}: ลากของมาวาง หรือกดปุ่มด้านล่าง`;
     sc.innerHTML=({knife:obj('board','left:14%;top:30%;width:72%')+obj('cleaver','left:40%;top:4%;width:25%'),mortar:obj('mortar','left:28%;top:34%;width:44%')+obj('pestle','left:52%;top:0%;width:8%;transform:rotate(14deg)'),
       pan:obj('wok','left:19%;top:36%;width:62%'),fryer:obj('fryer','left:22%;top:22%;width:56%')+`<div class="oil" style="left:32.2%;top:41.2%;width:35.6%;height:19.5%"></div>`+obj('basket','left:30%;top:2%;width:34%'),
@@ -3791,11 +3786,13 @@ function match(){
     mgWash().then(()=>{if(S.screen!=='match'||S.k!==K)return;setBusy(false);K.dirty--;K.clean++;
       J.wash().then(r=>{if(r&&typeof r.score==='number')K.score=r.score;if(K.plates&&LM)applySnap(LM.snap(myId,Date.now()));report()});SFX.play('wash');toast('ล้างจานเสร็จ +3');renderPlate();openStation('sink')})}
   /* ---------- plate + taste ---------- */
+  // one rule everywhere (hint, recipe card, taste panel): seasoning is needed only while the taste is below SEASON_OK
+  function needSeason(tk){if(noTaste||!tk||!K.plate.length)return[];const tgt=tgtOf(tk);if(tasteAccuracy(tasteOf(K.plate,K.season),tgt)>=SEASON_OK)return[];return seasonPlan(K.plate,tgt,tk.m,[tk.req,K.judge]).filter(p=>{const v=K.season[p.k]||0;return v<p.lo||v>p.hi})}
   function renderTaste(){const tk=selTicket();const box=$('#tpanel');if(!box)return;if(!tk){box.innerHTML='';return}
     if(noTaste){box.innerHTML=`<div class="tf"><span class="tfe">${K.plate.length?'😋':'🍽️'}</span><div><b>${K.plate.length?'วันนี้ไม่ต้องปรุงรส':'ยังไม่มีอะไรในจาน'}</b><small>${K.plate.length?'ครบสูตรแล้วกดส่งได้เลย':''}</small></div></div>`;return}
     const tgt=tgtOf(tk);const wish=[tk.req&&`ลูกค้าขอ "${tk.req.th}"`,K.judge&&`${K.judge.name} ${K.judge.th}`].filter(Boolean).join(' · ');
     if(!K.plate.length){box.innerHTML=`<div class="tf"><span class="tfe">🍽️</span><div><b>ยังไม่มีอะไรในจาน</b><small>ลากของมาวางตามวิธีทำ</small></div></div>${wish?`<p class="wish tpn">${esc(wish)}</p>`:''}`;return}
-    const plan=seasonPlan(K.plate,tgt,tk.m,[tk.req,K.judge]),acc=tasteAccuracy(tasteOf(K.plate,K.season),tgt),[f,w]=face(acc);
+    const acc=tasteAccuracy(tasteOf(K.plate,K.season),tgt),plan=acc>=SEASON_OK?[]:seasonPlan(K.plate,tgt,tk.m,[tk.req,K.judge]),[f,w]=face(acc);
     const need=plan.map(p=>{const v=K.season[p.k]||0;const g=v>=p.lo&&v<=p.hi;return`<span class="tneed ${g?'g':''}">${bottleArt(p.k)}${BOTTLE_SHORT[p.k]}${g?' ✓':''}</span>`}).join('');
     box.innerHTML=`<div class="tf"><span class="tfe">${f}</span><div><b>รสชาติ ${acc}%</b><small>${w}</small></div></div>${plan.length?`<div class="tneeds">${need}</div>`:'<p class="tpn">ไม่ต้องปรุงเพิ่ม 👍</p>'}${wish?`<p class="wish tpn">${esc(wish)}</p>`:''}`}
   function renderPlate(){const pd=$('#plateDrop');if(!pd)return;pd.classList.toggle('empty',!K.plateOn);
@@ -3821,12 +3818,14 @@ function match(){
   function flashTab(pi,text){const f=document.getElementById('ptf'+pi);if(!f)return;f.textContent=text;f.classList.remove('on');void f.offsetWidth;f.classList.add('on')}
   function coopPlace(it,take,pi){const P=pi==null?plateFor(it):pi;const pl=K.plates[P];if(!pl)return false;
     if(pl.dirty){toast('จานนี้สกปรก ไปล้างก่อน หรือเลือกจานอื่น');return false}if(pl.items.length>=MAX_PLATE){toast('จานเต็มแล้ว');return false}
-    take&&take();K.pi=P;pl.items.push({ing:it.ing,st:it.st,amt:it.amt,q:it.q,by:myId});syncCoopPlate();SFX.play('place');renderPlate();renderHow();
+    take&&take();K.pi=P;pl.items.push({ing:it.ing,st:it.st,amt:it.amt,q:it.q,by:myId});syncCoopPlate();SFX.play('place');renderPlate();renderHow();autoSeason();
     J.place(P,{ing:it.ing,st:it.st,amt:it.amt,q:it.q}).then(r=>{if(S.k!==K)return;if(r&&r.snap)applySnap(r.snap);if(!r||!r.ok){toast((r&&r.msg)||'วางไม่สำเร็จ');if(!K.hand&&it.st!=='raw')setHand(it)}});return true}
+  function autoSeason(){const tk=selTicket();if(!tk||noTaste||K.busy||K.open||K.done)return;const need=tk.m.c.map(c=>c[0]+':'+c[1]);for(const x of K.plate){const j=need.indexOf(x.ing+':'+x.st);if(j>-1)need.splice(j,1)}
+    if(need.length||!needSeason(tk).length)return;setTimeout(()=>{if(S.k===K&&!K.busy&&!K.open&&!K.done)openStation('season')},450)}   // the dish is complete: slide straight to the seasoning bottles
   function toPlate(it,take){if(K.busy||K.done||!it)return false;if(K.plates)return coopPlace(it,take);
     if(!K.plateOn){if(K.clean<=0&&!noWash){toast('ไม่มีจานสะอาด ไปล้างจานที่อ่างก่อน');return false}if(!noWash)K.clean--;K.plateOn=true}
     if(K.plate.length>=MAX_PLATE){toast('จานเต็มแล้ว');return false}
-    take&&take();K.plate.push({...it,id:K.uid++});SFX.play('place');renderPlate();renderHow();return true}
+    take&&take();K.plate.push({...it,id:K.uid++});SFX.play('place');renderPlate();renderHow();autoSeason();return true}
   /* ---------- drag & drop ---------- */
   let drag=null,dragging=false,dragJustEnded=false,hoverT=null,hoverEl=null;
   const rawItem=k=>({id:0,ing:k,st:'raw',q:100,amt:ING[k].d});
@@ -3875,14 +3874,14 @@ function match(){
   function renderTickets(){const sig=K.tickets.map(t=>[t.k,t.req&&t.req.th,t.gold?1:0,t.set?t.set.g:0,t.chal?1:0].join(':')).join('|')+'#'+K.selK+'#'+(K.sets?JSON.stringify(K.sets):'');if(sig===K.tkSig&&$('#tickets').children.length){renderHow();return}K.tkSig=sig;$('#tickets').innerHTML=K.tickets.map(tk=>`<button class="ticket ${tk.k===K.selK?'sel':''} ${tk.m.cuisine==='th'?'thai':''} ${tk.rush?'rush':''} ${tk.gold?'gold':''} ${tk.set?'inset':''} ${tk.set&&K.tickets.some(t=>t.set&&t.set.g===tk.set.g&&t.set.i<tk.set.i)?'hkwait':''} ${tk.chal?'chal':''}" data-tk="${tk.k}" ${tk.set?`style="--sg:${['#5BBF6A','#4AA3DF','#E58BC0','#F2B447'][tk.set.g%4]}"`:''}><span class="tier">${'★'.repeat(tk.m.tier)}</span>${tk.gold?`<span class="gtag">🥇 ทอง +${E.GOLD_BONUS}</span>`:''}${tk.chal?`<span class="gtag ctag">🎯 Pressure Test</span>`:''}${tk.set?`<span class="stag">🔥${esc(tk.set.th)}·${esc(tk.set.course||'')}</span>`:''}${tk.req?`<span class="req">${esc(tk.req.th)}</span>`:''}${K.sets?`<span class="crs ${E.courseOf(tk.m.id)}">${E.COURSE_TH[E.courseOf(tk.m.id)]}</span>`:''}${menuArt(tk.m)}<span class="tn">${tk.m.th}</span><span class="tings">${[...new Set(tk.m.c.map(c=>c[0]))].slice(0,4).map(i=>itemArt({ing:i,st:'raw',q:100})).join('')}</span><span class="pat"><i></i></span></button>`).join('')+
       (K.sets?`<div class="setbox"><b>เซ็ตอาหาร</b>${['main','side','dessert'].map(c=>`<span class="${(K.sets.have[c]||0)>0?'got':''}">${E.COURSE_TH[c]}</span>`).join('')}<small>ครบ 3 อย่าง +${E.SET_BONUS} · ทำได้ ${K.sets.n} เซ็ต</small></div>`:'');
     document.querySelectorAll('.ticket').forEach(b=>b.onclick=()=>{K.selK=+b.dataset.tk;if(b.classList.contains('hkwait')){const f=selTicket();if(f){K.selK=f.k;toast(`🔥 ${f.set.th}: ส่ง${f.set.course} (${f.m.th}) ก่อนนะ`)}}if(K.plates){const tk=selTicket();const i=K.plates.findIndex(p=>p.items.length&&fitsOrder(p,tk));if(i>-1){K.pi=i;syncCoopPlate()}}renderTickets();renderTaste();if(K.mkt)drawBelt()});renderHow()}
-  function renderHow(){if(K.plates)renderTabs();const tk=selTicket();if(!tk){$('#howto').innerHTML='';return}const plateKeys=K.plate.map(keyOf),handKey=K.hand?keyOf(K.hand):'';const used=[];const hint=seasonHint(tk.m);
+  function renderHow(){if(K.plates)renderTabs();const tk=selTicket();if(!tk){$('#howto').innerHTML='';return}const plateKeys=K.plate.map(keyOf),handKey=K.hand?keyOf(K.hand):'';const used=[];const hint=seasonHint(tk.m);const planNow=K.plate.length?needSeason(tk):null;
     let nextDone=false;
     $('#howto').innerHTML=`<h3>วิธีทำ ${tk.m.th} <small class="muted">· แตะแต่ละขั้นเพื่อหยิบของ${easy?'':' · จัดจานตามลำดับซ้าย→ขวา'}</small></h3><div class="steps">${tk.m.c.map(([ing,st,amt],si)=>{const key=ing+':'+st;const onP=plateKeys.indexOf(key);let cls='';
       if(onP>-1&&!used.includes('p'+onP)){used.push('p'+onP);cls='ok'}else if(handKey===key)cls='ready';
       const own2=ring?ingOwner(ing):null;const whose=teamMode&&!mine(ing)?`<em class="whose">${chef(chefOf(K.mate),'mini')}เพื่อนมี</em>`:ring&&!mine(ing)&&own2&&!(K.mkt&&!isStaple(ing))?`<em class="whose">${chef(chefOf(own2.id),'mini')}${esc(nameOf(own2.id))}</em>`:'';
       if(cls!=='ok'&&!nextDone){nextDone=true;cls+=' next'}
       const path=pathTo(ing,st)||[];if(DAY)return`<div class="step fsx ${cls}" data-si="${si}" role="button" tabindex="0">${whose}<span class="fsi">${itemArt({ing,st:'raw',q:100})}${path.length?`<span class="fsb">${path.map(t=>`<em class="fst">${toolArt(t)}</em>`).join('')}</span>`:''}</span><small>${itemName({ing,st})}</small></div>`;return`<div class="step ${cls}" data-si="${si}" role="button" tabindex="0">${whose}${itemArt({ing,st:'raw',q:100})}${path.map(t=>`<span class="arr">→</span>${toolArt(t)}`).join('')}${path.length?`<span class="arr">→</span>${itemArt({ing,st,q:100})}`:''}<span>${itemName({ing,st})}<small>${amtText(ing,amt)}</small></span></div>`}).join('')}
-      ${hint.length?`<div class="step seas" data-si="seas" role="button">${bottleArt(hint[0])}<span>ปรุงรส<small>${hint.map(k=>SEASON[k].th).join(' · ')}</small></span></div>`:''}</div>`;
+      ${hint.length?`<div class="step seas ${planNow&&!planNow.length?'ok':''}" data-si="seas" role="button">${bottleArt(hint[0])}<span>ปรุงรส<small>${planNow&&!planNow.length?'รสชาติพอดีแล้ว ✓':(planNow?planNow.map(p=>SEASON[p.k].th):hint.map(k=>SEASON[k].th)).join(' · ')}</small></span></div>`:''}</div>`;
     $('#howto').querySelectorAll('.step.seas').forEach(b=>b.onclick=()=>stepClick('seas'));
     // like Family Style: the recipe is a stack of cards — only the next piece shows, the rest wait behind it
     {const ho=$('#howto'),st=[...ho.querySelectorAll('.step:not(.seas)')],left=st.filter(x=>!x.classList.contains('ok')),wrap=ho.querySelector('.steps');
