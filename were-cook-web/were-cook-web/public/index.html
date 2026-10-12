@@ -1794,6 +1794,41 @@ body.fxon .shell>.top{display:none}
   .fx .pass .btn.big{padding:8px;font-size:1rem}.fx .pass kbd{display:none}
   .fx .pass .prow .btn{padding:4px 10px;font-size:.8rem}
 }
+/* very short screens (phones held sideways, with the browser bars showing): everything slimmer so the kitchen still fits */
+@media (max-height:440px){
+  .play.fx{--pl:150px;--pr:190px;--g:4px}
+  .fx .ptop{padding:3px 5px;gap:4px;border-radius:12px;top:3px;left:3px;right:3px}
+  .fx .phead{max-width:150px;gap:2px}
+  .fx .phead .plist{max-height:44px}
+  .fx .phead .plist .pl{font-size:.66rem;padding:0 4px}.fx .phead .plist .pl svg{width:18px;height:18px}.fx .phead .plist .pl .nm small{display:none}
+  .fx .ptimer b{font-size:.85rem}.fx .phead .quit{padding:1px 8px;font-size:.7rem}.fx .emobtn{width:24px;height:24px;font-size:.85rem}
+  .fx .tickets{max-width:34%;padding:9px 1px 1px;gap:4px}
+  .fx .ticket{width:62px;padding:2px 3px 3px;border-radius:10px;gap:0}.fx .ticket .dish,.fx .ticket .dish.m3d{width:24px;margin:0}
+  .fx .ticket .tn{font-size:.56rem;line-height:1.25}.fx .ticket .tier,.fx .ticket .crs{display:none}.fx .ticket .pat{height:4px}
+  .fx .ticket .req,.fx .ticket .gtag,.fx .ticket .stag{font-size:.5rem;padding:0 4px;top:-8px}
+  .fx .howto{padding:2px 6px;gap:1px}.fx .howto h3{font-size:.72rem;margin:0}.fx .howto h3 small{display:none}
+  .fx .steps{gap:3px;flex-wrap:nowrap;overflow:hidden;padding:1px}
+  .fx .step{padding:1px 4px;font-size:.6rem;border-radius:8px}.fx .step svg,.fx .step .ico3d,.fx .step .ia{width:20px!important;height:20px!important}
+  .fx .step.seas{display:none}
+  .fx .orders{grid-template-columns:auto minmax(0,1fr) minmax(120px,22%)}
+  .fx .orders .guide{font-size:.62rem!important;padding:3px 6px!important;border-radius:10px}
+  .fx .drawer .dbody{padding:5px 4px 5px 6px}.fx .drawer .colh{font-size:.72rem;margin:0 0 3px}
+  .fx .dsearch,.fx .djump,.fx .dhint{display:none}
+  .fx .dcat{font-size:.6rem!important;margin:4px 0 2px!important}
+  .fx .dgrid{grid-template-columns:repeat(3,1fr)!important;gap:3px}
+  .fx .ding{font-size:.52rem!important;padding:3px 1px 2px!important;border-radius:8px}
+  .fx .ding .ico3d,.fx .ding svg:not(.mini){width:28px!important;height:28px!important}
+  .fx .pass{padding:4px;gap:3px;border-radius:12px}
+  .fx .pass .ptab{padding:2px 3px}.fx .pass .ptab .ptp{width:18px;height:18px}.fx .pass .ptab .ptn{font-size:.6rem}
+  .fx .pass .platedrop{min-height:36px}
+  .fx .pass .btn.big{padding:5px;font-size:.82rem}
+  .fx .prow3 .btn{padding:3px;font-size:.66rem}.fx .prow3 .sgi{width:18px;height:18px}
+  .fx .pass .prow .btn{padding:2px 8px;font-size:.66rem}
+  .fx .handbar{padding:2px 6px}.fx .handbar .hand{height:30px;min-height:0;padding:0 6px;font-size:.7rem}.fx .handbar .hand .ia{width:24px;height:24px}.fx .handbar .trash{width:30px;height:30px;font-size:.9rem}
+  .fx .tipcard{display:none}
+  .fx .sview .rib2{padding:2px 6px;font-size:.75rem}
+}
+@media (max-height:440px) and (max-width:900px){.play.fx{--pl:0px;--pr:180px}.fx .pass .btn.big{white-space:nowrap}}
 </style>
 </head>
 <body>
