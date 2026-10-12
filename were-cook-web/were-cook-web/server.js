@@ -140,7 +140,7 @@ function checkTour(code, tour, players) {
   if (kept.length && cut.length && Math.max(...cut) > Math.min(...kept)) return null;
   tours.set(code, { round, n0: prev.n0, alive }); return tours.get(code);
 }
-function startGame(code, gen, dur, mode, tour, diff, market, day) {
+function startGame(code, gen, dur, mode, tour, diff, market, day, cuis, tsplit) {
   stopGame(code);
   if (!rooms.get(code)) return;
   let players = seatOrder(code), round = 'normal';
@@ -156,7 +156,7 @@ function startGame(code, gen, dur, mode, tour, diff, market, day) {
   const team = (mode === 'team' || round === 'team') && [4, 6].includes(players.length);
   // solo / tournament: only people play in the referee (solo bots are simulated by the host's screen)
   const coop = mode === 'coop';
-  const M = E.createMatch({ gen, dur, t0, mode: team ? 'team' : coop ? 'coop' : 'solo', players: team || coop ? players : players.filter(p => !p.bot), round, diff: ['easy', 'normal', 'chef'].includes(diff) ? diff : 'normal', market: !!market, day: mode === 'coop' && Number.isInteger(+day) && +day >= 1 && +day <= E.DAYS.length ? +day : 0 });
+  const M = E.createMatch({ gen, dur, t0, mode: team ? 'team' : coop ? 'coop' : 'solo', players: team || coop ? players : players.filter(p => !p.bot), round, diff: ['easy', 'normal', 'chef'].includes(diff) ? diff : 'normal', market: !!market, day: mode === 'coop' && Number.isInteger(+day) && +day >= 1 && +day <= E.DAYS.length ? +day : 0, cuisine: typeof cuis === 'string' && cuis.length < 40 && E.cuisineOk(cuis) ? cuis : 'all', teamSplit: mode === 'team' && !!tsplit });
   const gm = { code, gen, M, keys: Object.fromEntries(players.map(p => [p.id, p.key])), tour: mode === 'tour' };
   for (const p of humans(gm)) setServerFields(code, p.id, { done: false });
   pushAll(gm);
@@ -268,7 +268,7 @@ io.on('connection', socket => {
       const gm = games.get(code);
       if (clean.phase === 'play' && typeof clean.gen === 'number' && (!gm || gm.gen !== clean.gen)) {
         const dur = [180, 300, 600].includes(+clean.dur) ? +clean.dur : 600;
-        const hp = m.get(socket.id); startGame(code, clean.gen, hp.mode === 'tour' ? Math.min(dur, 300) : dur, ['team', 'tour', 'coop'].includes(hp.mode) ? hp.mode : 'solo', hp.tour, hp.diff, hp.market, hp.day);
+        const hp = m.get(socket.id); startGame(code, clean.gen, hp.mode === 'tour' ? Math.min(dur, 300) : dur, ['team', 'tour', 'coop'].includes(hp.mode) ? hp.mode : 'solo', hp.tour, hp.diff, hp.market, hp.day, hp.cuis, hp.tsplit);
       } else if (clean.phase === 'wait') stopGame(code);
     }
     sendRoom(code);

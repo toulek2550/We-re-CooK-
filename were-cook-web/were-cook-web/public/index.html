@@ -1168,6 +1168,8 @@ body.in-game .shell{max-width:none;padding-left:clamp(10px,1.4vw,24px);padding-r
 .tickets{padding-top:11px}
 .ticket.hkwait{opacity:.55;filter:saturate(.5)}.ticket.hkwait::after{content:'รอคอร์สก่อน';position:absolute;inset:auto 4px 16px;background:#3a2233;color:#fff;font-size:.6rem;border-radius:6px;padding:1px 4px;text-align:center}
 .ticket.chal{box-shadow:0 0 0 3px #7B4DFF,0 4px 0 var(--line);background:#F3EEFF}.ticket .gtag.ctag{background:#7B4DFF}
+.rankcorner{position:absolute;right:0;top:4px;width:auto;padding:10px 18px;z-index:2;font-size:1.05rem;line-height:1.2}
+@media (max-width:700px){.rankcorner{position:static;margin:0 auto 8px;display:inline-block}}
 .rankbtn small{display:block;font-size:.72rem;font-weight:500;opacity:.8}
 .rankbtn{background:linear-gradient(180deg,#FFD15C,#F2B447);color:#3a2233;--d:#c98a00}
 .rankpanel{position:fixed;right:12px;top:60px;z-index:70;width:min(420px,calc(100vw - 24px));max-height:min(80vh,680px);overflow:auto;background:#fff;color:#3a2233;border-radius:20px;box-shadow:0 12px 34px rgba(0,0,0,.35);padding:12px 14px}
@@ -1184,6 +1186,7 @@ body.in-game .shell{max-width:none;padding-left:clamp(10px,1.4vw,24px);padding-r
 .tipcard{position:absolute;z-index:16;left:calc(var(--pl,0px) + 18px);bottom:calc(var(--fb,80px) + 62px);max-width:min(420px,calc(100% - var(--pl,0px) - var(--pr,0px) - 36px));display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;background:#fff;color:#3a2233;border-radius:18px;padding:10px 12px;box-shadow:0 0 0 3px #FFB36B,0 10px 26px rgba(0,0,0,.3);animation:hkin0 .3s ease-out}
 .tipcard i{font-style:normal;font-size:1.8rem;line-height:1}.tipcard b{font-size:1rem}.tipcard p{margin:2px 0 0;font-size:.84rem;line-height:1.35}.tipcard button{border:0;background:none;font-size:1rem;cursor:pointer;color:#86697a}
 .tipcard.out{opacity:0;transition:opacity .25s}@keyframes hkin0{from{transform:translateY(12px);opacity:0}}
+@media (max-width:900px){.tipcard{left:58px}}
 @media (max-height:600px){.tipcard{bottom:auto;top:calc(var(--ft,120px) + 30px);padding:6px 10px}.tipcard p{font-size:.74rem}.tipcard i{font-size:1.3rem}}
 .ptab.over{outline:3px dashed #fff;outline-offset:2px}
 .ptf{position:absolute;left:50%;top:-12px;transform:translateX(-50%);background:#3E8EDE;color:#fff;font-size:.62rem;font-weight:700;border-radius:999px;padding:1px 8px;white-space:nowrap;opacity:0;pointer-events:none}
@@ -1234,7 +1237,9 @@ body.in-game .shell{max-width:none;padding-left:clamp(10px,1.4vw,24px);padding-r
 .dday[aria-pressed="true"]{box-shadow:0 0 0 3px var(--tomato);background:#FFF7EC}
 .dday.free{grid-auto-flow:column;gap:8px;justify-content:center;background:var(--cream)}
 #settings:not(.coopset) .daypick{display:none}
-#settings.dayon #diffP,#settings.dayon #mktP,#settings.dayon #durP{display:none}
+#settings.dayon #diffP,#settings.dayon #mktP,#settings.dayon #durP,#settings.dayon #cuisP{display:none}
+#tsplitP[hidden],#freeP[hidden],.durpick[hidden]{display:none!important}
+.cuispick{flex-wrap:wrap}.cuispick button{flex:0 0 auto}
 .dayline{color:var(--tomato-d)}
 .dayintro{position:fixed;inset:0;z-index:160;background:rgba(30,12,28,.55);display:grid;place-items:center;padding:16px;animation:fadein .25s}
 @keyframes fadein{from{opacity:0}}
@@ -1648,6 +1653,19 @@ body.fxon .secpanel{left:auto;right:322px;bottom:128px}
 @media (max-width:900px){body.fxon .secbtn{right:248px;bottom:58px;width:32px;height:32px}body.fxon .secpanel{right:248px;bottom:96px}}
 /* Thai text needs room above/below the line: tight one-line labels clipped vowels and tone marks */
 .ptab .ptw,.ptab .ptn,.ticket .tn,.ticket .stag,.chalpill,.pl .nm,.pl .nm small,.rklist li span,.stblock b,.guide b,.hand .hn{line-height:1.45}
+/* 4 plate tabs (team): compact, number only */
+.fx .pass .ptabs:has(.ptab:nth-child(4)) .ptab{grid-template-columns:1fr;justify-items:center;padding:4px 2px}
+.fx .pass .ptabs:has(.ptab:nth-child(4)) .ptab .ptw{display:none}
+.fx .pass .ptabs:has(.ptab:nth-child(4)) .ptab .ptp{grid-row:auto;width:26px;height:26px}
+/* 4+ players in the score strip: one line each, so nobody is cut off */
+.fx .plist:has(.pl:nth-child(4)) .pl .nm small{display:none}
+.fx .plist:has(.pl:nth-child(4)) .pl{padding-top:2px;padding-bottom:2px}
+.fx .plist:has(.pl:nth-child(4)) .pl .nm{max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* the hint sits in the order strip, right of the recipe */
+.fx .orders{grid-template-columns:auto minmax(0,1fr) minmax(200px,26%)}
+.fx .orders .guide{position:static;transform:none;left:auto;top:auto;bottom:auto;align-self:center;justify-self:stretch;max-width:none;width:auto;border-radius:16px;white-space:normal;font-size:.98rem;padding:10px 14px;box-shadow:0 0 0 3px #FFB36B,0 4px 0 rgba(0,0,0,.12)}
+.fx .orders .guide.pop{animation:gpop2 .35s cubic-bezier(.34,1.56,.64,1)}@keyframes gpop2{from{transform:scale(.92);background:#FFC933}}
+@media (max-height:600px),(max-width:900px) and (orientation:landscape){.fx .orders .guide{flex:0 0 24%;font-size:.76rem;padding:5px 8px;gap:5px}.fx .orders .guide i{font-size:1rem}}
 /* ================= full-screen kitchen (fx): the whole screen is the kitchen; stations sit in the scene, the pass (plates) is always on the right ================= */
 body.fxon{overflow:hidden}
 body.fxon .shell>.top{display:none}
@@ -1657,7 +1675,8 @@ body.fxon .shell>.top{display:none}
 .fx .vport{position:absolute;inset:0;height:auto;border-radius:0;box-shadow:none}
 .fx .pcenter:has(.belt:not([hidden])) .vport{height:auto}
 .fx .belt:not([hidden])~.vport .sview{top:calc(var(--ft) + 66px)}
-.fx .belt:not([hidden])~.vport .guide,.fx .belt:not([hidden])~.vport .chalpill{top:calc(var(--ft) + 70px)}
+.fx .pcenter:has(.belt:not([hidden])) #stgrid:not(.hot){top:calc(var(--ft) + 92px)}
+.fx .belt:not([hidden])~.vport .chalpill{top:calc(var(--ft) + 70px);bottom:auto}
 .fx .vport:not(.k3d){background:linear-gradient(180deg,#F6E2C4 0,#F1D6B0 calc(var(--ft) + 30%),#B67A4C calc(var(--ft) + 30%),#9A6238 calc(var(--ft) + 31.5%),transparent calc(var(--ft) + 31.5%)),repeating-conic-gradient(#f4efe9 0 25%,#d9cfc6 0 50%) 0 0/72px 72px}
 .fx .track{pointer-events:none;position:absolute;inset:0}.fx .track .judge{pointer-events:auto}
 .fx .view{padding:0}
@@ -1675,7 +1694,7 @@ body.fxon .shell>.top{display:none}
 .fx .pass .ptabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px;margin:0}
 .fx .pass .ptabs:empty{display:none}
 .fx .pass .ptab{min-width:0;grid-template-columns:30px minmax(0,1fr);padding:4px 6px 4px 4px;border-radius:12px;box-shadow:0 2px 0 rgba(0,0,0,.15);background:#fff8ee}
-.fx .pass .ptab .ptp{width:30px;height:30px}.fx .pass .ptab .ptn{font-size:.76rem}.fx .pass .ptab .ptw{font-size:.62rem;max-width:100%}.fx .pass .ptab .ptc{display:none}
+.fx .pass .ptab .ptp{width:30px;height:30px}.fx .pass .ptab .ptn{font-size:.76rem;white-space:nowrap}.fx .pass .ptab .ptw{font-size:.62rem;max-width:100%}.fx .pass .ptab .ptc{display:none}.fx .teamplay .pass .ptab .ptc,.fx.teamplay .pass .ptab .ptc{display:flex;position:absolute;right:4px;top:-8px}.fx.teamplay .pass .ptab .ptc svg{width:16px;height:16px}
 .fx .pass .ptab.on{box-shadow:0 0 0 3px #FF8A3D}
 .fx .pass .platedrop{flex:1 1 auto;min-height:90px;width:auto;max-width:100%;aspect-ratio:1;align-self:center;margin:0}
 .fx .pass .pside{display:grid;gap:7px;flex:none}
@@ -2339,7 +2358,7 @@ const NET={mode:'offline',lobbyPeers:[],lobbySubs:new Set(),lobbyP:{},you:null,g
 const HOST_KEYS=['mode','tour','bots','dur','size','diff','day','locked','market','phase','gen'];
 function hostCarry(rm,l){const h=roomList(l)[0];if(!h)return;const prev=rm.lastHost;rm.lastHost={id:h.id,p:h.p};
   if(!h.isMe||!prev||prev.id===h.id||l.some(x=>x.id===prev.id))return;
-  const c=prev.p;if(c.mode)S.mode=c.mode;if(+c.size)S.size=+c.size;if(+c.dur)S.dur=+c.dur;if(c.diff)S.diff=c.diff;S.market=!!c.market;S.locked=!!c.locked;if(Array.isArray(c.bots))S.bots=c.bots.map(b=>({...b}));   // the host screen re-sends these
+  const c=prev.p;if(c.mode)S.mode=c.mode;if('tsplit' in c)S.tsplit=!!c.tsplit;if(c.cuis)S.cuis=c.cuis;if(+c.size)S.size=+c.size;if(+c.dur)S.dur=+c.dur;if(c.diff)S.diff=c.diff;S.market=!!c.market;S.locked=!!c.locked;if(Array.isArray(c.bots))S.bots=c.bots.map(b=>({...b}));   // the host screen re-sends these
   const patch={};for(const k of HOST_KEYS)if(prev.p[k]!=null&&JSON.stringify(h.p[k])!==JSON.stringify(prev.p[k]))patch[k]=prev.p[k];
   if(Object.keys(patch).length){rm.presence(patch);setTimeout(()=>toast('👑 หัวห้องหลุด คุณเป็นหัวห้องแทนแล้ว'),50)}}
 /* ================= 🛡️ SECURITY PANEL =================
@@ -2395,7 +2414,7 @@ function offlineRoom(code,p){
 }
 
 /* ================= STATE ================= */
-const S={name:store('wc_name')||'เชฟ'+pick(CHEF_NAMES),chef:store('wc_chef')??Math.floor(Math.random()*6),room:null,peers:[],joinedAt:0,sayN:0,lastSay:{},lastGen:null,screen:'',dur:[180,300,600].includes(+store('wc_dur2'))?+store('wc_dur2'):600,mode:store('wc_mode')||'coop',diff:store('wc_diff')||'easy',day:store('wc_day'),free:false,market:true,size:store('wc_size')||4,bots:[]};
+const S={tsplit:!!store('wc_tsplit'),cuis:store('wc_cuis')||'all',name:store('wc_name')||'เชฟ'+pick(CHEF_NAMES),chef:store('wc_chef')??Math.floor(Math.random()*6),room:null,peers:[],joinedAt:0,sayN:0,lastSay:{},lastGen:null,screen:'',dur:[180,300,600].includes(+store('wc_dur2'))?+store('wc_dur2'):600,mode:store('wc_mode')||'coop',diff:store('wc_diff')||'easy',day:store('wc_day'),free:false,market:true,size:store('wc_size')||4,bots:[]};
 const app=$('#app');
 let cleanup=[];const onLeave=f=>cleanup.push(f);
 function go(fn){cleanup.forEach(f=>{try{f()}catch(e){}});cleanup=[];S.flat=false;document.body.classList.remove('in-game');fn()}
@@ -2456,6 +2475,7 @@ function lobby(){
   const logo="We're CooK?".split('').map((c,i)=>`<span style="animation-delay:${i*.05}s">${c===' '?'&nbsp;':esc(c)}</span>`).join('');
   app.innerHTML=`
     <section class="hero">
+      <button class="btn rankbtn rankcorner" id="rankBtn">🏆 แรงกิ้ง<small>อันดับคะแนนสูงสุด</small></button>
       ${[['chili',4,18,-12],['egg',86,10,8],['shrimp',10,62,10],['lime',90,58,-6],['basil',24,-4,14],['tomato',74,74,4]].map(([k,x,y,r],i)=>`<div class="floaty" style="left:${x}%;top:${y}%;--r:${r}deg;animation-delay:${-i*.7}s">${art(k)}</div>`).join('')}
       <h1 class="logo">${logo}</h1>
       <p class="tag">ปาร์ตี้ทำอาหารกับเพื่อน · ช่วยกันในครัวโกลาหล หรือแข่งกันในทัวร์นาเมนต์ Thai Kitchen Battle</p>
@@ -2471,9 +2491,8 @@ function lobby(){
       </section>
       <section class="card actions">
         <button class="btn big tutbtn ${store('wc_tut')?'':'first'}" id="tut">🎓 ฝึกทำจานแรก (โหมดแข่ง/ทัวร์นาเมนต์)<small>${store('wc_tut')?'ทบทวนวิธีเล่น 1 นาที':'เล่นครั้งแรก? เริ่มตรงนี้ · 1 นาที'} · ครัวโกลาหลมีคำอธิบายในการ์ดรอบแรก</small></button>
-        <button class="btn big rankbtn" id="rankBtn">🏆 แรงกิ้ง (อันดับคะแนนสูงสุด)<small>คะแนนจากกรรมการ (เซิร์ฟเวอร์) เท่านั้น · โกงไม่ได้</small></button>
         <button class="btn red big opennow" id="create">🎮 เริ่มเกม (สร้างห้อง)<small>เลือกโหมดได้ในห้องรอ · เล่นคนเดียวกับบอทก็ได้</small></button>
-        <div class="howplay">${[['🍳','ครัวโกลาหล','ช่วยกันทำ · ของที่ต้องใช้อยู่บนโต๊ะเพื่อน ส่งให้กัน'],['🏆','ทัวร์นาเมนต์','แข่งตกรอบ · ปรุงรสให้ถูกใจกรรมการ'],['👥','ทีม 2 ต่อ 2','ครัวเดียวกัน · ตู้ของ จาน 3 ใบ และเครื่องครัวใช้ร่วมกัน']].map(([i,b,t])=>`<div><i>${i}</i><b>${b}</b><span>${t}</span></div>`).join('')}</div>
+        <div class="howplay">${[['🍳','ครัวโกลาหล','ช่วยกันทำ · ของที่ต้องใช้อยู่บนโต๊ะเพื่อน ส่งให้กัน'],['🏆','ทัวร์นาเมนต์','แข่งตกรอบ · ปรุงรสให้ถูกใจกรรมการ'],['👥','ทีม 2 ต่อ 2','ครัวเดียวกัน · ตู้ของ จาน 4 ใบ และเครื่องครัวใช้ร่วมกัน']].map(([i,b,t])=>`<div><i>${i}</i><b>${b}</b><span>${t}</span></div>`).join('')}</div>
         <div class="divider">หรือเข้าห้องด้วยรหัส</div>
         <div>
           <div class="join-code" id="slots"></div>
@@ -2546,8 +2565,8 @@ const RUN={get(){const r=S.runMem;return r&&r.day>=1&&r.day<=DAYS.length?r:{day:
 const curDay=()=>S.mode==='coop'?1:0;   // co-op always starts at round 1 and plays on continuously
 const MODE_INFO={
   coop:['🍳 ครัวโกลาหล · ช่วยกันทำ','ทุกคนมีออร์เดอร์ของตัวเอง แต่ของที่ต้องใช้มักไปตกอยู่บนโต๊ะเพื่อน → ลากหรือโยนส่งให้กัน · ทุกเกมสุ่มไม่ซ้ำ: เครื่องครัวกับเมนูใหม่โผล่มาเรื่อย ๆ จานใหญ่ขึ้นทุกรอบ · ⭐ คะแนนร้านลดตลอด ส่งอาหารเพื่อเติม · <b>หมดหลอด = ร้านปิด</b>'],
-  solo:['⚔️ เดี่ยว · แข่งกัน','ทุกคนมีครัวของตัวเอง ทำออร์เดอร์ให้ได้คะแนนมากที่สุดก่อนหมดเวลา · ทำมินิเกมให้ดีและปรุงรสให้ตรงเป้า = คะแนนสูง · ที่วางจาน 2 ใบ · มีชาเลนจ์ MasterChef (Pressure Test, รอบเร่ง) · โต๊ะคอร์สแบบ Hell’s Kitchen (ออเดิร์ฟ → จานหลัก → ของหวาน ต้องส่งตามลำดับ เชฟหัวหน้าตีกลับจานที่ไม่ผ่าน) · ปุ่ม ⚔️ ท้าชิงคนที่อยู่เหนือคุณ · <b>คะแนนสูงสุดชนะ</b>'],
-  team:['👥 ทีม 2 ต่อ 2','จับคู่เป็นทีม (4 คน = 2v2 · 6 คน = 2v2v2) ทีมเดียวกันอยู่ครัวเดียวกัน: ตู้วัตถุดิบเดียวกัน ที่วางจาน 3 ใบใช้ร่วมกัน เครื่องครัวชุดเดียวกัน (ถ้าเพื่อนใช้อยู่ต้องรอ) · <b>ทีมที่คะแนนรวมสูงสุดชนะ</b>'],
+  solo:['⚔️ เดี่ยว · แข่งกัน','ทุกคนมีครัวของตัวเอง ทำออร์เดอร์ให้ได้คะแนนมากที่สุดก่อนหมดเวลา · ทำมินิเกมให้ดีและปรุงรสให้ตรงเป้า = คะแนนสูง · ที่วางจาน 3 ใบ · มีชาเลนจ์ MasterChef (Pressure Test, รอบเร่ง) · โต๊ะคอร์สแบบ Hell’s Kitchen (ออเดิร์ฟ → จานหลัก → ของหวาน ต้องส่งตามลำดับ เชฟหัวหน้าตีกลับจานที่ไม่ผ่าน) · ปุ่ม ⚔️ ท้าชิงคนที่อยู่เหนือคุณ · <b>คะแนนสูงสุดชนะ</b>'],
+  team:['👥 ทีม 2 ต่อ 2','จับคู่เป็นทีม (4 คน = 2v2 · 6 คน = 2v2v2) ทีมเดียวกันอยู่ครัวเดียวกัน: ตู้วัตถุดิบเดียวกัน ที่วางจาน 4 ใบใช้ร่วมกัน เครื่องครัวชุดเดียวกัน (ถ้าเพื่อนใช้อยู่ต้องรอ) · หรือเลือกแบบ 📦 แยกของ: แต่ละคนมีของครึ่งตู้ ต้องส่งของให้กัน · <b>ทีมที่คะแนนรวมสูงสุดชนะ</b>'],
   tour:['🏆 ทัวร์นาเมนต์ · Thai Kitchen Battle','เล่นได้ 4 หรือ 6 คน (รวมบอท) · 6 คน: รอบคัดเลือก (เหลือ 4) → รอบวัตถุดิบปริศนา → รอบทีม 2v2 (ทีมชนะไปต่อ) → รอบชิง 1v1 เซ็ตเมนู + กรรมการปรับรส · 4 คน: เริ่มที่รอบปริศนา · <b>เหลือคนสุดท้ายเป็นแชมป์</b>']};
 function runHTML(mode){const [t,d]=MODE_INFO[mode]||MODE_INFO.coop;
   return`<div class="rc rclong"><div class="rc-top"><span class="rc-w">${t}</span></div>${mode==='coop'?`<div class="rc-worlds">${WORLDS.map(w=>`<span>${w.icon} ${w.th}</span>`).join('<b>➜</b>')}</div>`:''}<p class="rc-news">${d}</p></div>`}
@@ -2595,15 +2614,17 @@ function waitRoom(){
   $('#ready').onclick=()=>{myReady=!myReady;room.presence({ready:myReady});$('#ready').textContent=myReady?'ยกเลิกพร้อม':'พร้อมแล้ว!'};
   $('#chatf').onsubmit=e=>{e.preventDefault();const t=clean($('#chatIn').value,80);if(!t)return;S.sayN++;room.presence({say:{n:S.sayN,t}});$('#chatIn').value=''};
   $('#start').onclick=()=>{const M=members(S.peers||[]);
-    const dd=curDay();room.presence({phase:'play',gen:Date.now(),dur:dd?DAYS[dd-1].dur:S.mode==='tour'?120:S.dur||180,day:dd,mode:S.mode,diff:S.diff,market:S.market,tour:S.mode==='tour'?{round:1,n0:M.all.length,alive:M.all.map(m=>m.key),out:[],res:null}:null})};
-  const pushHost=()=>{SAVED.touch({bots:S.bots});const dd=curDay();S.day=dd;renderRun();$('#settings')&&$('#settings').classList.toggle('dayon',!!dd);room.presence({size:S.size,dur:S.dur,mode:S.mode,diff:S.diff,market:S.market,day:dd,locked:!!S.locked,bots:S.bots.map(b=>({...b}))});const lb=$('#lockBtn');if(lb){lb.textContent=S.locked?'🔒 ห้องล็อกอยู่ (แตะเพื่อเปิด)':'🔓 ล็อกห้อง';lb.classList.toggle('on',!!S.locked)}};
+    const dd=curDay();room.presence({phase:'play',gen:Date.now(),dur:dd?DAYS[dd-1].dur:S.mode==='tour'?120:S.dur||180,day:dd,mode:S.mode,diff:S.diff,cuis:S.cuis||'all',tsplit:!!S.tsplit,market:S.market,tour:S.mode==='tour'?{round:1,n0:M.all.length,alive:M.all.map(m=>m.key),out:[],res:null}:null})};
+  const pushHost=()=>{SAVED.touch({bots:S.bots});const dd=curDay();S.day=dd;renderRun();$('#settings')&&$('#settings').classList.toggle('dayon',!!dd);room.presence({size:S.size,dur:S.dur,mode:S.mode,diff:S.diff,cuis:S.cuis||'all',tsplit:!!S.tsplit,market:S.market,day:dd,locked:!!S.locked,bots:S.bots.map(b=>({...b}))});const lb=$('#lockBtn');if(lb){lb.textContent=S.locked?'🔒 ห้องล็อกอยู่ (แตะเพื่อเปิด)':'🔓 ล็อกห้อง';lb.classList.toggle('on',!!S.locked)}};
   function buildHostUI(M){const box=$('#settings');hostUI=true;
     const ds=dayStars();
     box.innerHTML=`<div class="runcard" id="runcard"></div>
       <div class="botadd main"><button class="btn" id="addBot">+ เพิ่มบอท</button><button class="btn soft lockbtn" id="lockBtn">🔓 ล็อกห้อง</button><span class="muted">ไม่มีเพื่อน? เพิ่มบอทได้ · ล็อกห้องแล้วคนใหม่เข้าไม่ได้และห้องจะไม่โชว์ในรายการ</span></div>
       <details class="moreset" id="moreset"><summary>⚙️ โหมดอื่น / ตั้งค่าเพิ่ม</summary><div class="msbody">
       <div class="durpick" id="modeP"><span class="muted">โหมด</span><button data-v="coop">🍳 ครัวโกลาหล (ช่วยกัน)</button><button data-v="solo">⚔️ เดี่ยว (แข่งกัน)</button><button data-v="team">👥 ทีม 2 ต่อ 2</button><button data-v="tour">🏆 ทัวร์นาเมนต์</button></div>
+      <div class="durpick diffpick" id="tsplitP"><span class="muted">แบบทีม</span><button data-v="0">🍳 ครัวรวม<small>ใช้ตู้ของร่วมกัน ไม่ต้องส่งของ</small></button><button data-v="1">📦 แยกของ<small>แต่ละคนมีของครึ่งตู้ ต้องส่งให้เพื่อน</small></button></div>
       <div class="durpick diffpick" id="diffP"><span class="muted">ความยาก</span><button data-v="easy">😊 ง่าย<small>มือใหม่ · 9 เมนู · ไม่ต้องล้างจาน</small></button><button data-v="normal">🙂 ปกติ<small>ครบทุกระบบ</small></button><button data-v="chef">🔥 เชฟ<small>เร็ว · ออร์เดอร์เยอะ</small></button></div>
+      <div class="durpick cuispick" id="cuisP"><span class="muted">หมวดอาหาร <small>(ติ๊กได้หลายชาติ)</small></span>${[['all','🌏 ทุกชาติ'],['th','🇹🇭 ไทย'],['cn','🇨🇳 จีน'],['jp','🇯🇵 ญี่ปุ่น'],['kr','🇰🇷 เกาหลี'],['asia','🥢 เอเชีย (ไทย·จีน·ญี่ปุ่น·เกาหลี)'],['west','🍔 ตะวันตก']].map(([v,l])=>`<button data-v="${v}">${l}</button>`).join('')}</div>
       <div class="durpick" id="sizeP"><span class="muted">ขนาดห้อง</span>${[2,3,4,5,6].map(v=>`<button data-v="${v}">${v} คน</button>`).join('')}</div>
       <div class="durpick" id="durP"><span class="muted">เวลาต่อเกม</span>${[[180,'3 นาที'],[300,'5 นาที'],[600,'10 นาที']].map(([v,l])=>`<button data-v="${v}">${l}</button>`).join('')}</div>
       <div class="botadd"><span class="muted">ฝีมือบอท</span><select id="botLv">${Object.entries(BOTLV).map(([k,[th]])=>`<option value="${k}" ${k==='normal'?'selected':''}>${th}</option>`).join('')}</select></div>
@@ -2615,6 +2636,9 @@ function waitRoom(){
     box.querySelectorAll('#sizeP button').forEach(b=>b.onclick=()=>{const v=+b.dataset.v;if(v<curTotal){toast('ในห้องมีคนและบอทมากกว่านี้แล้ว');return}S.size=v;store('wc_size',v);pushHost()});
     box.querySelectorAll('#durP button').forEach(b=>b.onclick=()=>{S.dur=+b.dataset.v;store('wc_dur2',S.dur);pushHost()});
     box.querySelectorAll('#diffP button').forEach(b=>b.onclick=()=>{S.diff=b.dataset.v;store('wc_diff',S.diff);pushHost()});
+    // all / asia: one choice on its own · single kitchens: tick as many as you like (none left = all)
+    box.querySelectorAll('#tsplitP button').forEach(b=>b.onclick=()=>{S.tsplit=b.dataset.v==='1';store('wc_tsplit',S.tsplit);pushHost()});
+    box.querySelectorAll('#cuisP button').forEach(b=>b.onclick=()=>{const v=b.dataset.v;let L=E.cuisineList(S.cuis);if(v==='all'||v==='asia')S.cuis=v;else{L=L.includes(v)?L.filter(x=>x!==v):L.concat(v);S.cuis=!L.length||L.length===5?'all':L.length===4&&['th','cn','jp','kr'].every(k=>L.includes(k))?'asia':L.join(',')}store('wc_cuis',S.cuis);pushHost()});   /* every kitchen ticked = all; exactly Thai+China+Japan+Korea = asia */
     box.querySelectorAll('#mktP button').forEach(b=>b.onclick=()=>{S.market=b.dataset.v==='1';store('wc_market',S.market);if(S.market&&S.diff==='easy')toast('ตลาดแย่งกันใช้ในความยากปกติ/เชฟ');pushHost()});
     box.querySelectorAll('#modeP button').forEach(b=>b.onclick=()=>{S.mode=b.dataset.v;store('wc_mode',S.mode);if((S.mode==='team'||S.mode==='tour')&&![4,6].includes(S.size)){S.size=S.size>4?6:4;store('wc_size',S.size)}pushHost()});
     $('#addBot').onclick=()=>{if(curTotal>=S.size){toast('ห้องเต็มแล้ว เพิ่มขนาดห้องก่อน');return}if(S.bots.length>=5)return;
@@ -2629,9 +2653,9 @@ function waitRoom(){
     const meIdx=hum.findIndex(p=>p.isMe);
     if(!iAmHost&&meIdx>=0&&meIdx>=size-bots.length){logMsg(null,`ห้องนี้เต็มแล้ว (${size} คน)`,true);toast('ห้องเต็มแล้ว');setTimeout(leaveRoom,1200);S.screen='leaving';return}
     if(iAmHost&&!hostUI){if(!Array.isArray(S.bots))S.bots=[];buildHostUI(M);return}   // buildHostUI pushes the settings -> render runs again with them
-    if(!iAmHost){hostUI=null;const hp=host&&host.p||{};const md=(hp.locked?'🔒 ห้องล็อกแล้ว · ':'')+(hp.mode==='tour'?`แผนการแข่ง: ${tourPlan(all.length)} · `:'');
+    if(!iAmHost){hostUI=null;const hp=host&&host.p||{};const md=(hp.locked?'🔒 ห้องล็อกแล้ว · ':'')+(hp.mode==='tour'?`แผนการแข่ง: ${tourPlan(all.length)} · `:'')+(hp.mode!=='coop'&&hp.cuis&&E.cuisineOk(hp.cuis)?`หมวดอาหาร: ${E.cuisineTh(hp.cuis)} · `:'');
       $('#settings').innerHTML=runHTML(hp.mode||'coop')+`<p class="muted">${md}${hp.mode==='coop'?'':`${Math.round((+hp.dur||180)/60)} นาที · `}บอท ${bots.length} ตัว · หัวห้องเป็นคนกดเริ่ม</p>`}
-    else{$('#settings').querySelectorAll('#sizeP button').forEach(b=>{b.setAttribute('aria-pressed',+b.dataset.v===S.size);b.hidden=(S.mode==='team'||S.mode==='tour')&&![4,6].includes(+b.dataset.v)});   /* team / tournament: even rooms only (2v2 or 2v2v2) */$('#settings').querySelectorAll('#durP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dur));$('#settings').querySelectorAll('#modeP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.mode));$('#settings').querySelectorAll('#diffP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.diff));$('#settings').querySelectorAll('#freeP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.free));if($('#freeP'))$('#freeP').hidden=S.mode!=='coop';$('#settings').classList.toggle('coopset',S.mode==='coop');$('#settings').querySelectorAll('#mktP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.market));
+    else{$('#settings').querySelectorAll('#sizeP button').forEach(b=>{b.setAttribute('aria-pressed',+b.dataset.v===S.size);b.hidden=(S.mode==='team'||S.mode==='tour')&&![4,6].includes(+b.dataset.v)});   /* team / tournament: even rooms only (2v2 or 2v2v2) */$('#settings').querySelectorAll('#durP button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.dur));$('#settings').querySelectorAll('#modeP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.mode));$('#settings').querySelectorAll('#diffP button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===S.diff));$('#settings').querySelectorAll('#cuisP button').forEach(b=>{const c=S.cuis||'all',v=b.dataset.v;b.setAttribute('aria-pressed',v===c||(c!=='asia'&&c!=='all'&&E.cuisineList(c).includes(v)))});   /* asia / all light up alone */$('#settings').querySelectorAll('#freeP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.free));if($('#freeP'))$('#freeP').hidden=S.mode!=='coop';if($('#tsplitP')){$('#tsplitP').hidden=S.mode!=='team';$('#settings').querySelectorAll('#tsplitP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.tsplit))}$('#settings').classList.toggle('coopset',S.mode==='coop');$('#settings').querySelectorAll('#mktP button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='1')===!!S.market));
       const ab=$('#addBot');if(ab)ab.disabled=all.length>=size}
     const ids=new Set(all.map(p=>p.id));
     all.forEach(p=>{if(!seen.has(p.id)&&seen.size)SFX.play('join');if(!seen.has(p.id)&&seen.size)logMsg(null,`${clean(p.p.nick,16)||'เชฟ'} ${p.isBot?'(บอท) ':''}เข้ามาในห้อง`,true)});
@@ -3380,7 +3404,7 @@ function match(){
   const M0=members(S.peers||[]);const h=M0.host;const dayN=h&&h.p.mode==='coop'&&+h.p.day||0;const DAY=dayN?DAYS[dayN-1]:null;if(DAY)return fsMatch();const dur=DAY?DAY.dur:Math.min((h&&+h.p.dur)||S.dur||600,M0.tour?300:600);   /* a tournament round is at most 5 minutes */const gen=S.lastGen;const iHost=h&&h.isMe;
   const tourT=M0.tour,tourKindNow=tourT?tourKindLive(M0):'';
   const teamMode=!!(h&&((h.p.mode==='team'&&[4,6].includes(M0.all.length))||tourKindNow==='team'));
-  const coop=!!(h&&h.p.mode==='coop');const ring=coop;const passUI=ring;   /* teammates now share one kitchen: same pantry, plates and stations, so nothing to pass */
+  const coop=!!(h&&h.p.mode==='coop');const ring=coop;const tsplit=teamMode&&!!(h&&h.p.tsplit)&&tourKindNow!=='team';const passUI=ring||tsplit;   /* team: one kitchen (shared pantry), or 'แยกของ' (half the pantry each, pass to your teammate) */
   const myId=(M0.all.find(m=>m.isMe)||{id:'me'}).id;const meM=M0.all.find(m=>m.isMe);
   const tut=!!(h&&h.p.tut);const wantMarket=!!(h&&h.p.market);const diff=tut?'easy':DAY?'normal':(h&&h.p.diff)||S.diff||'normal',easy=diff==='easy';const noWash=easy||!!(DAY&&!DAY.wash),noTaste=!!(DAY&&!DAY.season),slim=easy||!!DAY;
   const tour=M0.tour,roundKind=tour?tourKindNow:'normal';
@@ -3397,7 +3421,7 @@ function match(){
   const BAG='wc_bag';if(online)try{const b=JSON.parse(sessionStorage.getItem(BAG)||'null');if(b&&b.gen===gen&&b.code===code&&Date.now()-b.at<dur*1000+60000){
     for(const k of(false?['hand','inbox','uid']:['hand','plate','plateOn','season','inbox','clean','dirty','uid']))if(b[k]!=null)K[k]=b[k]}}catch(e){}
   let bagAt=0;const saveBag=()=>{if(!online||K.done)return;try{sessionStorage.setItem(BAG,JSON.stringify({gen,code,at:Date.now(),hand:K.hand,plate:K.plate,plateOn:K.plateOn,season:K.season,inbox:K.inbox,clean:K.clean,dirty:K.dirty,uid:K.uid}))}catch(e){}};
-  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:K.mode,round:roundKind,diff,tut,market:wantMarket,day:dayN,players:teamMode||coop?(tour?tour.alive.map(k=>M0.all.find(m=>m.key===k)).filter(Boolean):M0.all).map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1,chef:+m.p.chef||0})):[{id:myId,chef:+(meM&&meM.p.chef)||0}]});
+  const LM=online?null:E.createMatch({gen,dur,t0:Date.now(),mode:K.mode,round:roundKind,diff,tut,market:wantMarket,day:dayN,cuisine:(h&&h.p.cuis)||'all',teamSplit:tsplit,players:teamMode||coop?(tour?tour.alive.map(k=>M0.all.find(m=>m.key===k)).filter(Boolean):M0.all).map(m=>({id:m.id,bot:m.isBot?m.p.lvl:null,sk:m.isBot?BOTLV[m.p.lvl][1]:1,chef:+m.p.chef||0})):[{id:myId,chef:+(meM&&meM.p.chef)||0}]});
   S.k.LM=LM;
   const ask=(ev,data)=>new Promise(res=>{let done=false;const t=setTimeout(()=>{if(!done){done=true;res({ok:false,msg:'เซิร์ฟเวอร์ไม่ตอบ ลองอีกครั้ง'})}},5000);
     NET.s.emit(ev,data,r=>{if(done)return;done=true;clearTimeout(t);res(r||{ok:false})})});
@@ -3455,7 +3479,7 @@ function match(){
       <div class="orders"><div class="tickets" id="tickets"></div><div class="howto" id="howto"></div></div>
     </section>
     <aside class="drawer ${DAY?'fspan':''}" id="drawer"><button class="dtab" id="dtab">วัตถุดิบ ◁</button>
-      <div class="dbody"><h3 class="colh">${DAY?'🧺 ของของคุณ':teamMode?'ตู้วัตถุดิบของทีม':'ตู้วัตถุดิบ'}</h3>${DAY?'<p class="fsnote" id="fsnote"></p>':''}<p class="muted dhint">${teamMode?'ของเพื่อน = แตะเพื่อขอ':'แตะ = หยิบใส่มือ · ลากไปวางที่เครื่องครัวหรือจาน'}</p>
+      <div class="dbody"><h3 class="colh">${DAY?'🧺 ของของคุณ':teamMode?(tsplit?'ตู้วัตถุดิบของคุณ (ครึ่งตู้)':'ตู้วัตถุดิบของทีม'):'ตู้วัตถุดิบ'}</h3>${DAY?'<p class="fsnote" id="fsnote"></p>':''}<p class="muted dhint">${teamMode?'ของเพื่อน = แตะเพื่อขอ':'แตะ = หยิบใส่มือ · ลากไปวางที่เครื่องครัวหรือจาน'}</p>
         <input class="dsearch" id="dsearch" type="search" placeholder="🔍 ค้นหา เช่น ไข่ หมู" aria-label="ค้นหาวัตถุดิบ">
         <div class="djump">${CATS.map(([c,th])=>`<button data-c="${c}">${({meat:'เนื้อ',carb:'แป้ง',veg:'ผัก',dairy:'นม/ชีส',sauce:'ซอส'})[c]||th}</button>`).join('')}</div>
         ${CATS.map(([c,th])=>`<p class="dcat" data-cat="${c}">${th}</p><div class="dgrid">${Object.entries(ING).filter(([,v])=>v.cat===c).map(([k,v])=>`<button class="ding" data-ing="${k}">${ingArt(k)}<span>${v.th}</span><em class="dl"></em></button>`).join('')}</div>`).join('')}</div></aside>
@@ -3486,6 +3510,7 @@ function match(){
           <div class="prow"><button class="btn soft" id="clear">เททิ้ง</button><div class="pc" id="pcount"></div></div></div></div>
       <div class="handbar"><span class="hlabel">ในมือ</span><div class="hand" id="hand" data-drop="hand"></div>
 
+        ${tsplit?`<div class="inbox" id="inbox"></div><button class="passbox" id="passbox" data-drop="pass"></button>`:''}
         ${ring&&M0.all.length>1?`<button class="passbox pl2" id="passL" data-drop="pass:l"></button><div class="inbox" id="inbox"></div><button class="passbox pr2" id="passR" data-drop="pass:r"></button>`:''}
         <button class="trash" id="trash" data-drop="trash" aria-label="ทิ้งของในมือ" title="ทิ้งของในมือ">🗑</button></div>
     </section>
@@ -3530,6 +3555,7 @@ function match(){
     const L=innerWidth>900?$('#drawer').getBoundingClientRect().right:0,Rr=$('#pass').getBoundingClientRect().left||W,cook=COOK_TOOLS.includes(id);
     const colW=Math.max(160,(Rr-L)*(cook?.48:.45)),cx=L+colW/2+8,cy=(ft+H-fb)/2+20,u=Math.max(4.6/colW,3.8/Math.max(120,H-ft-fb));
     const x=p[0]-(cx-W/2)*u,z=p[2]-(cy-H/2)*u*1.3;return{eye:[x,p[1]+7.5,z+8.5],target:[x,p[1]+.8,z],fov:16,minW:u*W}}
+  {const og=$('.orders'),gd=$('#guide');if(og&&gd)og.appendChild(gd)}   // the hint lives in the order strip (the empty space right of the recipe), not over the kitchen
   K.reframe=()=>{if(is3d&&!K.open)W3D.k.setCam(plateShot())};
   $('#serve').onclick=serve;
   $('#clear').onclick=()=>{if(K.busy||!K.plateOn)return;if(K.plates){if(!K.plate.length)return;J.pdump(K.pi).then(r=>{if(r&&r.snap)applySnap(r.snap)});toast('เทจานทิ้งแล้ว');return}const dumped=K.plate.map(({ing,st,amt,q})=>({ing,st,amt,q}));if(K.mkt)dumped.forEach(x=>{if(x.st==='raw'&&!isStaple(x.ing))K.recv[x.ing]=Math.max(0,(K.recv[x.ing]||0)-1)});K.plate=[];K.season={};K.plateOn=false;if(!noWash)K.dirty++;J.clear(dumped);renderPlate();renderHow();toast(easy?'เทจานทิ้งแล้ว':'เทจานทิ้งแล้ว จานไปรอที่อ่าง')};
@@ -3539,7 +3565,7 @@ function match(){
   $('#emoList').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#emoList').hidden=true;S.emoN=(S.emoN||0)+1;S.room.presence({emo:{i:+b.dataset.i,n:S.emoN,at:Date.now()}});renderScores(S.peers||[]);setTimeout(()=>renderScores(S.peers||[]),3100)});
   {const iv=setInterval(()=>{if(S.k!==K){clearInterval(iv);return}if((S.peers||[]).some(x=>x.p.emo&&Date.now()-x.p.emo.at<4200))renderScores(S.peers||[])},700);onLeave(()=>clearInterval(iv))}$('#cardBtn').onclick=useCard;
   if(ring&&$('#passL')){$('#passL').onclick=()=>{if(K.hand)passItem(K.hand,()=>setHand(null),'l');else toast('หยิบของใส่มือก่อน แล้วกดส่ง')};$('#passR').onclick=()=>{if(K.hand)passItem(K.hand,()=>setHand(null),'r');else toast('หยิบของใส่มือก่อน แล้วกดส่ง')}}
-  if(false)$('#passbox').onclick=()=>{if(K.hand)passItem(K.hand,()=>setHand(null));else toast('หยิบของใส่มือก่อน แล้วกดส่งให้เพื่อน')};
+  if(tsplit)$('#passbox').onclick=()=>{if(K.hand)passItem(K.hand,()=>setHand(null));else toast('หยิบของใส่มือก่อน แล้วกดส่งให้เพื่อน')};
   $('#quit').onclick=()=>{if(tut){store('wc_tut',1);leaveRoom();return}const hh=roomList(S.peers||[])[0];if(hh&&hh.isMe)S.room.presence({phase:'wait'});go(waitRoom)};
   onLeave(S.room.onPeers(peers=>{S.peers=peers;renderScores(peers);followHost(peers,{toPlay:false})}));
   onLeave(()=>{KH=null});
@@ -3700,7 +3726,7 @@ function match(){
     const tg=duelTarget();btn.hidden=!(duelOK()&&!K.dueled&&!K.duel&&(K.stage||0)>=1&&tg&&(K.end-now)>62000);if(!btn.hidden)tip('duel','⚔️','ท้าชิงได้แล้ว!',`กดปุ่ม ⚔️ ท้าชิง ด้านบน เพื่อแข่งกับคนที่อยู่อันดับเหนือคุณ 60 วินาที · ใครทำคะแนนได้มากกว่าได้ +${E.DUEL_WIN} คนแพ้เสีย ${E.DUEL_LOSE}`);if(tg)btn.title=`ท้าชิง ${nameOf(tg.id)} 60 วินาที: ใครทำคะแนนได้มากกว่าได้ +${E.DUEL_WIN}`}
   function checkTips(){const snap=S.lastSnap||{};if(!K.tipT)K.tipT=performance.now()+4000;else if(performance.now()>K.tipT){
       if(K.tickets.some(t=>t.set))tip('hk','🔥',"โต๊ะคอร์สแบบ Hell's Kitchen",'ใบที่มีป้าย 🔥 โต๊ะ คือโต๊ะเดียวกัน ต้องส่ง <b>ออเดิร์ฟ → จานหลัก → ของหวาน</b> ตามลำดับ · จานไม่ผ่านมาตรฐาน เชฟหัวหน้าจะตีกลับ · ส่งครบทั้งโต๊ะได้โบนัสใหญ่');
-      else if(snap.plates&&snap.plates.length>1)tip(K.mode==='team'?'plates3':'plates2','🍽',K.mode==='team'?'ครัวเดียวกันกับเพื่อน':'ที่วางจาน 2 ใบ',K.mode==='team'?'ตู้วัตถุดิบ จาน 3 ใบ และเครื่องครัวใช้ร่วมกันทั้งทีม · เครื่องครัวที่ขึ้น "ใช้อยู่" ต้องรอเพื่อนก่อน · แตะแท็บจานเพื่อสลับจาน':'ทำ 2 ออร์เดอร์พร้อมกันได้ · แตะแท็บ "จาน 1 / จาน 2" เพื่อสลับ หรือลากของไปวางที่แท็บจานโดยตรง');}}
+      else if(snap.plates&&snap.plates.length>1)tip(K.mode==='team'?(snap.teamSplit?'tsplit4':'plates4'):'plates3s','🍽',K.mode==='team'?(snap.teamSplit?'ทีมแบบแยกของ':'ครัวเดียวกันกับเพื่อน'):'ที่วางจาน 3 ใบ',K.mode==='team'&&snap.teamSplit?'คุณมีของแค่ครึ่งตู้ ของที่ขึ้น "เพื่อนมี" แตะเพื่อขอ · หยิบของแล้วกดปุ่ม "ส่งให้…" ด้านล่างเพื่อส่งให้เพื่อน · จาน 4 ใบและเครื่องครัวยังใช้ร่วมกัน วางของลงจานเดียวกันช่วยกันทำได้':K.mode==='team'?'ตู้วัตถุดิบ จาน 4 ใบ และเครื่องครัวใช้ร่วมกันทั้งทีม · เครื่องครัวที่ขึ้น "ใช้อยู่" ต้องรอเพื่อนก่อน · แตะแท็บจานเพื่อสลับจาน':'ทำได้ถึง 3 ออร์เดอร์พร้อมกัน · แตะแท็บ "จาน 1 / 2 / 3" เพื่อสลับ หรือลากของไปวางที่แท็บจานโดยตรง');}}
   {const t=setInterval(()=>{if(S.k!==K){clearInterval(t);return}if(K.duel&&K.duel.left>0)K.duel.left=Math.max(0,K.duel.left-500);renderChal();checkTips()},500);onLeave(()=>clearInterval(t))}
   $('#duelBtn').onclick=()=>{const tg=duelTarget();if(!tg||K.done)return;$('#duelBtn').hidden=true;J.duel(tg.id).then(r=>{if(S.k!==K)return;if(r&&r.snap)applySnap(r.snap);if(!r||!r.ok){toast((r&&r.msg)||'ท้าชิงไม่สำเร็จ');renderChal()}})};
   function stageChanged(){const si=SI();renderLocks();SFX.play(si.rush?'rush':'stage');SFX.music(si.rush?'rush':'play');const b=$('#stagebanner');if(!b)return;
@@ -3714,7 +3740,7 @@ function match(){
   function baseKH(){return{down:c=>{
     if(K.open){if(c==='Escape')closeStation();{const mm=c.match(/^Digit([1-8])$/);if(mm&&!K.busy){toggleStation(COOK[+mm[1]-1].id);return}}if(c==='Space'&&COOK_TOOLS.includes(K.open)&&canUse(K.open,K.hand))cook(K.open,K.hand,()=>setHand(null));if(c==='Space'&&K.open==='sink')wash();return}
     if(c==='Minus'||c==='NumpadSubtract')stepAmt(-1);if(c==='Equal'||c==='NumpadAdd')stepAmt(1);
-    if(c==='KeyP'&&false&&K.hand)passItem(K.hand,()=>setHand(null));
+    if(c==='KeyP'&&tsplit&&K.hand)passItem(K.hand,()=>setHand(null));
     if(ring&&K.hand&&(c==='KeyQ'||c==='KeyE')&&K.ring&&K.ring.l)passItem(K.hand,()=>setHand(null),c==='KeyQ'?'l':'r');
     if(c==='KeyC')useCard();
     const m=c.match(/^Digit([1-8])$/);if(m)toggleStation(COOK[+m[1]-1].id);
@@ -3887,7 +3913,7 @@ function match(){
   function renderTickets(){const sig=K.tickets.map(t=>[t.k,t.req&&t.req.th,t.gold?1:0,t.set?t.set.g:0,t.chal?1:0].join(':')).join('|')+'#'+K.selK+'#'+(K.sets?JSON.stringify(K.sets):'');if(sig===K.tkSig&&$('#tickets').children.length){renderHow();return}K.tkSig=sig;$('#tickets').innerHTML=K.tickets.map(tk=>`<button class="ticket ${tk.k===K.selK?'sel':''} ${tk.m.cuisine==='th'?'thai':''} ${tk.rush?'rush':''} ${tk.gold?'gold':''} ${tk.set?'inset':''} ${tk.set&&K.tickets.some(t=>t.set&&t.set.g===tk.set.g&&t.set.i<tk.set.i)?'hkwait':''} ${tk.chal?'chal':''}" data-tk="${tk.k}" ${tk.set?`style="--sg:${['#5BBF6A','#4AA3DF','#E58BC0','#F2B447'][tk.set.g%4]}"`:''}><span class="tier">${'★'.repeat(tk.m.tier)}</span>${tk.gold?`<span class="gtag">🥇 ทอง +${E.GOLD_BONUS}</span>`:''}${tk.chal?`<span class="gtag ctag">🎯 Pressure Test</span>`:''}${tk.set?`<span class="stag">🔥${esc(tk.set.th)}·${esc(tk.set.course||'')}</span>`:''}${tk.req?`<span class="req">${esc(tk.req.th)}</span>`:''}${K.sets?`<span class="crs ${E.courseOf(tk.m.id)}">${E.COURSE_TH[E.courseOf(tk.m.id)]}</span>`:''}${menuArt(tk.m)}<span class="tn">${tk.m.th}</span><span class="tings">${[...new Set(tk.m.c.map(c=>c[0]))].slice(0,4).map(i=>itemArt({ing:i,st:'raw',q:100})).join('')}</span><span class="pat"><i></i></span></button>`).join('')+
       (K.sets?`<div class="setbox"><b>เซ็ตอาหาร</b>${['main','side','dessert'].map(c=>`<span class="${(K.sets.have[c]||0)>0?'got':''}">${E.COURSE_TH[c]}</span>`).join('')}<small>ครบ 3 อย่าง +${E.SET_BONUS} · ทำได้ ${K.sets.n} เซ็ต</small></div>`:'');
     document.querySelectorAll('.ticket').forEach(b=>b.onclick=()=>{K.selK=+b.dataset.tk;if(b.classList.contains('hkwait')){const f=selTicket();if(f){K.selK=f.k;toast(`🔥 ${f.set.th}: ส่ง${f.set.course} (${f.m.th}) ก่อนนะ`)}}if(K.plates){const tk=selTicket();const i=K.plates.findIndex(p=>p.items.length&&fitsOrder(p,tk));if(i>-1){K.pi=i;syncCoopPlate()}}renderTickets();renderTaste();if(K.mkt)drawBelt()});renderHow()}
-  function renderHow(){if(K.plates)renderTabs();const tk=selTicket();if(!tk){$('#howto').innerHTML='';return}const plateKeys=K.plate.map(keyOf),handKey=K.hand?keyOf(K.hand):'';const used=[];const hint=seasonHint(tk.m);const planNow=K.plate.length?needSeason(tk):null;
+  function renderHow(){if(K.plates)renderTabs();const tk=selTicket();if(!tk){$('#howto').innerHTML='';return}const plateKeys=K.plate.map(keyOf),handKey=K.hand?keyOf(K.hand):'';const used=[];const hint=seasonHint(tk.m);const planNow=(()=>{if(!K.plate.length)return null;const need=tk.m.c.map(c=>c[0]+':'+c[1]);for(const x of K.plate){const j=need.indexOf(x.ing+':'+x.st);if(j>-1)need.splice(j,1)}return need.length?null:needSeason(tk)})();   /* judge the taste only once the dish is complete */
     let nextDone=false;
     $('#howto').innerHTML=`<h3>วิธีทำ ${tk.m.th} <small class="muted">· แตะแต่ละขั้นเพื่อหยิบของ${easy?'':' · จัดจานตามลำดับซ้าย→ขวา'}</small></h3><div class="steps">${tk.m.c.map(([ing,st,amt],si)=>{const key=ing+':'+st;const onP=plateKeys.indexOf(key);let cls='';
       if(onP>-1&&!used.includes('p'+onP)){used.push('p'+onP);cls='ok'}else if(handKey===key)cls='ready';
