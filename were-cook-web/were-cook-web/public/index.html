@@ -1686,6 +1686,8 @@ body.fxon .shell>.top{display:none}
 .fx .blackout{top:var(--ft);bottom:var(--fb);left:calc(var(--pl) + var(--g));right:calc(var(--pr) + var(--g))}
 /* pantry = a shelf on the left wall */
 @media (min-width:901px){
+  .fx .drawer.closed .dbody{opacity:1;pointer-events:auto}   /* a wide screen always shows the pantry (it may have been 'closed' while the phone was upright) */
+  .fx .drawer.closed{width:calc(var(--pl) - var(--g))}
   .fx .drawer{position:absolute;align-self:stretch;left:var(--g);top:var(--ft);bottom:var(--g);width:calc(var(--pl) - var(--g));height:auto;z-index:12;background:linear-gradient(180deg,rgba(255,247,236,.94),rgba(250,236,214,.94));border:3px solid #B67A4C;box-shadow:0 6px 0 #8a5a34,0 10px 20px rgba(0,0,0,.25)}
 }
 /* the pass on the right: plate holders, the plate, season / wash / serve */
@@ -3552,6 +3554,8 @@ function match(){
   </div>`;
   const drawer=$('#drawer');const mobile=()=>innerWidth<=900;
   const setDrawer=open=>{drawer.classList.toggle('closed',!open);$('#dtab').textContent=open?'ปิด ▷':'วัตถุดิบ ◁'};setDrawer(!mobile());
+  // phones rotate: when the screen crosses the 900px line the pantry switches between a fixed shelf (always open) and a slide-in tab
+  {let wasM=mobile();const onR=()=>{const m=mobile();if(m!==wasM){wasM=m;setDrawer(!m)}};addEventListener('resize',onR);addEventListener('orientationchange',()=>setTimeout(onR,300));onLeave(()=>{removeEventListener('resize',onR)})}
   $('#dtab').onclick=()=>setDrawer(drawer.classList.contains('closed'));
   if(DAY){const n=$('#fsnote');if(n)n.textContent=DAY.split&&M0.all.length>1?'ของที่ไม่มี อยู่ที่เพื่อน · แตะการ์ดวิธีทำเพื่อขอ แล้วรอเพื่อนส่งมา':'แตะของเพื่อหยิบ หรือแตะการ์ดวิธีทำด้านบน'}
   $('#back').onclick=()=>closeStation();
